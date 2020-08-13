@@ -1,12 +1,13 @@
 {
   "background_color": "#657bb4",
+  "theme_color": "#fff",
   "description": "Your open door to the municipality",
   "display": "fullscreen",
   "icons": [
     {
-      "src": "icon/lighthouse-icon.jpg",
-      "sizes": "115x115",
-      "type": "image/jpg"
+      "src": "icon/lighthouse-icon.png",
+      "sizes": "620x620",
+      "type": "image/png"
     }
   ],
   "name": "Cape Agulhas Municipality",
