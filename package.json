@@ -1,0 +1,21 @@
+{
+  "name": "muni-portal",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.6",
+    "parcel": "^1.12.4",
+    "parcel-bundler": "^1.12.4"
+  },
+  "scripts": {
+    "start": "parcel ./src/index.html",
+    "build": "parcel build ./src/index.html --public-url ./ "
+  },
+  "browserslist": "> 0.25%, not dead"
+}
