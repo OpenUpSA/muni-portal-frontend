@@ -5,7 +5,7 @@
   "icons": [
     {
       "src": "icon/lighthouse-icon.jpg",
-      "sizes": "192x192",
+      "sizes": "115x115",
       "type": "image/jpg"
     }
   ],
