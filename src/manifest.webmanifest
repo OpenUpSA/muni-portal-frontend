@@ -8,6 +8,11 @@
       "src": "icon/lighthouse-icon.png",
       "sizes": "620x620",
       "type": "image/png"
+    },
+    {
+      "src": "icon/lighthouse-icon-36x36.png",
+      "sizes": "36x36",
+      "type": "image/png"
     }
   ],
   "name": "Cape Agulhas Municipality",

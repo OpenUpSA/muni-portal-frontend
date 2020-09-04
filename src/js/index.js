@@ -1,3 +1,7 @@
+import logo36x36 from '../icon/lighthouse-icon-36x36.png';
+import exploreIcon from '../icon/explore-144x144.png';
+import logo620x620 from '../icon/lighthouse-icon.png';
+
 document.getElementById('scratch').innerHTML = "It works";
 
 if('serviceWorker' in navigator) {
@@ -50,18 +54,21 @@ $("#btnShowNotification").on("click", () => {
     navigator.serviceWorker.ready.then(function(reg) {
       const options = {
         body: 'Here is a notification body!',
-        vibrate: [100, 50, 100],
-        data: {
-          dateOfArrival: Date.now(),
-          primaryKey: 1
-        },
+        badge: logo620x620,
+        icon: logo620x620,
         actions: [
-          {action: 'explore', title: 'Explore',},
+          {
+            action: 'explore',
+            title: 'Explore this new world',
+            icon: exploreIcon,
+          },
           {action: 'close', title: 'Close',}
         ]
       };
 
       reg.showNotification('Hello world!', options);
     });
+  } else {
+    console.log("Clicked notify but don't have notify permission");
   }
 });

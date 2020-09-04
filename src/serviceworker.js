@@ -7,6 +7,9 @@ self.addEventListener('install', (e) => {
       return cache.addAll([
         '/',
         '/index.html',
+        '/icon/lighthouse-icon.png',
+        '/icon/explore-36x36.png',
+        '/js/index.js',
         '/manifest.webmanifest',
         'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css',
         'https://code.jquery.com/jquery-3.5.1.slim.min.js',
@@ -19,11 +22,17 @@ self.addEventListener('install', (e) => {
 
 
 addEventListener('fetch',  (event) => {
-  console.log(event.request.url);
+  console.log("fetch event", event.request.url);
 
   event.respondWith(
     caches.match(event.request).then(function(response) {
-      return response || fetch(event.request);
+      if (response) {
+        console.log("respondonding with", response);
+        return response;
+      } else {
+        console.log("Fetching.");
+        return fetch(event.request);
+      }
     })
   );
 });
@@ -34,13 +43,12 @@ self.addEventListener('activate', (e) => {
 
 self.addEventListener('notificationclick', function(e) {
   var notification = e.notification;
-  var primaryKey = notification.data.primaryKey;
   var action = e.action;
 
   if (action === 'close') {
     notification.close();
   } else {
-    console.log("User selected notification action {action}");
+    console.log(`User selected notification action ${action}`, e);
     clients.openWindow('http://www.example.com');
     notification.close();
   }
@@ -49,17 +57,17 @@ self.addEventListener('notificationclick', function(e) {
 self.addEventListener('push', function(e) {
   var options = {
     body: 'This notification was generated from a push!',
-    icon: 'images/example.png',
-    vibrate: [100, 50, 100],
-    data: {
-      dateOfArrival: Date.now(),
-      primaryKey: '2'
-    },
+    icon: '/icon/lighthouse-icon-36x36.png',
     actions: [
-      {action: 'explore', title: 'Explore this new world',
-        icon: 'images/checkmark.png'},
-      {action: 'close', title: 'Close',
-        icon: 'images/xmark.png'},
+      {
+        action: 'explore',
+        title: 'Explore this new world',
+        icon: 'icon/explore-36x36.png'
+      },
+      {
+        action: 'close',
+        title: 'Close'
+      },
     ]
   };
   e.waitUntil(
