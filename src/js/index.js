@@ -6,9 +6,10 @@ import logo620x620 from '../icon/lighthouse-icon.png';
 const serviceWorkerPath = '/service-worker.js';
 
 if('serviceWorker' in navigator) {
-  navigator.serviceWorker.register(serviceWorkerPath);
-
-  console.log("registering service worker");
+  window.addEventListener('load', () => {
+    console.log("registering service worker");
+    navigator.serviceWorker.register(serviceWorkerPath);
+  });
 } else {
   console.log("serviceWorker not supported");
 };
