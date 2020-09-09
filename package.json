@@ -33,7 +33,7 @@
     "swDest": "service-worker.js",
     "globDirectory": "dist",
     "globPatterns": [
-      "**/*.{js,css,html,png}"
+      "**/*.{html,js,css,jpg,png,gif,svg,eot,ttf,woff,woff2,webmanifest}"
     ]
   }
 }
