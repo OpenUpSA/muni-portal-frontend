@@ -10,12 +10,15 @@
     "@babel/preset-env": "^7.8.3",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",
+    "http-server": "^0.12.3",
     "parcel": "^1.12.4",
     "parcel-bundler": "^1.12.4"
   },
   "scripts": {
-    "start": "parcel ./src/index.html",
-    "build": "parcel build ./src/index.html --public-url ./ "
+    "start": "yarn build && yarn serve",
+    "serve": "http-server -d false -c-1 dist",
+    "build": "parcel build ./src/index.html --public-url ./",
+    "postbuild": "workbox generateSW"
   },
   "browserslist": "> 0.25%, not dead"
 }
