@@ -24,7 +24,8 @@
   "browserslist": "> 0.25%, not dead",
   "dependencies": {
     "workbox-build": "^5.1.4",
-    "workbox-routing": "^5.1.4"
+    "workbox-routing": "^5.1.4",
+    "workbox-window": "5.1.2"
   },
   "cache": {
     "strategy": "inject",
@@ -32,7 +33,7 @@
     "swDest": "service-worker.js",
     "globDirectory": "dist",
     "globPatterns": [
-      "**\/*.{js,css,html,png}"
+      "**/*.{js,css,html,png}"
     ]
   }
 }
