@@ -18,7 +18,7 @@ const tabContent = $(".tab-content").append(sectionHeading);
 console.log(sectionHeading);
 
 const baseUrl = "http://localhost:8000";
-const servicePagesUrl = `${baseUrl}/api/wagtail/v2/pages/?type=core.ServicePage&fields=overview`;
+const servicePagesUrl = `${baseUrl}/api/wagtail/v2/pages/?type=core.ServicePage&fields=overview,icon_classes`;
 $.get(servicePagesUrl)
   .done(function(response) {
     const grid = gridThirdsTemplate.clone();
@@ -28,6 +28,7 @@ $.get(servicePagesUrl)
     response.items.forEach(function(item) {
       const card = actionCardTemplate.clone();
       card.find(".label").text(item.title);
+      card.find(".icon div").removeClass("fas fa-spinner").addClass(item.icon_classes);
       grid.append(card);
     });
 
