@@ -1,42 +1,38 @@
-import {Workbox, messageSW} from 'workbox-window';
+import {tryRegister} from './swRegistration.js';
 
-const serviceWorkerPath = '/service-worker.js';
+// Call as early as possible to maximise chance of registering reinstallation code
+tryRegister();
 
+const sectionHeadingTemplate = $(".styles .section-heading").clone();
+const gridThirdsTemplate = $(".styles .grid--thirds").clone();
+const actionCardTemplate = $(".styles .card.action").clone();
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    console.debug("registering service worker");
-    const wb = new Workbox('/service-worker.js');
-    let registration;
-    const showSkipWaitingPrompt = (event) => {
-      console.debug("showskip", event);
-      if (confirm("An update is available. Would you like to update the app now?")) {
-        wb.addEventListener('controlling', (event) => {
-          window.location.reload();
-        });
+const servicesTab = $(".main .tab-link");
+servicesTab.find(".icon div").removeClass("fa-spinner");
+servicesTab.find(".label").text("Services");
 
-        console.debug("skip waiting", registration);
+const sectionHeading = sectionHeadingTemplate.clone();
+sectionHeading.find(".section-title").text("Services");
 
-        if (registration && registration.waiting) {
-          messageSW(registration.waiting, {type: 'SKIP_WAITING'});
-        } else {
-          console.debug("How'd we get here?!");
-        }
-      } else {
-        console.debug("Update rejected. Continue as is.");
-      }
-    };
+const tabContent = $(".tab-content").append(sectionHeading);
+console.log(sectionHeading);
 
-    // Add an event listener to detect when the registered
-    // service worker has installed but is waiting to activate.
-    wb.addEventListener('waiting', showSkipWaitingPrompt);
-    wb.addEventListener('externalwaiting', showSkipWaitingPrompt);
+const baseUrl = "http://localhost:8000";
+const servicePagesUrl = `${baseUrl}/api/wagtail/v2/pages/?type=core.ServicePage&fields=overview,icon_classes`;
+$.get(servicePagesUrl)
+  .done(function(response) {
+    const grid = gridThirdsTemplate.clone();
+    grid.empty();
+    tabContent.append(grid);
 
-    wb.register().then((r) => {
-      console.debug("then assign", r);
-      registration = r;
+    response.items.forEach(function(item) {
+      const card = actionCardTemplate.clone();
+      card.find(".label").text(item.title);
+      card.find(".icon div").removeClass("fas fa-spinner").addClass(item.icon_classes);
+      grid.append(card);
     });
+
+  })
+  .fail(function(a, b) {
+    console.error(a, b);
   });
-} else {
-  console.debug("serviceWorker not supported");
-};
