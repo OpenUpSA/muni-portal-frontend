@@ -2,6 +2,12 @@ import {Workbox, messageSW} from 'workbox-window';
 
 const serviceWorkerPath = '/service-worker.js';
 
+const pageHeadingTemplate = $(".styles .page-heading").clone();
+
+const pageHeading = pageHeadingTemplate.clone();
+pageHeading.find("h1").text("Services");
+$(".tab-content").append(pageHeading);
+console.log(pageHeading);
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
