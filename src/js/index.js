@@ -8,7 +8,7 @@ const gridThirdsTemplate = $(".styles .grid--thirds").clone();
 const actionCardTemplate = $(".styles .card.action").clone();
 
 const servicesTab = $(".main .tab-link");
-servicesTab.find(".icon div").removeClass("fa-spinner");
+servicesTab.find(".icon div").removeClass("fas fa-spinner").addClass("fas fa-hands-helping");
 servicesTab.find(".label").text("Services");
 
 const sectionHeading = sectionHeadingTemplate.clone();
