@@ -1,48 +1,16 @@
-import {Workbox, messageSW} from 'workbox-window';
+import {tryRegister} from './swRegistration.js';
 
-const serviceWorkerPath = '/service-worker.js';
+// Call as early as possible to maximise chance of registering reinstallation code
+tryRegister();
 
-const pageHeadingTemplate = $(".styles .page-heading").clone();
+const sectionHeadingTemplate = $(".styles .section-heading").clone();
 
-const pageHeading = pageHeadingTemplate.clone();
-pageHeading.find("h1").text("Services");
-$(".tab-content").append(pageHeading);
-console.log(pageHeading);
+const servicesTab = $(".main .tab-link");
+servicesTab.find(".icon div").removeClass("fa-spinner");
+servicesTab.find(".label").text("Services");
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    console.debug("registering service worker");
-    const wb = new Workbox('/service-worker.js');
-    let registration;
-    const showSkipWaitingPrompt = (event) => {
-      console.debug("showskip", event);
-      if (confirm("An update is available. Would you like to update the app now?")) {
-        wb.addEventListener('controlling', (event) => {
-          window.location.reload();
-        });
+const sectionHeading = sectionHeadingTemplate.clone();
+sectionHeading.find(".section-title").text("Services");
 
-        console.debug("skip waiting", registration);
-
-        if (registration && registration.waiting) {
-          messageSW(registration.waiting, {type: 'SKIP_WAITING'});
-        } else {
-          console.debug("How'd we get here?!");
-        }
-      } else {
-        console.debug("Update rejected. Continue as is.");
-      }
-    };
-
-    // Add an event listener to detect when the registered
-    // service worker has installed but is waiting to activate.
-    wb.addEventListener('waiting', showSkipWaitingPrompt);
-    wb.addEventListener('externalwaiting', showSkipWaitingPrompt);
-
-    wb.register().then((r) => {
-      console.debug("then assign", r);
-      registration = r;
-    });
-  });
-} else {
-  console.debug("serviceWorker not supported");
-};
+const tabContent = $(".tab-content").append(sectionHeading);
+console.log(sectionHeading);

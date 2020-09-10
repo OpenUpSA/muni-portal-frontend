@@ -2,7 +2,7 @@
   "background_color": "#657bb4",
   "theme_color": "#fff",
   "description": "Your open door to the municipality",
-  "display": "fullscreen",
+  "display": "standalone",
   "icons": [
     {
       "src": "icon/lighthouse-icon.png",
