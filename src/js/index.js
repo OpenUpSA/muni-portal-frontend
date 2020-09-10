@@ -1,74 +1,42 @@
-import logo36x36 from '../icon/lighthouse-icon-36x36.png';
-import exploreIcon from '../icon/explore-144x144.png';
-import logo620x620 from '../icon/lighthouse-icon.png';
+import {Workbox, messageSW} from 'workbox-window';
 
-document.getElementById('scratch').innerHTML = "It works";
-
-if('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/serviceworker.js').then((reg) => {
-    reg.pushManager.getSubscription().then(function(sub) {
-      if (sub === null) {
-        // Update UI to ask user to register for Push
-        console.log('Not subscribed to push service!');
-
-      } else {
-        // We have a subscription, update the database
-        console.log('Already sbscribed! Subscription object: ', sub);
-      }
-    }).catch(function(err) {
-      console.log('Service Worker registration failed: ', err);
-    });
-  });
-
-  console.log("registering service worker");
-} else {
-  console.log("serviceWorker not supported");
-};
+const serviceWorkerPath = '/service-worker.js';
 
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    console.debug("registering service worker");
+    const wb = new Workbox('/service-worker.js');
+    let registration;
+    const showSkipWaitingPrompt = (event) => {
+      console.debug("showskip", event);
+      if (confirm("An update is available. Would you like to update the app now?")) {
+        wb.addEventListener('controlling', (event) => {
+          window.location.reload();
+        });
 
-$("#btnSubscribeNotifications").on("click", () => {
-  Notification.requestPermission(function(status) {
-    console.log('Notification permission status:', status);
-  });
+        console.debug("skip waiting", registration);
 
-  if('serviceWorker' in navigator) {
-    navigator.serviceWorker.ready.then(function(reg) {
-      reg.pushManager.subscribe({
-        userVisibleOnly: true
-      }).then(function(sub) {
-        console.log("Subscribed to push!", sub);
-      }).catch(function(e) {
-        if (Notification.permission === 'denied') {
-          console.warn('Permission for notifications was denied');
+        if (registration && registration.waiting) {
+          messageSW(registration.waiting, {type: 'SKIP_WAITING'});
         } else {
-          console.error('Unable to subscribe to push', e);
+          console.debug("How'd we get here?!");
         }
-      });
-    });
-  }
-});
+      } else {
+        console.debug("Update rejected. Continue as is.");
+      }
+    };
 
-$("#btnShowNotification").on("click", () => {
-  if (Notification.permission == 'granted') {
-    navigator.serviceWorker.ready.then(function(reg) {
-      const options = {
-        body: 'Here is a notification body!',
-        badge: logo620x620,
-        icon: logo620x620,
-        actions: [
-          {
-            action: 'explore',
-            title: 'Explore this new world',
-            icon: exploreIcon,
-          },
-          {action: 'close', title: 'Close',}
-        ]
-      };
+    // Add an event listener to detect when the registered
+    // service worker has installed but is waiting to activate.
+    wb.addEventListener('waiting', showSkipWaitingPrompt);
+    wb.addEventListener('externalwaiting', showSkipWaitingPrompt);
 
-      reg.showNotification('Hello world!', options);
+    wb.register().then((r) => {
+      console.debug("then assign", r);
+      registration = r;
     });
-  } else {
-    console.log("Clicked notify but don't have notify permission");
-  }
-});
+  });
+} else {
+  console.debug("serviceWorker not supported");
+};
