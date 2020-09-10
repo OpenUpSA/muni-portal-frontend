@@ -17,7 +17,9 @@ sectionHeading.find(".section-title").text("Services");
 const tabContent = $(".tab-content").append(sectionHeading);
 console.log(sectionHeading);
 
-const baseUrl = "http://localhost:8000";
+const defaultBaseUrl = "https://muni-portal-backend.openup.org.za";
+const baseUrl = defaultBaseUrl;
+
 const servicePagesUrl = `${baseUrl}/api/wagtail/v2/pages/?type=core.ServicePage&fields=overview,icon_classes`;
 $.get(servicePagesUrl)
   .done(function(response) {
