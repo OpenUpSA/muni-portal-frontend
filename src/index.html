@@ -324,8 +324,8 @@ border-radius:13px;
 document.addEventListener('DOMContentLoaded', ()=>{
  // on .link-block--expand-toggle click
  document.querySelectorAll('.link-block--expand-toggle').forEach(trigger => {
-  trigger.addEventListener('click', function(){ 
-    this.x = ((this.x || 0) + 1)%2; 
+  trigger.addEventListener('click', function(){
+    this.x = ((this.x || 0) + 1)%2;
     if(this.x){ // 1st click
       document.querySelectorAll('.rich-text__gradient').forEach(target => target.classList.add('expanded'));
       document.querySelectorAll('.expand-toggle__content-first').forEach(target => target.classList.add('expanded'));
@@ -335,7 +335,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
       document.querySelectorAll('.rich-text__gradient').forEach(target => target.classList.remove('expanded'));
       document.querySelectorAll('.expand-toggle__content-first').forEach(target => target.classList.remove('expanded'));
       document.querySelectorAll('.rich-text').forEach(target => target.classList.remove('expanded'));
-    } 
+    }
   });
  });
 });
