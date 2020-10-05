@@ -12,6 +12,7 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",
     "http-server": "^0.12.3",
+    "import-webflow-export": "^0.0.4",
     "parcel": "^1.12.4",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-sw-cache": "^0.3.1",
@@ -20,7 +21,9 @@
   "scripts": {
     "start": "yarn build && yarn serve",
     "serve": "http-server -d false -c-1 dist",
-    "build": "parcel build ./src/index.html --public-url ./"
+    "serve-https": "http-server -S -C server-cert.pem -K server-cert-key.pem -d false -c-1 dist",
+    "build": "parcel build ./src/index.html --public-url ./",
+    "mkcert-loopback": "mkcert -cert-file server-cert.pem -key-file server-cert-key.pem 127.0.0.1"
   },
   "browserslist": "> 0.25%, not dead",
   "dependencies": {
