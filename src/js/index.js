@@ -1,4 +1,7 @@
+import {initSentry} from './sentry.js';
 import {tryRegister} from './swRegistration.js';
+
+initSentry();
 
 // Call as early as possible to maximise chance of registering reinstallation code
 tryRegister();

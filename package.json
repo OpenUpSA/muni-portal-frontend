@@ -20,10 +20,13 @@
   "scripts": {
     "start": "yarn build && yarn serve",
     "serve": "http-server -d false -c-1 dist",
-    "build": "parcel build ./src/index.html --public-url ./"
+    "build": "parcel build ./src/index.html --public-url ./",
+    "build-dev": "NODE_ENV=development parcel build ./src/index.html --public-url ./ --no-minify"
   },
   "browserslist": "> 0.25%, not dead",
   "dependencies": {
+    "@sentry/browser": "^5.25.0",
+    "@sentry/tracing": "^5.25.0",
     "workbox-build": "^5.1.4",
     "workbox-routing": "^5.1.4",
     "workbox-window": "5.1.2"
@@ -35,6 +38,15 @@
     "globDirectory": "dist",
     "globPatterns": [
       "**/*.{html,js,css,jpg,png,gif,svg,eot,ttf,woff,woff2,webmanifest}"
+    ]
+  },
+  "importWebflowExport": {
+    "importHtml": [
+      {
+        "glob": "*.html",
+        "destDir": "src",
+        "transforms": "./src/js/webflow/import.js"
+      }
     ]
   }
 }
