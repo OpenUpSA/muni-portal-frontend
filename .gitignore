@@ -104,6 +104,8 @@ dist
 .tern-port
 
 # TLS/HTTPS
-
 server-cert.pem
 server-cert-key.pem
+
+# Lighthouse CI
+.lighthouseci/
