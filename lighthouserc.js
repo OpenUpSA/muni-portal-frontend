@@ -4,7 +4,8 @@ module.exports = {
       numberOfRuns: 1,
       settings: {
         skipAudits: ["redirects-http", "is-on-https"],
-      }
+      },
+      startServerCommand: 'yarn start',
     },
     upload: {
       target: 'temporary-public-storage',
