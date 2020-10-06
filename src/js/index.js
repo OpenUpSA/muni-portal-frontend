@@ -1,7 +1,7 @@
-import {tryRegister} from './swRegistration.js';
+import {tryRegisterSW} from './swRegistration.js';
 
 // Call as early as possible to maximise chance of registering reinstallation code
-tryRegister();
+tryRegisterSW();
 
 const sectionHeadingTemplate = $(".styles .section-heading").clone();
 const gridThirdsTemplate = $(".styles .grid--thirds").clone();
@@ -11,11 +11,7 @@ const servicesTab = $(".main .tab-link");
 servicesTab.find(".icon div").removeClass("fas fa-spinner").addClass("fas fa-hands-helping");
 servicesTab.find(".label").text("Services");
 
-const sectionHeading = sectionHeadingTemplate.clone();
-sectionHeading.find(".section-title").text("Services");
-
-const tabContent = $(".tab-content").append(sectionHeading);
-console.log(sectionHeading);
+const tabContent = $(".tab-content");
 
 const defaultBaseUrl = "https://muni-portal-backend.openup.org.za";
 const baseUrl = defaultBaseUrl;

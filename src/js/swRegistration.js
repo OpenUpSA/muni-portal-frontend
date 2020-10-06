@@ -1,6 +1,6 @@
 import {Workbox, messageSW} from 'workbox-window';
 
-export function tryRegister() {
+export function tryRegisterSW() {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       console.debug("registering service worker");
