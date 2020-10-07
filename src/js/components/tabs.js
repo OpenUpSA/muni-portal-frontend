@@ -16,6 +16,7 @@ export class ServicesTab {
     const servicePagesUrl = `${self.settings.defaultBaseUrl}/api/wagtail/v2/pages/?type=core.ServicePage&fields=overview,icon_classes`;
     $.get(servicePagesUrl)
       .done(((response) => {
+        this.grid.empty();
         response.items.forEach(((item) => {
           const url = `/#/services/${item.meta.slug}/`;
           this.grid.append(new ActionCard(item.title, item.icon_classes, url).element);
