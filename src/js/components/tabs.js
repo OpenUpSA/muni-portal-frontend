@@ -17,7 +17,8 @@ export class ServicesTab {
     $.get(servicePagesUrl)
       .done(((response) => {
         response.items.forEach(((item) => {
-          this.grid.append(new ActionCard(item.title, item.icon_classes).element);
+          const url = `/#!/services/${item.meta.slug}`;
+          this.grid.append(new ActionCard(item.title, item.icon_classes, url).element);
         }).bind(this));
         this.tabContentContainer.element.html(this.grid);
       }).bind(this))
@@ -38,8 +39,10 @@ export class TabContentContainer {
 const actionCardTemplate = $(".styles .card.action").clone();
 
 class ActionCard {
-  constructor(title, iconClasses) {
-    this.element = actionCardTemplate.clone();
+  constructor(title, iconClasses, url) {
+    this.element = $("<a></a>");
+    this.element.attr("href", url);
+    this.element.append(actionCardTemplate.clone());
     console.assert(this.element.length === 1);
     this.element.find(".label").text(title);
     this.element.find(".icon div").removeClass("fas fa-spinner").addClass(iconClasses);
