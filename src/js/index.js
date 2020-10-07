@@ -16,10 +16,15 @@ class App {
     this.modalPage = new ModalPage($(".main .page__wrap"))
     ;
     this.router = new Router([
+      { path: /^\/?$/, view: this.viewRedirect("#/services/") },
       { path: new RegExp('^/services/$'), view: this.viewServices.bind(this) },
       { path: /^\/services\/(?<serviceSlug>[\w-]+)\/$/, view: this.viewService.bind(this) },
       { path: new RegExp('.*'), view: function() { $('body').text('Not found!'); }},
     ]);
+  }
+
+  viewRedirect(location) {
+    window.location = location;
   }
 
   viewServices() {

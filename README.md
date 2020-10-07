@@ -2,6 +2,12 @@
 
 Frontend to the Cape Agulhas Municipality app
 
+ES6 and Webflow.
+
+Import webflow exports using
+
+    yarn run import-webflow zipfile.zip
+
 
 ## Development environment
 
