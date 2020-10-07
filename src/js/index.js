@@ -17,6 +17,9 @@ class App {
     page('/', '/services');
     page('/services', this.viewServices.bind(this));
     page('/services/:service', this.viewService.bind(this));
+    page('*', function(){
+      $('body').text('Not found!')
+    });
     page({
       hashbang: true
     });

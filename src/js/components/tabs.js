@@ -17,7 +17,7 @@ export class ServicesTab {
     $.get(servicePagesUrl)
       .done(((response) => {
         response.items.forEach(((item) => {
-          const url = `/#!/services/${item.meta.slug}`;
+          const url = `/services/${item.meta.slug}`;
           this.grid.append(new ActionCard(item.title, item.icon_classes, url).element);
         }).bind(this));
         this.tabContentContainer.element.html(this.grid);
