@@ -39,5 +39,14 @@
     "globPatterns": [
       "**/*.{html,js,css,jpg,png,gif,svg,eot,ttf,woff,woff2,webmanifest}"
     ]
+  },
+  "importWebflowExport": {
+    "importHtml": [
+      {
+        "glob": "*.html",
+        "destDir": "src",
+        "transforms": "./src/js/webflow/import.js"
+      }
+    ]
   }
 }
