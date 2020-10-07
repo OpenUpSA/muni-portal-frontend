@@ -24,6 +24,7 @@ export class ModalPage {
 export class Service {
   constructor(service) {
     this.name = service.title;
+    this.overview = service.overview;
     this.breadcrumbItems = [{label: "Services", url: "#/services/"}];
   }
 
@@ -31,6 +32,8 @@ export class Service {
     return [
       new PageTitle(this.name).render(),
       new Breadcrumbs(this.breadcrumbItems).render(),
+      new SectionHeading("Overview").render(),
+      this.overview,
     ];
   }
 }
@@ -73,6 +76,19 @@ class Breadcrumb {
     this.element = this.breadcrumbTemplate.clone();
     this.element.text(item.label);
     this.element.attr("href", item.url);
+  }
+
+  render() {
+    return this.element;
+  }
+}
+
+class SectionHeading {
+  template = $(".styles .section-heading").first();
+
+  constructor(heading) {
+    this.element = this.template.clone();
+    this.element.find(".section-title").text(heading);
   }
 
   render() {
