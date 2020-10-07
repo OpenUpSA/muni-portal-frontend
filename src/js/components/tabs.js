@@ -1,6 +1,6 @@
-const gridThirdsTemplate = $(".styles .grid--thirds").clone();
-
 export class ServicesTab {
+  gridFullWidthTemplate = $(".styles .grid--fullwidth");
+
   constructor(settings, element, tabContentContainer) {
     console.assert(element.length === 1);
     self.settings = settings;
@@ -8,8 +8,10 @@ export class ServicesTab {
     this.tabContentContainer = tabContentContainer;
     this.element.find(".icon div").removeClass("fas fa-spinner").addClass("fas fa-hands-helping");
     this.element.find(".label").text("Services");
-    this.grid = gridThirdsTemplate.clone();
+    this.grid = this.gridFullWidthTemplate.clone();
+    console.assert(this.grid.length === 1);
     this.grid.empty();
+
   }
 
   show() {
@@ -19,7 +21,8 @@ export class ServicesTab {
         this.grid.empty();
         response.items.forEach(((item) => {
           const url = `/#/services/${item.meta.slug}/`;
-          this.grid.append(new ActionCard(item.title, item.icon_classes, url).element);
+          const linkBlock = new IconLinkBlock(item.title, item.icon_classes, url).render();
+          this.grid.append(linkBlock);
         }).bind(this));
         this.tabContentContainer.element.html(this.grid);
       }).bind(this))
@@ -47,5 +50,24 @@ class ActionCard {
     console.assert(this.element.length === 1);
     this.element.find(".label").text(title);
     this.element.find(".icon div").removeClass("fas fa-spinner").addClass(iconClasses);
+  }
+}
+
+class IconLinkBlock {
+  template = $(".styles .link-block:eq(3)");
+
+  constructor(title, iconClasses, url) {
+    this.element = this.template.clone();
+    this.iconContainer = this.element.find(".link-block__icon div");
+    this.labelContainer = this.element.find(".h3-block-title");
+
+    this.element.attr("href", url);
+    this.labelContainer.text(title);
+    this.iconContainer.attr("class", "");
+    this.iconContainer.addClass(iconClasses);
+  }
+
+  render() {
+    return this.element;
   }
 }

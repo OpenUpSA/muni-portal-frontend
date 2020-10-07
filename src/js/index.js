@@ -13,8 +13,7 @@ class App {
   constructor() {
     const tabContentContainer = new TabContentContainer($(".tab-content"));
     this.servicesTab = new ServicesTab(settings, $(".main .tab-link").first(), tabContentContainer);
-    this.modalPage = new ModalPage($(".main .page__wrap"))
-    ;
+    this.modalPage = new ModalPage($(".main .page__wrap"));
     this.router = new Router([
       { path: /^\/?$/, view: this.viewRedirect("#/services/") },
       { path: new RegExp('^/services/$'), view: this.viewServices.bind(this) },
@@ -23,13 +22,18 @@ class App {
     ]);
   }
 
+  setTitle(title) {
+    $("title").text(title);
+  }
+
   viewRedirect(location) {
-    window.location = location;
+    window.history.pushState({}, "", location);
   }
 
   viewServices() {
     this.modalPage.hide();
     this.servicesTab.show();
+    this.setTitle("Services");
   }
 
   viewService(params){
@@ -45,6 +49,7 @@ class App {
       .done(((response) => {
         console.assert(response.meta.total_count == 1);
         const service = new Service(response.items[0]);
+        this.setTitle(response.items[0].title);
         this.modalPage.setContent(service.render());
       }).bind(this))
       .fail(function(a, b) {
@@ -62,7 +67,7 @@ class Router {
 
   parseLocation() { return window.location.hash.slice(1).toLowerCase() || '/'; }
 
-  route() {
+  route(e) {
     const location = this.parseLocation();
     for (const route of this.routes) {
       const match = route.path.exec(location);
