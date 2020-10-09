@@ -25,7 +25,7 @@ export class Service {
   constructor(service) {
     this.name = service.title;
     this.overview = service.overview;
-    this.breadcrumbItems = [{label: "Services", url: "#/services/"}];
+    this.breadcrumbItems = [{label: "Services", url: "/services/"}];
   }
 
   render() {

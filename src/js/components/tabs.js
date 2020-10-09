@@ -20,7 +20,7 @@ export class ServicesTab {
       .done(((response) => {
         this.grid.empty();
         response.items.forEach(((item) => {
-          const url = `/#/services/${item.meta.slug}/`;
+          const url = `/services/${item.meta.slug}/`;
           const linkBlock = new IconLinkBlock(item.title, item.icon_classes, url).render();
           this.grid.append(linkBlock);
         }).bind(this));
