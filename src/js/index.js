@@ -1,18 +1,16 @@
 import {tryRegisterSW} from './swRegistration.js';
 import {ServicesTab, TabContentContainer} from './components/tabs.js';
 import {ModalPage, Service} from './components/pages.js';
+import {API} from './api.js';
 
 // Call as early as possible to maximise chance of registering reinstallation code
 tryRegisterSW();
 
-const settings = {
-  defaultBaseUrl: "https://muni-portal-backend.openup.org.za"
-};
-
 class App {
   constructor() {
+    this.api = new API();
     const tabContentContainer = new TabContentContainer($(".tab-content"));
-    this.servicesTab = new ServicesTab(settings, $(".main .tab-link").first(), tabContentContainer);
+    this.servicesTab = new ServicesTab(this.api, $(".main .tab-link").first(), tabContentContainer);
     this.modalPage = new ModalPage($(".main .page__wrap"));
     this.router = new Router([
       { path: /^\/?$/, view: () => this.viewRedirect("/services/") },
@@ -41,14 +39,7 @@ class App {
   viewService(params){
     this.modalPage.show();
 
-    const searchParams = new URLSearchParams([
-      ["type", "core.ServicePage"],
-      ["fields", "*"],
-      ["slug", params.serviceSlug]
-    ]);
-    const serviceUrl = `${self.settings.defaultBaseUrl}/api/wagtail/v2/pages/?${searchParams.toString()}`;
-    $.get(serviceUrl)
-      .done(((response) => {
+    this.api.getService(params.serviceSlug).done(((response) => {
         console.assert(response.meta.total_count == 1);
         const service = new Service(response.items[0]);
         this.setTitle(response.items[0].title);

@@ -1,9 +1,9 @@
 export class ServicesTab {
   gridFullWidthTemplate = $(".styles .grid--fullwidth");
 
-  constructor(settings, element, tabContentContainer) {
+  constructor(api, element, tabContentContainer) {
+    this.api = api;
     console.assert(element.length === 1);
-    self.settings = settings;
     this.element = element;
     this.tabContentContainer = tabContentContainer;
     this.element.find(".icon div").removeClass("fas fa-spinner").addClass("fas fa-hands-helping");
@@ -15,17 +15,15 @@ export class ServicesTab {
   }
 
   show() {
-    const servicePagesUrl = `${self.settings.defaultBaseUrl}/api/wagtail/v2/pages/?type=core.ServicePage&fields=overview,icon_classes`;
-    $.get(servicePagesUrl)
-      .done(((response) => {
-        this.grid.empty();
-        response.items.forEach(((item) => {
-          const url = `/services/${item.meta.slug}/`;
-          const linkBlock = new IconLinkBlock(item.title, item.icon_classes, url).render();
-          this.grid.append(linkBlock);
-        }).bind(this));
-        this.tabContentContainer.element.html(this.grid);
-      }).bind(this))
+    this.api.getServices().done(((response) => {
+      this.grid.empty();
+      response.items.forEach(((item) => {
+        const url = `/services/${item.meta.slug}/`;
+        const linkBlock = new IconLinkBlock(item.title, item.icon_classes, url).render();
+        this.grid.append(linkBlock);
+      }).bind(this));
+      this.tabContentContainer.element.html(this.grid);
+    }).bind(this))
       .fail(function(a, b) {
         console.error(a, b);
       });
