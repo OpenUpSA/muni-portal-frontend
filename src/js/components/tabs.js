@@ -1,3 +1,5 @@
+import {LinkBlock} from './link-block.js';
+
 export class ServicesTab {
   gridFullWidthTemplate = $(".styles .grid--fullwidth");
 
@@ -19,7 +21,12 @@ export class ServicesTab {
       this.grid.empty();
       response.items.forEach(((item) => {
         const url = `/services/${item.meta.slug}/`;
-        const linkBlock = new IconLinkBlock(item.title, item.icon_classes, url).render();
+        const linkBlock = new LinkBlock({
+          title: item.title,
+          url: url,
+          subjectIconClasses: item.icon_classes,
+          targetIconClasses: "fas fa-long-arrow-alt-right",
+        }).render();
         this.grid.append(linkBlock);
       }).bind(this));
       this.tabContentContainer.element.html(this.grid);
@@ -48,24 +55,5 @@ class ActionCard {
     console.assert(this.element.length === 1);
     this.element.find(".label").text(title);
     this.element.find(".icon div").removeClass("fas fa-spinner").addClass(iconClasses);
-  }
-}
-
-class IconLinkBlock {
-  template = $(".styles .link-block:eq(3)");
-
-  constructor(title, iconClasses, url) {
-    this.element = this.template.clone();
-    this.iconContainer = this.element.find(".link-block__icon div");
-    this.labelContainer = this.element.find(".h3-block-title");
-
-    this.element.attr("href", url);
-    this.labelContainer.text(title);
-    this.iconContainer.attr("class", "");
-    this.iconContainer.addClass(iconClasses);
-  }
-
-  render() {
-    return this.element;
   }
 }

@@ -1,3 +1,5 @@
+import {LinkBlock, ShadedIconLinkBlock} from './link-block.js';
+
 export class ModalPage {
   constructor(element) {
     console.assert(element.length === 1);
@@ -26,6 +28,7 @@ export class Service {
     this.name = service.title;
     this.overview = service.overview;
     this.breadcrumbItems = [{label: "Services", url: "/services/"}];
+    this.contacts = service.service_contacts.map(c => new Contact(c));
   }
 
   render() {
@@ -34,6 +37,8 @@ export class Service {
       new Breadcrumbs(this.breadcrumbItems).render(),
       new SectionHeading("Overview").render(),
       new ExpandableRichText(this.overview).render(),
+      new SectionHeading("Contacts").render(),
+      this.contacts.map(c => c.render()),
     ];
   }
 }
@@ -121,5 +126,36 @@ class ExpandableRichText {
 
   render() {
     return this.element;
+  }
+}
+
+class ContactFactory {
+  actionTypes = [
+    "phone",
+    "email",
+    "physical_address",
+  ];
+
+  static contactClass(typeSlug) {
+    if (ContactFactory.actionTypes.includes(typeSlug))
+      return ShadedIctonLinkBlock;
+    else
+      return LinkBlock;
+  }
+
+  static link(contact) {
+    switch (contact.type.slug) {
+    case "phone": return `tel:${contact.value}`;
+    case "email": return `mailto:${contact.value}`;
+    case "physical_address":
+      return `ttps://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.value)}`;
+    default: return "#";
+    };
+  }
+
+  static makeContact(contact) {
+    const contactClass = ContactFactory.contactClass(contact.type.slug);
+    const link = Contactfactory.link(contact);
+    return contactClass(contact.value, contact.annotation, link);
   }
 }
