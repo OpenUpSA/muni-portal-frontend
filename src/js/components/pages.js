@@ -130,18 +130,6 @@ class ExpandableRichText {
 }
 
 class ContactFactory {
-  actionTypes = [
-    "phone",
-    "email",
-    "physical_address",
-  ];
-
-  static contactClass(typeSlug) {
-    if (ContactFactory.actionTypes.includes(typeSlug))
-      return ShadedIctonLinkBlock;
-    else
-      return LinkBlock;
-  }
 
   static link(contact) {
     switch (contact.type.slug) {
@@ -154,8 +142,11 @@ class ContactFactory {
   }
 
   static makeContact(contact) {
-    const contactClass = ContactFactory.contactClass(contact.type.slug);
-    const link = Contactfactory.link(contact);
-    return contactClass(contact.value, contact.annotation, link);
+    return LinkBlock({
+      title: contact.value,
+      subtitle: contact.annotation,
+      url: ContactFactory.link(contact),
+      targetIconClasses: contact.type.icon_classes
+    });
   }
 }
