@@ -15,11 +15,12 @@ class App {
     this.servicesTab = new ServicesTab(settings, $(".main .tab-link").first(), tabContentContainer);
     this.modalPage = new ModalPage($(".main .page__wrap"));
     this.router = new Router([
-      { path: /^\/?$/, view: this.viewRedirect("#/services/") },
+      { path: /^\/?$/, view: () => this.viewRedirect("/services/") },
       { path: new RegExp('^/services/$'), view: this.viewServices.bind(this) },
       { path: /^\/services\/(?<serviceSlug>[\w-]+)\/$/, view: this.viewService.bind(this) },
       { path: new RegExp('.*'), view: function() { $('body').text('Not found!'); }},
     ]);
+    this.router.route();
   }
 
   setTitle(title) {
@@ -28,6 +29,7 @@ class App {
 
   viewRedirect(location) {
     window.history.pushState({}, "", location);
+    this.router.route();
   }
 
   viewServices() {
@@ -61,11 +63,17 @@ class App {
 class Router {
   constructor(routes) {
     this.routes = routes;
-    window.addEventListener('hashchange', this.route.bind(this));
-    window.addEventListener('load', this.route.bind(this));
+    const router = this;
+    $("body").on('click', 'a[href^="/"]', function(e) {
+      e.preventDefault();
+      window.history.pushState({}, "", $(this).attr("href"));
+      router.route();
+    });
+
+    window.addEventListener("popstate", this.route.bind(this));
   }
 
-  parseLocation() { return window.location.hash.slice(1).toLowerCase() || '/'; }
+  parseLocation() { return window.location.pathname; }
 
   route(e) {
     const location = this.parseLocation();
