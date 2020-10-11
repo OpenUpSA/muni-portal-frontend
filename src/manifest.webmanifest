@@ -18,5 +18,6 @@
   ],
   "name": "Cape Agulhas Municipality",
   "short_name": "Cape Agulhas",
-  "start_url": "/"
+  "start_url": "/",
+  "nonsense": "force hash change"
 }
