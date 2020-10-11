@@ -28,7 +28,7 @@ export class Service {
     this.name = service.title;
     this.overview = service.overview;
     this.breadcrumbItems = [{label: "Services", url: "/services/"}];
-    this.contacts = service.service_contacts.map(c => new Contact(c));
+    this.contacts = service.service_contacts.map(details => new Contact(details));
   }
 
   render() {
@@ -38,7 +38,7 @@ export class Service {
       new SectionHeading("Overview").render(),
       new ExpandableRichText(this.overview).render(),
       new SectionHeading("Contacts").render(),
-      this.contacts.map(c => c.render()),
+      ...this.contacts.map(c => c.render()),
     ];
   }
 }
@@ -129,24 +129,25 @@ class ExpandableRichText {
   }
 }
 
-class ContactFactory {
+class Contact extends LinkBlock {
+  constructor(contact) {
+    super({
+      title: contact.type.label,
+      subtitle: contact.value,
+      url: Contact.getLink(contact),
+      targetIconClasses: contact.type.icon_classes,
+      shadedTarget: true,
+    });
+  }
 
-  static link(contact) {
+  static getLink(contact) {
     switch (contact.type.slug) {
     case "phone": return `tel:${contact.value}`;
     case "email": return `mailto:${contact.value}`;
     case "physical_address":
-      return `ttps://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.value)}`;
+      return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.value)}`;
     default: return "#";
     };
   }
 
-  static makeContact(contact) {
-    return LinkBlock({
-      title: contact.value,
-      subtitle: contact.annotation,
-      url: ContactFactory.link(contact),
-      targetIconClasses: contact.type.icon_classes
-    });
-  }
 }

@@ -25,7 +25,6 @@ export class ServicesTab {
           title: item.title,
           url: url,
           subjectIconClasses: item.icon_classes,
-          targetIconClasses: "fas fa-long-arrow-alt-right",
         }).render();
         this.grid.append(linkBlock);
       }).bind(this));

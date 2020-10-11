@@ -1,6 +1,7 @@
 export class LinkBlock {
   constructor(props) {
-    this.element = this.template(props).clone();
+    this.element = this.getTemplate(props).clone();
+    console.assert(this.element.length == 1);
     this.labelContainer = this.element.find(".h3-block-title");
 
     this.element.attr("href", props.url);
@@ -8,29 +9,42 @@ export class LinkBlock {
 
     if (props.subjectIconClasses) {
       this.subjectIconContainer = this.element.find(".link-block__icon div");
+      console.assert(this.subjectIconContainer.length == 1);
       this.subjectIconContainer.attr("class", "");
       this.subjectIconContainer.addClass(props.subjectIconClasses);
     }
+    if (props.targetIconClasses) {
+      this.targetIconContainer = this.element.find(".link-block__action-icon div");
+      console.assert(this.targetIconContainer.length == 1);
+      this.targetIconContainer.attr("class", "");
+      this.targetIconContainer.addClass(props.targetIconClasses);
+    }
+    if (props.subtitle) {
+      this.subtitleContainer = this.element.find(".subtitle");
+      console.assert(this.subtitleContainer.length == 1);
+      this.subtitleContainer.text(props.subtitle);
+    }
   }
 
-  template(props) {
+  getTemplate(props) {
     if (props.targetIconClasses &&
         props.subtitle &&
         props.shadedTarget) {
-      return $(".styles .link-block:eq(7)");
-    } else if (props.targetIconClasses &&
+      return $(".styles .link-block:eq(6)");
+    }
+    if (props.targetIconClasses &&
                props.subjectIconClasses &&
                props.subtitle) {
       return $(".styles .link-block:eq(5)");
-    } else if (props.targetIconClasses &&
-               props.subjectIconClasses) {
+    }
+    if (props.subjectIconClasses) {
       return $(".styles .link-block:eq(3)");
-    } else if (props.subjectIconClasses &&
+    }
+    if (props.subjectIconClasses &&
                props.subtitle) {
       return $(".styles .link-block:eq(2)");
-    } else {
-      return $(".styles .link-block:eq(1)");
     }
+    return $(".styles .link-block:eq(1)");
   }
 
   render() {
