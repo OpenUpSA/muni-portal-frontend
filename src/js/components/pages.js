@@ -1,3 +1,6 @@
+import {LinkBlock, ShadedIconLinkBlock} from './link-block.js';
+import {FullWidthGrid} from './grid.js';
+
 export class ModalPage {
   constructor(element) {
     console.assert(element.length === 1);
@@ -26,15 +29,24 @@ export class Service {
     this.name = service.title;
     this.overview = service.overview;
     this.breadcrumbItems = [{label: "Services", url: "/services/"}];
+    this.contacts = service.service_contacts.map(details => new Contact(details));
   }
 
   render() {
-    return [
+    const children = [
       new PageTitle(this.name).render(),
       new Breadcrumbs(this.breadcrumbItems).render(),
       new SectionHeading("Overview").render(),
       new ExpandableRichText(this.overview).render(),
     ];
+
+    if (this.contacts.length > 0) {
+      children.push(
+        new SectionHeading("Contacts").render(),
+        new FullWidthGrid(this.contacts).render(),
+      );
+    }
+    return children;
   }
 }
 
@@ -122,4 +134,27 @@ class ExpandableRichText {
   render() {
     return this.element;
   }
+}
+
+class Contact extends LinkBlock {
+  constructor(contact) {
+    super({
+      title: contact.type.label,
+      subtitle: contact.value,
+      url: Contact.getLink(contact),
+      targetIconClasses: contact.type.icon_classes,
+      shadedTarget: true,
+    });
+  }
+
+  static getLink(contact) {
+    switch (contact.type.slug) {
+    case "phone": return `tel:${contact.value}`;
+    case "email": return `mailto:${contact.value}`;
+    case "physical_address":
+      return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.value)}`;
+    default: return "#";
+    };
+  }
+
 }
