@@ -1,7 +1,7 @@
 import {LinkBlock} from './link-block.js';
+import {FullWidthGrid} from './grid.js';
 
 export class ServicesTab {
-  gridFullWidthTemplate = $(".styles .grid--fullwidth");
 
   constructor(api, element, tabContentContainer) {
     this.api = api;
@@ -10,25 +10,20 @@ export class ServicesTab {
     this.tabContentContainer = tabContentContainer;
     this.element.find(".icon div").removeClass("fas fa-spinner").addClass("fas fa-hands-helping");
     this.element.find(".label").text("Services");
-    this.grid = this.gridFullWidthTemplate.clone();
-    console.assert(this.grid.length === 1);
-    this.grid.empty();
-
   }
 
   show() {
     this.api.getServices().done(((response) => {
-      this.grid.empty();
-      response.items.forEach(((item) => {
+      const serviceLinks = response.items.map(((item) => {
         const url = `/services/${item.meta.slug}/`;
-        const linkBlock = new LinkBlock({
+        return new LinkBlock({
           title: item.title,
           url: url,
           subjectIconClasses: item.icon_classes,
-        }).render();
-        this.grid.append(linkBlock);
+        });
       }).bind(this));
-      this.tabContentContainer.element.html(this.grid);
+      this.grid = new FullWidthGrid(serviceLinks);
+      this.tabContentContainer.element.html(this.grid.render());
     }).bind(this))
       .fail(function(a, b) {
         console.error(a, b);

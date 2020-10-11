@@ -1,4 +1,5 @@
 import {LinkBlock, ShadedIconLinkBlock} from './link-block.js';
+import {FullWidthGrid} from './grid.js';
 
 export class ModalPage {
   constructor(element) {
@@ -32,14 +33,20 @@ export class Service {
   }
 
   render() {
-    return [
+    const children = [
       new PageTitle(this.name).render(),
       new Breadcrumbs(this.breadcrumbItems).render(),
       new SectionHeading("Overview").render(),
       new ExpandableRichText(this.overview).render(),
-      new SectionHeading("Contacts").render(),
-      ...this.contacts.map(c => c.render()),
     ];
+
+    if (this.contacts.length > 0) {
+      children.push(
+        new SectionHeading("Contacts").render(),
+        new FullWidthGrid(this.contacts).render(),
+      );
+    }
+    return children;
   }
 }
 
