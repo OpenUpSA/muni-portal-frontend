@@ -1,6 +1,6 @@
 {
-  "background_color": "#657bb4",
-  "theme_color": "#fff",
+  "background_color": "#fff",
+  "theme_color": "#0094ff",
   "description": "Your open door to the municipality",
   "display": "standalone",
   "icons": [
@@ -18,5 +18,5 @@
   ],
   "name": "Cape Agulhas Municipality",
   "short_name": "Cape Agulhas",
-  "start_url": "/index.html"
+  "start_url": "/"
 }
