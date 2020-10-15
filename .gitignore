@@ -109,3 +109,6 @@ server-cert-key.pem
 
 # Lighthouse CI
 .lighthouseci/
+
+# Other
+.history
