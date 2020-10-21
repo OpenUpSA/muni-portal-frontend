@@ -6,20 +6,47 @@ import {API} from './api.js';
 // Call as early as possible to maximise chance of registering reinstallation code
 tryRegisterSW();
 
+/**
+ * Creates and returns the HTML for a linked tab
+ * @param {String} tabTemplate - The HTML of the cloned tab template
+ * @param {*} href - The `href` for the anchor link
+ * @returns The linked tab HTML as a string
+ */
+function createTab(tabTemplate, href) {
+  const linkTab = document.createElement("a");
+  linkTab.href = href;
+  linkTab.classList.add("tab-link__wrap");
+
+  linkTab.append(tabTemplate);
+  
+  return linkTab;
+}
+
 class App {
   constructor() {
     this.api = new API();
-    const tabContentContainer = new TabContentContainer($(".tab-content"));
-    this.servicesTab = new ServicesTab(this.api, $(".main .tab-link").first(), tabContentContainer);
 
+    const tabContentContainer = new TabContentContainer($(".tab-content"));
+    
     const $mainContainer = $(".main");
     const tabsContainer = $mainContainer.find(".tab-links__wrap");
-    const tabTemplate = $mainContainer.find(".tab-link__wrap");
 
-    const myMuniTab = tabTemplate.clone().appendTo(tabsContainer);
+    const tabTemplate = $mainContainer.find(".tab-link");
+    
+    const myServicesAnchor = createTab(tabTemplate.clone()[0], "/services/");
+    const myMuniAnchor = createTab(tabTemplate.clone()[0], "/my-municipality/");
+    
+    (tabsContainer).append($(myServicesAnchor));
+    (tabsContainer).append($(myMuniAnchor));
+    
+    this.servicesTab = new ServicesTab(this.api, $(myServicesAnchor), tabContentContainer);
+    this.myMuniTabContent = new MyMuniTab(this.api, $(myMuniAnchor), tabContentContainer);
 
-    this.myMuniTabContent = new MyMuniTab(this.api, myMuniTab, tabContentContainer);
+    // HACK TO HIDE DEFAULT ADDED FIRST TAB
+    $mainContainer.find(".tab-link__wrap").first().hide();
+
     this.modalPage = new ModalPage($(".main .page__wrap"));
+
     this.router = new Router([
       { path: /^\/?$/, view: () => this.viewRedirect("/services/") },
       { path: new RegExp('^/services/$'), view: this.viewServices.bind(this) },
