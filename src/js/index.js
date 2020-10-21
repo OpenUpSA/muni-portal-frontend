@@ -11,7 +11,14 @@ class App {
     this.api = new API();
     const tabContentContainer = new TabContentContainer($(".tab-content"));
     this.servicesTab = new ServicesTab(this.api, $(".main .tab-link").first(), tabContentContainer);
-    this.myMuniTab = new MyMuniTab(this.api, $(".main .tab-link").first(), tabContentContainer)
+
+    const $mainContainer = $(".main");
+    const tabsContainer = $mainContainer.find(".tab-links__wrap");
+    const tabTemplate = $mainContainer.find(".tab-link__wrap");
+
+    const myMuniTab = tabTemplate.clone().appendTo(tabsContainer);
+
+    this.myMuniTabContent = new MyMuniTab(this.api, myMuniTab, tabContentContainer);
     this.modalPage = new ModalPage($(".main .page__wrap"));
     this.router = new Router([
       { path: /^\/?$/, view: () => this.viewRedirect("/services/") },
@@ -34,7 +41,7 @@ class App {
 
   viewMyMuni() {
     this.modalPage.hide();
-    this.myMuniTab.show();
+    this.myMuniTabContent.show();
     this.setTitle("My Muni");
   }
 
