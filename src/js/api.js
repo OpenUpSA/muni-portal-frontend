@@ -7,6 +7,12 @@ export class API {
     this.baseUrl = sessionStorage.getItem("apiBaseUrl") || defaultBaseUrl;
   }
 
+  getMyMuni() {
+    const myMuniPagesUrl = "https://muni-portal-backend.openup.org.za/api/wagtail/v2/pages/?child_of=11";
+    return $.get(myMuniPagesUrl);
+  }
+
+
   getServices() {
     const searchParams = new URLSearchParams([
       ["type", "core.ServicePage"],

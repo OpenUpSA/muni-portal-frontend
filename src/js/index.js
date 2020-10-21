@@ -1,5 +1,5 @@
 import {tryRegisterSW} from './swRegistration.js';
-import {ServicesTab, TabContentContainer} from './components/tabs.js';
+import {MyMuniTab, ServicesTab, TabContentContainer} from './components/tabs.js';
 import {ModalPage, Service} from './components/pages.js';
 import {API} from './api.js';
 
@@ -11,11 +11,13 @@ class App {
     this.api = new API();
     const tabContentContainer = new TabContentContainer($(".tab-content"));
     this.servicesTab = new ServicesTab(this.api, $(".main .tab-link").first(), tabContentContainer);
+    this.myMuniTab = new MyMuniTab(this.api, $(".main .tab-link").first(), tabContentContainer)
     this.modalPage = new ModalPage($(".main .page__wrap"));
     this.router = new Router([
       { path: /^\/?$/, view: () => this.viewRedirect("/services/") },
       { path: new RegExp('^/services/$'), view: this.viewServices.bind(this) },
       { path: /^\/services\/(?<serviceSlug>[\w-]+)\/$/, view: this.viewService.bind(this) },
+      { path: new RegExp('^/my-municipality/$'), view: this.viewMyMuni.bind(this) },
       { path: new RegExp('.*'), view: function() { $('body').text('Not found!'); }},
     ]);
     this.router.route();
@@ -28,6 +30,12 @@ class App {
   viewRedirect(location) {
     window.history.pushState({}, "", location);
     this.router.route();
+  }
+
+  viewMyMuni() {
+    this.modalPage.hide();
+    this.myMuniTab.show();
+    this.setTitle("My Muni");
   }
 
   viewServices() {

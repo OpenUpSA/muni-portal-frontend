@@ -1,6 +1,34 @@
 import {LinkBlock} from './link-block.js';
 import {FullWidthGrid} from './grid.js';
 
+export class MyMuniTab {
+  constructor(api, element, tabContentContainer) {
+    this.api = api;
+    console.assert(element.length === 1);
+    this.element = element;
+    this.tabContentContainer = tabContentContainer;
+    this.element.find(".icon div").removeClass("fas fa-spinner").addClass("fas fa-hands-helping");
+    this.element.find(".label").text("My Muni");
+  }
+
+  show() {
+    this.api.getMyMuni().done(((response) => {
+      const linkList = response.items.map(((item) => {
+        const url = `/my-municipality/${item.meta.slug}`;
+        return new LinkBlock({
+          title: item.title,
+          url,
+          subjectIconClasses: "fas fa-user-friends"
+        });
+      }).bind(this));
+      this.grid = new FullWidthGrid(linkList);
+      this.tabContentContainer.element.html(this.grid.render());
+    }).bind(this))
+      .fail(function(a, b) {
+        console.error(a, b);
+      });
+  }
+}
 export class ServicesTab {
 
   constructor(api, element, tabContentContainer) {
@@ -16,6 +44,7 @@ export class ServicesTab {
     this.api.getServices().done(((response) => {
       const serviceLinks = response.items.map(((item) => {
         const url = `/services/${item.meta.slug}/`;
+        console.log(item.icon_classes);
         return new LinkBlock({
           title: item.title,
           url: url,
