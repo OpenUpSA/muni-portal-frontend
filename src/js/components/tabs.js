@@ -7,7 +7,7 @@ export class MyMuniTab {
     console.assert(element.length === 1);
     this.element = element;
     this.tabContentContainer = tabContentContainer;
-    this.element.find(".icon div").removeClass("fas fa-spinner").addClass("fas fa-hands-helping");
+    this.element.find(".icon div").removeClass("fas fa-spinner").addClass("fas fa-landmark");
     this.element.find(".label").text("My Muni");
   }
 
@@ -44,7 +44,6 @@ export class ServicesTab {
     this.api.getServices().done(((response) => {
       const serviceLinks = response.items.map(((item) => {
         const url = `/services/${item.meta.slug}/`;
-        console.log(item.icon_classes);
         return new LinkBlock({
           title: item.title,
           url: url,
