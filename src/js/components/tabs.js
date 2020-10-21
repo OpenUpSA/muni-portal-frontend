@@ -1,5 +1,14 @@
 import {LinkBlock} from './link-block.js';
-import {FullWidthGrid} from './grid.js';
+import { FullWidthGrid } from './grid.js';
+
+/**
+ * Replacing the current icon in the tab with the new specified icon
+ * @param {Object} element - The root DOM element containing the icon
+ * @param {String} icon - new icon classes to add
+ */
+function setTabIcon(element, iconClasses) {
+  element.find(".icon div").removeClass("fas fa-spinner").addClass(iconClasses);
+}
 
 export class MyMuniTab {
   constructor(api, element, tabContentContainer) {
@@ -7,12 +16,12 @@ export class MyMuniTab {
     console.assert(element.length === 1);
     this.element = element;
     this.tabContentContainer = tabContentContainer;
-    this.element.find(".icon div").removeClass("fas fa-spinner").addClass("fas fa-landmark");
-    this.element.find(".label").text("My Muni");
   }
 
   show() {
     this.api.getMyMuni().done(((response) => {
+      const tabTitle = "My Muni";
+      const tabTitleElem = this.element.find(".label");
       const linkList = response.items.map(((item) => {
         const url = `/my-municipality/${item.meta.slug}`;
         return new LinkBlock({
@@ -22,6 +31,8 @@ export class MyMuniTab {
         });
       }).bind(this));
       this.grid = new FullWidthGrid(linkList);
+      tabTitleElem.text(tabTitle);
+      setTabIcon(this.element, "fas fa-landmark");
       this.tabContentContainer.element.html(this.grid.render());
     }).bind(this))
       .fail(function(a, b) {
@@ -36,12 +47,12 @@ export class ServicesTab {
     console.assert(element.length === 1);
     this.element = element;
     this.tabContentContainer = tabContentContainer;
-    this.element.find(".icon div").removeClass("fas fa-spinner").addClass("fas fa-hands-helping");
-    this.element.find(".label").text("Services");
   }
 
   show() {
     this.api.getServices().done(((response) => {
+      const tabTitle = "Services";
+      const tabTitleElem = this.element.find(".label");
       const serviceLinks = response.items.map(((item) => {
         const url = `/services/${item.meta.slug}/`;
         return new LinkBlock({
@@ -51,6 +62,8 @@ export class ServicesTab {
         });
       }).bind(this));
       this.grid = new FullWidthGrid(serviceLinks);
+      tabTitleElem.text(tabTitle);
+      setTabIcon(this.element, "fas fa-hands-helping");
       this.tabContentContainer.element.html(this.grid.render());
     }).bind(this))
       .fail(function(a, b) {
