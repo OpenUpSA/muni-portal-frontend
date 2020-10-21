@@ -1,10 +1,10 @@
 # muni-portal-frontend
 
-Frontend to the Cape Agulhas Municipality app
+Frontend to the Cape Agulhas Municipality Progressive Web App.
 
 ES6 and Webflow.
 
-Import webflow exports using
+[Import webflow exports](https://www.npmjs.com/package/import-webflow-export) using when there are updates.
 
     yarn run import-webflow zipfile.zip
 
