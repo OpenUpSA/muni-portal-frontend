@@ -15,7 +15,7 @@ export class MyMuniTab {
     this.api.getMyMuniID().done(((response) => {
       this.api.getMyMuni(response.items[0].id).done((response) => {
         const linkList = response.items.map(((item) => {
-        const url = `/my-municipality/${item.meta.slug}`;
+        const url = `/my-municipality/${item.meta.slug}/`;
         return new LinkBlock({
           title: item.title,
           url,
