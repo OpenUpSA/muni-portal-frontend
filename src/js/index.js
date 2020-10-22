@@ -12,18 +12,19 @@ tryRegisterSW();
 
 /**
  * Creates and returns the HTML for a linked tab
- * @param {String} tabTemplate - The HTML of the cloned tab template
+ * @param {String} tabTemplate - The jQuery element of the cloned tab template
  * @param {*} href - The `href` for the anchor link
- * @returns The linked tab HTML as a string
+ * @returns The linked tab as jQuery element
  */
-function createTab(tabTemplate, href) {
-  const linkTab = document.createElement("a");
-  linkTab.href = href;
-  linkTab.classList.add("tab-link__wrap");
+function createTabLinkAnchor(tabTemplate, href) {
+  const draft = tabTemplate.clone();
+  const anchor = $(document.createElement("a"));
+  anchor.attr("href", href);
+  anchor.attr("class", draft.attr("class"));
+  anchor.css("text-decoration", "none");
+  anchor.append(draft.contents());
 
-  linkTab.append(tabTemplate);
-
-  return linkTab;
+  return anchor;
 }
 
 class App {
@@ -35,33 +36,36 @@ class App {
     const $mainContainer = $(".main");
     const $tabsContainer = $mainContainer.find(".tab-links__wrap");
 
-    $tabsContainer.on("click", "a", function () {
+    this.setActiveTab = ($activeTabAnchor) => {
+      // Remove active from all
       const $tabs = $tabsContainer.find(".tab-link");
-      // remove active class for all tabs
       $tabs.removeClass("active");
-      // remove the `tab-link__bg` div from all tabs
-      $tabs.find(".tab-link__bg").remove();
-      // set the active class on the clicked tab
-      $(this).find(".tab-link").addClass("active");
-    });
+      $tabs.find(".tab-link__bg").removeClass("active");
+      $tabs.find(".tab-link__base").removeClass("active");
 
-    const tabTemplate = $mainContainer.find(".tab-link");
+      // Add active to specified
+      $activeTabAnchor.addClass("active");
+      //$activeTabAnchor.find(".tab-link__bg").addClass("active");
+      $activeTabAnchor.find(".tab-link__base").addClass("active");
+    };
 
-    const myServicesAnchor = createTab(tabTemplate.clone()[0], "/services/");
-    const myMuniAnchor = createTab(tabTemplate.clone()[0], "/my-municipality/");
+    const tabTemplate = $(".styles .tab-link").first();
 
-    $tabsContainer.append($(myServicesAnchor));
-    $tabsContainer.append($(myMuniAnchor));
+    this.$servicesAnchor = createTabLinkAnchor(tabTemplate, "/services/");
+    this.$myMuniAnchor = createTabLinkAnchor(tabTemplate, "/my-municipality/");
+
+    $tabsContainer.append(this.$servicesAnchor);
+    $tabsContainer.append(this.$myMuniAnchor);
 
     this.servicesTab = new ServicesTab(
       this.api,
-      $(myServicesAnchor),
+      this.$servicesAnchor,
       tabContentContainer
     );
 
     this.myMuniTabContent = new MyMuniTab(
       this.api,
-      $(myMuniAnchor),
+      this.$myMuniAnchor,
       tabContentContainer
     );
 
@@ -105,12 +109,14 @@ class App {
   }
 
   viewMyMuni() {
+    this.setActiveTab(this.$myMuniAnchor);
     this.modalPage.hide();
     this.myMuniTabContent.show();
     this.setTitle("My Muni");
   }
 
   viewServices() {
+    this.setActiveTab(this.$servicesAnchor);
     this.modalPage.hide();
     this.servicesTab.show();
     this.setTitle("Services");
