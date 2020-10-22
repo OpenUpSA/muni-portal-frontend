@@ -12,11 +12,15 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",
     "copyfiles": "^2.4.0",
+    "eslint": "^7.11.0",
+    "eslint-config-prettier": "^6.14.0",
+    "eslint-plugin-import": "^2.22.1",
     "http-server": "^0.12.3",
     "import-webflow-export": "^0.0.4",
     "parcel": "^1.12.4",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-sw-cache": "^0.3.1",
+    "prettier": "^2.1.2",
     "workbox-cli": "^5.1.4"
   },
   "scripts": {

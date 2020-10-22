@@ -19,7 +19,8 @@ export class LinkBlock {
       this.targetIconContainer.attr("class", "");
       this.targetIconContainer.addClass(props.targetIconClasses);
     }
-    if (props.subtitle) {
+    // if subtitle is set to an empty string, return an empty string
+    if (props.subtitle || props.subtitle === "") {
       this.subtitleContainer = this.element.find(".subtitle");
       console.assert(this.subtitleContainer.length == 1);
       this.subtitleContainer.text(props.subtitle);

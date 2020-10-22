@@ -7,6 +7,16 @@ export class API {
     this.baseUrl = sessionStorage.getItem("apiBaseUrl") || defaultBaseUrl;
   }
 
+  getAdministrationIndex() {
+    const searchParams = new URLSearchParams([
+      ["type", "core.AdministrationIndexPage"],
+      ["fields", "*"],
+    ]);
+    const administrationIndexPagesUrl = `${this.baseUrl}/api/wagtail/v2/pages/?${searchParams.toString()}`;
+  
+    return $.get(administrationIndexPagesUrl);
+  }
+
   getMyMuniID() {
     const searchParams = new URLSearchParams([
       ["type", "core.MyMuniPage"],
