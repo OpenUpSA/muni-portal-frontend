@@ -73,6 +73,7 @@ export class Administrator {
     this.contacts = content.person_contacts.map(
       (details) => new Contact(details)
     );
+    this.profileImage = content.profile_image;
   }
 
   render() {
@@ -80,6 +81,12 @@ export class Administrator {
       new PageTitle(this.name).render(),
       new Breadcrumbs(this.breadcrumbItems).render(),
     ];
+
+    if (this.profileImage) {
+      const imageUrl = this.profileImage.meta.download_url;
+      const imageAlt = this.profileImage.title;
+      children.push($(`<img src="${imageUrl}" alt="imageAlt"></a>`));
+    }
 
     if (this.overview) {
       children.push(
