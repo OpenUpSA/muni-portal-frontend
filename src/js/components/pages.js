@@ -27,7 +27,6 @@ export class AdministrationIndex {
   constructor(content) {
     this.name = content.title;
     this.overview = content.overview;
-    console.log(content.ancestor_pages);
     // drop the first two entries from the array
     const breadcrumbs = content.ancestor_pages.slice(2);
     // add a label property to the crumb
@@ -52,7 +51,6 @@ export class AdministrationIndex {
     const children = [
       new PageTitle(this.name).render(),
       new Breadcrumbs(this.breadcrumbItems).render(),
-      new SectionHeading("Administrators").render(),
       new FullWidthGrid(childPageLinks).render(),
     ];
 
