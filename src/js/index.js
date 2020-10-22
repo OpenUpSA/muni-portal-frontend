@@ -160,7 +160,7 @@ class App {
               this.setTitle(response.title);
               this.modalPage.setContent(page.render());
             } else {
-              this.modalPage.setContent(new ErrorPage("Page type not supported").render());
+              this.modalPage.setContent(new ErrorPage(`Page type ${type} not supported`).render());
             }
           } else {
             this.modalPage.setContent(new ErrorPage("Page type not determined").render());
