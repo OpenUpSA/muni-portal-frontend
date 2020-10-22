@@ -13,8 +13,18 @@ export class API {
       ["fields", "*"],
     ]);
     const administrationIndexPagesUrl = `${this.baseUrl}/api/wagtail/v2/pages/?${searchParams.toString()}`;
-  
+
     return $.get(administrationIndexPagesUrl);
+  }
+
+  getAdministrator(slug) {
+    const searchParams = new URLSearchParams([
+      ["type", "core.AdministratorPage"],
+      ["fields", "*"],
+      ["slug", slug]
+    ]);
+    const serviceUrl = `${this.baseUrl}/api/wagtail/v2/pages/?${searchParams.toString()}`;
+    return $.get(serviceUrl);
   }
 
   getMyMuniID() {

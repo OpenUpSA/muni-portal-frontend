@@ -4,7 +4,13 @@ import {
   ServicesTab,
   TabContentContainer,
 } from "./components/tabs.js";
-import { AdministrationIndex, ModalPage, Service } from "./components/pages.js";
+import {
+  AdministrationIndex,
+  ModalPage,
+  Service,
+  Administrator,
+  ErrorPage,
+} from "./components/pages.js";
 import { API } from "./api.js";
 
 // Call as early as possible to maximise chance of registering reinstallation code
@@ -86,14 +92,16 @@ class App {
         view: this.viewMyMuni.bind(this),
       },
       {
-        path: new RegExp("^/my-municipality/administration$"),
+        path: new RegExp("^/my-municipality/administration/$"),
         view: this.viewAdministrationIndex.bind(this),
       },
       {
+        path: /^\/my-municipality\/administration\/(?<administratorSlug>[\w-]+)\/$/,
+        view: this.viewAdministrator.bind(this),
+      },
+      {
         path: new RegExp(".*"),
-        view: function () {
-          $("body").text("Not found!");
-        },
+        view: this.viewPageNotFound.bind(this),
       },
     ]);
     this.router.route();
@@ -140,6 +148,25 @@ class App {
       });
   }
 
+  viewAdministrator(params) {
+    this.modalPage.show();
+
+    this.api
+      .getAdministrator(params.administratorSlug)
+      .done(
+        ((response) => {
+          console.assert(response.meta.total_count == 1);
+          const administrator = new Administrator(response.items[0]);
+          this.setTitle(response.items[0].title);
+          this.modalPage.setContent(administrator.render());
+        }).bind(this)
+      )
+      .fail(function (a, b) {
+        console.error(a, b);
+      });
+  }
+
+
   viewService(params) {
     this.modalPage.show();
 
@@ -156,6 +183,13 @@ class App {
       .fail(function (a, b) {
         console.error(a, b);
       });
+  }
+
+  viewPageNotFound() {
+    this.modalPage.show();
+
+    this.setTitle("Page not found");
+    this.modalPage.setContent(new ErrorPage("Page not found").render());
   }
 }
 

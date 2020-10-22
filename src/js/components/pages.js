@@ -58,6 +58,63 @@ export class AdministrationIndex {
   }
 }
 
+export class Administrator {
+  constructor(content) {
+    this.name = content.title;
+    this.overview = content.overview;
+    // drop the first two entries from the array
+    const breadcrumbs = content.ancestor_pages.slice(2);
+    // add a label property to the crumb
+    const breadcrumbsWithLabel = breadcrumbs.map((crumb) => {
+      crumb.label = crumb.title;
+      return crumb;
+    });
+    this.breadcrumbItems = breadcrumbsWithLabel;
+    this.contacts = content.person_contacts.map(
+      (details) => new Contact(details)
+    );
+    this.profileImage = content.profile_image;
+  }
+
+  render() {
+    const children = [
+      new PageTitle(this.name).render(),
+      new Breadcrumbs(this.breadcrumbItems).render(),
+    ];
+
+    if (this.profileImage) {
+      const imageUrl = this.profileImage.meta.download_url;
+      const imageAlt = this.profileImage.title;
+      children.push($(`<img src="${imageUrl}" alt="imageAlt"></a>`));
+    }
+
+    if (this.overview) {
+      children.push(
+        new SectionHeading("Overview").render(),
+        new ExpandableRichText(this.overview).render(),
+      );
+    }
+
+    if (this.contacts.length > 0) {
+      children.push(
+        new SectionHeading("Contacts").render(),
+        new FullWidthGrid(this.contacts).render()
+      );
+    }
+    return children;
+  }
+}
+
+export class ErrorPage {
+  constructor(error) {
+    this.error = error;
+  }
+
+  render() {
+    return this.error;
+  }
+}
+
 export class Service {
   constructor(service) {
     this.name = service.title;
@@ -85,6 +142,7 @@ export class Service {
     return children;
   }
 }
+
 
 class PageTitle {
   pageTitleTemplate = $(".styles .page-title").first();
