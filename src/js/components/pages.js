@@ -27,23 +27,13 @@ export class AdministrationIndex {
   constructor(content) {
     this.name = content.title;
     this.overview = content.overview;
-    this.breadcrumbItems = [{ label: "My Muni", url: "/my-municipality/" }];
-    this.ancestorPages = content.ancestor_pages;
+    this.breadcrumbItems = content.ancestor_pages;
     this.childPages = content.child_pages;
   }
 
   render() {
-    const ancestorPageLinks = this.ancestorPages.map((page) => {
-      return new LinkBlock({
-        title: page.title,
-        url: page.url,
-        subjectIconClasses: page.icon_classes,
-      });
-    });
-
-    console.log(ancestorPageLinks);
-
     const childPageLinks = this.childPages.map((page) => {
+      console.log(page);
       return new LinkBlock({
         title: page.title,
         url: page.url,
@@ -55,8 +45,6 @@ export class AdministrationIndex {
       new PageTitle(this.name).render(),
       new Breadcrumbs(this.breadcrumbItems).render(),
       new SectionHeading("Administrators").render(),
-      new FullWidthGrid(ancestorPageLinks).render(),
-      new SectionHeading("Administrator Leads").render(),
       new FullWidthGrid(childPageLinks).render(),
     ];
 

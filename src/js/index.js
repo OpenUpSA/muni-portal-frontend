@@ -123,7 +123,6 @@ class App {
       .getAdministrationIndex()
       .done(
         ((response) => {
-          console.log("response", response.items[0]);
           const content = response.items[0];
           const administrationIndex = new AdministrationIndex(content);
           this.setTitle(content.title);
