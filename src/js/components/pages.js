@@ -27,15 +27,23 @@ export class AdministrationIndex {
   constructor(content) {
     this.name = content.title;
     this.overview = content.overview;
-    this.breadcrumbItems = content.ancestor_pages;
+    console.log(content.ancestor_pages);
+    // drop the first two entries from the array
+    const breadcrumbs = content.ancestor_pages.slice(2);
+    // add a label property to the crumb
+    const breadcrumbsWithLabel = breadcrumbs.map((crumb) => {
+      crumb.label = crumb.title;
+      return crumb;
+    });
+    this.breadcrumbItems = breadcrumbsWithLabel;
     this.childPages = content.child_pages;
   }
 
   render() {
     const childPageLinks = this.childPages.map((page) => {
-      console.log(page);
       return new LinkBlock({
         title: page.title,
+        subtitle: "",
         url: page.url,
         subjectIconClasses: page.icon_classes,
       });
