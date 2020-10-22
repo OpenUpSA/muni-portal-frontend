@@ -58,6 +58,41 @@ export class AdministrationIndex {
   }
 }
 
+export class PoliticalRepsIndexPage {
+  constructor(content) {
+    this.name = content.title;
+    this.overview = content.overview;
+    // drop the first two entries from the array
+    const breadcrumbs = content.ancestor_pages.slice(2);
+    // add a label property to the crumb
+    const breadcrumbsWithLabel = breadcrumbs.map((crumb) => {
+      crumb.label = crumb.title;
+      return crumb;
+    });
+    this.breadcrumbItems = breadcrumbsWithLabel;
+    this.childPages = content.child_pages;
+  }
+
+  render() {
+    const childPageLinks = this.childPages.map((page) => {
+      return new LinkBlock({
+        title: page.title,
+        subtitle: "",
+        url: page.url,
+        subjectIconClasses: page.icon_classes,
+      });
+    });
+
+    const children = [
+      new PageTitle(this.name).render(),
+      new Breadcrumbs(this.breadcrumbItems).render(),
+      new FullWidthGrid(childPageLinks).render(),
+    ];
+
+    return children;
+  }
+}
+
 export class Administrator {
   constructor(content) {
     this.name = content.title;
@@ -235,6 +270,7 @@ class ExpandableRichText {
     return this.element;
   }
 }
+
 
 class Contact extends LinkBlock {
   constructor(contact) {
