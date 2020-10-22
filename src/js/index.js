@@ -53,7 +53,7 @@ class App {
     this.myMuniTabContent = new MyMuniTab(this.api, $(myMuniAnchor), tabContentContainer);
 
     // HACK TO HIDE DEFAULT ADDED FIRST TAB
-    $mainContainer.find(".tab-link__wrap").first().hide();
+    $mainContainer.find(".tab-link__wrap").first().remove();
 
     this.modalPage = new ModalPage($(".main .page__wrap"));
 
