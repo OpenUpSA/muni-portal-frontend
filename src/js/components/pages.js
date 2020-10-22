@@ -1,5 +1,9 @@
-import { LinkBlock, ShadedIconLinkBlock } from "./link-block.js";
+import { LinkBlock } from "./link-block.js";
 import { FullWidthGrid } from "./grid.js";
+import { ExpandableRichText } from "./rich-text";
+import { PageTitle, SectionHeading } from "./headings.js";
+import { Breadcrumbs } from "./breadcrumbs.js";
+import { Contact } from "./contact.js";
 
 export class ModalPage {
   constructor(element) {
@@ -23,7 +27,7 @@ export class ModalPage {
   }
 }
 
-export class AdministrationIndex {
+class Page {
   constructor(content) {
     this.name = content.title;
     this.overview = content.overview;
@@ -36,9 +40,56 @@ export class AdministrationIndex {
     });
     this.breadcrumbItems = breadcrumbsWithLabel;
     this.childPages = content.child_pages;
+    this.profileImage = content.profile_image;
+    this.contacts = this.initContacts(content);
   }
 
+  initContacts(content) { return []; };
+
   render() {
+    return [
+      new PageTitle(this.name).render(),
+      new Breadcrumbs(this.breadcrumbItems).render(),
+      ...this.renderProfileImage(),
+      ...this.renderOverview(),
+      ...this.renderContacts(),
+      ...this.renderChildPageLinks(),
+    ];
+  }
+
+  renderProfileImage() {
+    const elements = [];
+    if (this.profileImage) {
+      const imageUrl = this.profileImage.meta.download_url;
+      const imageAlt = this.profileImage.title;
+      elements.push($(`<img src="${imageUrl}" alt="imageAlt"></a>`));
+    }
+    return elements;
+  }
+
+  renderOverview() {
+    const elements = [];
+    if (this.overview) {
+      elements.push(
+        new SectionHeading("Overview").render(),
+        new ExpandableRichText(this.overview).render()
+      );
+    }
+    return elements;
+  }
+
+  renderContacts() {
+    const elements = [];
+    if (this.contacts && this.contacts.length > 0) {
+      elements.push(
+        new SectionHeading("Contacts").render(),
+        new FullWidthGrid(this.contacts).render()
+      );
+    }
+    return elements;
+  }
+
+  renderChildPageLinks() {
     const childPageLinks = this.childPages.map((page) => {
       return new LinkBlock({
         title: page.title,
@@ -47,63 +98,31 @@ export class AdministrationIndex {
         subjectIconClasses: page.icon_classes,
       });
     });
-
-    const children = [
-      new PageTitle(this.name).render(),
-      new Breadcrumbs(this.breadcrumbItems).render(),
-      new FullWidthGrid(childPageLinks).render(),
-    ];
-
-    return children;
+    if (childPageLinks.length) {
+      return [new FullWidthGrid(childPageLinks).render()];
+    } else { return []; }
   }
 }
 
-export class Administrator {
-  constructor(content) {
-    this.name = content.title;
-    this.overview = content.overview;
-    // drop the first two entries from the array
-    const breadcrumbs = content.ancestor_pages.slice(2);
-    // add a label property to the crumb
-    const breadcrumbsWithLabel = breadcrumbs.map((crumb) => {
-      crumb.label = crumb.title;
-      return crumb;
-    });
-    this.breadcrumbItems = breadcrumbsWithLabel;
-    this.contacts = content.person_contacts.map(
+export class AdministrationIndex extends Page {}
+
+export class PoliticalRepsIndexPage extends Page {}
+
+export class CouncillorGroupPage extends Page {}
+
+export class CouncillorListPage extends Page {}
+
+export class PersonPage extends Page {
+  initContacts(content) {
+    return content.person_contacts.map(
       (details) => new Contact(details)
     );
-    this.profileImage = content.profile_image;
-  }
-
-  render() {
-    const children = [
-      new PageTitle(this.name).render(),
-      new Breadcrumbs(this.breadcrumbItems).render(),
-    ];
-
-    if (this.profileImage) {
-      const imageUrl = this.profileImage.meta.download_url;
-      const imageAlt = this.profileImage.title;
-      children.push($(`<img src="${imageUrl}" alt="imageAlt"></a>`));
-    }
-
-    if (this.overview) {
-      children.push(
-        new SectionHeading("Overview").render(),
-        new ExpandableRichText(this.overview).render(),
-      );
-    }
-
-    if (this.contacts.length > 0) {
-      children.push(
-        new SectionHeading("Contacts").render(),
-        new FullWidthGrid(this.contacts).render()
-      );
-    }
-    return children;
   }
 }
+
+export class AdministratorPage extends PersonPage {}
+
+export class CouncillorPage extends PersonPage {}
 
 export class ErrorPage {
   constructor(error) {
@@ -140,125 +159,5 @@ export class Service {
       );
     }
     return children;
-  }
-}
-
-
-class PageTitle {
-  pageTitleTemplate = $(".styles .page-title").first();
-
-  constructor(title) {
-    this.element = this.pageTitleTemplate.clone();
-    console.assert(this.element.length === 1);
-    this.element.text(title);
-  }
-
-  render() {
-    return this.element;
-  }
-}
-
-class Breadcrumbs {
-  breadcrumbsTemplate = $(".styles .breadcrumbs__wrap").first();
-
-  constructor(items) {
-    this.element = this.breadcrumbsTemplate.clone();
-    this.itemsContainer = this.element.find(".breadcrumbs");
-    this.itemsContainer.empty();
-    items.forEach((item) => {
-      this.itemsContainer.append(new Breadcrumb(item).render());
-    });
-  }
-
-  render() {
-    return this.element;
-  }
-}
-
-class Breadcrumb {
-  breadcrumbTemplate = $(".styles .breadcrumb").first();
-
-  constructor(item) {
-    this.element = this.breadcrumbTemplate.clone();
-    this.element.text(item.label);
-    this.element.attr("href", item.url);
-  }
-
-  render() {
-    return this.element;
-  }
-}
-
-class SectionHeading {
-  template = $(".styles .section-heading").first();
-
-  constructor(heading) {
-    this.element = this.template.clone();
-    this.element.find(".section-title").text(heading);
-  }
-
-  render() {
-    return this.element;
-  }
-}
-
-class ExpandableRichText {
-  template = $(".styles .expandable-rich-text");
-
-  constructor(html) {
-    this.element = this.template.clone();
-    this.contentContainer = this.element.find(".rich-text");
-    this.openButton = this.element.find(".expand-toggle__content-first");
-    this.closeButton = this.element.find(".expand-toggle__content-last");
-
-    // Interactions
-    this.openButton.on(
-      "click",
-      (() => {
-        this.contentContainer.addClass("expanded");
-        this.openButton.addClass("expanded");
-      }).bind(this)
-    );
-    this.closeButton.on(
-      "click",
-      (() => {
-        this.contentContainer.removeClass("expanded");
-        this.openButton.removeClass("expanded");
-      }).bind(this)
-    );
-
-    // Content
-    this.contentContainer.html(html);
-  }
-
-  render() {
-    return this.element;
-  }
-}
-
-class Contact extends LinkBlock {
-  constructor(contact) {
-    super({
-      title: contact.type.label,
-      subtitle: contact.value,
-      url: Contact.getLink(contact),
-      targetIconClasses: contact.type.icon_classes,
-      shadedTarget: true,
-    });
-  }
-
-  static getLink(contact) {
-    switch (contact.type.slug) {
-      case "phone":
-        return `tel:${contact.value}`;
-      case "email":
-        return `mailto:${contact.value}`;
-      case "physical_address":
-        return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-          contact.value
-        )}`;
-      default:
-        return "#";
-    }
   }
 }

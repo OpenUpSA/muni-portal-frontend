@@ -60,4 +60,12 @@ export class API {
     const serviceUrl = `${this.baseUrl}/api/wagtail/v2/pages/?${searchParams.toString()}`;
     return $.get(serviceUrl);
   }
+
+  getPageByPath(path) {
+    const searchParams = new URLSearchParams([
+      ["html_path", path]
+    ]);
+    const url = `${this.baseUrl}/api/wagtail/v2/pages/find?${searchParams.toString()}`;
+    return $.get(url);
+  }
 }

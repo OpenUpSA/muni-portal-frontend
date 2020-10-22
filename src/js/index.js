@@ -11,6 +11,7 @@ import {
   Administrator,
   ErrorPage,
 } from "./components/pages.js";
+import * as pages from "./components/pages.js";
 import { API } from "./api.js";
 
 // Call as early as possible to maximise chance of registering reinstallation code
@@ -96,12 +97,8 @@ class App {
         view: this.viewAdministrationIndex.bind(this),
       },
       {
-        path: /^\/my-municipality\/administration\/(?<administratorSlug>[\w-]+)\/$/,
-        view: this.viewAdministrator.bind(this),
-      },
-      {
         path: new RegExp(".*"),
-        view: this.viewPageNotFound.bind(this),
+        view: this.viewPage.bind(this),
       },
     ]);
     this.router.route();
@@ -128,6 +125,51 @@ class App {
     this.modalPage.hide();
     this.servicesTab.show();
     this.setTitle("Services");
+  }
+
+  viewService(params) {
+    this.modalPage.show();
+
+    this.api
+      .getService(params.serviceSlug)
+      .done(
+        ((response) => {
+          console.assert(response.meta.total_count == 1);
+          const service = new Service(response.items[0]);
+          this.setTitle(response.items[0].title);
+          this.modalPage.setContent(service.render());
+        }).bind(this)
+      )
+      .fail(function (a, b) {
+        console.error(a, b);
+      });
+  }
+
+  viewPage(params, path) {
+    this.modalPage.show();
+
+    this.api
+      .getPageByPath(path)
+      .done(
+        ((response) => {
+          if (response.meta.type.startsWith("core.")) {
+            const type = response.meta.type.slice(5);
+            if (type in pages) {
+              const pageClass = pages[type];
+              const page = new pageClass(response);
+              this.setTitle(response.title);
+              this.modalPage.setContent(page.render());
+            } else {
+              this.modalPage.setContent(new ErrorPage(`Page type ${type} not supported`).render());
+            }
+          } else {
+            this.modalPage.setContent(new ErrorPage("Page type not determined").render());
+          }
+        }).bind(this)
+      )
+      .fail(function (a, b) {
+        console.error(a, b);
+      });
   }
 
   viewAdministrationIndex() {
@@ -166,31 +208,6 @@ class App {
       });
   }
 
-
-  viewService(params) {
-    this.modalPage.show();
-
-    this.api
-      .getService(params.serviceSlug)
-      .done(
-        ((response) => {
-          console.assert(response.meta.total_count == 1);
-          const service = new Service(response.items[0]);
-          this.setTitle(response.items[0].title);
-          this.modalPage.setContent(service.render());
-        }).bind(this)
-      )
-      .fail(function (a, b) {
-        console.error(a, b);
-      });
-  }
-
-  viewPageNotFound() {
-    this.modalPage.show();
-
-    this.setTitle("Page not found");
-    this.modalPage.setContent(new ErrorPage("Page not found").render());
-  }
 }
 
 class Router {
@@ -206,22 +223,18 @@ class Router {
     window.addEventListener("popstate", this.route.bind(this));
   }
 
-  parseLocation() {
-    return window.location.pathname;
-  }
-
   route(e) {
-    const location = this.parseLocation();
     for (const route of this.routes) {
-      const match = route.path.exec(location);
+      const path = window.location.pathname;
+      const match = route.path.exec(path);
       if (match) {
-        console.debug(location, "matched", route);
-        route.view(match.groups);
+        console.debug(path, "matched", route);
+        route.view(match.groups, path);
         return;
       }
     }
 
-    console.error("No match for ", location);
+    console.error("No match for ", path);
   }
 }
 const app = new App();
