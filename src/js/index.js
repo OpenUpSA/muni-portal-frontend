@@ -29,15 +29,25 @@ class App {
     const tabContentContainer = new TabContentContainer($(".tab-content"));
     
     const $mainContainer = $(".main");
-    const tabsContainer = $mainContainer.find(".tab-links__wrap");
+    const $tabsContainer = $mainContainer.find(".tab-links__wrap");
+
+    $tabsContainer.on('click', 'a', function (event) {
+      const $tabs = $tabsContainer.find('.tab-link');
+      // remove active class for all tabs
+      $tabs.removeClass('active');
+      // remove the `tab-link__bg` div from all tabs 
+      $tabs.find('.tab-link__bg').remove();
+      // set the active class on the clicked tab
+      $(this).find(".tab-link").addClass("active");
+    });
 
     const tabTemplate = $mainContainer.find(".tab-link");
     
     const myServicesAnchor = createTab(tabTemplate.clone()[0], "/services/");
     const myMuniAnchor = createTab(tabTemplate.clone()[0], "/my-municipality/");
     
-    (tabsContainer).append($(myServicesAnchor));
-    (tabsContainer).append($(myMuniAnchor));
+    ($tabsContainer).append($(myServicesAnchor));
+    ($tabsContainer).append($(myMuniAnchor));
     
     this.servicesTab = new ServicesTab(this.api, $(myServicesAnchor), tabContentContainer);
     this.myMuniTabContent = new MyMuniTab(this.api, $(myMuniAnchor), tabContentContainer);
