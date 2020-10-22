@@ -7,6 +7,21 @@ export class API {
     this.baseUrl = sessionStorage.getItem("apiBaseUrl") || defaultBaseUrl;
   }
 
+  getMyMuniID() {
+    const searchParams = new URLSearchParams([
+      ["type", "core.MyMuniPage"],
+      ["fields", "*"],
+    ]);
+    const myMuniPagesUrl = `${this.baseUrl}/api/wagtail/v2/pages/?${searchParams.toString()}`;
+
+    return $.get(myMuniPagesUrl);
+  }
+
+  getMyMuni(id) {
+    const myMuniLinksURL = `${this.baseUrl}/api/wagtail/v2/pages/?child_of=${id}`;
+    return $.get(myMuniLinksURL);
+  }
+
   getServices() {
     const searchParams = new URLSearchParams([
       ["type", "core.ServicePage"],
