@@ -2,6 +2,7 @@ import { LinkBlock } from "./link-block.js";
 import { FullWidthGrid } from "./grid.js";
 import { ExpandableRichText } from "./rich-text";
 import { PageTitle, SectionHeading } from "./headings.js";
+import { PartyAffiliationBlock } from "./party-affiliation.js";
 import { Breadcrumbs } from "./breadcrumbs.js";
 import { Contact } from "./contact.js";
 
@@ -40,17 +41,21 @@ class Page {
     });
     this.breadcrumbItems = breadcrumbsWithLabel;
     this.childPages = content.child_pages;
+    this.politicalParty = content.political_party;
     this.profileImage = content.profile_image;
     this.contacts = this.initContacts(content);
   }
 
-  initContacts(content) { return []; };
+  initContacts(content) {
+    return [];
+  }
 
   render() {
     return [
       new PageTitle(this.name).render(),
       new Breadcrumbs(this.breadcrumbItems).render(),
       ...this.renderProfileImage(),
+      ...this.renderPartyAffiliation(),
       ...this.renderOverview(),
       ...this.renderContacts(),
       ...this.renderChildPageLinks(),
@@ -62,7 +67,22 @@ class Page {
     if (this.profileImage) {
       const imageUrl = this.profileImage.meta.download_url;
       const imageAlt = this.profileImage.title;
-      elements.push($(`<img src="${imageUrl}" alt="imageAlt"></a>`));
+      elements.push($(`<img src="${imageUrl}" alt="${imageAlt}"></img>`));
+    }
+    return elements;
+  }
+
+  renderPartyAffiliation() {
+    const elements = [];
+
+    if (this.politicalParty) {
+      elements.push(
+        new PartyAffiliationBlock({
+          partyLogo: this.politicalParty.logo_image_tumbnail,
+          partyName: this.politicalParty.name,
+          partyAbbr: this.politicalParty.abbreviation,
+        }).render()
+      );
     }
     return elements;
   }
@@ -100,7 +120,9 @@ class Page {
     });
     if (childPageLinks.length) {
       return [new FullWidthGrid(childPageLinks).render()];
-    } else { return []; }
+    } else {
+      return [];
+    }
   }
 }
 
@@ -114,9 +136,7 @@ export class CouncillorListPage extends Page {}
 
 export class PersonPage extends Page {
   initContacts(content) {
-    return content.person_contacts.map(
-      (details) => new Contact(details)
-    );
+    return content.person_contacts.map((details) => new Contact(details));
   }
 }
 
