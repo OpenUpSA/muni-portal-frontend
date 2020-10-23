@@ -130,7 +130,45 @@ export class AdministrationIndex extends Page {}
 
 export class PoliticalRepsIndexPage extends Page {}
 
-export class CouncillorGroupPage extends Page {}
+export class CouncillorGroupPage extends Page {
+  constructor(content) {
+    super(content);
+    this.members = content.councillors;
+    this.membersLabel = content.members_label;
+  }
+
+  render() {
+    return [
+      new PageTitle(this.name).render(),
+      new Breadcrumbs(this.breadcrumbItems).render(),
+      ...this.renderProfileImage(),
+      ...this.renderPartyAffiliation(),
+      ...this.renderOverview(),
+      ...this.renderCouncillorLinks(),
+      ...this.renderContacts(),
+      ...this.renderChildPageLinks(),
+    ];
+  }
+
+  renderCouncillorLinks() {
+    const memberLinks = this.members.map((page) => {
+      return new LinkBlock({
+        title: page.title,
+        subtitle: "",
+        url: page.url,
+        subjectIconClasses: page.icon_classes,
+      });
+    });
+    if (memberLinks.length) {
+      return [
+        new SectionHeading(this.membersLabel).render(),
+        new FullWidthGrid(memberLinks).render()
+      ];
+    } else {
+      return [];
+    }
+  }
+}
 
 export class CouncillorListPage extends Page {}
 
