@@ -112,3 +112,4 @@ server-cert-key.pem
 
 # Other
 .history
+*.zip
