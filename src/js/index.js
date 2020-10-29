@@ -21,7 +21,7 @@ import { API } from "./api.js";
 // Call as early as possible to maximise chance of registering reinstallation code
 tryRegisterSW();
 
-if (process.env.SENTRY_DSN) {
+if (process.env.CONTEXT === "production" && process.env.SENTRY_DSN) {
   Sentry.init({
     dsn:
       "https://a5d3ce913bdd4eb594da36387b286d83@o242378.ingest.sentry.io/5496000",
