@@ -1,4 +1,8 @@
 import { tryRegisterSW } from "./swRegistration.js";
+
+import * as Sentry from "@sentry/browser";
+import { Integrations } from "@sentry/tracing";
+
 import {
   MyMuniTab,
   ServicesTab,
@@ -16,6 +20,18 @@ import { API } from "./api.js";
 
 // Call as early as possible to maximise chance of registering reinstallation code
 tryRegisterSW();
+
+if (process.env.SENTRY_DSN) {
+  Sentry.init({
+    dsn:
+      "https://a5d3ce913bdd4eb594da36387b286d83@o242378.ingest.sentry.io/5496000",
+    integrations: [new Integrations.BrowserTracing()],
+
+    // We recommend adjusting this value in production, or using tracesSampler
+    // for finer control
+    tracesSampleRate: 1.0,
+  });
+}
 
 /**
  * Creates and returns the HTML for a linked tab
@@ -160,10 +176,14 @@ class App {
               this.setTitle(response.title);
               this.modalPage.setContent(page.render());
             } else {
-              this.modalPage.setContent(new ErrorPage(`Page type ${type} not supported`).render());
+              this.modalPage.setContent(
+                new ErrorPage(`Page type ${type} not supported`).render()
+              );
             }
           } else {
-            this.modalPage.setContent(new ErrorPage("Page type not determined").render());
+            this.modalPage.setContent(
+              new ErrorPage("Page type not determined").render()
+            );
           }
         }).bind(this)
       )
@@ -207,7 +227,6 @@ class App {
         console.error(a, b);
       });
   }
-
 }
 
 class Router {
