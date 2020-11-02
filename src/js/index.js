@@ -21,9 +21,9 @@ import { API } from "./api.js";
 // Call as early as possible to maximise chance of registering reinstallation code
 tryRegisterSW();
 
-const CONTEXT = process.env.CONTEXT;
-const SENTRY_DSN = process.env.SENTRY_DSN;
-const SENTRY_PERF_SAMPLE_RATE = process.env.SENTRY_PERF_SAMPLE_RATE;
+const CONTEXT = `${process.env.CONTEXT}`;
+const SENTRY_DSN = `${process.env.SENTRY_DSN}`;
+const SENTRY_PERF_SAMPLE_RATE = `${process.env.SENTRY_PERF_SAMPLE_RATE}`;
 
 if (CONTEXT === "production" && SENTRY_DSN) {
   Sentry.init({
