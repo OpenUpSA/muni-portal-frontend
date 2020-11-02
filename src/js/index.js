@@ -83,22 +83,30 @@ class App {
 
     this.router = new Router([
       { path: /^\/?$/, view: () => this.viewRedirect("/services/") },
-      { path: new RegExp("^/services/$"), view: this.viewServices.bind(this) },
+      {
+        path: new RegExp("^/services/$"),
+        view: this.viewServices.bind(this),
+        viewType: "Service landing",
+      },
       {
         path: /^\/services\/(?<serviceSlug>[\w-]+)\/$/,
         view: this.viewService.bind(this),
+        viewType: "Service",
       },
       {
         path: new RegExp("^/my-municipality/$"),
         view: this.viewMyMuni.bind(this),
+        viewType: "MyMuni landing",
       },
       {
         path: new RegExp("^/my-municipality/administration/$"),
         view: this.viewAdministrationIndex.bind(this),
+        viewType: "Administration landing",
       },
       {
         path: new RegExp(".*"),
         view: this.viewPage.bind(this),
+        viewType: "Page",
       },
     ]);
     this.router.route();
@@ -160,10 +168,14 @@ class App {
               this.setTitle(response.title);
               this.modalPage.setContent(page.render());
             } else {
-              this.modalPage.setContent(new ErrorPage(`Page type ${type} not supported`).render());
+              this.modalPage.setContent(
+                new ErrorPage(`Page type ${type} not supported`).render()
+              );
             }
           } else {
-            this.modalPage.setContent(new ErrorPage("Page type not determined").render());
+            this.modalPage.setContent(
+              new ErrorPage("Page type not determined").render()
+            );
           }
         }).bind(this)
       )
@@ -207,7 +219,6 @@ class App {
         console.error(a, b);
       });
   }
-
 }
 
 class Router {
@@ -224,11 +235,18 @@ class Router {
   }
 
   route(e) {
+    let path = "";
+
     for (const route of this.routes) {
-      const path = window.location.pathname;
+      path = window.location.pathname;
       const match = route.path.exec(path);
       if (match) {
         console.debug(path, "matched", route);
+        dataLayer.push({
+          event: "navigate",
+          pagePath: path,
+          pageType: route.viewType,
+        });
         route.view(match.groups, path);
         return;
       }
@@ -237,4 +255,21 @@ class Router {
     console.error("No match for ", path);
   }
 }
+
+// Template literal for parcel to replace on build
+const GOOGLE_TAG_MANAGER_ID = `${process.env.GOOGLE_TAG_MANAGER_ID}`;
+
+if (`${process.env.CONTEXT}` === "production" && GOOGLE_TAG_MANAGER_ID) {
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", `${GOOGLE_TAG_MANAGER_ID}`);
+}
+
 const app = new App();

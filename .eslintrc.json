@@ -4,7 +4,7 @@
     "no-console": [
       "error",
       {
-        "allow": ["error"]
+        "allow": ["debug", "error"]
       }
     ]
   },
@@ -18,5 +18,8 @@
     "browser": true,
     "jquery": true,
     "node": true
+  },
+  "globals": {
+    "dataLayer": true
   }
 }
