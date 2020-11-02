@@ -8,6 +8,9 @@ import {
   ServicesTab,
   TabContentContainer,
 } from "./components/tabs.js";
+
+import { TabItem } from "./components/tab-item.js";
+
 import {
   AdministrationIndex,
   ModalPage,
@@ -33,23 +36,6 @@ if (CONTEXT === "production" && SENTRY_DSN) {
   });
 }
 
-/**
- * Creates and returns the HTML for a linked tab
- * @param {String} tabTemplate - The jQuery element of the cloned tab template
- * @param {*} href - The `href` for the anchor link
- * @returns The linked tab as jQuery element
- */
-function createTabLinkAnchor(tabTemplate, href) {
-  const draft = tabTemplate.clone();
-  const anchor = $(document.createElement("a"));
-  anchor.attr("href", href);
-  anchor.attr("class", draft.attr("class"));
-  anchor.css("text-decoration", "none");
-  anchor.append(draft.contents());
-
-  return anchor;
-}
-
 class App {
   constructor() {
     this.api = new API();
@@ -57,38 +43,34 @@ class App {
     const tabContentContainer = new TabContentContainer($(".tab-content"));
 
     const $mainContainer = $(".main");
-    const $tabsContainer = $mainContainer.find(".tab-links__wrap");
+    this.$tabsContainer = $mainContainer.find(".tab-links__wrap");
+    // first remove any existing elements and text from the container
+    this.$tabsContainer.empty();
 
-    this.setActiveTab = ($activeTabAnchor) => {
-      // Remove active from all
-      const $tabs = $tabsContainer.find(".tab-link");
-      $tabs.removeClass("active");
-      $tabs.find(".tab-link__bg").removeClass("active");
-      $tabs.find(".tab-link__base").removeClass("active");
+    this.$servicesTab = new TabItem({
+      title: "Services",
+      url: "/services/",
+      icon: "fas fa-hands-helping",
+    }).render();
 
-      // Add active to specified
-      $activeTabAnchor.addClass("active");
-      //$activeTabAnchor.find(".tab-link__bg").addClass("active");
-      $activeTabAnchor.find(".tab-link__base").addClass("active");
-    };
+    this.$myMuniTab = new TabItem({
+      title: "My Muni",
+      url: "/my-municipality/",
+      icon: "fas fa-landmark",
+    }).render();
 
-    const tabTemplate = $(".styles .tab-link").first();
-
-    this.$servicesAnchor = createTabLinkAnchor(tabTemplate, "/services/");
-    this.$myMuniAnchor = createTabLinkAnchor(tabTemplate, "/my-municipality/");
-
-    $tabsContainer.append(this.$servicesAnchor);
-    $tabsContainer.append(this.$myMuniAnchor);
+    this.$tabsContainer.append(this.$servicesTab);
+    this.$tabsContainer.append(this.$myMuniTab);
 
     this.servicesTab = new ServicesTab(
       this.api,
-      this.$servicesAnchor,
+      this.$servicesTab,
       tabContentContainer
     );
 
     this.myMuniTabContent = new MyMuniTab(
       this.api,
-      this.$myMuniAnchor,
+      this.$myMuniTab,
       tabContentContainer
     );
 
@@ -138,14 +120,14 @@ class App {
   }
 
   viewMyMuni() {
-    this.setActiveTab(this.$myMuniAnchor);
+    TabItem.setActiveTab(this.$tabsContainer, this.$myMuniTab);
     this.modalPage.hide();
     this.myMuniTabContent.show();
     this.setTitle("My Muni");
   }
 
   viewServices() {
-    this.setActiveTab(this.$servicesAnchor);
+    TabItem.setActiveTab(this.$tabsContainer, this.$servicesTab);
     this.modalPage.hide();
     this.servicesTab.show();
     this.setTitle("Services");
