@@ -21,15 +21,15 @@ import { API } from "./api.js";
 // Call as early as possible to maximise chance of registering reinstallation code
 tryRegisterSW();
 
-if (process.env.CONTEXT === "production" && process.env.SENTRY_DSN) {
-  Sentry.init({
-    dsn:
-      "https://a5d3ce913bdd4eb594da36387b286d83@o242378.ingest.sentry.io/5496000",
-    integrations: [new Integrations.BrowserTracing()],
+const CONTEXT = process.env.CONTEXT;
+const SENTRY_DSN = process.env.SENTRY_DSN;
+const SENTRY_PERF_SAMPLE_RATE = process.env.SENTRY_PERF_SAMPLE_RATE;
 
-    // We recommend adjusting this value in production, or using tracesSampler
-    // for finer control
-    tracesSampleRate: 1.0,
+if (CONTEXT === "production" && SENTRY_DSN) {
+  Sentry.init({
+    dsn: SENTRY_DSN,
+    integrations: [new Integrations.BrowserTracing()],
+    tracesSampleRate: SENTRY_PERF_SAMPLE_RATE,
   });
 }
 
