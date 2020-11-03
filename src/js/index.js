@@ -189,6 +189,7 @@ class App {
       .getAdministrationIndex()
       .done(
         ((response) => {
+          console.assert(response.meta.total_count == 1);
           const content = response.items[0];
           const administrationIndex = new AdministrationIndex(content);
           this.setTitle(content.title);
