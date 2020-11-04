@@ -10,7 +10,7 @@ export class ModalPage {
   constructor(element) {
     console.assert(element.length === 1);
     this.element = element;
-    this.page = element.find(".page");
+    this.page = element.find(".page-content");
   }
 
   setContent(content) {
@@ -113,8 +113,8 @@ class Page {
     const childPageLinks = this.childPages.map((page) => {
       return new LinkBlock({
         title: page.title,
-        subtitle: "",
         url: page.url,
+        subtitle: "",
         subjectIconClasses: page.icon_classes,
       });
     });
@@ -162,7 +162,7 @@ export class CouncillorGroupPage extends Page {
     if (memberLinks.length) {
       return [
         new SectionHeading(this.membersLabel).render(),
-        new FullWidthGrid(memberLinks).render()
+        new FullWidthGrid(memberLinks).render(),
       ];
     } else {
       return [];
