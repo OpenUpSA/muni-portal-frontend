@@ -30,19 +30,25 @@ export class LinkBlock {
   }
 
   getTemplate(props) {
-    if (props.targetIconClasses && props.subtitle && props.shadedTarget) {
+    // for some items the `targetIconClasses` property might be an ampty string.
+    // Explicitly check for this condition as an empty string will evaluate to `false`
+    if (
+      (props.targetIconClasses || props.targetIconClasses === "") &&
+      props.shadedTarget &&
+      props.subtitle
+    ) {
       return $(".styles .link-block:eq(5)");
     }
     if (props.targetIconClasses && props.subjectIconClasses && props.subtitle) {
       return $(".styles .link-block:eq(6)");
     }
+    if (props.subjectIconClasses && (props.subtitle || props.subtitle === "")) {
+      return $(".styles .link-block:eq(6)");
+    }
     if (props.subjectIconClasses) {
-      return $(".styles .link-block:eq(6)");
+      return $(".styles .link-block:eq(3)");
     }
-    if (props.subjectIconClasses && props.subtitle) {
-      return $(".styles .link-block:eq(6)");
-    }
-    return $(".styles .link-block:eq(2)");
+    return $(".styles .link-block:eq(4)");
   }
 
   render() {

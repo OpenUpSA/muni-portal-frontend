@@ -114,6 +114,7 @@ class Page {
       return new LinkBlock({
         title: page.title,
         url: page.url,
+        subtitle: "",
         subjectIconClasses: page.icon_classes,
       });
     });
