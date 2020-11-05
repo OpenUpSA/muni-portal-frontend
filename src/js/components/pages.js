@@ -1,4 +1,3 @@
-import { BasicBlock } from "./basic-block.js";
 import { LinkBlock } from "./link-block.js";
 import { FullWidthGrid } from "./grid.js";
 import { ExpandableRichText } from "./rich-text";
@@ -43,13 +42,12 @@ class Page {
     });
     this.breadcrumbItems = breadcrumbsWithLabel;
     this.childPages = content.child_pages;
-    this.role = content.job_title;
     this.politicalParty = content.political_party;
     this.profileImage = content.profile_image;
     this.contacts = this.initContacts(content);
   }
 
-  initContacts() {
+  initContacts(content) {
     return [];
   }
 
@@ -182,34 +180,6 @@ export class CouncillorGroupPage extends Page {
 export class CouncillorListPage extends Page {}
 
 export class PersonPage extends Page {
-  render() {
-    const pageContent = [
-      new PageTitle(this.name).render(),
-      new Breadcrumbs(this.breadcrumbItems).render(),
-      ...this.renderProfileImage(),
-    ];
-
-    if (this.role) {
-      pageContent.push(...this.renderRole());
-    }
-
-    pageContent.push(
-      ...this.renderPartyAffiliation(),
-      ...this.renderOverview(),
-      ...this.renderContacts(),
-      ...this.renderChildPageLinks()
-    );
-
-    return pageContent;
-  }
-
-  renderRole() {
-    return new BasicBlock({
-      title: "Role",
-      subtitle: this.role,
-    }).render();
-  }
-
   initContacts(content) {
     return content.person_contacts.map((details) => new Contact(details));
   }
