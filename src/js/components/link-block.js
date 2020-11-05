@@ -45,10 +45,14 @@ export class LinkBlock {
     if (props.subjectIconClasses && (props.subtitle || props.subtitle === "")) {
       return $(".styles .link-block:eq(6)");
     }
+    // https://app.gitbook.com/@openup/s/cape-agulhas-app/design-system/link-block#container-classes-3
+    if (props.subtitle || props.subtitle === "") {
+      return $(".styles .link-block:eq(4)");
+    }
     if (props.subjectIconClasses) {
       return $(".styles .link-block:eq(3)");
     }
-    return $(".styles .link-block:eq(4)");
+    return $(".styles .link-block:eq(2)");
   }
 
   render() {

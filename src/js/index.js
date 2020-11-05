@@ -167,12 +167,16 @@ class App {
               this.modalPage.setContent(page.render());
             } else {
               this.modalPage.setContent(
-                new ErrorPage(`Page type ${type} not supported`).render()
+                new ErrorPage(
+                  `Page type ${type} not supported. Did you define the page type in components/page.js?`
+                ).render()
               );
             }
           } else {
             this.modalPage.setContent(
-              new ErrorPage("Page type not determined").render()
+              new ErrorPage(
+                `Could not determine page type for meta type ${response.meta.type}`
+              ).render()
             );
           }
         }).bind(this)
