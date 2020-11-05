@@ -5,6 +5,7 @@ import { PageTitle, SectionHeading } from "./headings.js";
 import { PartyAffiliationBlock } from "./party-affiliation.js";
 import { Breadcrumbs } from "./breadcrumbs.js";
 import { Contact } from "./contact.js";
+import { ServicePoint } from "./service-point.js";
 
 export class ModalPage {
   constructor(element) {
@@ -111,12 +112,18 @@ class Page {
 
   renderChildPageLinks() {
     const childPageLinks = this.childPages.map((page) => {
-      return new LinkBlock({
+      const props = {
         title: page.title,
         url: page.url,
         subtitle: "",
-        subjectIconClasses: page.icon_classes,
-      });
+      };
+
+      // only pass `subjectIconClasses` if it is specified in the data
+      if (page.icon_classes) {
+        props.subjectIconClasses = page.icon_classes;
+      }
+
+      return new LinkBlock(props);
     });
     if (childPageLinks.length) {
       return [new FullWidthGrid(childPageLinks).render()];
@@ -194,21 +201,48 @@ export class ErrorPage {
 
 export class Service {
   constructor(service) {
+    this.breadcrumbItems = [{ label: "Services", url: "/services/" }];
+    const serviceContacts =
+      service.service_contacts || service.service_point_contacts;
+
+    if (service.ancestor_pages.length > 0) {
+      // drop the first two entries from the array
+      const breadcrumbs = service.ancestor_pages.slice(2);
+      // add a label property to the crumb
+      const breadcrumbsWithLabel = breadcrumbs.map((crumb) => {
+        crumb.label = crumb.title;
+        return crumb;
+      });
+      this.breadcrumbItems = breadcrumbsWithLabel;
+    }
+
     this.name = service.title;
     this.overview = service.overview;
-    this.breadcrumbItems = [{ label: "Services", url: "/services/" }];
-    this.contacts = service.service_contacts.map(
-      (details) => new Contact(details)
+    this.servicePoints = service.child_pages.map(
+      (servicePoint) => new ServicePoint(servicePoint)
     );
+    this.contacts = serviceContacts.map((details) => new Contact(details));
   }
 
   render() {
     const children = [
       new PageTitle(this.name).render(),
       new Breadcrumbs(this.breadcrumbItems).render(),
-      new SectionHeading("Overview").render(),
-      new ExpandableRichText(this.overview).render(),
     ];
+
+    if (this.overview.trim() !== "") {
+      children.push(
+        new SectionHeading("Overview").render(),
+        new ExpandableRichText(this.overview).render()
+      );
+    }
+
+    if (this.servicePoints.length > 0) {
+      children.push(
+        new SectionHeading("Service points").render(),
+        new FullWidthGrid(this.servicePoints).render()
+      );
+    }
 
     if (this.contacts.length > 0) {
       children.push(
@@ -219,3 +253,5 @@ export class Service {
     return children;
   }
 }
+
+export class ServicePointPage extends Service {}
