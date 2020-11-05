@@ -2,10 +2,23 @@ export class TabItem {
   constructor(tabContent) {
     this.$template = $(".styles .tab-link").first();
     this.$element = this.$template.clone();
-    this.$element
-      .find(".icon div")
-      .removeClass("fas fa-spinner")
-      .addClass(tabContent.icon);
+
+    /*
+     * This is the icon for the services tab. Instead of
+     * using a single FontAwesome icon, this uses a
+     * combination of four wrapped in a container `div`
+     * element so, we need to treat it differently.
+     */
+    if (tabContent.icon.indexOf(".icon--grid") > -1) {
+      const servicesIconGrid = $(tabContent.icon);
+      this.$element.find(".icon").empty().append(servicesIconGrid);
+    } else {
+      this.$element
+        .find(".icon div")
+        .removeClass("fas fa-spinner")
+        .addClass(tabContent.icon);
+    }
+
     this.$element.find(".label").text(tabContent.title);
     this.$element.attr("href", tabContent.url);
   }

@@ -50,7 +50,7 @@ class App {
     this.$servicesTab = new TabItem({
       title: "Services",
       url: "/services/",
-      icon: "fas fa-hands-helping",
+      icon: ".styles .icon--grid",
     }).render();
 
     this.$myMuniTab = new TabItem({
