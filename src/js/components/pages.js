@@ -171,13 +171,24 @@ export class CouncillorGroupPage extends Page {
 
   renderCouncillorLinks() {
     const memberLinks = this.members.map((page) => {
-      return new LinkBlock({
+      const props = {
         title: page.title,
         subtitle: "",
         url: page.url,
         subjectIconClasses: page.icon_classes,
-      });
+      };
+
+      if (page.job_title) {
+        props.subtitle = page.job_title;
+      }
+
+      if (page.profile_image_thumbnail) {
+        props.profileImageThumbnail = page.profile_image_thumbnail;
+      }
+
+      return new LinkBlock(props);
     });
+
     if (memberLinks.length) {
       return [
         new SectionHeading(this.membersLabel).render(),
