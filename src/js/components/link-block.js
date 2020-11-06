@@ -21,11 +21,21 @@ export class LinkBlock {
       this.targetIconContainer.attr("class", "");
       this.targetIconContainer.addClass(props.targetIconClasses);
     }
-    // if subtitle is set to an empty string, return an empty string
+
     if (props.subtitle || props.subtitle === "") {
       this.subtitleContainer = this.element.find(".subtitle");
       console.assert(this.subtitleContainer.length == 1);
       this.subtitleContainer.text(props.subtitle);
+    }
+
+    if (props.profileImageThumbnail) {
+      this.$profileImageThumbnailImg = this.element.find("img");
+      this.$profileImageThumbnailImg.attr({
+        src: props.profileImageThumbnail.url,
+        alt: props.profileImageThumbnail.alt,
+        height: props.profileImageThumbnail.height,
+        width: props.profileImageThumbnail.width,
+      });
     }
   }
 
@@ -39,19 +49,29 @@ export class LinkBlock {
     ) {
       return $(".styles .link-block:eq(5)");
     }
+
     if (props.targetIconClasses && props.subjectIconClasses && props.subtitle) {
       return $(".styles .link-block:eq(6)");
     }
+
     if (props.subjectIconClasses && (props.subtitle || props.subtitle === "")) {
       return $(".styles .link-block:eq(6)");
     }
+
+    // https://app.gitbook.com/@openup/s/cape-agulhas-app/design-system/link-block#container-classes-7
+    if (props.subtitle && props.profileImageThumbnail) {
+      return $(".styles .link-block:eq(8)");
+    }
+
     // https://app.gitbook.com/@openup/s/cape-agulhas-app/design-system/link-block#container-classes-3
     if (props.subtitle || props.subtitle === "") {
       return $(".styles .link-block:eq(4)");
     }
+
     if (props.subjectIconClasses) {
       return $(".styles .link-block:eq(3)");
     }
+
     return $(".styles .link-block:eq(2)");
   }
 
