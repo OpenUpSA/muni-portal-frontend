@@ -248,6 +248,15 @@ export class Service {
 
     this.name = service.title;
     this.overview = service.overview;
+
+    if (service.head_of_service) {
+      this.headOfService = new LinkBlock({
+        title: service.head_of_service.title,
+        subtitle: service.head_of_service.job_title,
+        url: service.head_of_service.url,
+      });
+    }
+
     this.servicePoints = service.child_pages.map(
       (servicePoint) => new ServicePoint(servicePoint)
     );
@@ -275,9 +284,17 @@ export class Service {
     }
 
     if (this.contacts.length > 0) {
+      const contacts = [];
+
+      if (this.headOfService) {
+        contacts.push(this.headOfService);
+      }
+
+      contacts.push(...this.contacts);
+
       children.push(
         new SectionHeading("Contacts").render(),
-        new FullWidthGrid(this.contacts).render()
+        new FullWidthGrid(contacts).render()
       );
     }
     return children;
