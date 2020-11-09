@@ -296,6 +296,11 @@ strong {
   flex: 1;
 }
 
+.styles.hidden {
+  display: none;
+  width: auto;
+}
+
 .search-block {
   position: relative;
   display: -webkit-box;
@@ -1086,8 +1091,11 @@ strong {
 }
 
 .link-block__image {
-  width: 56px;
+  width: auto;
+  height: 100%;
   max-width: none;
+  -o-object-fit: fill;
+  object-fit: fill;
 }
 
 .div-block {

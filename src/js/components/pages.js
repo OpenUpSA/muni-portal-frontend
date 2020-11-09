@@ -120,6 +120,15 @@ class Page {
         subtitle: "",
       };
 
+      // councillors have a job title we can pass as the subtitle
+      if (page.job_title) {
+        props.subtitle = page.job_title;
+      }
+
+      if (page.profile_image_thumbnail) {
+        props.profileImageThumbnail = page.profile_image_thumbnail;
+      }
+
       // only pass `subjectIconClasses` if it is specified in the data
       if (page.icon_classes) {
         props.subjectIconClasses = page.icon_classes;
@@ -127,6 +136,7 @@ class Page {
 
       return new LinkBlock(props);
     });
+
     if (childPageLinks.length) {
       return [new FullWidthGrid(childPageLinks).render()];
     } else {
@@ -161,13 +171,24 @@ export class CouncillorGroupPage extends Page {
 
   renderCouncillorLinks() {
     const memberLinks = this.members.map((page) => {
-      return new LinkBlock({
+      const props = {
         title: page.title,
         subtitle: "",
         url: page.url,
         subjectIconClasses: page.icon_classes,
-      });
+      };
+
+      if (page.job_title) {
+        props.subtitle = page.job_title;
+      }
+
+      if (page.profile_image_thumbnail) {
+        props.profileImageThumbnail = page.profile_image_thumbnail;
+      }
+
+      return new LinkBlock(props);
     });
+
     if (memberLinks.length) {
       return [
         new SectionHeading(this.membersLabel).render(),
