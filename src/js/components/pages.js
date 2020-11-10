@@ -271,11 +271,18 @@ export class Service {
     this.overview = service.overview;
 
     if (service.head_of_service) {
-      this.headOfService = new LinkBlock({
+      const props = {
         title: service.head_of_service.title,
         subtitle: service.head_of_service.job_title,
         url: service.head_of_service.url,
-      });
+      };
+
+      if (service.head_of_service.profile_image_thumbnail) {
+        props.profileImageThumbnail =
+          service.head_of_service.profile_image_thumbnail;
+      }
+
+      this.headOfService = new LinkBlock(props);
     }
 
     this.servicePoints = service.child_pages.map(
