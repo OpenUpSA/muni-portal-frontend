@@ -318,7 +318,7 @@ export class Service {
           new BasicBlock({
             title: "Office Hours",
             type: "html",
-            html: this.officeHours,
+            dangerouslySetInnerHTML: this.officeHours,
           })
         );
       }

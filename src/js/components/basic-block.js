@@ -7,7 +7,7 @@ export class BasicBlock {
     const contentContainer = this.element.find(".rich-text--basic-block");
 
     if (props.type === "html") {
-      contentContainer.empty().append(props.html);
+      contentContainer.empty().append(props.dangerouslySetInnerHTML);
     } else {
       contentContainer.find("p").text(props.subtitle);
     }
