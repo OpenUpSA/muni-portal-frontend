@@ -285,6 +285,8 @@ export class Service {
       this.headOfService = new LinkBlock(props);
     }
 
+    this.officeHours = service.office_hours;
+
     this.servicePoints = service.child_pages.map(
       (servicePoint) => new ServicePoint(servicePoint)
     );
@@ -316,6 +318,16 @@ export class Service {
 
       if (this.headOfService) {
         contacts.push(this.headOfService);
+      }
+
+      if (this.officeHours) {
+        contacts.push(
+          new BasicBlock({
+            title: "Office Hours",
+            type: "html",
+            dangerouslySetInnerHTML: this.officeHours,
+          })
+        );
       }
 
       contacts.push(...this.contacts);
