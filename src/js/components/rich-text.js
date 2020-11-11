@@ -1,9 +1,9 @@
 export class ExpandableRichText {
-  template = $(".styles .expandable-rich-text");
-
   constructor(html) {
+    this.template = $(".styles .expandable-rich-text");
     this.element = this.template.clone();
     this.contentContainer = this.element.find(".rich-text");
+    this.gradientContainer = this.element.find(".rich-text__gradient");
     this.openButton = this.element.find(".expand-toggle__content-first");
     this.closeButton = this.element.find(".expand-toggle__content-last");
 
@@ -12,6 +12,7 @@ export class ExpandableRichText {
       "click",
       (() => {
         this.contentContainer.addClass("expanded");
+        this.gradientContainer.addClass("expanded");
         this.openButton.addClass("expanded");
       }).bind(this)
     );
@@ -19,6 +20,7 @@ export class ExpandableRichText {
       "click",
       (() => {
         this.contentContainer.removeClass("expanded");
+        this.gradientContainer.removeClass("expanded");
         this.openButton.removeClass("expanded");
       }).bind(this)
     );
