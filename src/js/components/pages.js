@@ -58,7 +58,6 @@ class Page {
       new PageTitle(this.name).render(),
       new Breadcrumbs(this.breadcrumbItems).render(),
       ...this.renderProfileImage(),
-      ...this.renderPartyAffiliation(),
       ...this.renderOverview(),
       ...this.renderContacts(),
       ...this.renderChildPageLinks(),
@@ -71,21 +70,6 @@ class Page {
       const imageUrl = this.profileImage.meta.download_url;
       const imageAlt = this.profileImage.title;
       elements.push($(`<img src="${imageUrl}" alt="${imageAlt}"></img>`));
-    }
-    return elements;
-  }
-
-  renderPartyAffiliation() {
-    const elements = [];
-
-    if (this.politicalParty) {
-      elements.push(
-        new PartyAffiliationBlock({
-          partyLogo: this.politicalParty.logo_image_tumbnail,
-          partyName: this.politicalParty.name,
-          partyAbbr: this.politicalParty.abbreviation,
-        }).render()
-      );
     }
     return elements;
   }
@@ -161,7 +145,6 @@ export class CouncillorGroupPage extends Page {
       new PageTitle(this.name).render(),
       new Breadcrumbs(this.breadcrumbItems).render(),
       ...this.renderProfileImage(),
-      ...this.renderPartyAffiliation(),
       ...this.renderOverview(),
       ...this.renderCouncillorLinks(),
       ...this.renderContacts(),
@@ -222,6 +205,21 @@ export class PersonPage extends Page {
     );
 
     return pageContent;
+  }
+
+  renderPartyAffiliation() {
+    const elements = [];
+
+    if (this.politicalParty) {
+      elements.push(
+        new PartyAffiliationBlock({
+          partyLogo: this.politicalParty.logo_image_tumbnail,
+          partyName: this.politicalParty.name,
+          partyAbbr: this.politicalParty.abbreviation,
+        }).render()
+      );
+    }
+    return elements;
   }
 
   renderRole() {
