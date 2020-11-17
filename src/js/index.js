@@ -21,6 +21,8 @@ import {
 import * as pages from "./components/pages.js";
 import { API } from "./api.js";
 
+import { UserRegistration } from "./components/user-registration";
+
 // Call as early as possible to maximise chance of registering reinstallation code
 tryRegisterSW();
 
@@ -77,6 +79,10 @@ class App {
     // HACK TO HIDE DEFAULT ADDED FIRST TAB
     $mainContainer.find(".tab-link__wrap").first().remove();
 
+    // HACK: Set regsitration link on create account link
+    const createAccountLink = $(".nav-menu__links a:nth-child(2)");
+    createAccountLink.attr("href", "/accounts/register/");
+
     this.modalPage = new ModalPage($(".main .page__wrap"));
 
     this.router = new Router([
@@ -100,6 +106,11 @@ class App {
         path: new RegExp("^/my-municipality/administration/$"),
         view: this.viewAdministrationIndex.bind(this),
         viewType: "Administration landing",
+      },
+      {
+        path: new RegExp("^/accounts/register/$"),
+        view: this.viewUserRegistration.bind(this),
+        viewType: "User Registration",
       },
       {
         path: new RegExp(".*"),
@@ -221,6 +232,13 @@ class App {
       .fail(function (a, b) {
         console.error(a, b);
       });
+  }
+
+  viewUserRegistration() {
+    this.modalPage.show();
+    const userRegistration = new UserRegistration();
+    this.setTitle("Register for MyMuni");
+    this.modalPage.setContent(userRegistration.render());
   }
 }
 
