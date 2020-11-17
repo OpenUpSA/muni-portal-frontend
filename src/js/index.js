@@ -79,7 +79,7 @@ class App {
     // HACK TO HIDE DEFAULT ADDED FIRST TAB
     $mainContainer.find(".tab-link__wrap").first().remove();
 
-    // HACK: Set regsitration link on create account link
+    // HACK: Set registration link on create account link
     const createAccountLink = $(".nav-menu__links a:nth-child(2)");
     createAccountLink.attr("href", "/accounts/register/");
 
