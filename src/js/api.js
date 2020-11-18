@@ -86,4 +86,9 @@ export class API {
     const url = `${this.baseUrl}${endPoint}`;
     return $.post({ url, data: userDetails });
   }
+
+  sendResetLink(endPoint, userDetails) {
+    const url = `${this.baseUrl}${endPoint}`;
+    return $.post({ url, data: userDetails });
+  }
 }
