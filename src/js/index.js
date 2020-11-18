@@ -31,7 +31,8 @@ $("#btnSubscribeNotifications").on("click", () => {
   if('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then(function(reg) {
       reg.pushManager.subscribe({
-        userVisibleOnly: true
+        userVisibleOnly: true,
+        applicationServerKey: "FOOBAR",
       }).then(function(sub) {
         console.log("Subscribed to push!", sub);
       }).catch(function(e) {
