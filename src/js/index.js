@@ -22,6 +22,7 @@ import * as pages from "./components/pages.js";
 import { API } from "./api.js";
 
 import { UserRegistration } from "./components/user-registration";
+import { VerifyUserRegistration } from "./components/user-registration-verify";
 
 // Call as early as possible to maximise chance of registering reinstallation code
 tryRegisterSW();
@@ -110,6 +111,11 @@ class App {
       {
         path: new RegExp("^/accounts/register/$"),
         view: this.viewUserRegistration.bind(this),
+        viewType: "User Registration",
+      },
+      {
+        path: new RegExp("^/accounts/verify-registration/$"),
+        view: this.viewVerifyUserRegistration.bind(this),
         viewType: "User Registration",
       },
       {
@@ -239,6 +245,13 @@ class App {
     const userRegistration = new UserRegistration();
     this.setTitle("Register for MyMuni");
     this.modalPage.setContent(userRegistration.render());
+  }
+
+  viewVerifyUserRegistration() {
+    this.modalPage.show();
+    const verifyUserRegsistration = new VerifyUserRegistration();
+    this.setTitle("Verify User Registration");
+    this.modalPage.setContent(verifyUserRegsistration.render());
   }
 }
 

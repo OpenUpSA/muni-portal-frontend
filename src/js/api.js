@@ -86,4 +86,9 @@ export class API {
     const url = `${this.baseUrl}${endPoint}`;
     return $.post({ url, data: userDetails });
   }
+
+  verifyUserRegistration(endPoint, userDetails) {
+    const url = `${this.baseUrl}${endPoint}`;
+    return $.post({ url, data: userDetails });
+  }
 }
