@@ -23,6 +23,7 @@ import { API } from "./api.js";
 
 import { ForgotPassword } from "./components/account/forgot-password";
 import { UserRegistration } from "./components/user-registration";
+import { VerifyUserRegistration } from "./components/user-registration-verify";
 
 // Call as early as possible to maximise chance of registering reinstallation code
 tryRegisterSW();
@@ -117,6 +118,11 @@ class App {
         path: new RegExp("^/accounts/reset-password/$"),
         view: this.viewForgotPassword.bind(this),
         viewType: "User Management",
+      },
+      {
+        path: new RegExp("^/accounts/verify-registration/$"),
+        view: this.viewVerifyUserRegistration.bind(this),
+        viewType: "User Registration",
       },
       {
         path: new RegExp(".*"),
@@ -252,6 +258,13 @@ class App {
     const forgotPassword = new ForgotPassword();
     this.setTitle("Forgot your password?");
     this.modalPage.setContent(forgotPassword.render());
+  }
+
+  viewVerifyUserRegistration() {
+    this.modalPage.show();
+    const verifyUserRegsistration = new VerifyUserRegistration();
+    this.setTitle("Verify User Registration");
+    this.modalPage.setContent(verifyUserRegsistration.render());
   }
 }
 
