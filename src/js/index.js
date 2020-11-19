@@ -21,6 +21,7 @@ import {
 import * as pages from "./components/pages.js";
 import { API } from "./api.js";
 
+import { ForgotPassword } from "./components/account/forgot-password";
 import { UserRegistration } from "./components/user-registration";
 import { VerifyUserRegistration } from "./components/user-registration-verify";
 
@@ -112,6 +113,11 @@ class App {
         path: new RegExp("^/accounts/register/$"),
         view: this.viewUserRegistration.bind(this),
         viewType: "User Registration",
+      },
+      {
+        path: new RegExp("^/accounts/reset-password/$"),
+        view: this.viewForgotPassword.bind(this),
+        viewType: "User Management",
       },
       {
         path: new RegExp("^/accounts/verify-registration/$"),
@@ -245,6 +251,13 @@ class App {
     const userRegistration = new UserRegistration();
     this.setTitle("Register for MyMuni");
     this.modalPage.setContent(userRegistration.render());
+  }
+
+  viewForgotPassword() {
+    this.modalPage.show();
+    const forgotPassword = new ForgotPassword();
+    this.setTitle("Forgot your password?");
+    this.modalPage.setContent(forgotPassword.render());
   }
 
   viewVerifyUserRegistration() {
