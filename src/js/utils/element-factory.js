@@ -1,5 +1,3 @@
-import { getHubFromCarrier } from "@sentry/browser";
-
 export const getDiv = (className) => {
   return $("<div />", {
     class: className,
@@ -20,7 +18,7 @@ export const getInput = (type, label) => {
     class: "card input-field w-input",
     type: type,
     name: name,
-    id: `registration-${label}`,
+    id: `my-muni-${label}`,
   });
 };
 
