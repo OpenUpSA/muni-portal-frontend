@@ -65,9 +65,12 @@ export class Login {
       .done((response, textStatus) => {
         if (textStatus === "success") {
           localStorage.setItem("user", response.token);
+          setMenuState();
+
           $form.hide();
           $success.empty().append("You are now logged in").show();
-          setMenuState();
+
+          window.location = "/services/";
         }
       })
       .fail((jqXHR, textStatus) => {

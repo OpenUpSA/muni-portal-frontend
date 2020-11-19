@@ -7,6 +7,7 @@ function handleLogout($logoutButton) {
   $logoutButton.on("click", () => {
     localStorage.removeItem("user");
     setMenuState();
+    window.location = "/services/";
   });
 }
 
