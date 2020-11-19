@@ -21,9 +21,12 @@ import {
 import * as pages from "./components/pages.js";
 import { API } from "./api.js";
 
+import { setMenuState, updateMenuLinks } from "./utils/menu";
+
+import { Login } from "./components/account/login";
 import { ForgotPassword } from "./components/account/forgot-password";
-import { UserRegistration } from "./components/user-registration";
-import { VerifyUserRegistration } from "./components/user-registration-verify";
+import { UserRegistration } from "./components/account/user-registration";
+import { VerifyUserRegistration } from "./components/account/user-registration-verify";
 
 // Call as early as possible to maximise chance of registering reinstallation code
 tryRegisterSW();
@@ -81,9 +84,9 @@ class App {
     // HACK TO HIDE DEFAULT ADDED FIRST TAB
     $mainContainer.find(".tab-link__wrap").first().remove();
 
-    // HACK: Set registration link on create account link
-    const createAccountLink = $(".nav-menu__links a:nth-child(2)");
-    createAccountLink.attr("href", "/accounts/register/");
+    updateMenuLinks();
+    // sets the menu state based on the users login state
+    setMenuState();
 
     this.modalPage = new ModalPage($(".main .page__wrap"));
 
@@ -108,6 +111,11 @@ class App {
         path: new RegExp("^/my-municipality/administration/$"),
         view: this.viewAdministrationIndex.bind(this),
         viewType: "Administration landing",
+      },
+      {
+        path: new RegExp("^/accounts/login/$"),
+        view: this.viewLogin.bind(this),
+        viewType: "Authentication",
       },
       {
         path: new RegExp("^/accounts/register/$"),
@@ -244,6 +252,13 @@ class App {
       .fail(function (a, b) {
         console.error(a, b);
       });
+  }
+
+  viewLogin() {
+    this.modalPage.show();
+    const login = new Login();
+    this.setTitle("Sign in to MyMuni");
+    this.modalPage.setContent(login.render());
   }
 
   viewUserRegistration() {

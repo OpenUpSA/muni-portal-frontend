@@ -1,11 +1,11 @@
-import { API } from "../api";
+import { API } from "../../api";
 import {
   getDiv,
   getForm,
   getInput,
   getLabel,
   getSubmitButton,
-} from "../utils/element-factory";
+} from "../../utils/element-factory";
 
 export class UserRegistration {
   constructor() {

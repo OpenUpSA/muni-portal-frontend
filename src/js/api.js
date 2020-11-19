@@ -82,6 +82,11 @@ export class API {
     return $.get(url);
   }
 
+  login(endPoint, userDetails) {
+    const url = `${this.baseUrl}${endPoint}`;
+    return $.post({ url, data: userDetails });
+  }
+
   registerUser(endPoint, userDetails) {
     const url = `${this.baseUrl}${endPoint}`;
     return $.post({ url, data: userDetails });
