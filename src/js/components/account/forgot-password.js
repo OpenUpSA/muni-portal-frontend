@@ -52,12 +52,22 @@ export class ForgotPassword {
       .done((response, textStatus) => {
         if (textStatus === "success") {
           $form.hide();
-          $success.show();
+          $success
+            .empty()
+            .append(
+              "If we found an account with the email address you provided, you should receive a reset link soon."
+            )
+            .show();
         }
       })
       .fail((jqXHR, textStatus) => {
         $form.hide();
-        $fail.show();
+        $fail
+          .empty()
+          .append(
+            "Something went wrong while communicating with the server. Please try again or contact support."
+          )
+          .show();
         console.error(jqXHR, textStatus);
       });
   }
