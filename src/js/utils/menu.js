@@ -15,6 +15,8 @@ function handleLogout($logoutButton) {
  * This is a temporary measure until the links are updated in Webflow
  */
 export const updateMenuLinks = () => {
+  $(".nav-menu__links a:contains('Contact')").remove();
+
   const singinLink = $(".nav-menu__links a:nth-child(1)");
   singinLink.attr("href", "/accounts/login/");
 
