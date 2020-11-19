@@ -3,7 +3,10 @@ const defaultBaseUrl = "https://muni-portal-backend.openup.org.za";
 export class API {
   constructor() {
     if (window.location.search.includes("promptapi"))
-      sessionStorage.setItem('apiBaseUrl', window.prompt("Enter the API base URL", defaultBaseUrl));
+      sessionStorage.setItem(
+        "apiBaseUrl",
+        window.prompt("Enter the API base URL", defaultBaseUrl)
+      );
     this.baseUrl = sessionStorage.getItem("apiBaseUrl") || defaultBaseUrl;
   }
 
@@ -12,7 +15,9 @@ export class API {
       ["type", "core.AdministrationIndexPage"],
       ["fields", "*"],
     ]);
-    const administrationIndexPagesUrl = `${this.baseUrl}/api/wagtail/v2/pages/?${searchParams.toString()}`;
+    const administrationIndexPagesUrl = `${
+      this.baseUrl
+    }/api/wagtail/v2/pages/?${searchParams.toString()}`;
 
     return $.get(administrationIndexPagesUrl);
   }
@@ -21,9 +26,11 @@ export class API {
     const searchParams = new URLSearchParams([
       ["type", "core.AdministratorPage"],
       ["fields", "*"],
-      ["slug", slug]
+      ["slug", slug],
     ]);
-    const serviceUrl = `${this.baseUrl}/api/wagtail/v2/pages/?${searchParams.toString()}`;
+    const serviceUrl = `${
+      this.baseUrl
+    }/api/wagtail/v2/pages/?${searchParams.toString()}`;
     return $.get(serviceUrl);
   }
 
@@ -32,7 +39,9 @@ export class API {
       ["type", "core.MyMuniPage"],
       ["fields", "*"],
     ]);
-    const myMuniPagesUrl = `${this.baseUrl}/api/wagtail/v2/pages/?${searchParams.toString()}`;
+    const myMuniPagesUrl = `${
+      this.baseUrl
+    }/api/wagtail/v2/pages/?${searchParams.toString()}`;
 
     return $.get(myMuniPagesUrl);
   }
@@ -47,7 +56,9 @@ export class API {
       ["type", "core.ServicePage"],
       ["fields", "*"],
     ]);
-    const servicePagesUrl = `${this.baseUrl}/api/wagtail/v2/pages/?${searchParams.toString()}`;
+    const servicePagesUrl = `${
+      this.baseUrl
+    }/api/wagtail/v2/pages/?${searchParams.toString()}`;
     return $.get(servicePagesUrl);
   }
 
@@ -55,17 +66,39 @@ export class API {
     const searchParams = new URLSearchParams([
       ["type", "core.ServicePage"],
       ["fields", "*"],
-      ["slug", slug]
+      ["slug", slug],
     ]);
-    const serviceUrl = `${this.baseUrl}/api/wagtail/v2/pages/?${searchParams.toString()}`;
+    const serviceUrl = `${
+      this.baseUrl
+    }/api/wagtail/v2/pages/?${searchParams.toString()}`;
     return $.get(serviceUrl);
   }
 
   getPageByPath(path) {
-    const searchParams = new URLSearchParams([
-      ["html_path", path]
-    ]);
-    const url = `${this.baseUrl}/api/wagtail/v2/pages/find?${searchParams.toString()}`;
+    const searchParams = new URLSearchParams([["html_path", path]]);
+    const url = `${
+      this.baseUrl
+    }/api/wagtail/v2/pages/find?${searchParams.toString()}`;
     return $.get(url);
+  }
+
+  login(endPoint, userDetails) {
+    const url = `${this.baseUrl}${endPoint}`;
+    return $.post({ url, data: userDetails });
+  }
+
+  registerUser(endPoint, userDetails) {
+    const url = `${this.baseUrl}${endPoint}`;
+    return $.post({ url, data: userDetails });
+  }
+
+  sendResetLink(endPoint, userDetails) {
+    const url = `${this.baseUrl}${endPoint}`;
+    return $.post({ url, data: userDetails });
+  }
+
+  verifyUserRegistration(endPoint, userDetails) {
+    const url = `${this.baseUrl}${endPoint}`;
+    return $.post({ url, data: userDetails });
   }
 }

@@ -21,6 +21,13 @@ import {
 import * as pages from "./components/pages.js";
 import { API } from "./api.js";
 
+import { setMenuState, updateMenuLinks } from "./utils/menu";
+
+import { Login } from "./components/account/login";
+import { ForgotPassword } from "./components/account/forgot-password";
+import { UserRegistration } from "./components/account/user-registration";
+import { VerifyUserRegistration } from "./components/account/user-registration-verify";
+
 // Call as early as possible to maximise chance of registering reinstallation code
 tryRegisterSW();
 
@@ -77,6 +84,10 @@ class App {
     // HACK TO HIDE DEFAULT ADDED FIRST TAB
     $mainContainer.find(".tab-link__wrap").first().remove();
 
+    updateMenuLinks();
+    // sets the menu state based on the users login state
+    setMenuState();
+
     this.modalPage = new ModalPage($(".main .page__wrap"));
 
     this.router = new Router([
@@ -100,6 +111,26 @@ class App {
         path: new RegExp("^/my-municipality/administration/$"),
         view: this.viewAdministrationIndex.bind(this),
         viewType: "Administration landing",
+      },
+      {
+        path: new RegExp("^/accounts/login/$"),
+        view: this.viewLogin.bind(this),
+        viewType: "Authentication",
+      },
+      {
+        path: new RegExp("^/accounts/register/$"),
+        view: this.viewUserRegistration.bind(this),
+        viewType: "User Registration",
+      },
+      {
+        path: new RegExp("^/accounts/reset-password/$"),
+        view: this.viewForgotPassword.bind(this),
+        viewType: "User Management",
+      },
+      {
+        path: new RegExp("^/accounts/verify-registration/$"),
+        view: this.viewVerifyUserRegistration.bind(this),
+        viewType: "User Registration",
       },
       {
         path: new RegExp(".*"),
@@ -221,6 +252,34 @@ class App {
       .fail(function (a, b) {
         console.error(a, b);
       });
+  }
+
+  viewLogin() {
+    this.modalPage.show();
+    const login = new Login();
+    this.setTitle("Sign in to MyMuni");
+    this.modalPage.setContent(login.render());
+  }
+
+  viewUserRegistration() {
+    this.modalPage.show();
+    const userRegistration = new UserRegistration();
+    this.setTitle("Register for MyMuni");
+    this.modalPage.setContent(userRegistration.render());
+  }
+
+  viewForgotPassword() {
+    this.modalPage.show();
+    const forgotPassword = new ForgotPassword();
+    this.setTitle("Forgot your password?");
+    this.modalPage.setContent(forgotPassword.render());
+  }
+
+  viewVerifyUserRegistration() {
+    this.modalPage.show();
+    const verifyUserRegsistration = new VerifyUserRegistration();
+    this.setTitle("Verify User Registration");
+    this.modalPage.setContent(verifyUserRegsistration.render());
   }
 }
 
