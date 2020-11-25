@@ -26,6 +26,7 @@ import { setMenuState, updateMenuLinks } from "./utils/menu";
 import { Login } from "./components/account/login";
 import { ForgotPassword } from "./components/account/forgot-password";
 import { UserRegistration } from "./components/account/user-registration";
+import { UserSettings } from "./components/account/user-settings";
 import { VerifyUserRegistration } from "./components/account/user-registration-verify";
 
 // Call as early as possible to maximise chance of registering reinstallation code
@@ -123,14 +124,19 @@ class App {
         viewType: "User Registration",
       },
       {
+        path: new RegExp("^/accounts/verify-registration/$"),
+        view: this.viewVerifyUserRegistration.bind(this),
+        viewType: "User Registration",
+      },
+      {
         path: new RegExp("^/accounts/reset-password/$"),
         view: this.viewForgotPassword.bind(this),
         viewType: "User Management",
       },
       {
-        path: new RegExp("^/accounts/verify-registration/$"),
-        view: this.viewVerifyUserRegistration.bind(this),
-        viewType: "User Registration",
+        path: new RegExp("^/account/settings/$"),
+        view: this.viewAccountSettings.bind(this),
+        viewType: "User Settings",
       },
       {
         path: new RegExp(".*"),
@@ -280,6 +286,13 @@ class App {
     const verifyUserRegsistration = new VerifyUserRegistration();
     this.setTitle("Verify User Registration");
     this.modalPage.setContent(verifyUserRegsistration.render());
+  }
+
+  viewAccountSettings() {
+    this.modalPage.show();
+    const userSettings = new UserSettings();
+    this.setTitle("User settings");
+    this.modalPage.setContent(userSettings.render());
   }
 }
 

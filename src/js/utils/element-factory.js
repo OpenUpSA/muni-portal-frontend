@@ -1,6 +1,32 @@
+export const getCustomCheckbox = (props) => {
+  const { identifier, name, text } = props;
+
+  const $checkbox = $(".styles .w-checkbox").clone();
+  const $checkboxInput = $checkbox.find("input");
+  const $checkboxLabel = $checkbox.find(".checkbox-label");
+
+  $checkbox.attr("for", identifier);
+
+  $checkboxInput.attr("id", identifier);
+  $checkboxInput.attr("data-name", identifier);
+  $checkboxInput.attr("name", name);
+
+  $checkboxLabel.text(text);
+
+  return $checkbox;
+};
+
 export const getDiv = (className) => {
   return $("<div />", {
     class: className,
+  });
+};
+
+export const getAnchorElement = (href, className, text) => {
+  return $("<a />", {
+    href,
+    class: className,
+    text,
   });
 };
 

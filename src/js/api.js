@@ -82,6 +82,26 @@ export class API {
     return $.get(url);
   }
 
+  getUserProfile() {
+    const url = `${this.baseUrl}/api/accounts/profile`;
+
+    try {
+      const userToken = localStorage.getItem("user");
+      if (!userToken) {
+        throw new Error("No user set. Unable to get user profile information.");
+      }
+
+      return $.get({
+        url,
+        headers: {
+          HTTP_AUTHORIZATION: userToken,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   login(endPoint, userDetails) {
     const url = `${this.baseUrl}${endPoint}`;
     return $.post({ url, data: userDetails });
