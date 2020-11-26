@@ -115,3 +115,6 @@ server-cert-key.pem
 
 # Webflow exports
 *.zip
+
+#tabnine
+.dccache
