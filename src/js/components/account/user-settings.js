@@ -43,8 +43,8 @@ export class UserSettings {
 
     $container.append(new SectionHeading("Notification settings").render());
 
-    // is Notifications supported?
-    if (!("Notification" in window)) {
+    // is Notifications and ServiceWorker supported?
+    if (!("Notification" in window) || !("serviceWorker" in navigator)) {
       $container.append($inAppNotificationsNoSupportMsg.render());
     } else {
       // check the current Notification.permission status
@@ -80,6 +80,26 @@ export class UserSettings {
             "w--redirected-checked"
           );
           this.$inAppNotificationsCheckbox.checked = true;
+
+          navigator.serviceWorker.ready
+            .then((serviceWorkerRegistration) => {
+              const options = {
+                userVisibleOnly: true,
+                applicationServerKey: "FOOBAR",
+              };
+
+              serviceWorkerRegistration.pushManager
+                .subscribe(options)
+                .then((pushSubscription) => {
+                  console.log(`Subscribed ${pushSubscription.toString()}`);
+                })
+                .catch((error) => {
+                  console.error(`Error from pushMananger: ${error}`);
+                });
+            })
+            .catch((error) => {
+              console.error(`Error during serviceWorker ready state: ${error}`);
+            });
         }
       })
       .catch((error) => {
