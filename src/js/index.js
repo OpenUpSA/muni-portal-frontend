@@ -1,3 +1,5 @@
+import urlB64ToUint8Array from './urlB64ToUint8Array';
+
 document.getElementById('scratch').innerHTML = "It works";
 
 if('serviceWorker' in navigator) {
@@ -9,7 +11,7 @@ if('serviceWorker' in navigator) {
 
       } else {
         // We have a subscription, update the database
-        console.log('Already sbscribed! Subscription object: ', sub);
+        console.log('Already sbscribed! Subscription object: ', sub.toJSON());
       }
     }).catch(function(err) {
       console.log('Service Worker registration failed: ', err);
@@ -32,7 +34,7 @@ $("#btnSubscribeNotifications").on("click", () => {
     navigator.serviceWorker.ready.then(function(reg) {
       reg.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: "FOOBAR",
+        applicationServerKey: urlB64ToUint8Array("BLlRbWaGLUxLA_sCI3Opgf5r8XMBMzlQ7QDUh61N93T-lt8NRLX015HNlQd48DQZ6kfObf-k42VQ0q_EMHjo6KA"),
       }).then(function(sub) {
         console.log("Subscribed to push!", sub);
       }).catch(function(e) {
