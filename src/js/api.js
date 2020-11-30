@@ -102,6 +102,26 @@ export class API {
     }
   }
 
+  getVAPIDKey() {
+    const url = `${this.baseUrl}/api/webpush/public-key/`;
+
+    try {
+      const userToken = localStorage.getItem("user");
+      if (!userToken) {
+        throw new Error("No user set. Unable to get user profile information.");
+      }
+
+      return $.get({
+        url,
+        headers: {
+          authorization: `Bearer ${userToken}`,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   login(endPoint, userDetails) {
     const url = `${this.baseUrl}${endPoint}`;
     return $.post({ url, data: userDetails });

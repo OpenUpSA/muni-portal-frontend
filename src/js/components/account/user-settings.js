@@ -9,8 +9,8 @@ export class UserSettings {
   constructor() {
     const $container = $("<div />");
 
-    const api = new API();
-    api
+    this.api = new API();
+    this.api
       .getUserProfile()
       .done((profile) => {
         $container.append(new PageTitle("Account Settings").render());
@@ -104,19 +104,22 @@ export class UserSettings {
 
           navigator.serviceWorker.ready
             .then((serviceWorkerRegistration) => {
-              const options = {
-                userVisibleOnly: true,
-                applicationServerKey: "FOOBAR",
-              };
+              this.api.getVAPIDKey().done((key) => {
+                console.log(key);
+                const options = {
+                  userVisibleOnly: true,
+                  applicationServerKey: key,
+                };
 
-              serviceWorkerRegistration.pushManager
-                .subscribe(options)
-                .then((pushSubscription) => {
-                  console.log(`Subscribed ${pushSubscription.toString()}`);
-                })
-                .catch((error) => {
-                  console.error(`Error from pushMananger: ${error}`);
-                });
+                serviceWorkerRegistration.pushManager
+                  .subscribe(options)
+                  .then((pushSubscription) => {
+                    console.log(`Subscribed ${pushSubscription.toString()}`);
+                  })
+                  .catch((error) => {
+                    console.error(`Error from pushMananger: ${error}`);
+                  });
+              });
             })
             .catch((error) => {
               console.error(`Error during serviceWorker ready state: ${error}`);
