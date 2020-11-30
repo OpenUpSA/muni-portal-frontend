@@ -83,7 +83,7 @@ export class API {
   }
 
   getUserProfile() {
-    const url = `${this.baseUrl}/api/accounts/profile`;
+    const url = `${this.baseUrl}/api/accounts/profile/`;
 
     try {
       const userToken = localStorage.getItem("user");
@@ -94,7 +94,7 @@ export class API {
       return $.get({
         url,
         headers: {
-          HTTP_AUTHORIZATION: userToken,
+          authorization: `Bearer ${userToken}`,
         },
       });
     } catch (error) {

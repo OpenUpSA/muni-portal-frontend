@@ -1,3 +1,4 @@
+import { API } from "../../api";
 import { BasicBlock } from "../basic-block";
 import { FullWidthGrid } from "../grid";
 import { getCustomCheckbox } from "../../utils/element-factory";
@@ -7,7 +8,32 @@ import { PageTitle, SectionHeading } from "../headings";
 export class UserSettings {
   constructor() {
     const $container = $("<div />");
-    const accountSettingsSections = [];
+
+    const api = new API();
+    api
+      .getUserProfile()
+      .done((profile) => {
+        $container.append(new PageTitle("Account Settings").render());
+        $container.append(new SectionHeading("Profile information").render());
+
+        $container.append(
+          new FullWidthGrid(this.getProfileInfo(profile)).render()
+        );
+
+        $container.append(new SectionHeading("Notification settings").render());
+        $container.append(this.getNotificationsSettings());
+      })
+      .fail((error) => {
+        $container.append(
+          `We encountered an error while retrieving your profile information. Please contact support. ${error.responseText}`
+        );
+        console.error(error);
+      });
+
+    this.$element = $container;
+  }
+
+  getNotificationsSettings() {
     const $inAppNotificationsContainer = getCustomCheckbox({
       identifier: "notify-inapp",
       name: "notify-inapp",
@@ -23,29 +49,9 @@ export class UserSettings {
       title: "In-app notifications is not supported on your device",
       subtitle: "",
     });
-
-    accountSettingsSections.push(
-      new BasicBlock({
-        title: "Username",
-        subtitle: "Mr. Bones",
-      })
-    );
-    accountSettingsSections.push(
-      new BasicBlock({
-        title: "Email address",
-        subtitle: "mister@bones.io",
-      })
-    );
-
-    $container.append(new PageTitle("Account Settings").render());
-    $container.append(new SectionHeading("Profile information").render());
-    $container.append(new FullWidthGrid(accountSettingsSections).render());
-
-    $container.append(new SectionHeading("Notification settings").render());
-
     // is Notifications and ServiceWorker supported?
     if (!("Notification" in window) || !("serviceWorker" in navigator)) {
-      $container.append($inAppNotificationsNoSupportMsg.render());
+      return $inAppNotificationsNoSupportMsg.render();
     } else {
       // check the current Notification.permission status
       // and update the state of the checkbox if permission
@@ -54,8 +60,6 @@ export class UserSettings {
         this.$inAppNotificationsCutomCheckbox.addClass("w--redirected-checked");
         this.$inAppNotificationsCheckbox.checked = true;
       }
-
-      $container.append($inAppNotificationsContainer);
 
       // if the user has neither denied not granted permissions before
       if (
@@ -67,9 +71,26 @@ export class UserSettings {
           this.setInAppNotificationState();
         });
       }
-    }
 
-    this.$element = $container;
+      return $inAppNotificationsContainer;
+    }
+  }
+
+  getProfileInfo(profile) {
+    const accountSettingsSections = [];
+    accountSettingsSections.push(
+      new BasicBlock({
+        title: "Username",
+        subtitle: profile.username,
+      })
+    );
+    accountSettingsSections.push(
+      new BasicBlock({
+        title: "Email address",
+        subtitle: profile.email,
+      })
+    );
+    return accountSettingsSections;
   }
 
   setInAppNotificationState() {
