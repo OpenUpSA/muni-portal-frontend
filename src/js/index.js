@@ -335,3 +335,5 @@ if (`${process.env.CONTEXT}` === "production" && GOOGLE_TAG_MANAGER_ID) {
 }
 
 const app = new App();
+
+window.testSentry = () => nonExistentFunction();
