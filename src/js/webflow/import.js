@@ -10,10 +10,10 @@ exports.transform = function (window, $) {
   });
   addScriptToBody(window, {}, '\
   Sentry.init({\
-  dsn: "{{ SENTRY_DSN }}",\
+  dsn: `${ (process.env.CONTEXT == "production") && process.env.SENTRY_DSN }`,\
   integrations: [new Sentry.Integrations.BrowserTracing()],\
   tracesSampleRate: 0.1,\
-})');
+});');
 
   addScriptToBody(window, {src: "js/index.js"});
 };

@@ -1,8 +1,5 @@
 import { tryRegisterSW } from "./swRegistration.js";
 
-import * as Sentry from "@sentry/browser";
-import { Integrations } from "@sentry/tracing";
-
 import {
   MyMuniTab,
   ServicesTab,
@@ -30,18 +27,6 @@ import { VerifyUserRegistration } from "./components/account/user-registration-v
 
 // Call as early as possible to maximise chance of registering reinstallation code
 tryRegisterSW();
-
-const CONTEXT = `${process.env.CONTEXT}`;
-const SENTRY_DSN = `${process.env.SENTRY_DSN}`;
-const SENTRY_PERF_SAMPLE_RATE = `${process.env.SENTRY_PERF_SAMPLE_RATE}`;
-
-if (CONTEXT === "production" && SENTRY_DSN) {
-  Sentry.init({
-    dsn: SENTRY_DSN,
-    integrations: [new Integrations.BrowserTracing()],
-    tracesSampleRate: SENTRY_PERF_SAMPLE_RATE,
-  });
-}
 
 class App {
   constructor() {
@@ -335,3 +320,5 @@ if (`${process.env.CONTEXT}` === "production" && GOOGLE_TAG_MANAGER_ID) {
 }
 
 const app = new App();
+
+window.testSentry = () => nonExistentFunction();

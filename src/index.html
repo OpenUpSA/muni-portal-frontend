@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  --><!--  Last Published: Wed Nov 11 2020 08:18:05 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5f586c03cfc82e5a3c067594" data-wf-site="5f586c03cfc82e2e15067593"><head>
+<!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  --><!--  Last Published: Thu Nov 19 2020 11:00:22 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5f586c03cfc82e5a3c067594" data-wf-site="5f586c03cfc82e2e15067593"><head>
   <meta charset="utf-8">
   <title>Citizen Engagement App</title>
   <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -452,4 +452,7 @@
       }
     </style>
 
-<script src="js/index.js"></script></body></html>
+<script src="https://browser.sentry-cdn.com/5.27.6/bundle.tracing.min.js" integrity="sha384-9Z8PxByVWP+gIm/rTMPn9BWwknuJR5oJcLj+Nr9mvzk8nJVkVXgQvlLGZ9SIFEJF" crossorigin="anonymous"></script>
+<script>  Sentry.init({  dsn: `${ (process.env.CONTEXT == "production") && process.env.SENTRY_DSN }`,  integrations: [new Sentry.Integrations.BrowserTracing()],  tracesSampleRate: 0.1,});console.log("here")</script>
+<script src="js/index.js"></script>
+</body></html>

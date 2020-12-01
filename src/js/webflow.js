@@ -7296,17 +7296,21 @@ var _shallowEqual = _interopRequireDefault(__webpack_require__(144));
 
 var _constants = __webpack_require__(6);
 
-var _utils = __webpack_require__(357);
-
 var _shared = __webpack_require__(29);
 
 var _IX2EngineActions = __webpack_require__(86);
 
-var elementApi = _interopRequireWildcard(__webpack_require__(359));
+var elementApi = _interopRequireWildcard(__webpack_require__(357));
 
-var _IX2VanillaEvents = _interopRequireDefault(__webpack_require__(360));
+var _IX2VanillaEvents = _interopRequireDefault(__webpack_require__(358));
 /* eslint-env browser */
 
+
+var QuickEffectsIdList = Object.keys(_constants.QuickEffectIds);
+
+var isQuickEffect = function isQuickEffect(actionTypeId) {
+  return QuickEffectsIdList.includes(actionTypeId);
+};
 
 var _constants$IX2EngineC = _constants.IX2EngineConstants,
     COLON_DELIMITER = _constants$IX2EngineC.COLON_DELIMITER,
@@ -7463,7 +7467,7 @@ function handlePlaybackRequest(playback, store) {
     testManual: testManual
   });
 
-  if (actionListId && actionTypeId === _constants.ActionTypeConsts.GENERAL_START_ACTION || (0, _utils.isQuickEffect)(actionTypeId)) {
+  if (actionListId && actionTypeId === _constants.ActionTypeConsts.GENERAL_START_ACTION || isQuickEffect(actionTypeId)) {
     stopActionGroup({
       store: store,
       actionListId: actionListId
@@ -7877,7 +7881,7 @@ function bindEventType(_ref14) {
       });
     }
 
-    if (eventAction.actionTypeId === _constants.ActionTypeConsts.GENERAL_START_ACTION || (0, _utils.isQuickEffect)(eventAction.actionTypeId)) {
+    if (eventAction.actionTypeId === _constants.ActionTypeConsts.GENERAL_START_ACTION || isQuickEffect(eventAction.actionTypeId)) {
       renderInitialGroup({
         store: store,
         actionListId: actionListId,
@@ -8145,7 +8149,7 @@ function startActionGroup(_ref20) {
 
 
   var isFirstGroup = groupIndex === 0 || groupIndex === 1 && useFirstGroupAsInitialState;
-  var instanceDelay = isFirstGroup && (0, _utils.isQuickEffect)((_event$action = event.action) === null || _event$action === void 0 ? void 0 : _event$action.actionTypeId) ? event.config.delay : undefined; // Abort playback if no action items exist at group index
+  var instanceDelay = isFirstGroup && isQuickEffect((_event$action = event.action) === null || _event$action === void 0 ? void 0 : _event$action.actionTypeId) ? event.config.delay : undefined; // Abort playback if no action items exist at group index
 
   var actionItems = (0, _get["default"])(actionItemGroups, [groupIndex, 'actionItems'], []);
 
@@ -8484,8 +8488,8 @@ module.exports = baseCreate;
 /* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metaMap = __webpack_require__(373),
-    noop = __webpack_require__(374);
+var metaMap = __webpack_require__(371),
+    noop = __webpack_require__(372);
 
 /**
  * Gets metadata for `func`.
@@ -8505,7 +8509,7 @@ module.exports = getData;
 /* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var realNames = __webpack_require__(375);
+var realNames = __webpack_require__(373);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -8546,11 +8550,11 @@ __webpack_require__(152);
 __webpack_require__(284);
 __webpack_require__(127);
 __webpack_require__(286);
+__webpack_require__(380);
+__webpack_require__(381);
 __webpack_require__(382);
 __webpack_require__(383);
-__webpack_require__(384);
-__webpack_require__(385);
-module.exports = __webpack_require__(386);
+module.exports = __webpack_require__(384);
 
 
 /***/ }),
@@ -32358,51 +32362,6 @@ module.exports = now;
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _quickEffects = __webpack_require__(358);
-
-Object.keys(_quickEffects).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _quickEffects[key];
-    }
-  });
-});
-
-/***/ }),
-/* 358 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.isQuickEffect = void 0;
-
-var _constants = __webpack_require__(6);
-
-var QuickEffectsIdList = Object.keys(_constants.QuickEffectIds);
-
-var isQuickEffect = function isQuickEffect(actionTypeId) {
-  return QuickEffectsIdList.includes(actionTypeId);
-};
-
-exports.isQuickEffect = isQuickEffect;
-
-/***/ }),
-/* 359 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 var _interopRequireDefault = __webpack_require__(1);
 
 var _typeof2 = _interopRequireDefault(__webpack_require__(41));
@@ -32592,7 +32551,7 @@ function getRefType(ref) {
 }
 
 /***/ }),
-/* 360 */
+/* 358 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32615,11 +32574,11 @@ exports["default"] = void 0;
 
 var _extends2 = _interopRequireDefault(__webpack_require__(30));
 
-var _flow = _interopRequireDefault(__webpack_require__(361));
+var _flow = _interopRequireDefault(__webpack_require__(359));
 
 var _get = _interopRequireDefault(__webpack_require__(49));
 
-var _clamp = _interopRequireDefault(__webpack_require__(380));
+var _clamp = _interopRequireDefault(__webpack_require__(378));
 
 var _constants = __webpack_require__(6);
 
@@ -33303,10 +33262,10 @@ var _default = (_default2 = {}, (0, _defineProperty2["default"])(_default2, SLID
 exports["default"] = _default;
 
 /***/ }),
-/* 361 */
+/* 359 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var createFlow = __webpack_require__(362);
+var createFlow = __webpack_require__(360);
 
 /**
  * Creates a function that returns the result of invoking the given functions
@@ -33336,15 +33295,15 @@ module.exports = flow;
 
 
 /***/ }),
-/* 362 */
+/* 360 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var LodashWrapper = __webpack_require__(87),
-    flatRest = __webpack_require__(363),
+    flatRest = __webpack_require__(361),
     getData = __webpack_require__(149),
     getFuncName = __webpack_require__(150),
     isArray = __webpack_require__(2),
-    isLaziable = __webpack_require__(376);
+    isLaziable = __webpack_require__(374);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -33420,12 +33379,12 @@ module.exports = createFlow;
 
 
 /***/ }),
-/* 363 */
+/* 361 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var flatten = __webpack_require__(364),
-    overRest = __webpack_require__(367),
-    setToString = __webpack_require__(369);
+var flatten = __webpack_require__(362),
+    overRest = __webpack_require__(365),
+    setToString = __webpack_require__(367);
 
 /**
  * A specialized version of `baseRest` which flattens the rest array.
@@ -33442,10 +33401,10 @@ module.exports = flatRest;
 
 
 /***/ }),
-/* 364 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseFlatten = __webpack_require__(365);
+var baseFlatten = __webpack_require__(363);
 
 /**
  * Flattens `array` a single level deep.
@@ -33470,11 +33429,11 @@ module.exports = flatten;
 
 
 /***/ }),
-/* 365 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var arrayPush = __webpack_require__(60),
-    isFlattenable = __webpack_require__(366);
+    isFlattenable = __webpack_require__(364);
 
 /**
  * The base implementation of `_.flatten` with support for restricting flattening.
@@ -33514,7 +33473,7 @@ module.exports = baseFlatten;
 
 
 /***/ }),
-/* 366 */
+/* 364 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(32),
@@ -33540,10 +33499,10 @@ module.exports = isFlattenable;
 
 
 /***/ }),
-/* 367 */
+/* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var apply = __webpack_require__(368);
+var apply = __webpack_require__(366);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMax = Math.max;
@@ -33582,7 +33541,7 @@ module.exports = overRest;
 
 
 /***/ }),
-/* 368 */
+/* 366 */
 /***/ (function(module, exports) {
 
 /**
@@ -33609,11 +33568,11 @@ module.exports = apply;
 
 
 /***/ }),
-/* 369 */
+/* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseSetToString = __webpack_require__(370),
-    shortOut = __webpack_require__(372);
+var baseSetToString = __webpack_require__(368),
+    shortOut = __webpack_require__(370);
 
 /**
  * Sets the `toString` method of `func` to return `string`.
@@ -33629,10 +33588,10 @@ module.exports = setToString;
 
 
 /***/ }),
-/* 370 */
+/* 368 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var constant = __webpack_require__(371),
+var constant = __webpack_require__(369),
     defineProperty = __webpack_require__(147),
     identity = __webpack_require__(70);
 
@@ -33657,7 +33616,7 @@ module.exports = baseSetToString;
 
 
 /***/ }),
-/* 371 */
+/* 369 */
 /***/ (function(module, exports) {
 
 /**
@@ -33689,7 +33648,7 @@ module.exports = constant;
 
 
 /***/ }),
-/* 372 */
+/* 370 */
 /***/ (function(module, exports) {
 
 /** Used to detect hot functions by number of calls within a span of milliseconds. */
@@ -33732,7 +33691,7 @@ module.exports = shortOut;
 
 
 /***/ }),
-/* 373 */
+/* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var WeakMap = __webpack_require__(105);
@@ -33744,7 +33703,7 @@ module.exports = metaMap;
 
 
 /***/ }),
-/* 374 */
+/* 372 */
 /***/ (function(module, exports) {
 
 /**
@@ -33767,7 +33726,7 @@ module.exports = noop;
 
 
 /***/ }),
-/* 375 */
+/* 373 */
 /***/ (function(module, exports) {
 
 /** Used to lookup unminified function names. */
@@ -33777,13 +33736,13 @@ module.exports = realNames;
 
 
 /***/ }),
-/* 376 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var LazyWrapper = __webpack_require__(89),
     getData = __webpack_require__(149),
     getFuncName = __webpack_require__(150),
-    lodash = __webpack_require__(377);
+    lodash = __webpack_require__(375);
 
 /**
  * Checks if `func` has a lazy counterpart.
@@ -33811,7 +33770,7 @@ module.exports = isLaziable;
 
 
 /***/ }),
-/* 377 */
+/* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var LazyWrapper = __webpack_require__(89),
@@ -33819,7 +33778,7 @@ var LazyWrapper = __webpack_require__(89),
     baseLodash = __webpack_require__(88),
     isArray = __webpack_require__(2),
     isObjectLike = __webpack_require__(20),
-    wrapperClone = __webpack_require__(378);
+    wrapperClone = __webpack_require__(376);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -33964,12 +33923,12 @@ module.exports = lodash;
 
 
 /***/ }),
-/* 378 */
+/* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var LazyWrapper = __webpack_require__(89),
     LodashWrapper = __webpack_require__(87),
-    copyArray = __webpack_require__(379);
+    copyArray = __webpack_require__(377);
 
 /**
  * Creates a clone of `wrapper`.
@@ -33993,7 +33952,7 @@ module.exports = wrapperClone;
 
 
 /***/ }),
-/* 379 */
+/* 377 */
 /***/ (function(module, exports) {
 
 /**
@@ -34019,10 +33978,10 @@ module.exports = copyArray;
 
 
 /***/ }),
-/* 380 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseClamp = __webpack_require__(381),
+var baseClamp = __webpack_require__(379),
     toNumber = __webpack_require__(71);
 
 /**
@@ -34064,7 +34023,7 @@ module.exports = clamp;
 
 
 /***/ }),
-/* 381 */
+/* 379 */
 /***/ (function(module, exports) {
 
 /**
@@ -34092,7 +34051,7 @@ module.exports = baseClamp;
 
 
 /***/ }),
-/* 382 */
+/* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34222,7 +34181,7 @@ Webflow.define('links', module.exports = function ($, _) {
 });
 
 /***/ }),
-/* 383 */
+/* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34430,7 +34389,7 @@ Webflow.define('scroll', module.exports = function ($) {
 });
 
 /***/ }),
-/* 384 */
+/* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34571,7 +34530,7 @@ Webflow.define('touch', module.exports = function ($) {
 });
 
 /***/ }),
-/* 385 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35096,7 +35055,7 @@ Webflow.define('dropdown', module.exports = function ($, _) {
 });
 
 /***/ }),
-/* 386 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35118,7 +35077,7 @@ Webflow.define('dropdown', module.exports = function ($, _) {
 
 var _interopRequireDefault = __webpack_require__(1);
 
-var _slicedToArray2 = _interopRequireDefault(__webpack_require__(387));
+var _slicedToArray2 = _interopRequireDefault(__webpack_require__(385));
 
 var Webflow = __webpack_require__(13);
 
@@ -35622,14 +35581,14 @@ Webflow.define('forms', module.exports = function ($, _) {
 });
 
 /***/ }),
-/* 387 */
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayWithHoles = __webpack_require__(388);
+var arrayWithHoles = __webpack_require__(386);
 
-var iterableToArrayLimit = __webpack_require__(389);
+var iterableToArrayLimit = __webpack_require__(387);
 
-var nonIterableRest = __webpack_require__(390);
+var nonIterableRest = __webpack_require__(388);
 
 function _slicedToArray(arr, i) {
   return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || nonIterableRest();
@@ -35638,7 +35597,7 @@ function _slicedToArray(arr, i) {
 module.exports = _slicedToArray;
 
 /***/ }),
-/* 388 */
+/* 386 */
 /***/ (function(module, exports) {
 
 function _arrayWithHoles(arr) {
@@ -35648,7 +35607,7 @@ function _arrayWithHoles(arr) {
 module.exports = _arrayWithHoles;
 
 /***/ }),
-/* 389 */
+/* 387 */
 /***/ (function(module, exports) {
 
 function _iterableToArrayLimit(arr, i) {
@@ -35680,7 +35639,7 @@ function _iterableToArrayLimit(arr, i) {
 module.exports = _iterableToArrayLimit;
 
 /***/ }),
-/* 390 */
+/* 388 */
 /***/ (function(module, exports) {
 
 function _nonIterableRest() {
@@ -35695,5 +35654,5 @@ module.exports = _nonIterableRest;
  * Webflow: Interactions 2.0: Init
  */
 Webflow.require('ix2').init(
-{"events":{"e-2":{"id":"e-2","name":"","eventTypeId":"PAGE_SCROLL_DOWN","action":{"id":"","actionTypeId":"GENERAL_START_ACTION","config":{"delay":0,"easing":"","duration":0,"actionListId":"a-2","affectedElements":{},"playInReverse":false,"autoStopEventId":"e"}},"mediaQueries":["main","medium","small","tiny"],"target":{"appliesTo":"PAGE","styleBlockIds":[],"id":"5f7d6f4bef983a384760b849"},"targets":[],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":0,"scrollOffsetUnit":"%","delay":null,"direction":null,"effectIn":null},"createdOn":1604988579497},"e-3":{"id":"e-3","name":"","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"GENERAL_START_ACTION","config":{"delay":0,"easing":"","duration":0,"actionListId":"a-2","affectedElements":{},"playInReverse":false,"autoStopEventId":"e-4"}},"mediaQueries":["main","medium","small","tiny"],"target":{"appliesTo":"ELEMENT","styleBlockIds":[],"id":"5bc6c3d2-9550-9101-bbbf-7407d117d45d"},"targets":[],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":null,"direction":null,"effectIn":null},"createdOn":1605076976136},"e-5":{"id":"e-5","name":"","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"GENERAL_START_ACTION","config":{"delay":0,"easing":"","duration":0,"actionListId":"a-3","affectedElements":{},"playInReverse":false,"autoStopEventId":"e-6"}},"mediaQueries":["main","medium","small","tiny"],"target":{"appliesTo":"ELEMENT","styleBlockIds":[],"id":"5f586c03cfc82e5a3c067594|f9c54dca-d6a7-1b1e-0444-eda0019b0685"},"targets":[],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":null,"direction":null,"effectIn":null},"createdOn":1605082047150},"e-7":{"id":"e-7","name":"","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"GENERAL_START_ACTION","config":{"delay":0,"easing":"","duration":0,"actionListId":"a-3","affectedElements":{},"playInReverse":false,"autoStopEventId":"e-8"}},"mediaQueries":["main","medium","small","tiny"],"target":{"appliesTo":"ELEMENT","styleBlockIds":[],"id":"5f5a1108dcce62d820f7102d|bbf68b82-3b8e-c37a-9579-32112bf2a72c"},"targets":[],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":null,"direction":null,"effectIn":null},"createdOn":1605082562081},"e-9":{"id":"e-9","name":"","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"GENERAL_START_ACTION","config":{"delay":0,"easing":"","duration":0,"actionListId":"a-3","affectedElements":{},"playInReverse":false,"autoStopEventId":"e-10"}},"mediaQueries":["main","medium","small","tiny"],"target":{"appliesTo":"ELEMENT","styleBlockIds":[],"id":"5f7d6f4bef983a384760b849|102e79ea-b73b-39db-0829-a1f98949a5fc"},"targets":[],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":null,"direction":null,"effectIn":null},"createdOn":1605082613651},"e-11":{"id":"e-11","name":"","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"GENERAL_START_ACTION","config":{"delay":0,"easing":"","duration":0,"actionListId":"a-3","affectedElements":{},"playInReverse":false,"autoStopEventId":"e-12"}},"mediaQueries":["main","medium","small","tiny"],"target":{"appliesTo":"ELEMENT","styleBlockIds":[],"id":"5fab6b6beed9b07230bf7a85|9c7f602f-5a99-2d75-b8c0-5b7ccdc316e2"},"targets":[],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":null,"direction":null,"effectIn":null},"createdOn":1605082621825}},"actionLists":{"a-2":{"id":"a-2","title":"menu-show","actionItemGroups":[{"actionItems":[{"id":"a-2-n","actionTypeId":"GENERAL_DISPLAY","config":{"delay":0,"easing":"","duration":0,"value":"flex","target":{"selector":".navigation","selectorGuids":["dbf99b58-8654-792a-5803-154bc7be2df6"]}}}]},{"actionItems":[{"id":"a-2-n-2","actionTypeId":"TRANSFORM_MOVE","config":{"delay":0,"easing":"outQuint","duration":200,"target":{"selector":".nav-menu","selectorGuids":["db111def-3d1e-fe69-f4c4-0333dc54c3c8"]},"xValue":300,"xUnit":"PX","yUnit":"PX","zUnit":"PX"}}]}],"createdOn":1604988591960,"useFirstGroupAsInitialState":false},"a-3":{"id":"a-3","title":"menu-hide","actionItemGroups":[{"actionItems":[{"id":"a-3-n","actionTypeId":"TRANSFORM_MOVE","config":{"delay":0,"easing":"outQuint","duration":200,"target":{"selector":".nav-menu","selectorGuids":["db111def-3d1e-fe69-f4c4-0333dc54c3c8"]},"xValue":-300,"xUnit":"PX","yUnit":"PX","zUnit":"PX"}}]},{"actionItems":[{"id":"a-3-n-2","actionTypeId":"GENERAL_DISPLAY","config":{"delay":0,"easing":"","duration":0,"value":"none","target":{"selector":".navigation","selectorGuids":["dbf99b58-8654-792a-5803-154bc7be2df6"]}}}]}],"createdOn":1605077231976,"useFirstGroupAsInitialState":false}},"site":{"mediaQueries":[{"key":"main","min":992,"max":10000},{"key":"medium","min":768,"max":991},{"key":"small","min":480,"max":767},{"key":"tiny","min":0,"max":479}]}}
+{"events":{"e-2":{"id":"e-2","name":"","animationType":"custom","eventTypeId":"PAGE_SCROLL_DOWN","action":{"id":"","actionTypeId":"GENERAL_START_ACTION","config":{"delay":0,"easing":"","duration":0,"actionListId":"a-2","affectedElements":{},"playInReverse":false,"autoStopEventId":"e"}},"mediaQueries":["main","medium","small","tiny"],"target":{"appliesTo":"PAGE","styleBlockIds":[],"id":"5f7d6f4bef983a384760b849"},"targets":[{"appliesTo":"PAGE","styleBlockIds":[],"id":"5f7d6f4bef983a384760b849"}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":0,"scrollOffsetUnit":"%","delay":null,"direction":null,"effectIn":null},"createdOn":1604988579497},"e-3":{"id":"e-3","name":"","animationType":"custom","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"GENERAL_START_ACTION","config":{"delay":0,"easing":"","duration":0,"actionListId":"a-2","affectedElements":{},"playInReverse":false,"autoStopEventId":"e-4"}},"mediaQueries":["main","medium","small","tiny"],"target":{"appliesTo":"ELEMENT","styleBlockIds":[],"id":"5bc6c3d2-9550-9101-bbbf-7407d117d45d"},"targets":[{"appliesTo":"ELEMENT","styleBlockIds":[],"id":"5bc6c3d2-9550-9101-bbbf-7407d117d45d"}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":null,"direction":null,"effectIn":null},"createdOn":1605076976136},"e-5":{"id":"e-5","name":"","animationType":"custom","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"GENERAL_START_ACTION","config":{"delay":0,"easing":"","duration":0,"actionListId":"a-3","affectedElements":{},"playInReverse":false,"autoStopEventId":"e-6"}},"mediaQueries":["main","medium","small","tiny"],"target":{"appliesTo":"ELEMENT","styleBlockIds":[],"id":"5f586c03cfc82e5a3c067594|f9c54dca-d6a7-1b1e-0444-eda0019b0685"},"targets":[{"appliesTo":"ELEMENT","styleBlockIds":[],"id":"5f586c03cfc82e5a3c067594|f9c54dca-d6a7-1b1e-0444-eda0019b0685"}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":null,"direction":null,"effectIn":null},"createdOn":1605082047150},"e-7":{"id":"e-7","name":"","animationType":"custom","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"GENERAL_START_ACTION","config":{"delay":0,"easing":"","duration":0,"actionListId":"a-3","affectedElements":{},"playInReverse":false,"autoStopEventId":"e-8"}},"mediaQueries":["main","medium","small","tiny"],"target":{"appliesTo":"ELEMENT","styleBlockIds":[],"id":"5f5a1108dcce62d820f7102d|bbf68b82-3b8e-c37a-9579-32112bf2a72c"},"targets":[{"appliesTo":"ELEMENT","styleBlockIds":[],"id":"5f5a1108dcce62d820f7102d|bbf68b82-3b8e-c37a-9579-32112bf2a72c"}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":null,"direction":null,"effectIn":null},"createdOn":1605082562081},"e-9":{"id":"e-9","name":"","animationType":"custom","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"GENERAL_START_ACTION","config":{"delay":0,"easing":"","duration":0,"actionListId":"a-3","affectedElements":{},"playInReverse":false,"autoStopEventId":"e-10"}},"mediaQueries":["main","medium","small","tiny"],"target":{"appliesTo":"ELEMENT","styleBlockIds":[],"id":"5f7d6f4bef983a384760b849|102e79ea-b73b-39db-0829-a1f98949a5fc"},"targets":[{"appliesTo":"ELEMENT","styleBlockIds":[],"id":"5f7d6f4bef983a384760b849|102e79ea-b73b-39db-0829-a1f98949a5fc"}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":null,"direction":null,"effectIn":null},"createdOn":1605082613651},"e-11":{"id":"e-11","name":"","animationType":"custom","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"GENERAL_START_ACTION","config":{"delay":0,"easing":"","duration":0,"actionListId":"a-3","affectedElements":{},"playInReverse":false,"autoStopEventId":"e-12"}},"mediaQueries":["main","medium","small","tiny"],"target":{"appliesTo":"ELEMENT","styleBlockIds":[],"id":"5fab6b6beed9b07230bf7a85|9c7f602f-5a99-2d75-b8c0-5b7ccdc316e2"},"targets":[{"appliesTo":"ELEMENT","styleBlockIds":[],"id":"5fab6b6beed9b07230bf7a85|9c7f602f-5a99-2d75-b8c0-5b7ccdc316e2"}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":null,"direction":null,"effectIn":null},"createdOn":1605082621825}},"actionLists":{"a-2":{"id":"a-2","title":"menu-show","actionItemGroups":[{"actionItems":[{"id":"a-2-n","actionTypeId":"GENERAL_DISPLAY","config":{"delay":0,"easing":"","duration":0,"value":"flex","target":{"selector":".navigation","selectorGuids":["dbf99b58-8654-792a-5803-154bc7be2df6"]}}}]},{"actionItems":[{"id":"a-2-n-2","actionTypeId":"TRANSFORM_MOVE","config":{"delay":0,"easing":"outQuint","duration":200,"target":{"selector":".nav-menu","selectorGuids":["db111def-3d1e-fe69-f4c4-0333dc54c3c8"]},"xValue":300,"xUnit":"PX","yUnit":"PX","zUnit":"PX"}}]}],"createdOn":1604988591960,"useFirstGroupAsInitialState":false},"a-3":{"id":"a-3","title":"menu-hide","actionItemGroups":[{"actionItems":[{"id":"a-3-n","actionTypeId":"TRANSFORM_MOVE","config":{"delay":0,"easing":"outQuint","duration":200,"target":{"selector":".nav-menu","selectorGuids":["db111def-3d1e-fe69-f4c4-0333dc54c3c8"]},"xValue":-300,"xUnit":"PX","yUnit":"PX","zUnit":"PX"}}]},{"actionItems":[{"id":"a-3-n-2","actionTypeId":"GENERAL_DISPLAY","config":{"delay":0,"easing":"","duration":0,"value":"none","target":{"selector":".navigation","selectorGuids":["dbf99b58-8654-792a-5803-154bc7be2df6"]}}}]}],"createdOn":1605077231976,"useFirstGroupAsInitialState":false}},"site":{"mediaQueries":[{"key":"main","min":992,"max":10000},{"key":"medium","min":768,"max":991},{"key":"small","min":480,"max":767},{"key":"tiny","min":0,"max":479}]}}
 );

@@ -1084,7 +1084,6 @@ strong {
   z-index: 1;
   display: -ms-grid;
   display: grid;
-  margin-right: -8px;
   margin-bottom: 4px;
   margin-left: -10px;
   -webkit-box-align: center;
@@ -1751,6 +1750,10 @@ strong {
   border-color: transparent;
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.4);
+  background-image: url('../images/time-white-10.svg');
+  background-position: 50% 50%;
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
 }
 
 .checkbox.w--redirected-checked {
