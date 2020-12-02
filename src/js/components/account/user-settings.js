@@ -93,6 +93,25 @@ export class UserSettings {
     return accountSettingsSections;
   }
 
+  handlePushEvents() {
+    // self is a reference to the service worker itself
+    self.addEventListener("push", (event) => {
+      console.info("Received push message");
+      const title = "Test";
+      const options = {
+        body: event,
+      };
+
+      const notificationPromise = self.registration.showNotification(
+        title,
+        options
+      );
+      // This takes a promise and the browser will keep the service worker alive
+      // and running until the promise passed in has resolved.
+      event.waitUntil(notificationPromise);
+    });
+  }
+
   setInAppNotificationState() {
     Notification.requestPermission()
       .then((response) => {
@@ -100,24 +119,43 @@ export class UserSettings {
           this.$inAppNotificationsCutomCheckbox.addClass(
             "w--redirected-checked"
           );
-          this.$inAppNotificationsCheckbox.checked = true;
 
           navigator.serviceWorker.ready
             .then((serviceWorkerRegistration) => {
               this.api.getVAPIDKey().done((key) => {
-                console.log(key);
                 const options = {
                   userVisibleOnly: true,
-                  applicationServerKey: key,
+                  applicationServerKey: key.vapid_public_key,
                 };
 
                 serviceWorkerRegistration.pushManager
                   .subscribe(options)
                   .then((pushSubscription) => {
-                    console.log(`Subscribed ${pushSubscription.toString()}`);
+                    const subscription = pushSubscription.toJSON();
+                    const expirationTime =
+                      subscription.expirationTime !== null
+                        ? subscription.expirationTime
+                        : "";
+
+                    this.api
+                      .createPushSubscription({
+                        expiration_time: expirationTime,
+                        p256dh: subscription.keys.p256dh,
+                        auth: subscription.keys.auth,
+                        endpoint: subscription.endpoint,
+                      })
+                      .then(() => {
+                        this.handlePushEvents();
+                        this.$inAppNotificationsCheckbox.checked = true;
+                      })
+                      .catch((error) => {
+                        console.error(error);
+                      });
                   })
                   .catch((error) => {
-                    console.error(`Error from pushMananger: ${error}`);
+                    console.error(
+                      `Error from pushMananger: ${error.toString()}`
+                    );
                   });
               });
             })

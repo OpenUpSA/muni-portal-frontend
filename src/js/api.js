@@ -122,6 +122,27 @@ export class API {
     }
   }
 
+  createPushSubscription(subscriptionData) {
+    const url = `${this.baseUrl}/api/webpush/subscription/`;
+
+    try {
+      const userToken = localStorage.getItem("user");
+      if (!userToken) {
+        throw new Error("No user set. Unable to get user profile information.");
+      }
+
+      return $.post({
+        url,
+        headers: {
+          authorization: `Bearer ${userToken}`,
+        },
+        data: subscriptionData,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   login(endPoint, userDetails) {
     const url = `${this.baseUrl}${endPoint}`;
     return $.post({ url, data: userDetails });

@@ -27,7 +27,7 @@
   },
   "scripts": {
     "start": "yarn build && yarn serve",
-    "build": "parcel build ./src/index.html --public-url / && copyfiles src/serviceworker.js dist",
+    "build": "parcel build ./src/index.html --public-url /",
     "dev": "parcel serve -p 8080 ./src/index.html --public-url /",
     "serve": "http-server -d false -c-1 --proxy http://localhost:8080? dist",
     "serve-https": "http-server -S -C server-cert.pem -K server-cert-key.pem -d false -c-1 --proxy http://localhost:8080? dist",
