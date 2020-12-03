@@ -112,14 +112,14 @@ export class UserSettings {
                 serviceWorkerRegistration.pushManager
                   .subscribe(options)
                   .then((pushSubscription) => {
-                    const subscription = JSON.stringify(
-                      pushSubscription.toJSON()
-                    );
+                    const subscription = pushSubscription.toJSON();
 
                     this.api
-                      .createPushSubscription({
-                        subscription_object: subscription,
-                      })
+                      .createPushSubscription(
+                        JSON.stringify({
+                          subscription_object: subscription,
+                        })
+                      )
                       .then(() => {
                         console.info("waiting for push notifications");
                         this.$inAppNotificationsCheckbox.checked = true;
