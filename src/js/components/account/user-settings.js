@@ -66,7 +66,7 @@ export class UserSettings {
         Notification.permission !== "granted" &&
         Notification.permission !== "denied"
       ) {
-        $inAppNotificationsContainer.click(() => {
+        this.$inAppNotificationsCutomCheckbox.click(() => {
           // ask for permission to send notifications
           this.setInAppNotificationState();
         });
@@ -93,25 +93,6 @@ export class UserSettings {
     return accountSettingsSections;
   }
 
-  handlePushEvents() {
-    // self is a reference to the service worker itself
-    self.addEventListener("push", (event) => {
-      console.info("Received push message");
-      const title = "Test";
-      const options = {
-        body: event,
-      };
-
-      const notificationPromise = self.registration.showNotification(
-        title,
-        options
-      );
-      // This takes a promise and the browser will keep the service worker alive
-      // and running until the promise passed in has resolved.
-      event.waitUntil(notificationPromise);
-    });
-  }
-
   setInAppNotificationState() {
     Notification.requestPermission()
       .then((response) => {
@@ -132,20 +113,15 @@ export class UserSettings {
                   .subscribe(options)
                   .then((pushSubscription) => {
                     const subscription = pushSubscription.toJSON();
-                    const expirationTime =
-                      subscription.expirationTime !== null
-                        ? subscription.expirationTime
-                        : "";
+
+                    console.log(subscription);
 
                     this.api
                       .createPushSubscription({
-                        expiration_time: expirationTime,
-                        p256dh: subscription.keys.p256dh,
-                        auth: subscription.keys.auth,
-                        endpoint: subscription.endpoint,
+                        subscription_object: subscription,
                       })
                       .then(() => {
-                        this.handlePushEvents();
+                        console.info("waiting for push notifications");
                         this.$inAppNotificationsCheckbox.checked = true;
                       })
                       .catch((error) => {
