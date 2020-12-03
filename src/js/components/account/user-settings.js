@@ -112,9 +112,9 @@ export class UserSettings {
                 serviceWorkerRegistration.pushManager
                   .subscribe(options)
                   .then((pushSubscription) => {
-                    const subscription = pushSubscription.toJSON();
-
-                    console.log(subscription);
+                    const subscription = JSON.stringify(
+                      pushSubscription.toJSON()
+                    );
 
                     this.api
                       .createPushSubscription({

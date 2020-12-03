@@ -136,6 +136,7 @@ export class API {
         headers: {
           authorization: `Bearer ${userToken}`,
         },
+        contentType: "application/json",
         data: subscriptionData,
       });
     } catch (error) {
