@@ -18,7 +18,6 @@ addEventListener("message", (event) => {
 let messageURL = "";
 
 self.addEventListener("push", function (event) {
-  console.log(event.data.json());
   const messageData = event.data.json();
 
   if (messageData.type !== "notification") {

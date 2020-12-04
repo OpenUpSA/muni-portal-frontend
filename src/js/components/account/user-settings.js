@@ -53,21 +53,16 @@ export class UserSettings {
     if (!("Notification" in window) || !("serviceWorker" in navigator)) {
       return $inAppNotificationsNoSupportMsg.render();
     } else {
-      // check the current Notification.permission status
-      // and update the state of the checkbox if permission
-      // was already granted
-      if (Notification.permission === "granted") {
+      // set checkbox to checked if the user has a pushMessage subscription
+      if (localStorage.getItem("hasSubscription") === "true") {
         this.$inAppNotificationsCutomCheckbox.addClass("w--redirected-checked");
         this.$inAppNotificationsCheckbox.checked = true;
       }
 
-      // if the user has neither denied not granted permissions before
-      if (
-        Notification.permission !== "granted" &&
-        Notification.permission !== "denied"
-      ) {
+      // if the user has not denied permissions before
+      if (Notification.permission !== "denied") {
         this.$inAppNotificationsCutomCheckbox.click(() => {
-          // ask for permission to send notifications
+          // subscribe or unsubscribe user
           this.setInAppNotificationState();
         });
       }
@@ -93,7 +88,7 @@ export class UserSettings {
     return accountSettingsSections;
   }
 
-  setInAppNotificationState() {
+  subscribeUser() {
     Notification.requestPermission()
       .then((response) => {
         if (response === "granted") {
@@ -122,6 +117,7 @@ export class UserSettings {
                       )
                       .then(() => {
                         console.info("waiting for push notifications");
+                        localStorage.setItem("hasSubscription", true);
                         this.$inAppNotificationsCheckbox.checked = true;
                       })
                       .catch((error) => {
@@ -144,6 +140,44 @@ export class UserSettings {
         console.error(
           `Error while requesting notification permission: ${error.toString()}`
         );
+      });
+  }
+
+  setInAppNotificationState() {
+    navigator.serviceWorker.ready
+      .then((serviceWorkerRegistration) => {
+        serviceWorkerRegistration.pushManager
+          .getSubscription()
+          .then((subscription) => {
+            // the user is subscribed so, unsubscribe
+            if (subscription) {
+              subscription
+                .unsubscribe()
+                .then((result) => {
+                  if (result) {
+                    localStorage.setItem("hasSubscription", false);
+                    this.$inAppNotificationsCutomCheckbox.removeClass(
+                      "w--redirected-checked"
+                    );
+                  }
+                })
+                .catch((error) => {
+                  console.error(
+                    `Error while unsubscribing from subscription: ${error.toString()}`
+                  );
+                });
+            } else {
+              this.subscribeUser();
+            }
+          })
+          .catch((error) => {
+            console.error(
+              `Error while getting subscription: ${error.toString()}`
+            );
+          });
+      })
+      .catch((error) => {
+        console.error(`Error in serviceWorker ready: ${error.toString()}`);
       });
   }
 
