@@ -20,15 +20,15 @@
     "npm-run-all": "^4.1.5",
     "parcel": "^1.12.4",
     "parcel-bundler": "^1.12.4",
+    "parcel-plugin-asset-copier": "^1.1.0",
     "parcel-plugin-sw-cache": "^0.3.1",
     "prettier": "^2.1.2",
     "workbox-cli": "^5.1.4"
   },
   "scripts": {
     "start": "yarn build && yarn serve",
-    "build": "parcel build ./src/index.html --public-url / && copyfiles src/serviceworker.js dist",
-    "parcel:build:dev": "parcel watch ./src/index.html --public-url /",
-    "start:dev": "run-p parcel:build:dev serve",
+    "build": "parcel build ./src/index.html --public-url /",
+    "dev": "parcel serve -p 8080 ./src/index.html --public-url /",
     "serve": "http-server -d false -c-1 --proxy http://localhost:8080? dist",
     "serve-https": "http-server -S -C server-cert.pem -K server-cert-key.pem -d false -c-1 --proxy http://localhost:8080? dist",
     "mkcert-loopback": "mkcert -cert-file server-cert.pem -key-file server-cert-key.pem 127.0.0.1"
@@ -41,9 +41,10 @@
     "workbox-routing": "^5.1.4",
     "workbox-window": "5.1.2"
   },
+  "assetsPath": "./src/service-worker/",
   "cache": {
     "strategy": "inject",
-    "swSrc": "src/service-worker.js",
+    "swSrc": "src/service-worker/service-worker.js",
     "swDest": "service-worker.js",
     "globDirectory": "dist",
     "globPatterns": [

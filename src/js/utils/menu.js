@@ -1,3 +1,5 @@
+import { getAnchorElement } from "./element-factory";
+
 /**
  * Adds an event listener to the logout button and logs out the
  * current user by clearing the `user` entry in `localStorage`
@@ -32,6 +34,11 @@ export const setMenuState = () => {
   let $logoutButton = $("#my-muni-logout");
 
   if (localStorage.getItem("user")) {
+    const settingsLink = getAnchorElement(
+      "/account/settings/",
+      "nav-link w-inline-block",
+      "Settings"
+    );
     if ($logoutButton.length === 0) {
       $logoutButton = $("<button />", {
         class: "nav-link w-inline-block w--current",
@@ -43,6 +50,8 @@ export const setMenuState = () => {
     } else {
       $logoutButton.show();
     }
+
+    $navMenu.append(settingsLink);
 
     $signinLink.hide();
     $registerLink.hide();
