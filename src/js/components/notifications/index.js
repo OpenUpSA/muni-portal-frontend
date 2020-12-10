@@ -53,7 +53,7 @@ export const NotificationsSettings = () => {
     "input[type='checkbox']"
   );
   const $inAppNotificationsNoSupportMsg = new BasicBlock({
-    title: "In-app notifications is not supported on your device",
+    title: "In-app notifications are not supported on your device",
     subtitle: "",
   });
   // is Notifications and ServiceWorker supported?

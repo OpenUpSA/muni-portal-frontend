@@ -8,6 +8,8 @@ import { Breadcrumbs } from "./breadcrumbs.js";
 import { Contact } from "./contact.js";
 import { ServicePoint } from "./service-point.js";
 
+import { getModalHeader } from "./molecules/modal-header";
+
 export class ModalPage {
   constructor(element) {
     console.assert(element.length === 1);
@@ -15,8 +17,10 @@ export class ModalPage {
     this.page = element.find(".page-content");
   }
 
-  setContent(content) {
+  setContent(content, title) {
+    const $modalHeader = getModalHeader(title, this.element);
     this.page.empty();
+    this.page.append($modalHeader);
     this.page.append(content);
   }
 
@@ -46,7 +50,7 @@ class Page {
     this.role = content.job_title;
     this.politicalParty = content.political_party;
     this.profileImage = content.profile_image;
-    this.contacts = this.initContacts(content);
+    this.contacts = this.initContacts();
   }
 
   initContacts() {
@@ -55,7 +59,6 @@ class Page {
 
   render() {
     return [
-      new PageTitle(this.name).render(),
       new Breadcrumbs(this.breadcrumbItems).render(),
       ...this.renderProfileImage(),
       ...this.renderOverview(),
@@ -142,7 +145,6 @@ export class CouncillorGroupPage extends Page {
 
   render() {
     return [
-      new PageTitle(this.name).render(),
       new Breadcrumbs(this.breadcrumbItems).render(),
       ...this.renderProfileImage(),
       ...this.renderOverview(),
@@ -188,7 +190,6 @@ export class CouncillorListPage extends Page {}
 export class PersonPage extends Page {
   render() {
     const pageContent = [
-      new PageTitle(this.name).render(),
       new Breadcrumbs(this.breadcrumbItems).render(),
       ...this.renderProfileImage(),
     ];
@@ -218,7 +219,11 @@ export class PersonPage extends Page {
   }
 
   initContacts(content) {
-    return content.person_contacts.map((details) => new Contact(details));
+    if (content && content.person_contacts) {
+      return content.person_contacts.map((details) => new Contact(details));
+    } else {
+      return [];
+    }
   }
 }
 
@@ -298,10 +303,7 @@ export class Service {
   }
 
   render() {
-    const children = [
-      new PageTitle(this.name).render(),
-      new Breadcrumbs(this.breadcrumbItems).render(),
-    ];
+    const children = [new Breadcrumbs(this.breadcrumbItems).render()];
 
     if (this.overview.trim() !== "") {
       children.push(
