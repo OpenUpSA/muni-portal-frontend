@@ -21,17 +21,7 @@ export const getModalHeader = (title, $element) => {
     $modalClose.click((event) => {
       // as this is currently an anchor, preventDefault
       event.preventDefault();
-      // if there are 2 or less items in history it
-      // might very well be that the two entries are
-      // 1. new tab page
-      // 2. the current page
-      // so, let's just go to the landing page
-      if (history.length <= 2) {
-        window.location = "/";
-      } else {
-        // go back to the previous URL
-        history.back();
-      }
+      window.location = "/";
     });
   }
 
