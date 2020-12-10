@@ -179,8 +179,9 @@ class App {
         ((response) => {
           console.assert(response.meta.total_count == 1);
           const service = new Service(response.items[0]);
-          this.setTitle(response.items[0].title);
-          this.modalPage.setContent(service.render());
+          const title = response.items[0].title;
+          this.setTitle(title);
+          this.modalPage.setContent(service.render(), title);
         }).bind(this)
       )
       .fail(function (a, b) {
@@ -200,8 +201,9 @@ class App {
             if (type in pages) {
               const pageClass = pages[type];
               const page = new pageClass(response);
-              this.setTitle(response.title);
-              this.modalPage.setContent(page.render());
+              const title = response.title;
+              this.setTitle(title);
+              this.modalPage.setContent(page.render(), title);
             } else {
               this.modalPage.setContent(
                 new ErrorPage(
@@ -233,8 +235,9 @@ class App {
           console.assert(response.meta.total_count == 1);
           const content = response.items[0];
           const administrationIndex = new AdministrationIndex(content);
-          this.setTitle(content.title);
-          this.modalPage.setContent(administrationIndex.render());
+          const title = response.title;
+          this.setTitle(title);
+          this.modalPage.setContent(administrationIndex.render(), title);
         }).bind(this)
       )
       .fail(function (a, b) {
@@ -251,8 +254,9 @@ class App {
         ((response) => {
           console.assert(response.meta.total_count == 1);
           const administrator = new Administrator(response.items[0]);
-          this.setTitle(response.items[0].title);
-          this.modalPage.setContent(administrator.render());
+          const title = response.items[0].title;
+          this.setTitle(title);
+          this.modalPage.setContent(administrator.render(), title);
         }).bind(this)
       )
       .fail(function (a, b) {
@@ -263,36 +267,41 @@ class App {
   viewLogin() {
     this.modalPage.show();
     const login = new Login();
-    this.setTitle("Sign in to MyMuni");
-    this.modalPage.setContent(login.render());
+    const title = "Sign in to MyMuni";
+    this.setTitle(title);
+    this.modalPage.setContent(login.render(), title);
   }
 
   viewUserRegistration() {
     this.modalPage.show();
     const userRegistration = new UserRegistration();
-    this.setTitle("Register for MyMuni");
-    this.modalPage.setContent(userRegistration.render());
+    const title = "Register for MyMuni";
+    this.setTitle(title);
+    this.modalPage.setContent(userRegistration.render(), title);
   }
 
   viewForgotPassword() {
     this.modalPage.show();
     const forgotPassword = new ForgotPassword();
-    this.setTitle("Forgot your password?");
-    this.modalPage.setContent(forgotPassword.render());
+    const title = "Forgot Password";
+    this.setTitle(title);
+    this.modalPage.setContent(forgotPassword.render(), title);
   }
 
   viewVerifyUserRegistration() {
     this.modalPage.show();
     const verifyUserRegsistration = new VerifyUserRegistration();
-    this.setTitle("Verify User Registration");
-    this.modalPage.setContent(verifyUserRegsistration.render());
+    const title = "Verify User Registration";
+    this.setTitle(title);
+    this.modalPage.setContent(verifyUserRegsistration.render(), title);
   }
 
   viewAccountSettings() {
     this.modalPage.show();
     const userSettings = new UserSettings();
-    this.setTitle("User settings");
-    this.modalPage.setContent(userSettings.render());
+    const title = "User settings";
+    this.setTitle(title);
+    this.modalPage.setContent(userSettings.render(), title);
   }
 }
 
