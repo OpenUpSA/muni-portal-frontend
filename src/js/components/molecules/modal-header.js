@@ -7,14 +7,14 @@
 export const getModalHeader = (title, $element) => {
   const $modalHeader = $(".styles .page-heading--icon-left").clone();
   // the above consists of three elements
-  // 1. A icon aligned to the left
-  const $spinner = $modalHeader.find(".page__icon");
+  // 1. An icon aligned to the left
+  const $icon = $modalHeader.find(".page__icon");
   // 2. A page title
   const $modalTitle = $modalHeader.find(".page-title");
   // 3. A close icon
   const $modalClose = $modalHeader.find(".page-close__icon");
 
-  $spinner.hide();
+  $icon.hide();
   $modalTitle.text(title);
 
   if ($modalClose) {
