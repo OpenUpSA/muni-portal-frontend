@@ -1,5 +1,4 @@
 import { tryRegisterSW } from "./swRegistration.js";
-
 import * as Sentry from "@sentry/browser";
 import { Integrations } from "@sentry/tracing";
 
@@ -47,9 +46,8 @@ if (CONTEXT === "production" && SENTRY_DSN) {
 class App {
   constructor() {
     this.api = new API();
-
     const tabContentContainer = new TabContentContainer($(".tab-content"));
-
+    console.log("v2");
     const $mainContainer = $(".main");
     this.$tabsContainer = $mainContainer.find(".tab-links__wrap");
     // first remove any existing elements and text from the container
