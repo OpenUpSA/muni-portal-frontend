@@ -2,13 +2,31 @@ import { BasicBlock } from "./basic-block.js";
 import { LinkBlock } from "./link-block.js";
 import { FullWidthGrid } from "./grid.js";
 import { ExpandableRichText } from "./rich-text";
-import { PageTitle, SectionHeading } from "./headings.js";
+import { SectionHeading } from "./headings.js";
 import { PartyAffiliationBlock } from "./party-affiliation.js";
 import { Breadcrumbs } from "./breadcrumbs.js";
 import { Contact } from "./contact.js";
 import { ServicePoint } from "./service-point.js";
 
+import { timeElem } from "./atoms/date-time";
+
 import { getModalHeader } from "./molecules/modal-header";
+
+/**
+ * Returns an formatted array of breadcrumb labels
+ * @param {Array} ancestorPages - array of ancestorPages from response
+ */
+function getBreadcrumbsWithLabel(ancestorPages) {
+  // drop the first two entries from the array
+  const breadcrumbs = ancestorPages.slice(2);
+  // add a label property to the crumb
+  const breadcrumbsWithLabel = breadcrumbs.map((crumb) => {
+    crumb.label = crumb.title;
+    return crumb;
+  });
+
+  return breadcrumbsWithLabel;
+}
 
 export class ModalPage {
   constructor(element) {
@@ -38,14 +56,7 @@ class Page {
   constructor(content) {
     this.name = content.title;
     this.overview = content.overview;
-    // drop the first two entries from the array
-    const breadcrumbs = content.ancestor_pages.slice(2);
-    // add a label property to the crumb
-    const breadcrumbsWithLabel = breadcrumbs.map((crumb) => {
-      crumb.label = crumb.title;
-      return crumb;
-    });
-    this.breadcrumbItems = breadcrumbsWithLabel;
+    this.breadcrumbItems = getBreadcrumbsWithLabel(content.ancestor_pages);
     this.childPages = content.child_pages;
     this.role = content.job_title;
     this.politicalParty = content.political_party;
@@ -266,14 +277,7 @@ export class Service {
       service.service_contacts || service.service_point_contacts;
 
     if (service.ancestor_pages.length > 0) {
-      // drop the first two entries from the array
-      const breadcrumbs = service.ancestor_pages.slice(2);
-      // add a label property to the crumb
-      const breadcrumbsWithLabel = breadcrumbs.map((crumb) => {
-        crumb.label = crumb.title;
-        return crumb;
-      });
-      this.breadcrumbItems = breadcrumbsWithLabel;
+      this.breadcrumbItems = getBreadcrumbsWithLabel(service.ancestor_pages);
     }
 
     this.name = service.title;
@@ -348,3 +352,53 @@ export class Service {
 }
 
 export class ServicePointPage extends Service {}
+
+export class NoticeIndex {
+  constructor(content) {
+    this.breadcrumbItems = getBreadcrumbsWithLabel(content.ancestor_pages);
+    this.childPages = content.child_pages;
+  }
+
+  renderChildPageLinks() {
+    const childPageLinks = this.childPages.map((page) => {
+      const props = {
+        title: page.title,
+        url: page.url,
+        subtitle: "",
+      };
+
+      return new LinkBlock(props);
+    });
+
+    if (childPageLinks.length) {
+      return [new FullWidthGrid(childPageLinks).render()];
+    } else {
+      return [];
+    }
+  }
+
+  render() {
+    return [
+      new Breadcrumbs(this.breadcrumbItems).render(),
+      ...this.renderChildPageLinks(),
+    ];
+  }
+}
+
+export class NoticePage {
+  constructor(content) {
+    this.breadcrumbItems = getBreadcrumbsWithLabel(content.ancestor_pages);
+    this.noticeMainContent = content.body_html;
+    this.publicationDate = content.publication_date;
+  }
+
+  render() {
+    return [
+      new Breadcrumbs(this.breadcrumbItems).render(),
+      new SectionHeading("Overview").render(),
+      new ExpandableRichText(this.noticeMainContent).render(),
+      new SectionHeading("Publication Date").render(),
+      timeElem(this.publicationDate),
+    ];
+  }
+}
