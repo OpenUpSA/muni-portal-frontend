@@ -55,6 +55,7 @@ export class API {
     const searchParams = new URLSearchParams([
       ["type", "core.ServicePage"],
       ["fields", "*"],
+      ["limit", "100"],
     ]);
     const servicePagesUrl = `${
       this.baseUrl
