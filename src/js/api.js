@@ -62,6 +62,17 @@ export class API {
     return $.get(servicePagesUrl);
   }
 
+  getNoticesIndex() {
+    const searchParams = new URLSearchParams([
+      ["type", "core.NoticeIndexPage"],
+      ["fields", "*"],
+    ]);
+    const noticeIndexPageUrl = `${
+      this.baseUrl
+    }/api/wagtail/v2/pages/?${searchParams.toString()}`;
+    return $.get(noticeIndexPageUrl);
+  }
+
   getService(slug) {
     const searchParams = new URLSearchParams([
       ["type", "core.ServicePage"],
