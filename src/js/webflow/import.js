@@ -1,3 +1,8 @@
+exports.transformHTML = function(html) {
+  newHtml = html.replace(/"index.html"/g, '"/"');
+  return newHtml;
+};
+
 exports.transform = function (window, $) {
   $("head").append('<meta name="theme-color" content="#0094ff">');
   $("head").append('<link rel="manifest" href="manifest.webmanifest">');
