@@ -61,7 +61,7 @@ class Page {
     this.role = content.job_title;
     this.politicalParty = content.political_party;
     this.profileImage = content.profile_image;
-    this.contacts = this.initContacts();
+    this.contacts = this.initContacts(content);
   }
 
   initContacts() {
@@ -219,7 +219,7 @@ export class PersonPage extends Page {
       ...this.renderChildPageLinks()
     );
 
-    return pageContent;
+    return new FullWidthGrid(pageContent).render();
   }
 
   renderRole() {
