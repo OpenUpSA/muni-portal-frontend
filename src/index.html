@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  --><!--  Last Published: Wed Nov 11 2020 08:18:05 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5f586c03cfc82e5a3c067594" data-wf-site="5f586c03cfc82e2e15067593"><head>
+<!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  --><!--  Last Published: Wed Dec 09 2020 08:19:33 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5f586c03cfc82e5a3c067594" data-wf-site="5f586c03cfc82e2e15067593"><head>
   <meta charset="utf-8">
   <title>Citizen Engagement App</title>
   <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -22,7 +22,7 @@
         n.className += t + "js", ("ontouchstart" in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch")
       }(window, document);
     </script>
-  <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
   <link href="images/webclip.png" rel="apple-touch-icon">
   <script src="https://kit.fontawesome.com/95e41092af.js" crossorigin="anonymous"></script>
 <meta name="theme-color" content="#0094ff"><link rel="manifest" href="manifest.webmanifest"><script>dataLayer = [];</script></head>
@@ -42,13 +42,10 @@
       <div class="mav-menu__items"><img src="images/cam-logo.jpg" loading="lazy" alt="" class="nav-menu__logo">
         <div class="nav-menu__links">
           <a href="#" class="nav-link w-inline-block">
-            <div class="link-text link-text--site-nav">Sign in</div>
+            <div class="link-text link-text--site-nav">Login</div>
           </a>
           <a href="#" class="nav-link w-inline-block">
             <div class="link-text link-text--site-nav">Create an account</div>
-          </a>
-          <a href="#" class="nav-link w-inline-block">
-            <div class="link-text link-text--site-nav">Contact</div>
           </a>
         </div>
       </div>
@@ -56,8 +53,13 @@
     <div data-w-id="f9c54dca-d6a7-1b1e-0444-eda0019b0685" class="nav-bg"></div>
   </div>
   <div class="page-size">
-    <div class="nav"><img src="images/cape-agulhas-logo-square.png" loading="lazy" alt="" class="nav-logo">
-      <h1 id="w-node-7407d117d45b-d117d459" class="nav-title">Cape Agulhas</h1>
+    <div class="nav">
+      <a href="index.html" aria-current="page" class="nav-brand w-inline-block w--current"><img src="images/cape-agulhas-logo-square.png" loading="lazy" alt="" class="nav-logo">
+        <div class="nav-heading__wrapper">
+          <h1 class="nav-title">Cape Agulhas</h1>
+          <div class="nav-subtitle">Early app preview</div>
+        </div>
+      </a>
       <div data-w-id="5bc6c3d2-9550-9101-bbbf-7407d117d45d" class="nav-button">
         <div class="icon nav-menu__icon">
           <div class="fas fa-bars"></div>
@@ -349,7 +351,11 @@
       <div class="form w-form">
         <form id="email-form-2" name="email-form-2" data-name="Email Form 2" class="form__inner"><label class="w-checkbox form-checkbox card">
             <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" id="checkbox-4" name="checkbox-4" data-name="Checkbox 4" style="opacity:0;position:absolute;z-index:-1"><span class="checkbox-label w-form-label">Form checkbox label</span>
-          </label><input type="text" class="card input-field w-input" maxlength="256" name="Form-input-2" data-name="Form Input 2" placeholder="Form input" id="Form-input-2"><input type="submit" value="Create account" data-wait="Please wait..." class="button form-submit w-button"></form>
+          </label><input type="text" class="input-field card w-input" maxlength="256" name="Form-input-2" data-name="Form Input 2" placeholder="Form input" id="Form-input-2">
+          <div class="form-item"><input type="text" class="input-field card w-input" maxlength="256" name="Form-input-2" data-name="Form Input 2" placeholder="Form input" id="Form-input-2">
+            <div class="form-label">This is some text inside of a div block.</div>
+          </div><input type="submit" value="Create account" data-wait="Please wait..." class="button form-submit w-button">
+        </form>
         <div class="w-form-done">
           <div>Thank you! Your submission has been received!</div>
         </div>
