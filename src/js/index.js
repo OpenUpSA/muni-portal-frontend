@@ -14,7 +14,6 @@ import { TabItem } from "./components/tab-item.js";
 import {
   AdministrationIndex,
   ModalPage,
-  NoticeIndex,
   Service,
   Administrator,
   ErrorPage,
@@ -113,11 +112,6 @@ class App {
         path: new RegExp("^/my-municipality/administration/$"),
         view: this.viewAdministrationIndex.bind(this),
         viewType: "Administration landing",
-      },
-      {
-        path: new RegExp("^/my-municipality/notices/$"),
-        view: this.viewNotices.bind(this),
-        viewType: "Notices landing",
       },
       {
         path: new RegExp("^/accounts/login/$"),
@@ -266,24 +260,6 @@ class App {
         }).bind(this)
       )
       .fail(function (a, b) {
-        console.error(a, b);
-      });
-  }
-
-  viewNotices() {
-    this.modalPage.show();
-
-    this.api
-      .getNoticesIndex()
-      .done((response) => {
-        console.assert(response.meta.total_count == 1);
-        const content = response.items[0];
-        const noticesIndex = new NoticeIndex(content);
-        const title = content.title;
-        this.setTitle(title);
-        this.modalPage.setContent(noticesIndex.render(), title);
-      })
-      .fail((a, b) => {
         console.error(a, b);
       });
   }
