@@ -97,6 +97,7 @@ export class UserRegistration {
         try {
           $fail.find("div").text(formatError(jqXHR));
           $fail.show();
+          $fail[0].scrollIntoView({ behavior: 'smooth' });
         } catch (e) {
           console.error(e);
           alert("An error occurred. Please try again or contact support.");
