@@ -7,10 +7,25 @@ import {
   getSubmitButton,
 } from "../../utils/element-factory";
 
+function formatError(jqXHR) {
+  let message = "";
+  console.log(jqXHR);
+  if (jqXHR.status === 400) {
+    Object.keys(jqXHR.responseJSON).forEach((fieldName) => {
+      message += `${fieldName}:\n${jqXHR.responseJSON[fieldName].join("\n")}\n\n`;
+    });
+    message += "Please try again or contact support with this message.";
+  } else {
+    message = "An error occurred. Please try again.";
+    console.error(jqXHR.responseText);
+  }
+  return message;
+}
+
 export class UserRegistration {
   constructor() {
-    const $successTemplate = $(".styles .form-styles .w-form-done").clone();
-    const $failTemplate = $(".styles .form-styles .w-form-fail").clone();
+    const $successTemplate = $(".styles .form-styles .w-form-done").first().clone();
+    const $failTemplate = $(".styles .form-styles .w-form-fail").first().clone();
 
     const defaultBaseUrl = "https://muni-portal-backend.openup.org.za";
     const endPoint = "/api/accounts/register/";
@@ -46,6 +61,7 @@ export class UserRegistration {
 
     $form.append($submitButton);
 
+
     $registrationFormContainer.append($form);
     $registrationFormContainer.append($successTemplate);
     $registrationFormContainer.append($failTemplate);
@@ -67,6 +83,8 @@ export class UserRegistration {
    */
   registerUser(endPoint, $form, $success, $fail) {
     const api = new API();
+    $fail.hide();
+    $fail.find("div").empty().css("white-space", "pre-wrap");
     const response = api.registerUser(endPoint, $form.serialize());
     response
       .done((response, textStatus) => {
@@ -76,9 +94,13 @@ export class UserRegistration {
         }
       })
       .fail((jqXHR, textStatus) => {
-        $form.hide();
-        $fail.show();
-        console.error(jqXHR, textStatus);
+        try {
+          $fail.find("div").text(formatError(jqXHR));
+          $fail.show();
+        } catch (e) {
+          console.error(e);
+          alert("An error occurred. Please try again or contact support.");
+        }
       });
   }
 
