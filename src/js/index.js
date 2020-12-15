@@ -241,7 +241,7 @@ class App {
           console.assert(response.meta.total_count == 1);
           const content = response.items[0];
           const administrationIndex = new AdministrationIndex(content);
-          const title = response.title;
+          const title = "Administration";
           this.setTitle(title);
           this.modalPage.setContent(administrationIndex.render(), title);
         }).bind(this)
