@@ -1,7 +1,7 @@
 import { BasicBlock } from "./basic-block.js";
 import { LinkBlock } from "./link-block.js";
 import { FullWidthGrid } from "./grid.js";
-import { ExpandableRichText, RichText } from "./rich-text";
+import { ExpandableRichText } from "./rich-text";
 import { SectionHeading } from "./headings.js";
 import { PartyAffiliationBlock } from "./party-affiliation.js";
 import { Breadcrumbs } from "./breadcrumbs.js";
