@@ -10,7 +10,7 @@ export const getModalHeader = (title, $element) => {
   // 1. An icon aligned to the left
   const $icon = $modalHeader.find(".page__icon");
   // 2. A page title
-  const $modalTitle = $modalHeader.find(".page-title");
+  const $modalTitle = $modalHeader.find(".page-title").empty();
   // 3. A close icon
   const $modalClose = $modalHeader.find(".page-close__icon");
 
