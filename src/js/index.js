@@ -30,12 +30,14 @@ import { UserRegistration } from "./components/account/user-registration";
 import { UserSettings } from "./components/account/user-settings";
 import { VerifyUserRegistration } from "./components/account/user-registration-verify";
 
-// Call as early as possible to maximise chance of registering reinstallation code
-tryRegisterSW();
-
 const CONTEXT = `${process.env.CONTEXT}`;
 const SENTRY_DSN = `${process.env.SENTRY_DSN}`;
 const SENTRY_PERF_SAMPLE_RATE = `${process.env.SENTRY_PERF_SAMPLE_RATE}`;
+
+if (CONTEXT === "production") {
+  // Call as early as possible to maximise chance of registering reinstallation code
+  tryRegisterSW();
+}
 
 if (CONTEXT === "production" && SENTRY_DSN) {
   Sentry.init({

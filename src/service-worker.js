@@ -2,7 +2,8 @@ importScripts(
   "https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js"
 );
 
-workbox.precaching.precacheAndRoute([]);
+// https://developers.google.com/web/tools/workbox/modules/workbox-cli#injectmanifest
+workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 workbox.routing.registerRoute(
   new RegExp(".+/api/wagtail/v2/pages/.*"),
   new workbox.strategies.NetworkFirst()
@@ -15,7 +16,6 @@ addEventListener("message", (event) => {
   }
 });
 
-
 self.addEventListener("push", function (event) {
   const messageData = event.data.json();
 
@@ -27,7 +27,7 @@ self.addEventListener("push", function (event) {
   const options = {
     body: messageData.notification.body,
     icon: "./cape-agulhas-logo-square.03316029.png",
-    data: {url: messageData.notification.url},
+    data: { url: messageData.notification.url },
   };
 
   event.waitUntil(self.registration.showNotification(title, options));
@@ -35,17 +35,21 @@ self.addEventListener("push", function (event) {
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  event.waitUntil(clients.matchAll({ type: 'window' }).then(clientsArr => {
-    // If a Window tab matching the targeted URL already exists, focus that;
-    const hadWindowToFocus = clientsArr.some(windowClient => {
-      windowClient.url === event.notification.data.url ? (windowClient.focus(), true) : false;
-    });
-    // Otherwise, open a new tab to the applicable URL and focus it.
-    if (!hadWindowToFocus)
-      clients.openWindow(event.notification.data.url).then(windowClient => {
-        windowClient ? windowClient.focus() : null;
+  event.waitUntil(
+    clients.matchAll({ type: "window" }).then((clientsArr) => {
+      // If a Window tab matching the targeted URL already exists, focus that;
+      const hadWindowToFocus = clientsArr.some((windowClient) => {
+        windowClient.url === event.notification.data.url
+          ? (windowClient.focus(), true)
+          : false;
       });
-  }));
+      // Otherwise, open a new tab to the applicable URL and focus it.
+      if (!hadWindowToFocus)
+        clients.openWindow(event.notification.data.url).then((windowClient) => {
+          windowClient ? windowClient.focus() : null;
+        });
+    })
+  );
 });
 
 self.__WB_DISABLE_DEV_LOGS = true;
