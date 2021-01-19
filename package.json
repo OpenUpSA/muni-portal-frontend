@@ -25,13 +25,14 @@
     "workbox-cli": "^5.1.4"
   },
   "scripts": {
-    "build": "parcel build ./src/index.html --public-url /",
+    "build": "yarn build:parcel && yarn workbox:inject",
+    "build:parcel": "parcel build ./src/index.html --public-url /",
     "build:dev": "parcel serve -p 8080 ./src/index.html --public-url / --no-cache --open",
     "clean": "yarn del dist",
     "dev": "yarn clean && yarn build:dev",
     "serve-http": "http-server -d false -c-1 --proxy http://localhost:8080? dist",
     "serve-https": "http-server -S -C server-cert.pem -K server-cert-key.pem -d false -c-1 --proxy http://localhost:8080? dist",
-    "start": "yarn clean && yarn build && yarn workbox:inject && yarn serve-http",
+    "start": "yarn clean && yarn build && yarn serve-http",
     "workbox:inject": "workbox injectManifest ./workbox-config.js",
     "mkcert-loopback": "mkcert -cert-file server-cert.pem -key-file server-cert-key.pem 127.0.0.1"
   },
@@ -42,15 +43,6 @@
     "workbox-build": "^5.1.4",
     "workbox-routing": "^5.1.4",
     "workbox-window": "5.1.2"
-  },
-  "cache": {
-    "strategy": "inject",
-    "swSrc": "src/service-worker.js",
-    "swDest": "service-worker.js",
-    "globDirectory": "dist",
-    "globPatterns": [
-      "**/*.{html,js,css,jpg,png,gif,svg,eot,ttf,woff,woff2,webmanifest}"
-    ]
   },
   "importWebflowExport": {
     "importHtml": [
