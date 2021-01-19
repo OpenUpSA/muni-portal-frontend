@@ -353,7 +353,7 @@ export class Service {
 
 export class ServicePointPage extends Service {}
 
-export class NoticeIndex {
+export class NoticeIndexPage {
   constructor(content) {
     this.breadcrumbItems = getBreadcrumbsWithLabel(content.ancestor_pages);
     this.childPages = content.child_pages;
@@ -387,18 +387,17 @@ export class NoticeIndex {
 
 export class NoticePage {
   constructor(content) {
+    this.$element = $(".styles .grid--fullwidth").clone();
     this.breadcrumbItems = getBreadcrumbsWithLabel(content.ancestor_pages);
     this.noticeMainContent = content.body_html;
     this.publicationDate = content.publication_date;
+    this.$element.append(
+      timeElem(this.publicationDate),
+      this.noticeMainContent
+    );
   }
 
   render() {
-    return [
-      new Breadcrumbs(this.breadcrumbItems).render(),
-      new SectionHeading("Overview").render(),
-      new ExpandableRichText(this.noticeMainContent).render(),
-      new SectionHeading("Publication Date").render(),
-      timeElem(this.publicationDate),
-    ];
+    return [new Breadcrumbs(this.breadcrumbItems).render(), this.$element];
   }
 }
