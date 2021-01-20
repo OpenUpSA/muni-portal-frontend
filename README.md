@@ -8,15 +8,10 @@ ES6 and Webflow.
 
     yarn run import-webflow zipfile.zip
 
-
 ## Development environment
 
 1. Install dependencies by running `yarn`
-2. Build the static assets by running `yarn build`
-3. Start a development server by running `yarn serve`
-
-`parcel-plugin-sw-cache` does not support hot reloading so you have to `yarn build` each time you want to see code changes reflected in the locally-served site.
-
+2. Start a development server by running `yarn dev`
 
 ### HTTPS in Dev
 

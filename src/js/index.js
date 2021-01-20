@@ -30,16 +30,16 @@ import { UserRegistration } from "./components/account/user-registration";
 import { UserSettings } from "./components/account/user-settings";
 import { VerifyUserRegistration } from "./components/account/user-registration-verify";
 
-const CONTEXT = `${process.env.CONTEXT}`;
+const NODE_ENV = `${process.env.NODE_ENV}`;
 const SENTRY_DSN = `${process.env.SENTRY_DSN}`;
 const SENTRY_PERF_SAMPLE_RATE = `${process.env.SENTRY_PERF_SAMPLE_RATE}`;
 
-if (CONTEXT === "production") {
+if (NODE_ENV === "production") {
   // Call as early as possible to maximise chance of registering reinstallation code
   tryRegisterSW();
 }
 
-if (CONTEXT === "production" && SENTRY_DSN) {
+if (NODE_ENV === "production" && SENTRY_DSN) {
   Sentry.init({
     dsn: SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
@@ -369,7 +369,7 @@ class Router {
 // Template literal for parcel to replace on build
 const GOOGLE_TAG_MANAGER_ID = `${process.env.GOOGLE_TAG_MANAGER_ID}`;
 
-if (`${process.env.CONTEXT}` === "production" && GOOGLE_TAG_MANAGER_ID) {
+if (NODE_ENV === "production" && GOOGLE_TAG_MANAGER_ID) {
   (function (w, d, s, l, i) {
     w[l] = w[l] || [];
     w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
