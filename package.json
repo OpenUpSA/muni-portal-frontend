@@ -27,7 +27,7 @@
   "scripts": {
     "build": "yarn build:parcel && yarn workbox:inject",
     "build:parcel": "parcel build ./src/index.html --public-url /",
-    "build:dev": "parcel serve -p 8080 ./src/index.html --public-url / --no-cache --open",
+    "build:dev": "parcel serve -p 3000 ./src/index.html --public-url / --no-cache --open",
     "clean": "yarn del dist",
     "dev": "yarn clean && yarn build:dev",
     "serve-http": "http-server -d false -c-1 --proxy http://localhost:8080? dist",
