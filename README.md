@@ -30,3 +30,15 @@ You can set this up easily using the [mkcert](https://mkcert.org/) utility.
 
 Keep your computer safe - ensure no one can access your CA certificate - if they
 can, they are much closer to performing a man-in-the-middle attack on you.
+
+## Configuration
+
+The build is configured using environment variables.
+
+| Variable | Default | Description |
+| -------- | ------- | ----------- |
+| CONTEXT  | unset | Configured by Netlify: Name of the build’s deploy context. It can be production, deploy-preview or branch-deploy. Sentry is only enabled if set to `production`. |
+| NODE_ENV | `production` if using `parcel build` | |
+| SENTRY_DSN |
+| SENTRY_PERF_SAMPLE_RATE |
+
