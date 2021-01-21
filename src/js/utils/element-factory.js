@@ -38,14 +38,20 @@ export const getForm = (action, method) => {
   });
 };
 
-export const getInput = (type, label) => {
+export const getInput = (type, label, describedBy) => {
   const name = label.split(" ").join("_");
-  return $("<input />", {
+  const $input = $("<input />", {
     class: "card input-field w-input",
     type: type,
     name: name,
     id: `my-muni-${label}`,
   });
+
+  if (describedBy) {
+    $input.attr("aria-describedby", describedBy);
+  }
+
+  return $input;
 };
 
 export const getLabel = (label) => {

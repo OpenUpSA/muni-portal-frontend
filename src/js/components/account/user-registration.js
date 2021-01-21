@@ -9,10 +9,11 @@ import {
 
 function formatError(jqXHR) {
   let message = "";
-  console.log(jqXHR);
   if (jqXHR.status === 400) {
     Object.keys(jqXHR.responseJSON).forEach((fieldName) => {
-      message += `${fieldName}:\n${jqXHR.responseJSON[fieldName].join("\n")}\n\n`;
+      message += `${fieldName}:\n${jqXHR.responseJSON[fieldName].join(
+        "\n"
+      )}\n\n`;
     });
     message += "Please try again or contact support with this message.";
   } else {
@@ -22,10 +23,39 @@ function formatError(jqXHR) {
   return message;
 }
 
+function getPasswordRequirements() {
+  const container = document.createElement("div");
+  const heading = document.createElement("h5");
+  const uList = document.createElement("ul");
+  const requirements = [
+    "be at least 9 characters long,",
+    "not be similar to your username or email address,",
+    "not be just numbers",
+  ];
+
+  requirements.forEach((requirement) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = requirement;
+    uList.appendChild(listItem);
+  });
+
+  heading.textContent = "Your password must:";
+  container.appendChild(heading);
+  container.appendChild(uList);
+
+  container.setAttribute("id", "password-requirements");
+
+  return container;
+}
+
 export class UserRegistration {
   constructor() {
-    const $successTemplate = $(".styles .form-styles .w-form-done").first().clone();
-    const $failTemplate = $(".styles .form-styles .w-form-fail").first().clone();
+    const $successTemplate = $(".styles .form-styles .w-form-done")
+      .first()
+      .clone();
+    const $failTemplate = $(".styles .form-styles .w-form-fail")
+      .first()
+      .clone();
 
     const defaultBaseUrl = "https://muni-portal-backend.openup.org.za";
     const endPoint = "/api/accounts/register/";
@@ -55,12 +85,20 @@ export class UserRegistration {
     fields.forEach((field) => {
       const $formElementsContainer = $("<div />");
       $formElementsContainer.append(getLabel(field.label));
-      $formElementsContainer.append(getInput(field.type, field.label));
+
+      if (field.label === "password") {
+        $formElementsContainer.append(
+          getInput(field.type, field.label, "password-requirements")
+        );
+        $formElementsContainer.append(getPasswordRequirements());
+      } else {
+        $formElementsContainer.append(getInput(field.type, field.label));
+      }
+
       $form.append($formElementsContainer);
     });
 
     $form.append($submitButton);
-
 
     $registrationFormContainer.append($form);
     $registrationFormContainer.append($successTemplate);
@@ -97,7 +135,7 @@ export class UserRegistration {
         try {
           $fail.find("div").text(formatError(jqXHR));
           $fail.show();
-          $fail[0].scrollIntoView({ behavior: 'smooth' });
+          $fail[0].scrollIntoView({ behavior: "smooth" });
         } catch (e) {
           console.error(e);
           alert("An error occurred. Please try again or contact support.");
