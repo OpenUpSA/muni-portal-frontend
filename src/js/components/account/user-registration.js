@@ -12,7 +12,9 @@ function formatError(jqXHR) {
   console.log(jqXHR);
   if (jqXHR.status === 400) {
     Object.keys(jqXHR.responseJSON).forEach((fieldName) => {
-      message += `${fieldName}:\n${jqXHR.responseJSON[fieldName].join("\n")}\n\n`;
+      message += `${fieldName}:\n${jqXHR.responseJSON[fieldName].join(
+        "\n"
+      )}\n\n`;
     });
     message += "Please try again or contact support with this message.";
   } else {
@@ -24,33 +26,37 @@ function formatError(jqXHR) {
 
 export class UserRegistration {
   constructor() {
-    const $successTemplate = $(".styles .form-styles .w-form-done").first().clone();
-    const $failTemplate = $(".styles .form-styles .w-form-fail").first().clone();
+    const $successTemplate = $(".styles .form-styles .w-form-done")
+      .first()
+      .clone();
+    const $failTemplate = $(".styles .form-styles .w-form-fail")
+      .first()
+      .clone();
 
     const defaultBaseUrl = "https://muni-portal-backend.openup.org.za";
     const endPoint = "/api/accounts/register/";
     const fields = [
       {
-        label: "email",
+        label: "Email address",
         type: "email",
       },
       {
-        label: "username",
+        label: "Username",
         type: "text",
       },
       {
-        label: "password",
+        label: "Password",
         type: "password",
       },
       {
-        label: "password confirm",
+        label: "Confirm password",
         type: "password",
       },
     ];
 
     const $registrationFormContainer = getDiv("form w-form");
     const $form = getForm(`${defaultBaseUrl}${endPoint}`, "post");
-    const $submitButton = getSubmitButton("Register");
+    const $submitButton = getSubmitButton("Create an account");
 
     fields.forEach((field) => {
       const $formElementsContainer = $("<div />");
@@ -60,7 +66,6 @@ export class UserRegistration {
     });
 
     $form.append($submitButton);
-
 
     $registrationFormContainer.append($form);
     $registrationFormContainer.append($successTemplate);
@@ -97,7 +102,7 @@ export class UserRegistration {
         try {
           $fail.find("div").text(formatError(jqXHR));
           $fail.show();
-          $fail[0].scrollIntoView({ behavior: 'smooth' });
+          $fail[0].scrollIntoView({ behavior: "smooth" });
         } catch (e) {
           console.error(e);
           alert("An error occurred. Please try again or contact support.");

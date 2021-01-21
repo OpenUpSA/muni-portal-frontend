@@ -17,11 +17,11 @@ export class Login {
     const endPoint = "/api/accounts/login/";
     const fields = [
       {
-        label: "login",
+        label: "Username",
         type: "text",
       },
       {
-        label: "password",
+        label: "Password",
         type: "password",
       },
     ];
