@@ -12,7 +12,6 @@ export class ResetPassword {
     const $successTemplate = $(".styles .form-styles .w-form-done").clone();
     const $failTemplate = $(".styles .form-styles .w-form-fail").clone();
 
-    // TODO: Is this necessary? why not set the default in api.js?
     const defaultBaseUrl = "https://muni-portal-backend.openup.org.za";
     const endPoint = "/api/accounts/reset-password/";
 
@@ -23,6 +22,12 @@ export class ResetPassword {
     const $formElementsContainer = $("<div />");
     $formElementsContainer.append(getLabel("new password"));
     $formElementsContainer.append(getInput("password", "password"));
+
+    // Add security values as hidden inputs and populate from query params
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.forEach(function(value, key) {
+      $formElementsContainer.append(getInput("hidden", key, value))
+    })
 
     $form.append($formElementsContainer);
     $form.append($submitButton);
