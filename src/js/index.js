@@ -134,6 +134,11 @@ class App {
         viewType: "User Management",
       },
       {
+        path: new RegExp("^/accounts/reset-password/$"),
+        view: this.viewResetPassword.bind(this),
+        viewType: "User Management",
+      },
+      {
         path: new RegExp("^/account/settings/$"),
         view: this.viewAccountSettings.bind(this),
         viewType: "User Settings",
@@ -286,6 +291,14 @@ class App {
     const title = "Forgot Password";
     this.setTitle(title);
     this.modalPage.setContent(forgotPassword.render(), title);
+  }
+
+  viewResetPassword() {
+    this.modalPage.show();
+    const resetPassword = new ResetPassword();
+    const title = "Reset Password";
+    this.setTitle(title);
+    this.modalPage.setContent(resetPassword.render(), title);
   }
 
   viewVerifyUserRegistration() {
