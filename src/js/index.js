@@ -25,6 +25,7 @@ import { setMenuState, updateMenuLinks } from "./utils/menu";
 
 import { Login } from "./components/account/login";
 import { ForgotPassword } from "./components/account/forgot-password";
+import { ResetPassword } from "./components/account/reset-password";
 import { UserRegistration } from "./components/account/user-registration";
 import { UserSettings } from "./components/account/user-settings";
 import { VerifyUserRegistration } from "./components/account/user-registration-verify";
