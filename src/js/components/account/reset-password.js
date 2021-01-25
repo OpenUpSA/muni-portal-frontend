@@ -5,15 +5,19 @@ import {
   getForm,
   getInput,
   getLabel,
-  getSubmitButton
+  getSubmitButton,
 } from "../../utils/element-factory";
 
 export class ResetPassword {
   constructor() {
     const $successTemplate = $(".styles .form-styles .w-form-done").clone();
     const $failTemplate = $(".styles .form-styles .w-form-fail").clone();
-    const $loginAnchor = getAnchorElement('/accounts/login/', 'link-text form-submit', 'Please log in with your new password');
-    $loginAnchor.hide()
+    const $loginAnchor = getAnchorElement(
+      "/accounts/login/",
+      "link-text form-submit",
+      "Please log in with your new password"
+    );
+    $loginAnchor.hide();
 
     const defaultBaseUrl = "https://muni-portal-backend.openup.org.za";
     const endPoint = "/api/accounts/reset-password/";
@@ -28,9 +32,9 @@ export class ResetPassword {
 
     // Add security values as hidden inputs and populate from query params
     const urlParams = new URLSearchParams(window.location.search);
-    urlParams.forEach(function(value, key) {
-      $formElementsContainer.append(getInput("hidden", key, value))
-    })
+    urlParams.forEach(function (value, key) {
+      $formElementsContainer.append(getInput("hidden", key, value));
+    });
 
     $form.append($formElementsContainer);
     $form.append($submitButton);
@@ -42,7 +46,13 @@ export class ResetPassword {
 
     $form.submit((event) => {
       event.preventDefault();
-      this.resetPassword(endPoint, $form, $successTemplate, $failTemplate, $loginAnchor);
+      this.resetPassword(
+        endPoint,
+        $form,
+        $successTemplate,
+        $failTemplate,
+        $loginAnchor
+      );
     });
 
     this.$element = $resetFormContainer;
@@ -65,9 +75,7 @@ export class ResetPassword {
           $form.hide();
           $success
             .empty()
-            .append(
-              `Your password was changed successfully.`
-            )
+            .append(`Your password was changed successfully.`)
             .show();
           $loginAnchor.show();
         }

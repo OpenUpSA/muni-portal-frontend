@@ -38,7 +38,7 @@ export const getForm = (action, method) => {
   });
 };
 
-export const getInput = (type, label, value="") => {
+export const getInput = (type, label, value = "") => {
   const name = label.split(" ").join("_");
   return $("<input />", {
     class: "card input-field w-input",

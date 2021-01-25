@@ -6,7 +6,7 @@ import {
   getForm,
   getInput,
   getLabel,
-  getSubmitButton
+  getSubmitButton,
 } from "../../utils/element-factory";
 
 export class Login {
@@ -29,7 +29,11 @@ export class Login {
     const $loginFormContainer = getDiv("form w-form");
     const $form = getForm(`${defaultBaseUrl}${endPoint}`, "post");
     const $submitButton = getSubmitButton("Login");
-    const $forgotPasswordLink = getAnchorElement("/accounts/forgot-password/", "link-text form-submit", "I forgot my password")
+    const $forgotPasswordLink = getAnchorElement(
+      "/accounts/forgot-password/",
+      "link-text form-submit",
+      "I forgot my password"
+    );
 
     fields.forEach((field) => {
       const $formElementsContainer = $("<div />");
@@ -43,7 +47,7 @@ export class Login {
     $loginFormContainer.append($form);
     $loginFormContainer.append($successTemplate);
     $loginFormContainer.append($failTemplate);
-    $loginFormContainer.append($forgotPasswordLink)
+    $loginFormContainer.append($forgotPasswordLink);
 
     $form.submit((event) => {
       event.preventDefault();
