@@ -38,12 +38,13 @@ export const getForm = (action, method) => {
   });
 };
 
-export const getInput = (type, label) => {
+export const getInput = (type, label, value="") => {
   const name = label.split(" ").join("_");
   return $("<input />", {
     class: "card input-field w-input",
     type: type,
     name: name,
+    value: value,
     id: `my-muni-${label}`,
   });
 };
