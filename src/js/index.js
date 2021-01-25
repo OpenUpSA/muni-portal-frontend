@@ -129,7 +129,7 @@ class App {
         viewType: "User Registration",
       },
       {
-        path: new RegExp("^/accounts/reset-password/$"),
+        path: new RegExp("^/accounts/forgot-password/$"),
         view: this.viewForgotPassword.bind(this),
         viewType: "User Management",
       },
