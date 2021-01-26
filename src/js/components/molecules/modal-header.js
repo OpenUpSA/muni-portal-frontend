@@ -5,16 +5,13 @@
  * @param {jqObject} $element - The modal element
  */
 export const getModalHeader = (title, $element) => {
-  const $modalHeader = $(".styles .page-heading--icon-left").clone();
-  // the above consists of three elements
-  // 1. An icon aligned to the left
-  const $icon = $modalHeader.find(".page__icon");
-  // 2. A page title
+  const $modalHeader = $(".styles .page-heading").clone();
+  // the above consists of two elements
+  // 1. A page title
   const $modalTitle = $modalHeader.find(".page-title").empty();
-  // 3. A close icon
+  // 2. A close icon
   const $modalClose = $modalHeader.find(".page-close__icon");
 
-  $icon.hide();
   $modalTitle.text(title);
 
   if ($modalClose) {
