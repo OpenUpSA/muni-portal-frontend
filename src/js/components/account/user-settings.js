@@ -23,6 +23,13 @@ export class UserSettings {
         $container.append(NotificationsSettings());
       })
       .fail((error) => {
+
+        // TODO: first check if the status code is 401 unauthorized, and if so, attempt a refresh
+
+        // TODO: if the refresh fails, delete the user in localstorage to log them out
+
+        // TODO: otherwise, if the original error was not 401, show the original error message
+
         $container.append(
           `We encountered an error while retrieving your profile information. Please contact support. ${error.responseText}`
         );
