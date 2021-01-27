@@ -17,13 +17,7 @@ ES6 and Webflow.
 
 The above does not include the service worker so, if you are working on a piece of functionality that requires the service worker, the workflow is a bit different.
 
-With the dependencies installed, ensure that you have a `.env` file in the root of your project with the following entry:
-
-```
-NODE_ENV="production"
-```
-
-Now run the following:
+With the dependencies installed, run the following:
 
 ```
 yarn start
