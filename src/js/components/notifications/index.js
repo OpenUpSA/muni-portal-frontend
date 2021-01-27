@@ -56,8 +56,13 @@ export const NotificationsSettings = () => {
     title: "In-app notifications are not supported on your device",
     subtitle: "",
   });
-  // is Notifications and ServiceWorker supported?
-  if (!("Notification" in window) && !("serviceWorker" in navigator)) {
+
+  // is Notifications, ServiceWorker and Push supported?
+  if (
+    !("Notification" in window) ||
+    !("serviceWorker" in navigator) ||
+    !("PushManager" in window)
+  ) {
     return $inAppNotificationsNoSupportMsg.render();
   } else {
     // set checkbox to checked if the user has a pushMessage subscription
