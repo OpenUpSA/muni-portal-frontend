@@ -44,75 +44,7 @@ if (CONTEXT === "production" && SENTRY_DSN) {
   });
 }
 
-function handleError(dfd, jqXHR, args) {
-  alert("Your session has expired. Sorry.");
-  // reject with the original 401 response
-  dfd.rejectWith(jqXHR, args);
-}
 
-function handleSuccess(response, dfd, originalOpts) {
-  window.console.log("refresh was successful, retrying original request");
-  // set new access token
-  localStorage.setItem("user", response.access);
-  // retry with a copied originalOpts with refreshRequest.
-  let newOpts = $.extend({}, originalOpts, {
-    refreshRequest: true,
-    headers: {
-      authorization: `Bearer ${response.access}`,
-    },
-  });
-  // pass this one on to our deferred pass or fail.
-  $.ajax(newOpts).then(dfd.resolve, dfd.reject);
-}
-
-/* This handles refreshing the JWT access token when any request fails due
-  to a 401 response (the access token may have expired). */
-$.ajaxPrefilter(function (opts, originalOpts, jqXHR) {
-  // you could pass this option in on a "retry" so that it doesn't
-  // get all recursive on you.
-
-  window.console.log("running prefilter");
-
-  if (opts.refreshRequest) {
-    window.console.log("refreshRequest === true, returning");
-    return;
-  }
-
-  // our own deferred object to handle done/fail callbacks
-  let dfd = $.Deferred();
-
-  // if the request works, return normally
-  jqXHR.done(dfd.resolve);
-
-  // if the request fails, do something else
-  // yet still resolve
-  jqXHR.fail(() => {
-    let args = Array.prototype.slice.call(arguments);
-    window.console.log("request failed");
-    if (jqXHR.status === 401) {
-      window.console.log("status was 401, attempting refresh");
-      $.ajax({
-        method: "POST",
-        url: "http://localhost:8000/api/token/refresh/",
-        contentType: "application/json",
-        data: JSON.stringify({ refresh: `${localStorage.getItem("refresh")}` }),
-        refreshRequest: true,
-        error: () => {
-          handleError(dfd, jqXHR, args);
-        },
-        success: (response) => {
-          handleSuccess(response, dfd, originalOpts);
-        },
-      });
-    } else {
-      window.console.log("status was not 401");
-      dfd.rejectWith(jqXHR, args);
-    }
-  });
-
-  // Now override the jqXHR's promise functions with our deferred
-  return dfd.promise(jqXHR);
-});
 
 class App {
   constructor() {
