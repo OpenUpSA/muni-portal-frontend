@@ -213,6 +213,30 @@ $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
 });
 
 /*
+  Refresh our access token using our refresh token and then either retry
+  the original request or log the user out.
+ */
+function retryAjaxWithRefreshedToken(deferred, jqXHR, args, originalOptions) {
+  const baseUrl = getBaseApiUrl();
+  const url = `${baseUrl}/api/token/refresh/`;
+  const refreshToken = `${localStorage.getItem("refresh")}`;
+
+  return $.ajax({
+    method: "POST",
+    url: url,
+    contentType: "application/json",
+    data: JSON.stringify({ refresh: refreshToken }),
+    refreshRequest: true,
+    error: () => {
+      handleRefreshTokenExpired(deferred, jqXHR, args);
+    },
+    success: (response) => {
+      handleAccessTokenRefreshed(response, deferred, originalOptions);
+    },
+  });
+}
+
+/*
   Log the user out and redirect them to the login page.
  */
 function handleRefreshTokenExpired(deferred, jqXHR, args) {
@@ -237,29 +261,4 @@ function handleAccessTokenRefreshed(response, deferred, originalOptions) {
   });
   // pass this one on to our deferred pass or fail.
   $.ajax(newOptions).then(deferred.resolve, deferred.reject);
-}
-
-/*
-  Refresh our access token using our refresh token and then either retry
-  the original request, fail as expected (if original request not a 401)
-  or log the user out if refreshing led to a 401).
- */
-function retryAjaxWithRefreshedToken(deferred, jqXHR, args, originalOptions) {
-  const baseUrl = getBaseApiUrl();
-  const url = `${baseUrl}/api/token/refresh/`;
-  const refreshToken = `${localStorage.getItem("refresh")}`;
-
-  return $.ajax({
-    method: "POST",
-    url: url,
-    contentType: "application/json",
-    data: JSON.stringify({ refresh: refreshToken }),
-    refreshRequest: true,
-    error: () => {
-      handleRefreshTokenExpired(deferred, jqXHR, args);
-    },
-    success: (response) => {
-      handleAccessTokenRefreshed(response, deferred, originalOptions);
-    },
-  });
 }
