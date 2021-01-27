@@ -44,6 +44,27 @@ if (CONTEXT === "production" && SENTRY_DSN) {
   });
 }
 
+function handleError(dfd, jqXHR, args) {
+  alert("Your session has expired. Sorry.");
+  // reject with the original 401 response
+  dfd.rejectWith(jqXHR, args);
+}
+
+function handleSuccess(response, dfd, originalOpts) {
+  window.console.log("refresh was successful, retrying original request");
+  // set new access token
+  localStorage.setItem("user", response.access);
+  // retry with a copied originalOpts with refreshRequest.
+  let newOpts = $.extend({}, originalOpts, {
+    refreshRequest: true,
+    headers: {
+      authorization: `Bearer ${response.access}`,
+    },
+  });
+  // pass this one on to our deferred pass or fail.
+  $.ajax(newOpts).then(dfd.resolve, dfd.reject);
+}
+
 /* This handles refreshing the JWT access token when any request fails due
   to a 401 response (the access token may have expired). */
 $.ajaxPrefilter(function (opts, originalOpts, jqXHR) {
@@ -65,7 +86,7 @@ $.ajaxPrefilter(function (opts, originalOpts, jqXHR) {
 
   // if the request fails, do something else
   // yet still resolve
-  jqXHR.fail(function () {
+  jqXHR.fail(() => {
     let args = Array.prototype.slice.call(arguments);
     window.console.log("request failed");
     if (jqXHR.status === 401) {
@@ -76,28 +97,11 @@ $.ajaxPrefilter(function (opts, originalOpts, jqXHR) {
         contentType: "application/json",
         data: JSON.stringify({ refresh: `${localStorage.getItem("refresh")}` }),
         refreshRequest: true,
-        error: function () {
-          alert("Your session has expired. Sorry.");
-          // reject with the original 401 response
-          dfd.rejectWith(jqXHR, args);
+        error: () => {
+          handleError(dfd, jqXHR, args);
         },
-        success: function (response) {
-          window.console.log(
-            "refresh was successful, retrying original request"
-          );
-          window.console.log(response);
-          window.console.log(originalOpts);
-          // set new access token
-          localStorage.setItem("user", response.access);
-          // retry with a copied originalOpts with refreshRequest.
-          let newOpts = $.extend({}, originalOpts, {
-            refreshRequest: true,
-            headers: {
-              authorization: `Bearer ${response.access}`,
-            },
-          });
-          // pass this one on to our deferred pass or fail.
-          $.ajax(newOpts).then(dfd.resolve, dfd.reject);
+        success: (response) => {
+          handleSuccess(response, dfd, originalOpts);
         },
       });
     } else {
