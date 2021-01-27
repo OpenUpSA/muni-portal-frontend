@@ -1,5 +1,4 @@
 import { API } from "../../api";
-import { BasicBlock } from "../basic-block";
 import { FullWidthGrid } from "../grid";
 import { PageTitle, SectionHeading } from "../headings";
 
@@ -23,17 +22,29 @@ export class UserSettings {
         $container.append(NotificationsSettings());
       })
       .fail((error) => {
-
-        // TODO: first check if the status code is 401 unauthorized, and if so, attempt a refresh
-
-        // TODO: if the refresh fails, delete the user in localstorage to log them out
-
-        // TODO: otherwise, if the original error was not 401, show the original error message
-
-        $container.append(
-          `We encountered an error while retrieving your profile information. Please contact support. ${error.responseText}`
-        );
-        console.error(error);
+        // switch (error.status) {
+        //   case 401:
+        //     this.api
+        //       .getNewAccessToken() // todo: create this api call
+        //       .done((tokens) => {
+        //         // Set new access token
+        //         localStorage.setItem("user", tokens.access);
+        //         // todo: retry original request (wip, not sure best method yet)
+        //       })
+        //       .fail(() => {
+        //         // Refresh token was invalid, so log the user out and redirect them
+        //         localStorage.removeItem("user");
+        //         localStorage.removeItem("refresh");
+        //         window.location.replace = "/accounts/login/";
+        //       });
+        //     break;
+        //
+        //   default:
+            $container.append(
+              `We encountered an error while retrieving your profile information. Please contact support. ${error.responseText}`
+            );
+            console.error(error);
+        // }
       });
 
     this.$element = $container;
