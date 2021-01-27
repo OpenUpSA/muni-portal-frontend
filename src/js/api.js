@@ -11,7 +11,7 @@ export class API {
         "apiBaseUrl",
         window.prompt("Enter the API base URL", defaultBaseUrl)
       );
-    this.baseUrl = getBaseApiUrl()
+    this.baseUrl = getBaseApiUrl();
   }
 
   getAdministrationIndex() {
@@ -212,6 +212,9 @@ $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
   return deferred.promise(jqXHR);
 });
 
+/*
+  Log the user out and redirect them to the login page.
+ */
 function handleRefreshTokenExpired(deferred, jqXHR, args) {
   localStorage.removeItem("user");
   localStorage.removeItem("refresh");
@@ -220,6 +223,9 @@ function handleRefreshTokenExpired(deferred, jqXHR, args) {
   window.location.replace("/accounts/login/");
 }
 
+/*
+  Set the new access token and retry the original request
+ */
 function handleAccessTokenRefreshed(response, deferred, originalOptions) {
   localStorage.setItem("user", response.access);
   // retry original request with refreshRequest and the new access token
@@ -233,6 +239,11 @@ function handleAccessTokenRefreshed(response, deferred, originalOptions) {
   $.ajax(newOptions).then(deferred.resolve, deferred.reject);
 }
 
+/*
+  Refresh our access token using our refresh token and then either retry
+  the original request, fail as expected (if original request not a 401)
+  or log the user out if refreshing led to a 401).
+ */
 function retryAjaxWithRefreshedToken(deferred, jqXHR, args, originalOptions) {
   const baseUrl = getBaseApiUrl();
   const url = `${baseUrl}/api/token/refresh/`;
