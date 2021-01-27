@@ -22,29 +22,10 @@ export class UserSettings {
         $container.append(NotificationsSettings());
       })
       .fail((error) => {
-        // switch (error.status) {
-        //   case 401:
-        //     this.api
-        //       .getNewAccessToken() // todo: create this api call
-        //       .done((tokens) => {
-        //         // Set new access token
-        //         localStorage.setItem("user", tokens.access);
-        //         // todo: retry original request (wip, not sure best method yet)
-        //       })
-        //       .fail(() => {
-        //         // Refresh token was invalid, so log the user out and redirect them
-        //         localStorage.removeItem("user");
-        //         localStorage.removeItem("refresh");
-        //         window.location.replace = "/accounts/login/";
-        //       });
-        //     break;
-        //
-        //   default:
-            $container.append(
-              `We encountered an error while retrieving your profile information. Please contact support. ${error.responseText}`
-            );
-            console.error(error);
-        // }
+        $container.append(
+          `We encountered an error while retrieving your profile information. Please contact support. ${error.responseText}`
+        );
+        console.error(error);
       });
 
     this.$element = $container;
