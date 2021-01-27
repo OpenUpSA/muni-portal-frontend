@@ -183,11 +183,11 @@ export class API {
 
 /*
   Any AJAX request that fails due to a 401 status code (unauthorised) will
-  refresh the access token by doing a POST with the local refresh token
-  and then repeat the original request with the new access token.
+  attempt to refresh the access token by doing a POST with the local refresh token
+  and, if successful, repeat the original request with the new access token.
 
-  In other words, if the access token expires, we fetch a new one and continue
-  as normal.
+  If the refresh fails, it will log the user out and redirect them to the login
+  page.
 */
 $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
   // enable this on a retry request to avoid infinite recursion
