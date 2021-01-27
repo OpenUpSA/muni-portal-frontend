@@ -13,6 +13,8 @@ ES6 and Webflow.
 1. Install dependencies by running `yarn`
 2. Start a development server by running `yarn dev`
 
+### Service Worker in development environment
+
 The above does not include the service worker so, if you are working on a piece of functionality that requires the service worker, the workflow is a bit different.
 
 With the dependencies installed, ensure that you have a `.env` file in the root of your project with the following entry:
