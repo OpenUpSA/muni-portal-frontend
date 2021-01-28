@@ -24,9 +24,9 @@ function formatError(jqXHR) {
 }
 
 function getPasswordRequirements() {
-  const container = document.createElement("div");
-  const heading = document.createElement("h5");
-  const uList = document.createElement("ul");
+  const $container = $("<div />");
+  const $heading = $("<h5 />", { text: "Your password must:" });
+  const $uList = $("<ul />");
   const requirements = [
     "be at least 9 characters long,",
     "not be similar to your username or email address,",
@@ -34,18 +34,16 @@ function getPasswordRequirements() {
   ];
 
   requirements.forEach((requirement) => {
-    const listItem = document.createElement("li");
-    listItem.textContent = requirement;
-    uList.appendChild(listItem);
+    const $listItem = $("<li />", { text: requirement });
+    $uList.append($listItem);
   });
 
-  heading.textContent = "Your password must:";
-  container.appendChild(heading);
-  container.appendChild(uList);
+  $container.append($heading);
+  $container.append($uList);
 
-  container.setAttribute("id", "password-requirements");
+  $container.attr("id", "password-requirements");
 
-  return container;
+  return $container;
 }
 
 export class UserRegistration {
