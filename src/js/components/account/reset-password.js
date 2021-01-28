@@ -24,7 +24,7 @@ export class ResetPassword {
 
     const $resetFormContainer = getDiv("form w-form");
     const $form = getForm(`${defaultBaseUrl}${endPoint}`, "post");
-    const $submitButton = getSubmitButton("Set New Password");
+    const $submitButton = getSubmitButton("Update password");
 
     const $formElementsContainer = $("<div />");
     $formElementsContainer.append(getLabel("new password"));
