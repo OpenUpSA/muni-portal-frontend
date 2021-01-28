@@ -25,6 +25,16 @@
   <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
   <link href="images/webclip.png" rel="apple-touch-icon">
   <script src="https://kit.fontawesome.com/95e41092af.js" crossorigin="anonymous"></script>
+  <script>
+    (function (p, u, s, h, x) { p.pushpad = p.pushpad || function () { (p.pushpad.q = p.pushpad.q || []).push(arguments) }; h = u.getElementsByTagName('head')[0]; x = u.createElement('script'); x.async = 1; x.src = s; h.appendChild(x); })(window, document, 'https://pushpad.xyz/pushpad.js');
+
+    pushpad('init', ProjectID);
+    pushpad('widget', {
+      promptTitle: 'Subscribe to MyMuni Notifications',
+      promptMessage: 'Subscribe to receive instant notifications of service disruptions and other important information.',
+      promptButtonColor: "#0094ff",
+    });
+  </script>
 <meta name="theme-color" content="#0094ff"><link rel="manifest" href="manifest.webmanifest"><script>dataLayer = [];</script></head>
 <body>
   <div class="splash-screen hidden">

@@ -1,9 +1,7 @@
 import { API } from "../../api";
-import { BasicBlock } from "../basic-block";
 import { FullWidthGrid } from "../grid";
 import { PageTitle, SectionHeading } from "../headings";
 
-import { NotificationsSettings } from "../notifications";
 import { ProfileInfo } from "./profile";
 
 export class UserSettings {
@@ -18,9 +16,6 @@ export class UserSettings {
         $container.append(new SectionHeading("Profile information").render());
 
         $container.append(new FullWidthGrid(ProfileInfo(profile)).render());
-
-        $container.append(new SectionHeading("Notification settings").render());
-        $container.append(NotificationsSettings());
       })
       .fail((error) => {
         $container.append(
