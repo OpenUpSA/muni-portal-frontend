@@ -44,8 +44,6 @@ if (CONTEXT === "production" && SENTRY_DSN) {
   });
 }
 
-
-
 class App {
   constructor() {
     this.api = new API();
