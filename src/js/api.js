@@ -102,7 +102,7 @@ export class API {
     const url = `${this.baseUrl}/api/accounts/profile/`;
 
     try {
-      const userToken = localStorage.getItem("user");
+      const userToken = localStorage.getItem("accessToken");
       if (!userToken) {
         throw new Error("No user set. Unable to get user profile information.");
       }
@@ -122,7 +122,7 @@ export class API {
     const url = `${this.baseUrl}/api/webpush/public-key/`;
 
     try {
-      const userToken = localStorage.getItem("user");
+      const userToken = localStorage.getItem("accessToken");
       if (!userToken) {
         throw new Error("No user set. Unable to get user profile information.");
       }
@@ -142,7 +142,7 @@ export class API {
     const url = `${this.baseUrl}/api/webpush/subscription/`;
 
     try {
-      const userToken = localStorage.getItem("user");
+      const userToken = localStorage.getItem("accessToken");
       if (!userToken) {
         throw new Error("No user set. Unable to get user profile information.");
       }
@@ -219,7 +219,7 @@ $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
 function retryAjaxWithRefreshedToken(deferred, jqXHR, args, originalOptions) {
   const baseUrl = getBaseApiUrl();
   const url = `${baseUrl}/api/token/refresh/`;
-  const refreshToken = `${localStorage.getItem("refresh")}`;
+  const refreshToken = `${localStorage.getItem("refreshToken")}`;
 
   return $.ajax({
     method: "POST",
@@ -240,8 +240,8 @@ function retryAjaxWithRefreshedToken(deferred, jqXHR, args, originalOptions) {
   Log the user out and redirect them to the login page.
  */
 function handleRefreshTokenExpired(deferred, jqXHR, args) {
-  localStorage.removeItem("user");
-  localStorage.removeItem("refresh");
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
   // reject with the original 401 response
   deferred.rejectWith(jqXHR, args);
   window.location.replace("/accounts/login/");
@@ -251,7 +251,7 @@ function handleRefreshTokenExpired(deferred, jqXHR, args) {
   Set the new access token and retry the original request
  */
 function handleAccessTokenRefreshed(response, deferred, originalOptions) {
-  localStorage.setItem("user", response.access);
+  localStorage.setItem("accessToken", response.access);
   // retry original request with refreshRequest and the new access token
   let newOptions = $.extend({}, originalOptions, {
     refreshRequest: true,
