@@ -1988,11 +1988,6 @@ strong {
   flex: 0 0 auto;
 }
 
-.link-text.form-submit {
-  display: inline-block;
-  margin-top: 8px;
-}
-
 .nav-menu__links {
   display: -ms-grid;
   display: grid;
