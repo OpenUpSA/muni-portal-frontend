@@ -4,7 +4,7 @@ export function tryRegisterSW() {
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
       console.debug("registering service worker");
-      const wb = new Workbox("/service-worker.js");
+      const wb = new Workbox("/service-worker.js", {updateViaCache: 'none'});
       let registration;
       const showSkipWaitingPrompt = (event) => {
         console.debug("showskip", event);
