@@ -68,6 +68,7 @@ export class Login {
           setMenuState();
 
           $form.hide();
+          $fail.hide();
           $success.empty().append("You are now logged in").show();
 
           window.location = "/services/";
