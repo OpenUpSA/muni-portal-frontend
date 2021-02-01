@@ -74,9 +74,12 @@ export class Login {
         }
       })
       .fail((jqXHR, textStatus) => {
-        // $form.hide();
-        const errorMessage = jqXHR.responseJSON.detail;
-        window.console.log(jqXHR.responseJSON);
+        $form[0].reset();
+
+        let errorMessage = "Error while communicating with the server";
+        if (jqXHR.status === 400) {
+          errorMessage = jqXHR.responseJSON.detail;
+        }
         $fail.empty().append(errorMessage).show();
         console.error(jqXHR, textStatus);
       });
