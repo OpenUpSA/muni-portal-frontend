@@ -119,6 +119,17 @@ export class API {
     return $.post({ url, data: userDetails });
   }
 
+  changePassword(endPoint, userDetails) {
+    // TODO: note that this won't work when other PR is merged due to "user" becoming "accessToken"
+    const userToken = localStorage.getItem("user");
+    const url = `${this.baseUrl}${endPoint}`;
+    return $.post({
+      url,
+      headers: { authorization: `Bearer ${userToken}` },
+      data: userDetails,
+    });
+  }
+
   registerUser(endPoint, userDetails) {
     const url = `${this.baseUrl}${endPoint}`;
     return $.post({ url, data: userDetails });
