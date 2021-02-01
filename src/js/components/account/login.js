@@ -38,9 +38,9 @@ export class Login {
 
     $form.append($submitButton);
 
-    $loginFormContainer.append($form);
     $loginFormContainer.append($successTemplate);
     $loginFormContainer.append($failTemplate);
+    $loginFormContainer.append($form);
 
     $form.submit((event) => {
       event.preventDefault();
@@ -74,11 +74,10 @@ export class Login {
         }
       })
       .fail((jqXHR, textStatus) => {
-        $form.hide();
-        $fail
-          .empty()
-          .append("Error while communicating with the server")
-          .show();
+        // $form.hide();
+        const errorMessage = jqXHR.responseJSON.detail;
+        window.console.log(jqXHR.responseJSON);
+        $fail.empty().append(errorMessage).show();
         console.error(jqXHR, textStatus);
       });
   }
