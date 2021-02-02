@@ -44,9 +44,9 @@ export class Login {
 
     $form.append($submitButton);
 
-    $loginFormContainer.append($form);
     $loginFormContainer.append($successTemplate);
     $loginFormContainer.append($failTemplate);
+    $loginFormContainer.append($form);
     $loginFormContainer.append($forgotPasswordLink);
 
     $form.submit((event) => {
@@ -75,17 +75,20 @@ export class Login {
           setMenuState();
 
           $form.hide();
+          $fail.hide();
           $success.empty().append("You are now logged in").show();
 
           window.location = "/services/";
         }
       })
       .fail((jqXHR, textStatus) => {
-        $form.hide();
-        $fail
-          .empty()
-          .append("Error while communicating with the server")
-          .show();
+        $form[0].reset();
+
+        let errorMessage = "Error while communicating with the server";
+        if (jqXHR.status === 400) {
+          errorMessage = jqXHR.responseJSON.detail;
+        }
+        $fail.empty().append(errorMessage).show();
         console.error(jqXHR, textStatus);
       });
   }
