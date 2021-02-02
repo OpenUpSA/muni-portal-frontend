@@ -1,6 +1,7 @@
 import { API } from "../../api";
 import { setMenuState } from "../../utils/menu";
 import {
+  getAnchorElement,
   getDiv,
   getForm,
   getInput,
@@ -28,6 +29,11 @@ export class Login {
     const $loginFormContainer = getDiv("form w-form");
     const $form = getForm(`${defaultBaseUrl}${endPoint}`, "post");
     const $submitButton = getSubmitButton("Login");
+    const $forgotPasswordLink = getAnchorElement(
+      "/accounts/forgot-password/",
+      "link-text form-submit",
+      "I forgot my password"
+    );
 
     fields.forEach((field) => {
       const $formElementsContainer = $("<div />");
@@ -41,6 +47,7 @@ export class Login {
     $loginFormContainer.append($form);
     $loginFormContainer.append($successTemplate);
     $loginFormContainer.append($failTemplate);
+    $loginFormContainer.append($forgotPasswordLink);
 
     $form.submit((event) => {
       event.preventDefault();

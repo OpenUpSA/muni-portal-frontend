@@ -55,7 +55,8 @@ export class ForgotPassword {
           $success
             .empty()
             .append(
-              "If we found an account with the email address you provided, you should receive a reset link soon."
+              "If we found an account with the email address you provided, " +
+                "you should receive a reset link soon."
             )
             .show();
         }
@@ -65,7 +66,8 @@ export class ForgotPassword {
         $fail
           .empty()
           .append(
-            "Something went wrong while communicating with the server. Please try again or contact support."
+            "Something went wrong while communicating with the server. " +
+              "Please try again or contact support."
           )
           .show();
         console.error(jqXHR, textStatus);
