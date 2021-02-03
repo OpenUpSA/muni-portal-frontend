@@ -86,7 +86,7 @@ export class UserRegistration {
 
       if (field.label === "password") {
         $formElementsContainer.append(
-          getInput(field.type, field.label, "password-requirements")
+          getInput(field.type, field.label, "", "password-requirements")
         );
         $formElementsContainer.append(getPasswordRequirements());
       } else {

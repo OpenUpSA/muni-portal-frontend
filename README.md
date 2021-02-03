@@ -8,17 +8,24 @@ ES6 and Webflow.
 
     yarn run import-webflow zipfile.zip
 
-
 ## Development environment
 
 1. Install dependencies by running `yarn`
-2. Build the static assets by running `yarn build`
-3. Start a development server by running `yarn serve`
+2. Start a development server by running `yarn dev`
 
-`parcel-plugin-sw-cache` does not support hot reloading so you have to `yarn build` each time you want to see code changes reflected in the locally-served site.
+### Service Worker in development environment
 
+The above does not include the service worker so, if you are working on a piece of functionality that requires the service worker, the workflow is a bit different.
 
-### HTTPS in Dev
+With the dependencies installed, run the following:
+
+```
+yarn start
+```
+
+> NOTE: The downside of the above is that hot module reloading is not supported in this mode. This means that when you make a change to your code, you will have to stop the above process(by pressing ctrl + c), and then run the above command again.
+
+## HTTPS in Dev
 
 You need a CA and server certificate to serve the site over https in your
 development environment.
@@ -40,10 +47,20 @@ can, they are much closer to performing a man-in-the-middle attack on you.
 
 The build is configured using environment variables.
 
-| Variable | Default | Description |
-| -------- | ------- | ----------- |
-| CONTEXT  | unset | Configured by Netlify: Name of the build’s deploy context. It can be production, deploy-preview or branch-deploy. Sentry is only enabled if set to `production`. |
-| NODE_ENV | `production` if using `parcel build` | |
-| SENTRY_DSN |
-| SENTRY_PERF_SAMPLE_RATE |
+| Variable                | Default                              | Description                                                                                                                                                      |
+| ----------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CONTEXT                 | unset                                | Configured by Netlify: Name of the build’s deploy context. It can be production, deploy-preview or branch-deploy. Sentry is only enabled if set to `production`. |
+| NODE_ENV                | `production` if using `parcel build` |                                                                                                                                                                  |
+| SENTRY_DSN              | unset                                | only required in production environment                                                                                                                          |
+| SENTRY_PERF_SAMPLE_RATE | unset                                | only required in production environment                                                                                                                          |
+| GOOGLE_TAG_MANAGER_ID   | unset                                | only required in production environment                                                                                                                          |
 
+## Running Lighthouse Tests Locally
+
+As part of our CI we run Lighthouse tests against the progressive web app category of tests to ensure we meet the `minScore` of 1 and do not regress between pull requests. If your pull request build failed due to the Lighthouse tests, it's often easier to diagnose if you run the tests locally.
+
+To do so, run the following in your terminal:
+
+```
+npx lhci autorun
+```

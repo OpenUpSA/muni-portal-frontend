@@ -38,12 +38,23 @@ export const getForm = (action, method) => {
   });
 };
 
-export const getInput = (type, label, describedBy) => {
+/**
+ * Returns an input field with the type, label, and value
+ * attributes set. The third parameter, if provided, is used
+ * to set the value for aria-describedby. For example:
+ * getInput("email", "email address", "a11y-description", "default@example.com");
+ * @param {string} type - The type of input element
+ * @param {string} label  - The text label for the input element
+ * @param {string} [value] - value of the element [defaults to empty string]
+ * @param {string} [describedBy] - is to use as the value for aria-describedby
+ */
+export const getInput = (type, label, value = "", describedBy) => {
   const name = label.split(" ").join("_");
   const $input = $("<input />", {
     class: "card input-field w-input",
     type: type,
     name: name,
+    value: value,
     id: `my-muni-${label}`,
   });
 
