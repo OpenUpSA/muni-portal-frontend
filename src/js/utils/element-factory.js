@@ -42,7 +42,7 @@ export const getForm = (action, method) => {
  * Returns an input field with the type, label, and value
  * attributes set. The third parameter, if provided, is used
  * to set the value for aria-describedby. For example:
- * getInput("email", "email address", "a11y-description", "default@example.com");
+ * getInput("email", "email address", "default@example.com", "a11y-description");
  * @param {string} type - The type of input element
  * @param {string} label  - The text label for the input element
  * @param {string} [value] - value of the element [defaults to empty string]
