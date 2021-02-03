@@ -20,6 +20,7 @@ export class Login {
       {
         label: "Username",
         type: "text",
+        name: "login",
       },
       {
         label: "Password",
@@ -38,7 +39,9 @@ export class Login {
     fields.forEach((field) => {
       const $formElementsContainer = $("<div />");
       $formElementsContainer.append(getLabel(field.label));
-      $formElementsContainer.append(getInput(field.type, field.label));
+      $formElementsContainer.append(
+        getInput(field.type, field.label, "", null, field.name)
+      );
       $form.append($formElementsContainer);
     });
 
