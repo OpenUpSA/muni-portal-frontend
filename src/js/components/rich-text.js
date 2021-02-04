@@ -1,6 +1,6 @@
 export class ExpandableRichText {
   constructor(html) {
-    this.$template = $(".styles .expandable-rich-text");
+    this.$template = $(".components .expandable-rich-text");
     this.$element = this.$template.clone();
     this.$contentContainer = this.$element.find(".rich-text");
     this.$gradientContainer = this.$element.find(".rich-text__gradient");

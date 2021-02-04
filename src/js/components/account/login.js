@@ -11,8 +11,8 @@ import {
 
 export class Login {
   constructor() {
-    const $successTemplate = $(".styles .form-styles .w-form-done").clone();
-    const $failTemplate = $(".styles .form-styles .w-form-fail").clone();
+    const $successTemplate = $(".components .form-styles .w-form-done").clone();
+    const $failTemplate = $(".components .form-styles .w-form-fail").clone();
 
     const defaultBaseUrl = "https://muni-portal-backend.openup.org.za";
     const endPoint = "/api/accounts/login/";

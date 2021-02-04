@@ -2,10 +2,9 @@
  * Returns a modal header with a click event attached to the
  * close icon that will close the modal.
  * @param {string} title - title of the modal
- * @param {jqObject} $element - The modal element
  */
-export const getModalHeader = (title, $element) => {
-  const $modalHeader = $(".styles .page-heading").clone();
+export const getModalHeader = (title) => {
+  const $modalHeader = $(".components .page-heading").clone();
   // the above consists of two elements
   // 1. A page title
   const $modalTitle = $modalHeader.find(".page-title").empty();

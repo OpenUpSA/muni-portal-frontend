@@ -75,7 +75,7 @@ export class TabContentContainer {
   }
 }
 
-const actionCardTemplate = $(".styles .card.action").clone();
+const actionCardTemplate = $(".components .card.action").clone();
 
 class ActionCard {
   constructor(title, iconClasses, url) {

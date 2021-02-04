@@ -1,5 +1,5 @@
 export class Breadcrumbs {
-  breadcrumbsTemplate = $(".styles .breadcrumbs__wrap").first();
+  breadcrumbsTemplate = $(".components .breadcrumbs__wrap").first();
 
   constructor(items) {
     this.element = this.breadcrumbsTemplate.clone();
@@ -16,7 +16,7 @@ export class Breadcrumbs {
 }
 
 class Breadcrumb {
-  breadcrumbTemplate = $(".styles .breadcrumb").first();
+  breadcrumbTemplate = $(".components .breadcrumb").first();
 
   constructor(item) {
     this.element = this.breadcrumbTemplate.clone();

@@ -47,32 +47,32 @@ export class LinkBlock {
       props.shadedTarget &&
       props.subtitle
     ) {
-      return $(".styles .link-block:eq(5)");
+      return $(".components .link-block:eq(5)");
     }
 
     if (props.targetIconClasses && props.subjectIconClasses && props.subtitle) {
-      return $(".styles .link-block:eq(6)");
+      return $(".components .link-block:eq(6)");
     }
 
     if (props.subjectIconClasses && (props.subtitle || props.subtitle === "")) {
-      return $(".styles .link-block:eq(6)");
+      return $(".components .link-block:eq(6)");
     }
 
     // https://app.gitbook.com/@openup/s/cape-agulhas-app/design-system/link-block#container-classes-7
     if (props.subtitle && props.profileImageThumbnail) {
-      return $(".styles .link-block:eq(8)");
+      return $(".components .link-block:eq(8)");
     }
 
     // https://app.gitbook.com/@openup/s/cape-agulhas-app/design-system/link-block#container-classes-3
     if (props.subtitle || props.subtitle === "") {
-      return $(".styles .link-block:eq(4)");
+      return $(".components .link-block:eq(4)");
     }
 
     if (props.subjectIconClasses) {
-      return $(".styles .link-block:eq(3)");
+      return $(".components .link-block:eq(4)");
     }
 
-    return $(".styles .link-block:eq(2)");
+    return $(".components .link-block:eq(2)");
   }
 
   render() {

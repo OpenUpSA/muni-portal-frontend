@@ -1,6 +1,6 @@
 export class TabItem {
   constructor(tabContent) {
-    this.$template = $(".styles .tab-link").first();
+    this.$template = $(".components .tab-link").first();
     this.$element = this.$template.clone();
 
     /*

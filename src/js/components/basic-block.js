@@ -1,6 +1,6 @@
 export class BasicBlock {
   constructor(props) {
-    this.template = $(".styles .basic-block--rich-text");
+    this.template = $(".components .basic-block--rich-text");
     this.element = this.template.clone();
     this.element.find(".h3-block-title").text(props.title);
 
