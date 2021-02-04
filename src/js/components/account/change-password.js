@@ -32,9 +32,9 @@ export class ChangePassword {
     $form.append($formElementsContainer);
     $form.append($submitButton);
 
-    $changeFormContainer.append($form);
     $changeFormContainer.append($successTemplate);
     $changeFormContainer.append($failTemplate);
+    $changeFormContainer.append($form);
 
     $form.submit((event) => {
       event.preventDefault();
