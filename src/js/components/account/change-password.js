@@ -60,20 +60,26 @@ export class ChangePassword {
           $form.hide();
           $success
             .empty()
-            .append(
-              "Your password has been changed successfully."
-            )
+            .append("Your password has been changed successfully.")
             .show();
         }
       })
       .fail((jqXHR, textStatus) => {
-        $form.hide();
-        $fail
-          .empty()
-          .append(
-            "Something went wrong while communicating with the server. Please try again or contact support."
-          )
-          .show();
+        $form[0].reset();
+        if (jqXHR.status === 400) {
+          $(".change-password-field-error").remove();
+          for (const [fieldName, error] of Object.entries(jqXHR.responseJSON)) {
+            const $input = $("input[name='" + fieldName + "']");
+            const $failClone = $fail
+              .clone()
+              .addClass("change-password-field-error")
+              .insertBefore($input[0]);
+            $failClone.empty().append(`${error}`).show();
+          }
+        } else {
+          const errorMessage = "Error while communicating with the server";
+          $fail.empty().append(errorMessage).show();
+        }
         console.error(jqXHR, textStatus);
       });
   }
