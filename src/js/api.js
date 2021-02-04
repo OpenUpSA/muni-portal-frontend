@@ -133,6 +133,11 @@ export class API {
     return $.post({ url, data: userDetails });
   }
 
+  resetPassword(endPoint, userDetails) {
+    const url = `${this.baseUrl}${endPoint}`;
+    return $.post({ url, data: userDetails });
+  }
+
   verifyUserRegistration(endPoint, userDetails) {
     const url = `${this.baseUrl}${endPoint}`;
     return $.post({ url, data: userDetails });
@@ -220,3 +225,4 @@ function handleAccessTokenRefreshed(response, deferred, originalOptions) {
   // pass this one on to our deferred pass or fail.
   $.ajax(newOptions).then(deferred.resolve, deferred.reject);
 }
+

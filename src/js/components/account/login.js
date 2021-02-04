@@ -1,6 +1,7 @@
 import { API } from "../../api";
 import { setMenuState } from "../../utils/menu";
 import {
+  getAnchorElement,
   getDiv,
   getForm,
   getInput,
@@ -28,6 +29,11 @@ export class Login {
     const $loginFormContainer = getDiv("form w-form");
     const $form = getForm(`${defaultBaseUrl}${endPoint}`, "post");
     const $submitButton = getSubmitButton("Login");
+    const $forgotPasswordLink = getAnchorElement(
+      "/accounts/forgot-password/",
+      "link-text form-submit",
+      "I forgot my password"
+    );
 
     fields.forEach((field) => {
       const $formElementsContainer = $("<div />");
@@ -38,9 +44,10 @@ export class Login {
 
     $form.append($submitButton);
 
-    $loginFormContainer.append($form);
     $loginFormContainer.append($successTemplate);
     $loginFormContainer.append($failTemplate);
+    $loginFormContainer.append($form);
+    $loginFormContainer.append($forgotPasswordLink);
 
     $form.submit((event) => {
       event.preventDefault();
@@ -69,17 +76,20 @@ export class Login {
           setMenuState();
 
           $form.hide();
+          $fail.hide();
           $success.empty().append("You are now logged in").show();
 
           window.location = "/services/";
         }
       })
       .fail((jqXHR, textStatus) => {
-        $form.hide();
-        $fail
-          .empty()
-          .append("Error while communicating with the server")
-          .show();
+        $form[0].reset();
+
+        let errorMessage = "Error while communicating with the server";
+        if (jqXHR.status === 400) {
+          errorMessage = jqXHR.responseJSON.detail;
+        }
+        $fail.empty().append(errorMessage).show();
         console.error(jqXHR, textStatus);
       });
   }
