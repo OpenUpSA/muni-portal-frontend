@@ -124,8 +124,7 @@ export class API {
   }
 
   changePassword(endPoint, userDetails) {
-    // TODO: note that this won't work when other PR is merged due to "user" becoming "accessToken"
-    const userToken = localStorage.getItem("user");
+    const userToken = localStorage.getItem("accessToken");
     const url = `${this.baseUrl}${endPoint}`;
     return $.post({
       url,
@@ -236,4 +235,3 @@ function handleAccessTokenRefreshed(response, deferred, originalOptions) {
   // pass this one on to our deferred pass or fail.
   $.ajax(newOptions).then(deferred.resolve, deferred.reject);
 }
-
