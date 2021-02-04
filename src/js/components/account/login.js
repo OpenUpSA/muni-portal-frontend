@@ -71,7 +71,8 @@ export class Login {
     response
       .done((response, textStatus) => {
         if (textStatus === "success") {
-          localStorage.setItem("user", response.token);
+          localStorage.setItem("accessToken", response.token.access);
+          localStorage.setItem("refreshToken", response.token.refresh);
           setMenuState();
 
           $form.hide();

@@ -7,7 +7,8 @@ import { getAnchorElement } from "./element-factory";
  */
 function handleLogout($logoutButton) {
   $logoutButton.on("click", () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken")
     setMenuState();
     window.location = "/services/";
   });
@@ -33,7 +34,7 @@ export const setMenuState = () => {
 
   let $logoutButton = $("#my-muni-logout");
 
-  if (localStorage.getItem("user")) {
+  if (localStorage.getItem("accessToken")) {
     const settingsLink = getAnchorElement(
       "/account/settings/",
       "nav-link w-inline-block",
