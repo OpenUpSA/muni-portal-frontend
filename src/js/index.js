@@ -25,6 +25,7 @@ import { setMenuState, updateMenuLinks } from "./utils/menu";
 
 import { Login } from "./components/account/login";
 import { ForgotPassword } from "./components/account/forgot-password";
+import { ResetPassword } from "./components/account/reset-password";
 import { UserRegistration } from "./components/account/user-registration";
 import { UserSettings } from "./components/account/user-settings";
 import { VerifyUserRegistration } from "./components/account/user-registration-verify";
@@ -133,8 +134,13 @@ class App {
         viewType: "User Registration",
       },
       {
-        path: new RegExp("^/accounts/reset-password/$"),
+        path: new RegExp("^/accounts/forgot-password/$"),
         view: this.viewForgotPassword.bind(this),
+        viewType: "User Management",
+      },
+      {
+        path: new RegExp("^/accounts/reset-password/$"),
+        view: this.viewResetPassword.bind(this),
         viewType: "User Management",
       },
       {
@@ -295,6 +301,14 @@ class App {
     const title = "Forgot Password";
     this.setTitle(title);
     this.modalPage.setContent(forgotPassword.render(), title);
+  }
+
+  viewResetPassword() {
+    this.modalPage.show();
+    const resetPassword = new ResetPassword();
+    const title = "Reset Password";
+    this.setTitle(title);
+    this.modalPage.setContent(resetPassword.render(), title);
   }
 
   viewChangePassword() {
