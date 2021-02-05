@@ -7,7 +7,8 @@ import { getAnchorElement } from "./element-factory";
  */
 function handleLogout($logoutButton) {
   $logoutButton.on("click", () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     setMenuState();
     window.location = "/services/";
   });
@@ -53,12 +54,12 @@ export const setMenuState = () => {
   $navMenu.find(".nav-link").remove();
   $navMenu.append([$loginLink, $logoutButton, $registerLink, $settingsLink]);
 
-  if (localStorage.getItem("user")) {
+  if (localStorage.getItem("accessToken")) {
     $loginLink.hide();
     $registerLink.hide();
 
     $logoutButton.show();
-    $navMenu.append($settingsLink);
+    $settingsLink.show();
 
     handleLogout($logoutButton);
   } else {
