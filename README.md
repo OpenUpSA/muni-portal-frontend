@@ -4,6 +4,7 @@ Frontend to the Cape Agulhas Municipality Progressive Web App.
 
 ES6 and Webflow.
 
+[Webflow Export Changelog](https://app.gitbook.com/@openup/s/cape-agulhas-app/design-system/webflow-exports)
 [Import webflow exports](https://www.npmjs.com/package/import-webflow-export) as follows when there are updates.
 
     yarn run import-webflow zipfile.zip
