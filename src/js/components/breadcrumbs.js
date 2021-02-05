@@ -3,6 +3,9 @@ export class Breadcrumbs {
 
   constructor(items) {
     this.element = this.breadcrumbsTemplate.clone();
+    // remove Loading... element
+    this.element.find(".label").remove();
+
     this.itemsContainer = this.element.find(".breadcrumbs");
     this.itemsContainer.empty();
     items.forEach((item) => {

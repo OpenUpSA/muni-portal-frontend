@@ -62,7 +62,7 @@ class App {
     this.$servicesTab = new TabItem({
       title: "Services",
       url: "/services/",
-      icon: ".styles .icon--grid",
+      icon: ".components .icon--grid",
     }).render();
 
     this.$myMuniTab = new TabItem({
@@ -89,7 +89,6 @@ class App {
     // HACK TO HIDE DEFAULT ADDED FIRST TAB
     $mainContainer.find(".tab-link__wrap").first().remove();
 
-    updateMenuLinks();
     // sets the menu state based on the users login state
     setMenuState();
 
@@ -143,7 +142,7 @@ class App {
         viewType: "User Management",
       },
       {
-        path: new RegExp("^/account/settings/$"),
+        path: new RegExp("^/accounts/settings/$"),
         view: this.viewAccountSettings.bind(this),
         viewType: "User Settings",
       },

@@ -28,42 +28,44 @@ export const updateMenuLinks = () => {
 
 export const setMenuState = () => {
   const $navMenu = $(".nav-menu__links");
-  const $signinLink = $(".nav-menu__links a:nth-child(1)");
-  const $registerLink = $(".nav-menu__links a:nth-child(2)");
+  const $loginLink = getAnchorElement(
+    "/accounts/login/",
+    "nav-link w-inline-block",
+    "Login"
+  );
+  const $logoutButton = $("<button />", {
+    class: "nav-link w-inline-block",
+    id: "my-muni-logout",
+    type: "button",
+    text: "Logout",
+  });
+  const $registerLink = getAnchorElement(
+    "/accounts/register/",
+    "nav-link w-inline-block",
+    "Register"
+  );
+  const $settingsLink = getAnchorElement(
+    "/accounts/settings/",
+    "nav-link w-inline-block",
+    "Settings"
+  );
 
-  let $logoutButton = $("#my-muni-logout");
+  $navMenu.find(".nav-link").remove();
+  $navMenu.append([$loginLink, $logoutButton, $registerLink, $settingsLink]);
 
   if (localStorage.getItem("user")) {
-    const settingsLink = getAnchorElement(
-      "/account/settings/",
-      "nav-link w-inline-block",
-      "Settings"
-    );
-    if ($logoutButton.length === 0) {
-      $logoutButton = $("<button />", {
-        class: "nav-link w-inline-block w--current",
-        id: "my-muni-logout",
-        type: "button",
-        text: "Logout",
-      });
-      $navMenu.append($logoutButton);
-    } else {
-      $logoutButton.show();
-    }
-
-    $navMenu.append(settingsLink);
-
-    $signinLink.hide();
+    $loginLink.hide();
     $registerLink.hide();
+
+    $logoutButton.show();
+    $navMenu.append($settingsLink);
 
     handleLogout($logoutButton);
   } else {
-    if (!$logoutButton) {
-      return;
-    }
-
     $logoutButton.hide();
-    $signinLink.show();
+    $settingsLink.hide();
+
+    $loginLink.show();
     $registerLink.show();
   }
 };
