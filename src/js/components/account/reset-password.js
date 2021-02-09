@@ -27,7 +27,7 @@ export class ResetPassword {
     const $submitButton = getSubmitButton("Update password");
 
     const $formElementsContainer = $("<div />");
-    $formElementsContainer.append(getLabel("new password"));
+    $formElementsContainer.append(getLabel("New password"));
     $formElementsContainer.append(getInput("password", "password"));
 
     // Add security values as hidden inputs and populate from query params

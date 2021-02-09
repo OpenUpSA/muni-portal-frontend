@@ -20,7 +20,7 @@ export class ForgotPassword {
     const $submitButton = getSubmitButton("Send Reset Link");
 
     const $formElementsContainer = $("<div />");
-    $formElementsContainer.append(getLabel("email"));
+    $formElementsContainer.append(getLabel("Email"));
     $formElementsContainer.append(getInput("email", "email"));
 
     $form.append($formElementsContainer);
