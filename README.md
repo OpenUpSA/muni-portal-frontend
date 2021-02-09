@@ -8,6 +8,15 @@ ES6 and Webflow.
 
     yarn run import-webflow zipfile.zip
 
+
+## Deployment 
+
+All updates to `master` will automatically deploy to the production instance on Netlify.
+
+> NOTE: Do not merge into master if you are not ready for it to be deployed to production! 
+If you want to merge a breaking change on the backend and co-ordinate with the frontend deployment, 
+merge and deploy the backend changes _before_ merging the frontend changes.
+
 ## Development environment
 
 1. Install dependencies by running `yarn`
