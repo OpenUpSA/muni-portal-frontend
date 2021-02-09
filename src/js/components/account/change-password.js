@@ -61,7 +61,9 @@ export class ChangePassword {
           $success
             .empty()
             .append("Your password has been changed successfully.")
-            .show();
+            .attr('tabindex', -1)
+            .show()
+            .focus();
         }
       })
       .fail((jqXHR, textStatus) => {
@@ -74,11 +76,11 @@ export class ChangePassword {
               .clone()
               .addClass("change-password-field-error")
               .insertBefore($input[0]);
-            $failClone.empty().append(`${error}`).show();
+            $failClone.empty().append(`${error}`).attr('tabindex', -1).show().focus();
           }
         } else {
           const errorMessage = "Error while communicating with the server";
-          $fail.empty().append(errorMessage).show();
+          $fail.empty().append(errorMessage).attr('tabindex', -1).show().focus();
         }
         console.error(jqXHR, textStatus);
       });
