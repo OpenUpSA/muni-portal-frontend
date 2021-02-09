@@ -20,13 +20,13 @@ export class ChangePassword {
     const $submitButton = getSubmitButton("Change Password");
 
     const $formElementsContainer = $("<div />");
-    $formElementsContainer.append(getLabel("current password"));
+    $formElementsContainer.append(getLabel("Current password"));
     $formElementsContainer.append(getInput("password", "old_password"));
 
-    $formElementsContainer.append(getLabel("new password"));
+    $formElementsContainer.append(getLabel("New password"));
     $formElementsContainer.append(getInput("password", "password"));
 
-    $formElementsContainer.append(getLabel("confirm new password"));
+    $formElementsContainer.append(getLabel("Confirm new password"));
     $formElementsContainer.append(getInput("password", "password_confirm"));
 
     $form.append($formElementsContainer);
