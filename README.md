@@ -11,11 +11,11 @@ ES6 and Webflow.
 
 ## Deployment 
 
-All updates to `master` will automatically deploy to Netlify.
+All updates to `master` will automatically deploy to the production instance on Netlify.
 
-> NOTE: Do not merge into master if you are not ready for it to be deployed! 
+> NOTE: Do not merge into master if you are not ready for it to be deployed to production! 
 If you want to merge a breaking change on the backend and co-ordinate with the frontend deployment, 
-merge the backend and deploy before merging the frontend as deploying happens automatically.
+merge and deploy the backend changes _before_ merging the frontend changes.
 
 ## Development environment
 
