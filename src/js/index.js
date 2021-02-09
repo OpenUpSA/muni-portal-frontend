@@ -276,7 +276,7 @@ class App {
   viewLogin() {
     this.modalPage.show();
     const login = new Login();
-    const title = "Sign in to MyMuni";
+    const title = "Login to MyMuni";
     this.setTitle(title);
     this.modalPage.setContent(login.render(), title);
   }
@@ -284,7 +284,7 @@ class App {
   viewUserRegistration() {
     this.modalPage.show();
     const userRegistration = new UserRegistration();
-    const title = "Register for MyMuni";
+    const title = "Create an account in MyMuni";
     this.setTitle(title);
     this.modalPage.setContent(userRegistration.render(), title);
   }

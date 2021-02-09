@@ -18,11 +18,12 @@ export class Login {
     const endPoint = "/api/accounts/login/";
     const fields = [
       {
-        label: "login",
+        label: "Username",
         type: "text",
+        name: "login",
       },
       {
-        label: "password",
+        label: "Password",
         type: "password",
       },
     ];
@@ -38,7 +39,9 @@ export class Login {
     fields.forEach((field) => {
       const $formElementsContainer = $("<div />");
       $formElementsContainer.append(getLabel(field.label));
-      $formElementsContainer.append(getInput(field.type, field.label));
+      $formElementsContainer.append(
+        getInput(field.type, field.label, "", null, field.name)
+      );
       $form.append($formElementsContainer);
     });
 
