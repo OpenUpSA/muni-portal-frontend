@@ -42,7 +42,7 @@
     GOOGLE_TAG_MANAGER_ID = ""
     SENTRY_DSN = ""
     SENTRY_PERF_SAMPLE_RATE = "0"
-    DEFAULT_API_URL = "staging.muni-portal-backend.openup.org.za"
+    DEFAULT_API_URL = "muni-portal-backend.openup.org.za"
     ENVIRONMENT = "deploy-preview"
     PUSHPAD_PROJECT_ID = ""
 
