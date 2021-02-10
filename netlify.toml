@@ -17,7 +17,7 @@
     SENTRY_PERF_SAMPLE_RATE = "1"
     DEFAULT_API_URL = "muni-portal-backend.openup.org.za"
     ENVIRONMENT = "production"
-    PUSHPAD_PROJECT_ID = ""
+    PUSHPAD_PROJECT_ID = "7550"
 
 # Specific branch context: all deploys from this specific branch will inherit these settings.
 [context.staging.environment] # 'staging' is a branch
@@ -26,7 +26,7 @@
     SENTRY_PERF_SAMPLE_RATE = "0"
     DEFAULT_API_URL = "staging.muni-portal-backend.openup.org.za"
     ENVIRONMENT = "staging"
-    PUSHPAD_PROJECT_ID = ""
+    PUSHPAD_PROJECT_ID = "7570"
 
 # Specific branch context: all deploys from this specific branch will inherit these settings.
 [context.sandbox.environment] # 'sandbox' is a branch
@@ -35,7 +35,7 @@
     SENTRY_PERF_SAMPLE_RATE = "0"
     DEFAULT_API_URL = "sandbox.muni-portal-backend.openup.org.za"
     ENVIRONMENT = "sandbox"
-    PUSHPAD_PROJECT_ID = ""
+    PUSHPAD_PROJECT_ID = "7569"
 
 # Deploy preview context: all deploys generated from a pull/merge request will inherit these settings.
 [context.deploy-preview.environment]
