@@ -41,16 +41,12 @@ if (NODE_ENV === "production") {
   tryRegisterSW();
 }
 
-const validSentryEnvironment =
-  ENVIRONMENT === "production" ||
-  ENVIRONMENT === "staging" ||
-  ENVIRONMENT === "sandbox";
-
-if (validSentryEnvironment && SENTRY_DSN) {
+if (SENTRY_DSN) {
   Sentry.init({
     dsn: SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
     tracesSampleRate: SENTRY_PERF_SAMPLE_RATE,
+    environment: ENVIRONMENT,
   });
 }
 
