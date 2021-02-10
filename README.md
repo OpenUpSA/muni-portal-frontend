@@ -60,11 +60,14 @@ The build is configured using environment variables.
 
 | Variable                | Default                              | Description                                                                                                                                                      |
 | ----------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CONTEXT                 | unset                                | Configured by Netlify: Name of the build’s deploy context. It can be production, deploy-preview or branch-deploy. Sentry is only enabled if set to `production`. |
+| CONTEXT                 | unset                                | Configured by Netlify: Name of the build’s deploy context. It can be production, deploy-preview or branch-deploy.                                                |
 | NODE_ENV                | `production` if using `parcel build` |                                                                                                                                                                  |
-| SENTRY_DSN              | unset                                | only required in production environment                                                                                                                          |
-| SENTRY_PERF_SAMPLE_RATE | unset                                | only required in production environment                                                                                                                          |
-| GOOGLE_TAG_MANAGER_ID   | unset                                | only required in production environment                                                                                                                          |
+| SENTRY_DSN              | unset                                | Required in production, staging and sandbox environment                                                                                                                          |
+| SENTRY_PERF_SAMPLE_RATE | unset                                | Sentry performance sampling rate. Only required in production
+| GOOGLE_TAG_MANAGER_ID   | unset                                | ID for Google Tag Manager. Only required in production environment                                                                                                                          |
+| DEFAULT_API_URL         | unset                                | The default backend API URL. Can be overridden by adding `?promptapi` in the address bar 
+| ENVIRONMENT             | unset                                | E.g. `production`, `staging`, `sandbox`
+| PUSHPAD_PROJECT_ID      | unset                                | The project ID for Pushpad. For development, use `7571`. If not set, pushpad will not initialise. 
 
 ## Running Lighthouse Tests Locally
 
