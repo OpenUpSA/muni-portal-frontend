@@ -22,6 +22,8 @@ merge and deploy the backend changes _before_ merging the frontend changes.
 1. Install dependencies by running `yarn`
 2. Start a development server by running `yarn dev`
 
+> NOTE: If you want to use Pushpad in development, set the environment variable `PUSHPAD_PROJECT_ID` to `7571` (development project id)
+
 ### Service Worker in development environment
 
 The above does not include the service worker so, if you are working on a piece of functionality that requires the service worker, the workflow is a bit different.
