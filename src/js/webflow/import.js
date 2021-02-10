@@ -15,7 +15,7 @@ exports.transform = function (window, $) {
   $("head").append(`
     <script>
       const pushpadProjectId = \`${process.env.PUSHPAD_PROJECT_ID}\`;
-      if (!pushpadProjectId !== '') {
+      if (pushpadProjectId !== '') {
         (function (p, u, s, h, x) { p.pushpad = p.pushpad || function () { (p.pushpad.q = p.pushpad.q || []).push(arguments) }; h = u.getElementsByTagName('head')[0]; x = u.createElement('script'); x.async = 1; x.src = s; h.appendChild(x); })(window, document, 'https://pushpad.xyz/pushpad.js');
         pushpad('init', pushpadProjectId, {serviceWorkerPath: null});
         pushpad('widget', {
