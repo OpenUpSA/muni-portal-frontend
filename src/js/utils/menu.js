@@ -53,6 +53,7 @@ export const setMenuState = () => {
 
   $navMenu.find(".nav-link").remove();
   $navMenu.append([$loginLink, $logoutButton, $registerLink, $settingsLink]);
+  Webflow.require('ix2').init();
 
   if (localStorage.getItem("accessToken")) {
     $loginLink.hide();
