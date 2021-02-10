@@ -1,7 +1,7 @@
 export const getCustomCheckbox = (props) => {
   const { identifier, name, text } = props;
 
-  const $checkbox = $(".styles .w-checkbox").clone();
+  const $checkbox = $(".components .w-checkbox").clone();
   const $checkboxInput = $checkbox.find("input");
   const $checkboxLabel = $checkbox.find(".checkbox-label");
 

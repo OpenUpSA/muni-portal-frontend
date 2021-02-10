@@ -1,8 +1,11 @@
 export class Breadcrumbs {
-  breadcrumbsTemplate = $(".styles .breadcrumbs__wrap").first();
+  breadcrumbsTemplate = $(".components .breadcrumbs__wrap").first();
 
   constructor(items) {
     this.element = this.breadcrumbsTemplate.clone();
+    // remove Loading... element
+    this.element.find(".label").remove();
+
     this.itemsContainer = this.element.find(".breadcrumbs");
     this.itemsContainer.empty();
     items.forEach((item) => {
@@ -16,7 +19,7 @@ export class Breadcrumbs {
 }
 
 class Breadcrumb {
-  breadcrumbTemplate = $(".styles .breadcrumb").first();
+  breadcrumbTemplate = $(".components .breadcrumb").first();
 
   constructor(item) {
     this.element = this.breadcrumbTemplate.clone();

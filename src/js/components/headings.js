@@ -1,5 +1,5 @@
 export class PageTitle {
-  pageTitleTemplate = $(".styles .page-title").first();
+  pageTitleTemplate = $(".components .page-title").first();
 
   constructor(title) {
     this.element = this.pageTitleTemplate.clone();
@@ -13,7 +13,7 @@ export class PageTitle {
 }
 
 export class SectionHeading {
-  template = $(".styles .section-heading").first();
+  template = $(".components .section-heading").first();
 
   constructor(heading) {
     this.element = this.template.clone();

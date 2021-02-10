@@ -2,8 +2,8 @@ import { API } from "../../api";
 
 export class VerifyUserRegistration {
   constructor() {
-    const $successTemplate = $(".styles .form-styles .w-form-done").clone();
-    const $failTemplate = $(".styles .form-styles .w-form-fail").clone();
+    const $successTemplate = $(".components .form-styles .w-form-done").clone();
+    const $failTemplate = $(".components .form-styles .w-form-fail").clone();
     const userDetails = new URL(document.location).searchParams.toString();
 
     $successTemplate

@@ -48,10 +48,10 @@ function getPasswordRequirements() {
 
 export class UserRegistration {
   constructor() {
-    const $successTemplate = $(".styles .form-styles .w-form-done")
+    const $successTemplate = $(".components .form-styles .w-form-done")
       .first()
       .clone();
-    const $failTemplate = $(".styles .form-styles .w-form-fail")
+    const $failTemplate = $(".components .form-styles .w-form-fail")
       .first()
       .clone();
 
