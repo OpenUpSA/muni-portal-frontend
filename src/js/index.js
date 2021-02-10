@@ -31,6 +31,7 @@ import { UserSettings } from "./components/account/user-settings";
 import { VerifyUserRegistration } from "./components/account/user-registration-verify";
 
 const ENVIRONMENT = `${process.env.ENVIRONMENT}`;
+const GOOGLE_TAG_MANAGER_ID = `${process.env.GOOGLE_TAG_MANAGER_ID}`;
 const CONTEXT = `${process.env.CONTEXT}`;
 const NODE_ENV = `${process.env.NODE_ENV}`;
 const SENTRY_DSN = `${process.env.SENTRY_DSN}`;
@@ -359,8 +360,6 @@ class Router {
   }
 }
 
-// Template literal for parcel to replace on build
-const GOOGLE_TAG_MANAGER_ID = `${process.env.GOOGLE_TAG_MANAGER_ID}`;
 
 if (CONTEXT === "production" && GOOGLE_TAG_MANAGER_ID) {
   (function (w, d, s, l, i) {
