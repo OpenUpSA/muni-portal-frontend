@@ -30,6 +30,7 @@ import { UserRegistration } from "./components/account/user-registration";
 import { UserSettings } from "./components/account/user-settings";
 import { VerifyUserRegistration } from "./components/account/user-registration-verify";
 
+const ENVIRONMENT = `${process.env.ENVIRONMENT}`;
 const CONTEXT = `${process.env.CONTEXT}`;
 const NODE_ENV = `${process.env.NODE_ENV}`;
 const SENTRY_DSN = `${process.env.SENTRY_DSN}`;
@@ -40,7 +41,12 @@ if (NODE_ENV === "production") {
   tryRegisterSW();
 }
 
-if (CONTEXT === "production" && SENTRY_DSN) {
+const validSentryEnvironment =
+  ENVIRONMENT === "production" ||
+  ENVIRONMENT === "staging" ||
+  ENVIRONMENT === "sandbox";
+
+if (validSentryEnvironment && SENTRY_DSN) {
   Sentry.init({
     dsn: SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
