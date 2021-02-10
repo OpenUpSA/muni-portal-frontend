@@ -11,7 +11,7 @@ exports.transform = function (window, $) {
     <script>
     (function (p, u, s, h, x) { p.pushpad = p.pushpad || function () { (p.pushpad.q = p.pushpad.q || []).push(arguments) }; h = u.getElementsByTagName('head')[0]; x = u.createElement('script'); x.async = 1; x.src = s; h.appendChild(x); })(window, document, 'https://pushpad.xyz/pushpad.js');
 
-    pushpad('init', '7550', {serviceWorkerPath: null});
+    pushpad('init', \`${process.env.PUSHPAD_PROJECT_ID}\`, {serviceWorkerPath: null});
     pushpad('widget', {
       promptTitle: 'Subscribe to Notifications',
       promptMessage: 'Subscribe to receive instant notifications of service disruptions and other important information.',

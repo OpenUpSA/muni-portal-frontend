@@ -47,7 +47,7 @@
     h.appendChild(x);
   })(window, document, "https://pushpad.xyz/pushpad.js");
 
-  pushpad("init", "7550", { serviceWorkerPath: null });
+  pushpad("init", `${process.env.PUSHPAD_PROJECT_ID}`, { serviceWorkerPath: null });
   pushpad("widget", {
     promptTitle: "Subscribe to Notifications",
     promptMessage:
