@@ -45,6 +45,11 @@ if (
 ) {
   // Call as early as possible to maximise chance of registering reinstallation code
   tryRegisterSW();
+} else {
+  window.console.warn(
+    `Not trying to register Service Worker because 
+    ENVIRONMENT = ${ENVIRONMENT} and NODE_ENV = ${NODE_ENV}`
+  );
 }
 
 if (SENTRY_DSN) {
@@ -54,6 +59,10 @@ if (SENTRY_DSN) {
     tracesSampleRate: SENTRY_PERF_SAMPLE_RATE,
     environment: ENVIRONMENT,
   });
+} else {
+  window.console.warn(
+    "Not initialising Sentry because SENTRY_DSN is not set"
+  );
 }
 
 class App {
@@ -375,6 +384,8 @@ if (CONTEXT === "production" && GOOGLE_TAG_MANAGER_ID) {
     j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
     f.parentNode.insertBefore(j, f);
   })(window, document, "script", "dataLayer", `${GOOGLE_TAG_MANAGER_ID}`);
+} else {
+  window.console.warn("Not initialising Google Tag Manager")
 }
 
 const app = new App();
