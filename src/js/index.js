@@ -33,11 +33,14 @@ import { VerifyUserRegistration } from "./components/account/user-registration-v
 const ENVIRONMENT = `${process.env.ENVIRONMENT}`;
 const GOOGLE_TAG_MANAGER_ID = `${process.env.GOOGLE_TAG_MANAGER_ID}`;
 const CONTEXT = `${process.env.CONTEXT}`;
-const NODE_ENV = `${process.env.NODE_ENV}`;
 const SENTRY_DSN = `${process.env.SENTRY_DSN}`;
 const SENTRY_PERF_SAMPLE_RATE = `${process.env.SENTRY_PERF_SAMPLE_RATE}`;
 
-if (NODE_ENV === "production") {
+if (
+  ENVIRONMENT === "production" ||
+  ENVIRONMENT === "staging" ||
+  ENVIRONMENT === "sandbox"
+) {
   // Call as early as possible to maximise chance of registering reinstallation code
   tryRegisterSW();
 }
@@ -359,7 +362,6 @@ class Router {
     console.error("No match for ", path);
   }
 }
-
 
 if (CONTEXT === "production" && GOOGLE_TAG_MANAGER_ID) {
   (function (w, d, s, l, i) {
