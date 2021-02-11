@@ -1,4 +1,5 @@
-const defaultBaseUrl = "https://muni-portal-backend.openup.org.za";
+const DEFAULT_API_URL = `${process.env.DEFAULT_API_URL}`;
+const defaultBaseUrl = DEFAULT_API_URL || "https://muni-portal-backend.openup.org.za";
 
 function getBaseApiUrl() {
   return sessionStorage.getItem("apiBaseUrl") || defaultBaseUrl;
@@ -225,4 +226,3 @@ function handleAccessTokenRefreshed(response, deferred, originalOptions) {
   // pass this one on to our deferred pass or fail.
   $.ajax(newOptions).then(deferred.resolve, deferred.reject);
 }
-

@@ -1,4 +1,56 @@
 [[redirects]]
-  from = "/*"
-  to = "/"
-  status = 200
+    from = "/*"
+    to = "/"
+    status = 200
+
+# Settings in the [build] context are global and are applied to all contexts
+# unless otherwise overridden by more specific contexts.
+[build]
+    publish = "dist"
+    command = "yarn build"
+    base = ""
+
+# Production context: all deploys from the Production branch set in your site's deploy contexts will inherit these settings.
+[context.production.environment]
+    GOOGLE_TAG_MANAGER_ID = "GTM-NP4BJ8C"
+    SENTRY_DSN = "https://a5d3ce913bdd4eb594da36387b286d83@o242378.ingest.sentry.io/5496000"
+    SENTRY_PERF_SAMPLE_RATE = "1"
+    DEFAULT_API_URL = "muni-portal-backend.openup.org.za"
+    ENVIRONMENT = "production"
+    PUSHPAD_PROJECT_ID = "7550"
+
+# Specific branch context: all deploys from this specific branch will inherit these settings.
+[context.staging.environment] # 'staging' is a branch
+    GOOGLE_TAG_MANAGER_ID = ""
+    SENTRY_DSN = "https://a5d3ce913bdd4eb594da36387b286d83@o242378.ingest.sentry.io/5496000"
+    SENTRY_PERF_SAMPLE_RATE = "0"
+    DEFAULT_API_URL = "staging.muni-portal-backend.openup.org.za"
+    ENVIRONMENT = "staging"
+    PUSHPAD_PROJECT_ID = "7570"
+
+# Specific branch context: all deploys from this specific branch will inherit these settings.
+[context.sandbox.environment] # 'sandbox' is a branch
+    GOOGLE_TAG_MANAGER_ID = ""
+    SENTRY_DSN = "https://a5d3ce913bdd4eb594da36387b286d83@o242378.ingest.sentry.io/5496000"
+    SENTRY_PERF_SAMPLE_RATE = "0"
+    DEFAULT_API_URL = "sandbox.muni-portal-backend.openup.org.za"
+    ENVIRONMENT = "sandbox"
+    PUSHPAD_PROJECT_ID = "7569"
+
+# Deploy preview context: all deploys generated from a pull/merge request will inherit these settings.
+[context.deploy-preview.environment]
+    GOOGLE_TAG_MANAGER_ID = ""
+    SENTRY_DSN = ""
+    SENTRY_PERF_SAMPLE_RATE = "0"
+    DEFAULT_API_URL = "muni-portal-backend.openup.org.za"
+    ENVIRONMENT = "deploy-preview"
+    PUSHPAD_PROJECT_ID = ""
+
+# Branch deploy context: all deploys that are not from a pull/merge request or from the Production branch will inherit these settings.
+[context.branch-deploy.environment]
+    GOOGLE_TAG_MANAGER_ID = ""
+    SENTRY_DSN = ""
+    SENTRY_PERF_SAMPLE_RATE = "0"
+    DEFAULT_API_BASE_URL = "muni-portal-backend.openup.org.za"
+    ENVIRONMENT = "branch-deploy"
+    PUSHPAD_PROJECT_ID = ""
