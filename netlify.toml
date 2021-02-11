@@ -15,7 +15,7 @@
     GOOGLE_TAG_MANAGER_ID = "GTM-NP4BJ8C"
     SENTRY_DSN = "https://a5d3ce913bdd4eb594da36387b286d83@o242378.ingest.sentry.io/5496000"
     SENTRY_PERF_SAMPLE_RATE = "1"
-    DEFAULT_API_URL = "muni-portal-backend.openup.org.za"
+    DEFAULT_API_URL = "https://muni-portal-backend.openup.org.za"
     ENVIRONMENT = "production"
     PUSHPAD_PROJECT_ID = "7550"
 
@@ -24,7 +24,7 @@
     GOOGLE_TAG_MANAGER_ID = ""
     SENTRY_DSN = "https://a5d3ce913bdd4eb594da36387b286d83@o242378.ingest.sentry.io/5496000"
     SENTRY_PERF_SAMPLE_RATE = "0"
-    DEFAULT_API_URL = "staging.muni-portal-backend.openup.org.za"
+    DEFAULT_API_URL = "https://staging.muni-portal-backend.openup.org.za"
     ENVIRONMENT = "staging"
     PUSHPAD_PROJECT_ID = "7570"
 
@@ -33,7 +33,7 @@
     GOOGLE_TAG_MANAGER_ID = ""
     SENTRY_DSN = "https://a5d3ce913bdd4eb594da36387b286d83@o242378.ingest.sentry.io/5496000"
     SENTRY_PERF_SAMPLE_RATE = "0"
-    DEFAULT_API_URL = "sandbox.muni-portal-backend.openup.org.za"
+    DEFAULT_API_URL = "https://sandbox.muni-portal-backend.openup.org.za"
     ENVIRONMENT = "sandbox"
     PUSHPAD_PROJECT_ID = "7569"
 
@@ -42,7 +42,7 @@
     GOOGLE_TAG_MANAGER_ID = ""
     SENTRY_DSN = ""
     SENTRY_PERF_SAMPLE_RATE = "0"
-    DEFAULT_API_URL = "muni-portal-backend.openup.org.za"
+    DEFAULT_API_URL = "https://muni-portal-backend.openup.org.za"
     ENVIRONMENT = "deploy-preview"
     PUSHPAD_PROJECT_ID = ""
 
@@ -51,6 +51,6 @@
     GOOGLE_TAG_MANAGER_ID = ""
     SENTRY_DSN = ""
     SENTRY_PERF_SAMPLE_RATE = "0"
-    DEFAULT_API_BASE_URL = "muni-portal-backend.openup.org.za"
+    DEFAULT_API_BASE_URL = "https://muni-portal-backend.openup.org.za"
     ENVIRONMENT = "branch-deploy"
     PUSHPAD_PROJECT_ID = ""
