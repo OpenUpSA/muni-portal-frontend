@@ -31,12 +31,14 @@ import { UserSettings } from "./components/account/user-settings";
 import { VerifyUserRegistration } from "./components/account/user-registration-verify";
 
 const ENVIRONMENT = `${process.env.ENVIRONMENT}`;
+const NODE_ENV = `${process.env.NODE_ENV}`;
 const GOOGLE_TAG_MANAGER_ID = `${process.env.GOOGLE_TAG_MANAGER_ID}`;
 const CONTEXT = `${process.env.CONTEXT}`;
 const SENTRY_DSN = `${process.env.SENTRY_DSN}`;
 const SENTRY_PERF_SAMPLE_RATE = `${process.env.SENTRY_PERF_SAMPLE_RATE}`;
 
 if (
+  NODE_ENV === "production" ||
   ENVIRONMENT === "production" ||
   ENVIRONMENT === "staging" ||
   ENVIRONMENT === "sandbox"
