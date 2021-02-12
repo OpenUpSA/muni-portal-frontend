@@ -73,6 +73,7 @@ export class UserRegistration {
       {
         label: "Confirm password",
         type: "password",
+        name: "password_confirm",
       },
     ];
 
@@ -84,11 +85,15 @@ export class UserRegistration {
       const $formElementsContainer = $("<div />");
       $formElementsContainer.append(getLabel(field.label));
 
-      if (field.label === "password") {
+      if (field.label.toLowerCase() === "password") {
         $formElementsContainer.append(
           getInput(field.type, field.label, "", "password-requirements")
         );
         $formElementsContainer.append(getPasswordRequirements());
+      } else if (field.label.toLowerCase() === "confirm password") {
+        $formElementsContainer.append(
+          getInput(field.type, field.label, "", null, field.name)
+        );
       } else {
         $formElementsContainer.append(getInput(field.type, field.label));
       }
