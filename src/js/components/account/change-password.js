@@ -66,7 +66,7 @@ export class ChangePassword {
             .focus();
         }
       })
-      .fail((jqXHR) => {
+      .fail((jqXHR, textStatus) => {
         $form[0].reset();
         if (jqXHR.status === 400) {
           $(".change-password-field-error").remove();
@@ -82,7 +82,7 @@ export class ChangePassword {
           const errorMessage = "Error while communicating with the server";
           $fail.empty().append(errorMessage).attr('tabindex', -1).show().focus();
         }
-        console.error(jqXHR);
+        console.error(jqXHR, textStatus);
       });
   }
 
