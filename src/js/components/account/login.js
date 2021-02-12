@@ -11,18 +11,19 @@ import {
 
 export class Login {
   constructor() {
-    const $successTemplate = $(".styles .form-styles .w-form-done").clone();
-    const $failTemplate = $(".styles .form-styles .w-form-fail").clone();
+    const $successTemplate = $(".components .form-styles .w-form-done").clone();
+    const $failTemplate = $(".components .form-styles .w-form-fail").clone();
 
     const defaultBaseUrl = "https://muni-portal-backend.openup.org.za";
     const endPoint = "/api/accounts/login/";
     const fields = [
       {
-        label: "login",
+        label: "Username",
         type: "text",
+        name: "login",
       },
       {
-        label: "password",
+        label: "Password",
         type: "password",
       },
     ];
@@ -38,7 +39,9 @@ export class Login {
     fields.forEach((field) => {
       const $formElementsContainer = $("<div />");
       $formElementsContainer.append(getLabel(field.label));
-      $formElementsContainer.append(getInput(field.type, field.label));
+      $formElementsContainer.append(
+        getInput(field.type, field.label, "", null, field.name)
+      );
       $form.append($formElementsContainer);
     });
 

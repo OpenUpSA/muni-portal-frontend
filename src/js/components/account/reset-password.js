@@ -10,8 +10,8 @@ import {
 
 export class ResetPassword {
   constructor() {
-    const $successTemplate = $(".styles .form-styles .w-form-done").clone();
-    const $failTemplate = $(".styles .form-styles .w-form-fail").clone();
+    const $successTemplate = $(".components .form-styles .w-form-done").clone();
+    const $failTemplate = $(".components .form-styles .w-form-fail").clone();
     const $loginAnchor = getAnchorElement(
       "/accounts/login/",
       "link-text form-submit",
@@ -27,7 +27,7 @@ export class ResetPassword {
     const $submitButton = getSubmitButton("Update password");
 
     const $formElementsContainer = $("<div />");
-    $formElementsContainer.append(getLabel("new password"));
+    $formElementsContainer.append(getLabel("New password"));
     $formElementsContainer.append(getInput("password", "password"));
 
     // Add security values as hidden inputs and populate from query params

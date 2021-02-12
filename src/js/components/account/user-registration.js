@@ -48,10 +48,10 @@ function getPasswordRequirements() {
 
 export class UserRegistration {
   constructor() {
-    const $successTemplate = $(".styles .form-styles .w-form-done")
+    const $successTemplate = $(".components .form-styles .w-form-done")
       .first()
       .clone();
-    const $failTemplate = $(".styles .form-styles .w-form-fail")
+    const $failTemplate = $(".components .form-styles .w-form-fail")
       .first()
       .clone();
 
@@ -59,26 +59,26 @@ export class UserRegistration {
     const endPoint = "/api/accounts/register/";
     const fields = [
       {
-        label: "email",
+        label: "Email address",
         type: "email",
       },
       {
-        label: "username",
+        label: "Username",
         type: "text",
       },
       {
-        label: "password",
+        label: "Password",
         type: "password",
       },
       {
-        label: "password confirm",
+        label: "Confirm password",
         type: "password",
       },
     ];
 
     const $registrationFormContainer = getDiv("form w-form");
     const $form = getForm(`${defaultBaseUrl}${endPoint}`, "post");
-    const $submitButton = getSubmitButton("Register");
+    const $submitButton = getSubmitButton("Create an account");
 
     fields.forEach((field) => {
       const $formElementsContainer = $("<div />");

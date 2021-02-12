@@ -31,22 +31,39 @@ import { UserSettings } from "./components/account/user-settings";
 import { VerifyUserRegistration } from "./components/account/user-registration-verify";
 import { ChangePassword } from "./components/account/change-password";
 
-const CONTEXT = `${process.env.CONTEXT}`;
+const ENVIRONMENT = `${process.env.ENVIRONMENT}`;
 const NODE_ENV = `${process.env.NODE_ENV}`;
+const GOOGLE_TAG_MANAGER_ID = `${process.env.GOOGLE_TAG_MANAGER_ID}`;
+const CONTEXT = `${process.env.CONTEXT}`;
 const SENTRY_DSN = `${process.env.SENTRY_DSN}`;
 const SENTRY_PERF_SAMPLE_RATE = `${process.env.SENTRY_PERF_SAMPLE_RATE}`;
 
-if (NODE_ENV === "production") {
+if (
+  NODE_ENV === "production" ||
+  ENVIRONMENT === "production" ||
+  ENVIRONMENT === "staging" ||
+  ENVIRONMENT === "sandbox"
+) {
   // Call as early as possible to maximise chance of registering reinstallation code
   tryRegisterSW();
+} else {
+  window.console.warn(
+    `Not trying to register Service Worker because 
+    ENVIRONMENT = ${ENVIRONMENT} and NODE_ENV = ${NODE_ENV}`
+  );
 }
 
-if (CONTEXT === "production" && SENTRY_DSN) {
+if (SENTRY_DSN) {
   Sentry.init({
     dsn: SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
     tracesSampleRate: SENTRY_PERF_SAMPLE_RATE,
+    environment: ENVIRONMENT,
   });
+} else {
+  window.console.warn(
+    "Not initialising Sentry because SENTRY_DSN is not set"
+  );
 }
 
 class App {
@@ -63,7 +80,7 @@ class App {
     this.$servicesTab = new TabItem({
       title: "Services",
       url: "/services/",
-      icon: ".styles .icon--grid",
+      icon: ".components .icon--grid",
     }).render();
 
     this.$myMuniTab = new TabItem({
@@ -90,7 +107,6 @@ class App {
     // HACK TO HIDE DEFAULT ADDED FIRST TAB
     $mainContainer.find(".tab-link__wrap").first().remove();
 
-    updateMenuLinks();
     // sets the menu state based on the users login state
     setMenuState();
 
@@ -149,7 +165,7 @@ class App {
         viewType: "User Management",
       },
       {
-        path: new RegExp("^/account/settings/$"),
+        path: new RegExp("^/accounts/settings/$"),
         view: this.viewAccountSettings.bind(this),
         viewType: "User Settings",
       },
@@ -282,7 +298,7 @@ class App {
   viewLogin() {
     this.modalPage.show();
     const login = new Login();
-    const title = "Sign in to MyMuni";
+    const title = "Login to MyMuni";
     this.setTitle(title);
     this.modalPage.setContent(login.render(), title);
   }
@@ -290,7 +306,7 @@ class App {
   viewUserRegistration() {
     this.modalPage.show();
     const userRegistration = new UserRegistration();
-    const title = "Register for MyMuni";
+    const title = "Create an account in MyMuni";
     this.setTitle(title);
     this.modalPage.setContent(userRegistration.render(), title);
   }
@@ -371,9 +387,6 @@ class Router {
   }
 }
 
-// Template literal for parcel to replace on build
-const GOOGLE_TAG_MANAGER_ID = `${process.env.GOOGLE_TAG_MANAGER_ID}`;
-
 if (CONTEXT === "production" && GOOGLE_TAG_MANAGER_ID) {
   (function (w, d, s, l, i) {
     w[l] = w[l] || [];
@@ -385,6 +398,8 @@ if (CONTEXT === "production" && GOOGLE_TAG_MANAGER_ID) {
     j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
     f.parentNode.insertBefore(j, f);
   })(window, document, "script", "dataLayer", `${GOOGLE_TAG_MANAGER_ID}`);
+} else {
+  window.console.warn("Not initialising Google Tag Manager")
 }
 
 const app = new App();

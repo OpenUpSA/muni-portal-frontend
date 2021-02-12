@@ -387,7 +387,7 @@ export class NoticeIndexPage {
 
 export class NoticePage {
   constructor(content) {
-    this.$element = $(".styles .grid--fullwidth").clone();
+    this.$element = $(".components .grid--fullwidth").clone();
     this.breadcrumbItems = getBreadcrumbsWithLabel(content.ancestor_pages);
     this.noticeMainContent = content.body_html;
     this.publicationDate = content.publication_date;
