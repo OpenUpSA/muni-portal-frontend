@@ -179,7 +179,7 @@ $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
     if (jqXHR.status === 401) {
       retryAjaxWithRefreshedToken(deferred, jqXHR, args, originalOptions);
     } else {
-      deferred.rejectWith(jqXHR, args);
+      deferred.reject(jqXHR);
     }
   });
 

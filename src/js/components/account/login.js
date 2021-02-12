@@ -85,7 +85,7 @@ export class Login {
           window.location = "/services/";
         }
       })
-      .fail((jqXHR, textStatus) => {
+      .fail((jqXHR) => {
         $form[0].reset();
 
         let errorMessage = "Error while communicating with the server";
@@ -93,7 +93,7 @@ export class Login {
           errorMessage = jqXHR.responseJSON.detail;
         }
         $fail.empty().append(errorMessage).show();
-        console.error(jqXHR, textStatus);
+        console.error(jqXHR);
       });
   }
 
