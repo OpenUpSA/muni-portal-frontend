@@ -53,7 +53,7 @@ if (
   );
 }
 
-if (SENTRY_DSN) {
+if (SENTRY_DSN !== "undefined" && SENTRY_DSN !== "") {
   Sentry.init({
     dsn: SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
@@ -61,9 +61,7 @@ if (SENTRY_DSN) {
     environment: ENVIRONMENT,
   });
 } else {
-  window.console.warn(
-    "Not initialising Sentry because SENTRY_DSN is not set"
-  );
+  window.console.warn("Not initialising Sentry because SENTRY_DSN is not set");
 }
 
 class App {
@@ -387,7 +385,7 @@ class Router {
   }
 }
 
-if (CONTEXT === "production" && GOOGLE_TAG_MANAGER_ID) {
+if (CONTEXT === "production" && typeof GOOGLE_TAG_MANAGER_ID !== "undefined") {
   (function (w, d, s, l, i) {
     w[l] = w[l] || [];
     w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
@@ -399,7 +397,7 @@ if (CONTEXT === "production" && GOOGLE_TAG_MANAGER_ID) {
     f.parentNode.insertBefore(j, f);
   })(window, document, "script", "dataLayer", `${GOOGLE_TAG_MANAGER_ID}`);
 } else {
-  window.console.warn("Not initialising Google Tag Manager")
+  window.console.warn("Not initialising Google Tag Manager");
 }
 
 const app = new App();
