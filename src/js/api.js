@@ -124,6 +124,16 @@ export class API {
     return $.post({ url, data: userDetails });
   }
 
+  changePassword(endPoint, userDetails) {
+    const userToken = localStorage.getItem("accessToken");
+    const url = `${this.baseUrl}${endPoint}`;
+    return $.post({
+      url,
+      headers: { authorization: `Bearer ${userToken}` },
+      data: userDetails,
+    });
+  }
+
   registerUser(endPoint, userDetails) {
     const url = `${this.baseUrl}${endPoint}`;
     return $.post({ url, data: userDetails });

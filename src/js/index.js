@@ -29,6 +29,7 @@ import { ResetPassword } from "./components/account/reset-password";
 import { UserRegistration } from "./components/account/user-registration";
 import { UserSettings } from "./components/account/user-settings";
 import { VerifyUserRegistration } from "./components/account/user-registration-verify";
+import { ChangePassword } from "./components/account/change-password";
 
 const ENVIRONMENT = `${process.env.ENVIRONMENT}`;
 const NODE_ENV = `${process.env.NODE_ENV}`;
@@ -156,6 +157,11 @@ class App {
       {
         path: new RegExp("^/accounts/reset-password/$"),
         view: this.viewResetPassword.bind(this),
+        viewType: "User Management",
+      },
+      {
+        path: new RegExp("^/account/change-password/$"),
+        view: this.viewChangePassword.bind(this),
         viewType: "User Management",
       },
       {
@@ -319,6 +325,14 @@ class App {
     const title = "Reset Password";
     this.setTitle(title);
     this.modalPage.setContent(resetPassword.render(), title);
+  }
+
+  viewChangePassword() {
+    this.modalPage.show();
+    const changePassword = new ChangePassword();
+    const title = "Change Password";
+    this.setTitle(title);
+    this.modalPage.setContent(changePassword.render(), title);
   }
 
   viewVerifyUserRegistration() {

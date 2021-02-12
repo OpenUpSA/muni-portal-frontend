@@ -3,6 +3,7 @@ import { FullWidthGrid } from "../grid";
 import { PageTitle, SectionHeading } from "../headings";
 
 import { ProfileInfo } from "./profile";
+import { getAnchorElement } from "../../utils/element-factory";
 
 export class UserSettings {
   constructor() {
@@ -16,6 +17,13 @@ export class UserSettings {
         $container.append(new SectionHeading("Profile information").render());
 
         $container.append(new FullWidthGrid(ProfileInfo(profile)).render());
+
+        const $changePasswordAnchor = getAnchorElement(
+          "/account/change-password/",
+          "",
+          "Change Password"
+        );
+        $container.append($changePasswordAnchor);
       })
       .fail((error) => {
         $container.append(
