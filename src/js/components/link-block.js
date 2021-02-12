@@ -1,6 +1,5 @@
 export class LinkBlock {
   constructor(props) {
-    console.log(props);
     this.element = this.getTemplate(props).clone();
     console.assert(this.element.length == 1);
     this.labelContainer = this.element.find(".h3-block-title");

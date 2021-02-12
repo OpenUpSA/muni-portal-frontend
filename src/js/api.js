@@ -1,5 +1,6 @@
-const DEFAULT_API_URL = `${process.env.DEFAULT_API_URL}`;
-const defaultBaseUrl = DEFAULT_API_URL || "https://muni-portal-backend.openup.org.za";
+const defaultBaseUrl = process.env.DEFAULT_API_URL
+  ? `${process.env.DEFAULT_API_URL}`
+  : "https://muni-portal-backend.openup.org.za";
 
 function getBaseApiUrl() {
   return sessionStorage.getItem("apiBaseUrl") || defaultBaseUrl;
@@ -178,7 +179,7 @@ $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
     if (jqXHR.status === 401) {
       retryAjaxWithRefreshedToken(deferred, jqXHR, args, originalOptions);
     } else {
-      deferred.rejectWith(jqXHR, args);
+      deferred.reject(jqXHR, jqXHR.responseText);
     }
   });
 
