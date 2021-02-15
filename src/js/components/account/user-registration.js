@@ -61,6 +61,7 @@ export class UserRegistration {
       {
         label: "Email address",
         type: "email",
+        name: "email",
       },
       {
         label: "Username",
@@ -90,7 +91,10 @@ export class UserRegistration {
           getInput(field.type, field.label, "", "password-requirements")
         );
         $formElementsContainer.append(getPasswordRequirements());
-      } else if (field.label.toLowerCase() === "confirm password") {
+      } else if (
+        field.label.toLowerCase() === "confirm password" ||
+        field.label.toLowerCase() === "email address"
+      ) {
         $formElementsContainer.append(
           getInput(field.type, field.label, "", null, field.name)
         );
