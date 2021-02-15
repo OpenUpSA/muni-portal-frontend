@@ -78,12 +78,27 @@ class Page {
     ];
   }
 
-  renderProfileImage() {
+  /**
+   *
+   * @param {String} [imgType] - One of profile or thumbnail - [default: thumbnail]
+   */
+  renderProfileImage(imgType) {
     const elements = [];
+
     if (this.profileImage) {
       const imageUrl = this.profileImage.meta.download_url;
       const imageAlt = this.profileImage.title;
-      elements.push($(`<img src="${imageUrl}" alt="${imageAlt}"></img>`));
+
+      if (imgType === "profile") {
+        const $profileImage = $("<img />", {
+          src: imageUrl,
+          alt: imageAlt,
+          class: "image image--rounded",
+        });
+        elements.push($profileImage);
+      } else {
+        elements.push($(`<img src="${imageUrl}" alt="${imageAlt}" />`));
+      }
     }
     return elements;
   }
@@ -202,7 +217,7 @@ export class PersonPage extends Page {
   render() {
     const pageContent = [
       new Breadcrumbs(this.breadcrumbItems).render(),
-      ...this.renderProfileImage(),
+      ...this.renderProfileImage("profile"),
     ];
 
     if (this.role) {
