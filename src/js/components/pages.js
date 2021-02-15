@@ -78,27 +78,19 @@ class Page {
     ];
   }
 
-  /**
-   *
-   * @param {String} [imgType] - One of profile or thumbnail - [default: thumbnail]
-   */
-  renderProfileImage(imgType) {
+  renderProfileImage() {
     const elements = [];
 
     if (this.profileImage) {
       const imageUrl = this.profileImage.meta.download_url;
       const imageAlt = this.profileImage.title;
 
-      if (imgType === "profile") {
-        const $profileImage = $("<img />", {
-          src: imageUrl,
-          alt: imageAlt,
-          class: "image image--rounded",
-        });
-        elements.push($profileImage);
-      } else {
-        elements.push($(`<img src="${imageUrl}" alt="${imageAlt}" />`));
-      }
+      const $profileImage = $(".components .image.image--rounded").clone();
+      $profileImage.attr({
+        src: imageUrl,
+        alt: imageAlt,
+      });
+      elements.push($profileImage);
     }
     return elements;
   }
@@ -217,7 +209,7 @@ export class PersonPage extends Page {
   render() {
     const pageContent = [
       new Breadcrumbs(this.breadcrumbItems).render(),
-      ...this.renderProfileImage("profile"),
+      ...this.renderProfileImage(),
     ];
 
     if (this.role) {
