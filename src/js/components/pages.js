@@ -80,10 +80,17 @@ class Page {
 
   renderProfileImage() {
     const elements = [];
+
     if (this.profileImage) {
       const imageUrl = this.profileImage.meta.download_url;
       const imageAlt = this.profileImage.title;
-      elements.push($(`<img src="${imageUrl}" alt="${imageAlt}"></img>`));
+
+      const $profileImage = $(".components .image.image--rounded").clone();
+      $profileImage.attr({
+        src: imageUrl,
+        alt: imageAlt,
+      });
+      elements.push($profileImage);
     }
     return elements;
   }
