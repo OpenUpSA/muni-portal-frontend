@@ -46,7 +46,7 @@
   "importWebflowExport": {
     "importHtml": [
       {
-        "glob": "*.html",
+        "glob": "index.html",
         "destDir": "src",
         "transforms": "./src/js/webflow/import.js"
       }
