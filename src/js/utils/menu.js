@@ -45,6 +45,11 @@ export const setMenuState = () => {
     "nav-link w-inline-block",
     "Register"
   );
+  const $serviceRequestsIndex = getAnchorElement(
+    "/service-requests/",
+    "nav-link w-inline-block",
+    "My service requests"
+  );
   const $settingsLink = getAnchorElement(
     "/accounts/settings/",
     "nav-link w-inline-block",
@@ -52,19 +57,27 @@ export const setMenuState = () => {
   );
 
   $navMenu.find(".nav-link").remove();
-  $navMenu.append([$loginLink, $logoutButton, $registerLink, $settingsLink]);
-  Webflow.require('ix2').init();
+  $navMenu.append([
+    $loginLink,
+    $logoutButton,
+    $registerLink,
+    $serviceRequestsIndex,
+    $settingsLink,
+  ]);
+  Webflow.require("ix2").init();
 
   if (localStorage.getItem("accessToken")) {
     $loginLink.hide();
     $registerLink.hide();
 
     $logoutButton.show();
+    $serviceRequestsIndex.show();
     $settingsLink.show();
 
     handleLogout($logoutButton);
   } else {
     $logoutButton.hide();
+    $serviceRequestsIndex.hide();
     $settingsLink.hide();
 
     $loginLink.show();

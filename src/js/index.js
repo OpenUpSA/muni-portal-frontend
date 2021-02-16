@@ -23,6 +23,8 @@ import { API } from "./api.js";
 
 import { setMenuState, updateMenuLinks } from "./utils/menu";
 
+import { ServiceRequestsIndex } from "./components/service-requests/index";
+
 import { Login } from "./components/account/login";
 import { ForgotPassword } from "./components/account/forgot-password";
 import { ResetPassword } from "./components/account/reset-password";
@@ -131,6 +133,11 @@ class App {
         path: new RegExp("^/my-municipality/administration/$"),
         view: this.viewAdministrationIndex.bind(this),
         viewType: "Administration landing",
+      },
+      {
+        path: new RegExp("^/service-requests/$"),
+        view: this.viewServiceRequestsIndex.bind(this),
+        viewType: "Service Requests landing",
       },
       {
         path: new RegExp("^/accounts/login/$"),
@@ -291,6 +298,14 @@ class App {
       .fail(function (a, b) {
         console.error(a, b);
       });
+  }
+
+  viewServiceRequestsIndex() {
+    this.modalPage.show();
+    const serviceRequestsIndex = new ServiceRequestsIndex();
+    const title = "My service requests";
+    this.setTitle(title);
+    this.modalPage.setContent(serviceRequestsIndex.render(), title);
   }
 
   viewLogin() {
