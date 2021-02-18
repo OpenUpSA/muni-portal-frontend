@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  --><!--  Last Published: Fri Feb 12 2021 09:29:59 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5f586c03cfc82e5a3c067594" data-wf-site="5f586c03cfc82e2e15067593"><head>
+<!DOCTYPE html><!--  This site was created in Webflow. http://www.webflow.com  --><!--  Last Published: Wed Feb 17 2021 05:57:38 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5f586c03cfc82e5a3c067594" data-wf-site="5f586c03cfc82e2e15067593"><head>
   <meta charset="utf-8">
   <title>Citizen Engagement App</title>
   <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -28,7 +28,7 @@
 <meta name="robots" content="noindex"><meta name="theme-color" content="#0094ff"><link rel="manifest" href="manifest.webmanifest"><script>dataLayer = [];</script>
     <script>
       const pushpadProjectId = `undefined`;
-      if (pushpadProjectId !== '') {
+      if (pushpadProjectId !== '' && pushpadProjectId !== 'undefined') {
         (function (p, u, s, h, x) { p.pushpad = p.pushpad || function () { (p.pushpad.q = p.pushpad.q || []).push(arguments) }; h = u.getElementsByTagName('head')[0]; x = u.createElement('script'); x.async = 1; x.src = s; h.appendChild(x); })(window, document, 'https://pushpad.xyz/pushpad.js');
         pushpad('init', pushpadProjectId, {serviceWorkerPath: null});
         pushpad('widget', {
@@ -37,7 +37,7 @@
           promptButtonColor: "#0094ff",
         });
       } else {
-        console.warning('Pushpad project ID not set; not initialising');
+        console.warn('Pushpad project ID not set; not initialising');
       }
     </script>
   </head>
@@ -149,7 +149,7 @@
   <div class="components__wrapper">
     <div class="components">
       <div class="w-layout-grid grid--thirds"></div>
-      <div class="w-layout-grid grid--fullwidth"></div>
+      <div class="w-layout-grid grid--default"></div>
       <a href="#" class="button w-button">Loading...</a>
       <a href="#" class="button button--fullwidth w-button">Loading...</a>
       <div class="icon icon--grid">
