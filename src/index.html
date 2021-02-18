@@ -28,7 +28,7 @@
 <meta name="robots" content="noindex"><meta name="theme-color" content="#0094ff"><link rel="manifest" href="manifest.webmanifest"><script>dataLayer = [];</script>
     <script>
       const pushpadProjectId = `undefined`;
-      if (pushpadProjectId !== '') {
+      if (pushpadProjectId !== '' && pushpadProjectId !== 'undefined') {
         (function (p, u, s, h, x) { p.pushpad = p.pushpad || function () { (p.pushpad.q = p.pushpad.q || []).push(arguments) }; h = u.getElementsByTagName('head')[0]; x = u.createElement('script'); x.async = 1; x.src = s; h.appendChild(x); })(window, document, 'https://pushpad.xyz/pushpad.js');
         pushpad('init', pushpadProjectId, {serviceWorkerPath: null});
         pushpad('widget', {
@@ -37,7 +37,7 @@
           promptButtonColor: "#0094ff",
         });
       } else {
-        console.warning('Pushpad project ID not set; not initialising');
+        console.warn('Pushpad project ID not set; not initialising');
       }
     </script>
   </head>
