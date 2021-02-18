@@ -24,7 +24,7 @@ exports.transform = function (window, $) {
           promptButtonColor: "#0094ff",
         });
       } else {
-        console.warning('Pushpad project ID not set; not initialising');
+        console.warn('Pushpad project ID not set; not initialising');
       }
     </script>
   `);
