@@ -1,8 +1,8 @@
 const webdriver = require('selenium-webdriver');
-const { until } = require('selenium-webdriver');
-const { By } = require('selenium-webdriver');
-const assert = require('assert');
+const { until, By } = require('selenium-webdriver');
+const { Options } = require('selenium-webdriver/firefox');
 
+const assert = require('assert');
 
 /*
 
@@ -15,18 +15,23 @@ describe('Authentication Testing', function() {
 	let driver;
 
 	const BASE_URL = `http://localhost:3000`
-
 	const LOGIN_URL = `${BASE_URL}/accounts/login/`;
 	const SIGNUP_URL = `${BASE_URL}/accounts/register/`;
 
+	const VALID_USER = 'user';
+	const VALID_PASSWORD = 'pass';
+
 	before(async () => {
-	  driver = new webdriver.Builder().forBrowser('firefox')
-	  .build();
+		let options = new Options()
+		driver = new webdriver.Builder().forBrowser('firefox')
+		.setFirefoxOptions(options.headless())
+		.build();
+
 	}, 30000);
 
 	after(async () => {
 	  await driver.quit();
-	}, 40000);
+	}, 30000);
 
 
 	describe('test for login functionality', function(){
@@ -36,6 +41,7 @@ describe('Authentication Testing', function() {
 
 		before(async function(){
 			await driver.get(LOGIN_URL);
+			await driver.sleep(500);
 		});
 
 		beforeEach(async function() {
@@ -46,29 +52,20 @@ describe('Authentication Testing', function() {
 			passwordBox.clear();
 		});
 
-		it('should check for correct inputs', async function(){
-			usernameBox.sendKeys('testUser');
-			passwordBox.sendKeys('testPassword');
-			await driver.sleep(300);
-		})
-
-		it('test for successful login', async function(){
-			usernameBox.sendKeys('testUser');
-			passwordBox.sendKeys('testPassword');
-
-			await driver.sleep(300);
-		})
-
-		it('test for login error response', async function(){
-			const message = 'Login or password invalid.'
-
-			usernameBox.sendKeys('errorUser');
-			passwordBox.sendKeys('errorPass');
+		async function sendData(nm, p1){
+			usernameBox.sendKeys(nm);
+			passwordBox.sendKeys(p1);
 
 			const button = driver.findElement(By.className('button form-submit w-button'));
 			button.click();
 
-			await driver.sleep(5000);
+			await driver.sleep(1000);
+		}
+
+		it('test for login error response', async function(){
+			const message = 'Login or password invalid.'
+
+			await sendData('errorUser', 'errorPass')
 
 			const errorDiv = driver.findElement(By.className('w-form-fail'));
 			const errorMessage = await errorDiv.getText();
@@ -77,6 +74,17 @@ describe('Authentication Testing', function() {
 
 			await driver.sleep(500);
 		})
+
+		it('test for successful login', async function(){
+
+			await sendData(VALID_USER, VALID_PASSWORD);
+
+			const url = await driver.getCurrentUrl();
+			const condition = url.endsWith('/services/');
+
+			assert.ok(condition);
+		})
+
 	})
 
 	describe('test for signup functionalities', function() {
@@ -88,7 +96,17 @@ describe('Authentication Testing', function() {
 
 		before(async function(){
 			await driver.get(SIGNUP_URL);
+			await driver.sleep(500);
 		})
+
+		function sendData(nm, em, p1, p2){
+			username.sendKeys(nm);
+			email.sendKeys(em);
+			password.sendKeys(p1);
+			confirmPassword.sendKeys(p2);
+
+			button.click();
+		}
 
 		beforeEach(async function() {
 			email = driver.findElement(By.id('my-muni-Email address'));
@@ -103,24 +121,14 @@ describe('Authentication Testing', function() {
 			confirmPassword.clear();
 		});
 
-		it('test for signup error response', function() {
-		  // username.sendKeys('errorUser-=--')
-		  // usern
-		});
-
 		it('check for non-matching password error', async function(){
-			username.sendKeys('username');
 
-			email.sendKeys('test@email.com');
-			password.sendKeys('test-pass');
-			confirmPassword.sendKeys('confirm');
-			button.click();
+			sendData('username', 'test@email.com', 'test-pass', 'incorrect')
 
-			await driver.sleep(1000)
+			await driver.sleep(2000)
 
 			const errorDiv = driver.findElement(By.className('w-form-fail'));
 			const innerDiv = await errorDiv.findElement(By.tagName('div'));
-
 			const errorMessage = await innerDiv.getText();
 
 			const condition = errorMessage.includes("Passwords don't match");
@@ -128,15 +136,53 @@ describe('Authentication Testing', function() {
 			assert.ok(condition)
 		})
 
-		it('test for signup success message', function() {
-		  assert.equal([1, 2, 3].indexOf(4), -1);
+		it('test for signup success message', async function() {
+
+			sendData('username', 'test@email.com', 'test-pass', 'test-pass')
+
+			await driver.sleep(1500)
+
+			const successDiv = driver.findElement(By.className('w-form-done'));
+			const innerDiv = await successDiv.findElement(By.tagName('div'));
+			const successMessage = await innerDiv.getText();
+
+			const condition = successMessage.includes("Thank you! Your submission has been received!");
+
+			assert.ok(condition)
 		});
 	});
 
 	describe('logout test', function() {
-		// my-muni-logout
-		it('verify logout worked correctly', function() {
-		  assert.equal([1, 2, 3].indexOf(4), -1);
+		before(async function(){
+			await driver.get(LOGIN_URL);
+			const usernameBox = driver.findElement(By.id('my-muni-Username'));
+			const passwordBox = driver.findElement(By.id('my-muni-Password'));
+
+			usernameBox.sendKeys(VALID_USER);
+			passwordBox.sendKeys(VALID_PASSWORD);
+			const button = driver.findElement(By.className('button form-submit w-button'));
+			button.click();
+
+			await driver.sleep(2000);
+		});
+
+		it('verify logout worked correctly', async function() {
+			const button = driver.findElement(By.className('icon nav-menu__icon'));
+			button.click();
+
+			await driver.sleep(300);
+
+			const logoutBtn = driver.findElement(By.id('my-muni-logout'));
+			logoutBtn.click();
+
+			await driver.sleep(1500);
+
+			const storage = await driver.executeScript('return window.localStorage');
+		    const condition = !storage.accessToken && !storage.refreshToken
+
+		    assert.ok(condition);
+
+
 		});
 	});
 

@@ -33,10 +33,6 @@ import { UserSettings } from "./components/account/user-settings";
 import { VerifyUserRegistration } from "./components/account/user-registration-verify";
 import { ChangePassword } from "./components/account/change-password";
 
-import mockjax from 'jquery-mockjax';
-
-mockjax($, window)
-
 const ENVIRONMENT = `${process.env.ENVIRONMENT}`;
 const NODE_ENV = `${process.env.NODE_ENV}`;
 const GOOGLE_TAG_MANAGER_ID = `${process.env.GOOGLE_TAG_MANAGER_ID}`;
@@ -44,7 +40,6 @@ const CONTEXT = `${process.env.CONTEXT}`;
 const SENTRY_DSN = `${process.env.SENTRY_DSN}`;
 const SENTRY_PERF_SAMPLE_RATE = `${process.env.SENTRY_PERF_SAMPLE_RATE}`;
 
-console.log('NODE_ENV is', NODE_ENV)
 
 if (
   NODE_ENV === "production" ||
@@ -62,27 +57,11 @@ if (
 }
 
 if(NODE_ENV === 'test'){
-  // Add Nock library.
-  nock.disableNetConnect()
+  const {loadAPI} = require('./mocks/mockapi');
+  const mockjax = require('jquery-mockjax');
 
-  const URL = 'https://muni-portal-backend.openup.org.za';
-
-  nock(URL)
-    .post('/api/accounts/login')
-    .reply(500, { error: 'Notworking as expected'})
-
-
-  nock(URL)
-    .post('/api/accounts/register')
-    .reply(404, { error: 'Breaking code' })
-
-  // const URL = `https://muni-portal-backend.openup.org.za`;
-  // nock(URL)
-  // .post('/api/accounts/login/')
-  // .reply(500)
-
-  console.log('NODE_ENV is test, added nock for this test application')
-  // $.post = 23;
+  mockjax($, window);
+  loadAPI();
 }
 
 if (SENTRY_DSN !== "undefined" && SENTRY_DSN !== "") {
