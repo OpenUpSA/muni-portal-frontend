@@ -1,0 +1,53 @@
+name: CI build
+
+on:
+  push:
+    branches:
+      - automation-test
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        python-version: [2.7, 3.5, 3.6, 3.7, 3.8, 3.9]
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x, 15.x]
+
+    steps:
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install seleniumbase
+    - name: Install Chrome and Firefox
+      run: |
+        sudo apt install google-chrome-stable
+        sudo apt-get install firefox
+    - name: Check the console scripts interface
+      run: |
+        seleniumbase
+        sbase
+    - name: Install chromedriver and geckodriver (Firefox Webdriver)
+      run: |
+        seleniumbase install chromedriver
+        seleniumbase install geckodriver
+
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: NODE_ENV=test npm run build --if-present
+    - run: npm run serve-test
+    - run: npm test
