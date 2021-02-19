@@ -14,9 +14,10 @@ Test Auth functionalities (Login, Signup, Logout) with selenium and mocha
 describe('Authentication Testing', function() {
 	let driver;
 
-	const BASE_URL = `http://localhost:3000`
+	const BASE_URL = `http://localhost:3000`;
 	const LOGIN_URL = `${BASE_URL}/accounts/login/`;
 	const SIGNUP_URL = `${BASE_URL}/accounts/register/`;
+	const CHANGE_PASSWORD_URL = `${BASE_URL}/account/change-password/`;
 
 	const VALID_USER = 'user';
 	const VALID_PASSWORD = 'pass';
@@ -87,7 +88,7 @@ describe('Authentication Testing', function() {
 
 	})
 
-	describe('test for signup functionalities', function() {
+	describe('test for signup functionality', function() {
 		let email;
 		let username;
 		let password;
@@ -186,4 +187,68 @@ describe('Authentication Testing', function() {
 		});
 	});
 
+	describe('change password while logged in', function() {
+		let password;
+		let oldPassword;
+		let confirmPassword;
+		let button;
+
+		before(async function(){
+			await driver.get(LOGIN_URL);
+			const usernameBox = driver.findElement(By.id('my-muni-Username'));
+			const passwordBox = driver.findElement(By.id('my-muni-Password'));
+
+			usernameBox.sendKeys(VALID_USER);
+			passwordBox.sendKeys(VALID_PASSWORD);
+			const button = driver.findElement(By.className('button form-submit w-button'));
+			button.click();
+
+			await driver.sleep(2000);
+
+			await driver.get(CHANGE_PASSWORD_URL);
+		});
+
+		beforeEach(async function() {
+			oldPassword = driver.findElement(By.id('my-muni-old_password'));
+			password = driver.findElement(By.id('my-muni-password'));
+			confirmPassword = driver.findElement(By.id('my-muni-password_confirm'));
+			button = driver.findElement(By.className('button form-submit w-button'))
+
+			oldPassword.clear();
+			password.clear();
+			confirmPassword.clear();
+		});
+
+		async function sendData(ol, pa, cf){
+			oldPassword.sendKeys(ol);
+			password.sendKeys(pa);
+			confirmPassword.sendKeys(cf);
+
+			button.click();
+
+			await driver.sleep(1000);
+		}
+
+		it('change password successful', async function(){
+			await sendData(VALID_PASSWORD, 'default', 'default')
+
+			const successDiv = driver.findElement(By.className('w-form-done'));
+			const successMessage = await successDiv.getText();
+
+			const condition = successMessage.includes("Your password has been changed successfully.");
+
+			assert.ok(condition);
+		});
+
+		// it('incorrect old password', async function() {
+		// 	await sendData('lospa', 'default', 'default')
+
+		// 	const errorDiv = driver.findElement(By.xpath('/div[@class="w-form-fail change-password-field-error"][1]'));
+		// 	const errorMessage = await errorDiv.getText();
+
+		// 	const condition = errorMessage.includes("Old password is not correct");
+
+		// 	assert.ok(condition)
+		// });
+	});
 });
