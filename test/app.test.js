@@ -24,7 +24,7 @@ describe('Authentication Testing', function() {
 	before(async () => {
 		let options = new Options()
 		driver = new webdriver.Builder().forBrowser('firefox')
-		.setFirefoxOptions(options.headless())
+		.setFirefoxOptions(options.headless().addArguments('log-level=2'))
 		.build();
 
 	}, 30000);

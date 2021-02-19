@@ -46,14 +46,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: NODE_ENV=test npm run build --if-present
-  #   run: |
-  # yarn start &
-  # sleep 10
-  # yarn test
     - run: |
         npm run serve-test &
         sleep 10
         npm test
-    # - run: npm run serve-test </dev/null &>/dev/null &
-    # - run: curl http://localhost:3000
-    # - run: npm test
