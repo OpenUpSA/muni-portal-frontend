@@ -2,9 +2,18 @@ const defaultBaseUrl = process.env.DEFAULT_API_URL
   ? `${process.env.DEFAULT_API_URL}`
   : "https://muni-portal-backend.openup.org.za";
 
-function getBaseApiUrl() {
+export function getBaseApiUrl() {
   return sessionStorage.getItem("apiBaseUrl") || defaultBaseUrl;
 }
+
+// import { createServer } from "miragejs"
+
+// createServer({
+//   routes() {
+//     this.post("https://muni-portal-backend.openup.org.za/accounts/login/", () => {detail:"Login or password invalid."})
+//   },
+// })
+
 
 export class API {
   constructor() {

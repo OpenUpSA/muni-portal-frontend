@@ -1,4 +1,4 @@
-import { API } from "../../api";
+import { MockAPI } from "../../mockapi";
 import { setMenuState } from "../../utils/menu";
 import {
   getAnchorElement,
@@ -69,7 +69,7 @@ export class Login {
    * @param {jqObject} $fail  - reference to the failure template
    */
   login(endPoint, $form, $success, $fail) {
-    const api = new API();
+    const api = new MockAPI();
     const response = api.login(endPoint, $form.serialize());
     response
       .done((response, textStatus) => {
