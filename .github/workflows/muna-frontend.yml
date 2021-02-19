@@ -15,7 +15,7 @@ jobs:
       max-parallel: 6
       matrix:
         python-version: [3.7]
-        node-version: [10.x, 12.x]
+        node-version: [12.x]
 
     steps:
     - name: Set up Python ${{ matrix.python-version }}
@@ -46,5 +46,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: NODE_ENV=test npm run build --if-present
-    - run: npm run serve-test
+    - run: npm run serve-test </dev/null &>/dev/null &
     - run: npm test
