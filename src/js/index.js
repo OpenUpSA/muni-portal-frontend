@@ -21,9 +21,10 @@ import {
 import * as pages from "./components/pages.js";
 import { API } from "./api.js";
 
-import { setMenuState, updateMenuLinks } from "./utils/menu";
+import { setMenuState } from "./utils/menu";
 
 import { ServiceRequestsIndex } from "./components/service-requests/index";
+import { SubmitServiceRequest } from "./components/service-requests/submit-service-request";
 
 import { Login } from "./components/account/login";
 import { ForgotPassword } from "./components/account/forgot-password";
@@ -138,6 +139,11 @@ class App {
         path: new RegExp("^/service-requests/$"),
         view: this.viewServiceRequestsIndex.bind(this),
         viewType: "Service Requests landing",
+      },
+      {
+        path: new RegExp("^/service-requests/submit$"),
+        view: this.submitServiceRequestsIndex.bind(this),
+        viewType: "Submit a service request",
       },
       {
         path: new RegExp("^/accounts/login/$"),
@@ -306,6 +312,14 @@ class App {
     const title = "My service requests";
     this.setTitle(title);
     this.modalPage.setContent(serviceRequestsIndex.render(), title);
+  }
+
+  submitServiceRequestsIndex() {
+    this.modalPage.show();
+    const submitServiceRequests = new SubmitServiceRequest();
+    const title = "Submit a service request";
+    this.setTitle(title);
+    this.modalPage.setContent(submitServiceRequests.render(), title);
   }
 
   viewLogin() {

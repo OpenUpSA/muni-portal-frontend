@@ -12,6 +12,7 @@ export class ServiceRequestsIndex {
 
     $icon.removeClass("fa-spinner").addClass("fa-plus");
     $label.text("Submit a new service request");
+    $submitServiceRequestLink.attr("href", "submit");
 
     $gridThirds.append($submitServiceRequestLink);
 
