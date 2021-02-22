@@ -1,5 +1,5 @@
 export class FullWidthGrid {
-  template = $(".components .grid--fullwidth");
+  template = $(".components .grid--default");
 
   constructor(children) {
     this.element = this.template.clone();

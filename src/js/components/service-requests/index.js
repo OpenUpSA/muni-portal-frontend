@@ -8,7 +8,7 @@ export class ServiceRequestsIndex {
     const $icon = $submitServiceRequestLink.find(".fas");
     const $label = $submitServiceRequestLink.find(".label");
 
-    this.$element = $(".components .grid--fullwidth").clone();
+    this.$element = $(".components .grid--default").clone();
 
     $icon.removeClass("fa-spinner").addClass("fa-plus");
     $label.text("Submit a new service request");
