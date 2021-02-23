@@ -5,7 +5,10 @@ export class SubmitServiceRequest {
   constructor() {
     const children = [];
 
+    const $requiredFieldsNote = $(".components .form-item .form-label").clone();
+
     const $formInputTmpl = $(".components .input-field:eq(0)");
+    const $textAreaTmpl = $(".components .form__input-field--large");
 
     const $serviceAreaFieldset = getFieldset();
     const $serviceAreaLegend = getLegend("Service area of request");
@@ -43,18 +46,20 @@ export class SubmitServiceRequest {
     const $yourInfoFieldset = getFieldset();
     const $yourInfoLegend = getLegend("Your information");
 
-    const $firstNameLabel = getLabel("First name");
+    const $firstNameLabel = getLabel("First name *");
     const $firstNameInput = $formInputTmpl.clone().attr({
       id: "first-name",
       name: "first_name",
       placeholder: "",
+      required: true,
     });
 
-    const $lastNameLabel = getLabel("Last name");
+    const $lastNameLabel = getLabel("Last name *");
     const $lastNameInput = $formInputTmpl.clone().attr({
       id: "last-name",
       name: "last_name",
       placeholder: "",
+      required: true,
     });
 
     const $cellNumberLabel = getLabel("Cellphone number");
@@ -73,6 +78,19 @@ export class SubmitServiceRequest {
       type: "email",
     });
 
+    const $describeIssueLabel = getLabel("Describe your issue");
+    const $describeIssueTextarea = $textAreaTmpl.clone().attr({
+      id: "describe-your-issue",
+      name: "issue",
+      placeholder: "Please describe your issue",
+    });
+
+    const $submitButton = $(".components .button.button--form-submit")
+      .clone()
+      .attr({
+        value: "Submit",
+      });
+
     $yourInfoFieldset.append([
       $yourInfoLegend,
       $firstNameLabel,
@@ -83,8 +101,14 @@ export class SubmitServiceRequest {
       $cellNumberInput,
       $emailLabel,
       $emailInput,
+      $describeIssueLabel,
+      $describeIssueTextarea,
+      $submitButton,
     ]);
 
+    $requiredFieldsNote.text("* Required fields");
+
+    children.push($requiredFieldsNote);
     children.push($serviceAreaFieldset);
     children.push($addressFieldset);
     children.push($yourInfoFieldset);
