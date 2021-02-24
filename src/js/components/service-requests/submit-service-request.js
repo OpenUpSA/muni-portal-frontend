@@ -1,9 +1,12 @@
 import { FullWidthGrid } from "../grid";
+// import { ServiceRequestSubmitted } from "./service-request-submitted";
 import { getFieldset, getLabel, getLegend } from "../../utils/element-factory";
 
 export class SubmitServiceRequest {
   constructor() {
     const children = [];
+
+    // children.push(new ServiceRequestSubmitted().render());
 
     const $requiredFieldsNote = $(".components .form-item .form-label").clone();
 
