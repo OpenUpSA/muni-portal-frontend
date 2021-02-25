@@ -1,24 +1,36 @@
+import { API } from "../../api";
 import { FullWidthGrid } from "../grid";
-// import { ServiceRequestSubmitted } from "./service-request-submitted";
+import { ServiceRequestSubmitted } from "./service-request-submitted";
 import { getFieldset, getLabel, getLegend } from "../../utils/element-factory";
 
 export class SubmitServiceRequest {
   constructor() {
-    const children = [];
+    const api = new API();
 
-    // children.push(new ServiceRequestSubmitted().render());
-
-    const $requiredFieldsNote = $(".components .form-item .form-label").clone();
-
+    const $form = $("<form />", {
+      name: "submit-service-request",
+      method: "post",
+      action: "",
+    });
     const $formInputTmpl = $(".components .input-field:eq(0)");
+    const $requiredFieldsNote = $(".components .form-item .form-label").clone();
     const $textAreaTmpl = $(".components .form__input-field--large");
 
     const $serviceAreaFieldset = getFieldset();
     const $serviceAreaLegend = getLegend("Service area of request");
-    const $selectServiceArea = $(".components .dropdown:eq(0)").clone();
+    const $suburbLabel = getLabel("Suburb");
+    const $suburbInput = $formInputTmpl.clone().attr({
+      id: "suburb",
+      name: "suburb",
+      type: "text",
+      placeholder: "",
+    });
 
-    $serviceAreaFieldset.append($serviceAreaLegend);
-    $serviceAreaFieldset.append($selectServiceArea);
+    $serviceAreaFieldset.append([
+      $serviceAreaLegend,
+      $suburbLabel,
+      $suburbInput,
+    ]);
 
     const $addressFieldset = getFieldset();
     const $addressLegend = getLegend("Address");
@@ -52,7 +64,7 @@ export class SubmitServiceRequest {
     const $firstNameLabel = getLabel("First name *");
     const $firstNameInput = $formInputTmpl.clone().attr({
       id: "first-name",
-      name: "first_name",
+      name: "user_name",
       placeholder: "",
       required: true,
     });
@@ -60,7 +72,7 @@ export class SubmitServiceRequest {
     const $lastNameLabel = getLabel("Last name *");
     const $lastNameInput = $formInputTmpl.clone().attr({
       id: "last-name",
-      name: "last_name",
+      name: "user_surname",
       placeholder: "",
       required: true,
     });
@@ -68,7 +80,7 @@ export class SubmitServiceRequest {
     const $cellNumberLabel = getLabel("Cellphone number");
     const $cellNumberInput = $formInputTmpl.clone().attr({
       id: "cellphone-number",
-      name: "cellphone_number",
+      name: "user_mobile_number",
       placeholder: "",
       type: "tel",
     });
@@ -84,7 +96,7 @@ export class SubmitServiceRequest {
     const $describeIssueLabel = getLabel("Describe your issue");
     const $describeIssueTextarea = $textAreaTmpl.clone().attr({
       id: "describe-your-issue",
-      name: "issue",
+      name: "description",
       placeholder: "Please describe your issue",
     });
 
@@ -111,12 +123,25 @@ export class SubmitServiceRequest {
 
     $requiredFieldsNote.text("* Required fields");
 
-    children.push($requiredFieldsNote);
-    children.push($serviceAreaFieldset);
-    children.push($addressFieldset);
-    children.push($yourInfoFieldset);
+    $form.append([
+      $requiredFieldsNote,
+      $serviceAreaFieldset,
+      $addressFieldset,
+      $yourInfoFieldset,
+    ]);
 
-    this.$element = new FullWidthGrid(children).render();
+    $submitButton.on("click", (event) => {
+      event.preventDefault();
+      api
+        .submitServiceRequest($form.serialize())
+        .then((response) => {
+          console.log(response);
+          this.$element.empty().append(new ServiceRequestSubmitted().render());
+        })
+        .fail((a, b) => console.error(a, b));
+    });
+
+    this.$element = new FullWidthGrid([$form]).render();
   }
 
   render() {

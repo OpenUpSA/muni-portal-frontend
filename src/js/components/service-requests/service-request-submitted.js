@@ -1,4 +1,4 @@
-import { SimpleLinkBlock } from "../atoms/simple-link-block";
+import { SimpleLinkBlock } from "../molecules/simple-link-block";
 
 export class ServiceRequestSubmitted {
   constructor() {
@@ -11,7 +11,7 @@ export class ServiceRequestSubmitted {
     $successMessage.addClass("basic-block--status--success");
 
     const $allServiceRequests = new SimpleLinkBlock({
-      href: "/",
+      href: "/service-requests/",
       title: "View all my service requests",
     }).render();
 

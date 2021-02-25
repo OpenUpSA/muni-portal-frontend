@@ -100,6 +100,16 @@ export class API {
     return $.get(url);
   }
 
+  getServiceRequests() {
+    const url = `${this.baseUrl}/api/service-requests/`;
+    return $.get(url);
+  }
+
+  submitServiceRequest(serviceRequestDetails) {
+    const url = `${this.baseUrl}/api/service-requests/`;
+    return $.post({ url, data: serviceRequestDetails });
+  }
+
   getUserProfile() {
     const url = `${this.baseUrl}/api/accounts/profile/`;
 
