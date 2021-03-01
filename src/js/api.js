@@ -105,6 +105,11 @@ export class API {
     return $.get(url);
   }
 
+  getServiceRequest(serviceRequestId) {
+    const url = `${this.baseUrl}/api/service-requests/${serviceRequestId}`;
+    return $.get(url);
+  }
+
   submitServiceRequest(serviceRequestDetails) {
     const url = `${this.baseUrl}/api/service-requests/`;
     return $.post({ url, data: serviceRequestDetails });

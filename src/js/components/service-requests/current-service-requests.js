@@ -21,6 +21,7 @@ export class CurrentServiceRequests {
         for (const request of serviceRequests) {
           this.$element.append(
             new StatusLinkblock({
+              href: `detail/?id=${request.id}`,
               title: request.description,
               subtitle: request.request_date,
               status: request.status,
