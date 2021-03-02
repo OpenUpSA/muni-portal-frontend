@@ -165,8 +165,7 @@ export class SubmitServiceRequest {
       event.preventDefault();
       api
         .submitServiceRequest($form.serialize())
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           this.$element.empty().append(new ServiceRequestSubmitted().render());
         })
         .fail((a, b) => console.error(a, b));

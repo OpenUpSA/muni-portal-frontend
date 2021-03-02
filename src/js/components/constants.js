@@ -1,3 +1,8 @@
+export const OPEN_SERVICE_REQUEST_STATUSES = [
+  "queued",
+  "created",
+  "in_progress",
+];
 export const SERVICE_REQUEST_STATUS = {
   queued: "Queued",
   created: "Created",
