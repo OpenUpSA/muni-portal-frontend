@@ -1,4 +1,6 @@
 import { API } from "../../api";
+import { TASK_TYPES } from "../constants";
+
 import { FullWidthGrid } from "../grid";
 import { ServiceRequestSubmitted } from "./service-request-submitted";
 import { getFieldset, getLabel, getLegend } from "../../utils/element-factory";
@@ -7,6 +9,12 @@ export class SubmitServiceRequest {
   constructor() {
     const api = new API();
 
+    const $dropdownContainer = $(".components .dropdown:eq(0)").clone();
+    const $dropdownCurrentSelection = $dropdownContainer.find(
+      ".dropdown__current-selection"
+    );
+    const $dropdownList = $dropdownContainer.find(".w-dropdown-list");
+    const $dropdownOption = $dropdownContainer.find(".w-dropdown-link");
     const $form = $("<form />", {
       name: "submit-service-request",
       method: "post",
@@ -15,21 +23,34 @@ export class SubmitServiceRequest {
     const $formInputTmpl = $(".components .input-field:eq(0)");
     const $requiredFieldsNote = $(".components .form-item .form-label").clone();
     const $textAreaTmpl = $(".components .form__input-field--large");
+    const $typeHiddenField = $("<input/>", {
+      id: "service-area",
+      type: "hidden",
+      name: "type",
+    });
 
     const $serviceAreaFieldset = getFieldset();
     const $serviceAreaLegend = getLegend("Service area of request");
-    const $suburbLabel = getLabel("Suburb");
-    const $suburbInput = $formInputTmpl.clone().attr({
-      id: "suburb",
-      name: "suburb",
-      type: "text",
-      placeholder: "",
+
+    $dropdownOption.remove();
+    $dropdownCurrentSelection.text("Select service area");
+
+    TASK_TYPES.forEach((task) => {
+      $dropdownList.append($dropdownOption.clone().text(task));
+    });
+
+    $dropdownList.on("click", (event) => {
+      $typeHiddenField.attr("value", $(event.target).text());
+      $dropdownCurrentSelection.text($(event.target).text());
+
+      // Close a dropdown when one of its options are selected
+      $dropdownContainer.triggerHandler("w-close.w-dropdown");
     });
 
     $serviceAreaFieldset.append([
       $serviceAreaLegend,
-      $suburbLabel,
-      $suburbInput,
+      $typeHiddenField,
+      $dropdownContainer,
     ]);
 
     const $addressFieldset = getFieldset();
@@ -50,12 +71,22 @@ export class SubmitServiceRequest {
       placeholder: "",
     });
 
+    const $suburbLabel = getLabel("Suburb");
+    const $suburbInput = $formInputTmpl.clone().attr({
+      id: "suburb",
+      name: "suburb",
+      type: "text",
+      placeholder: "",
+    });
+
     $addressFieldset.append([
       $addressLegend,
       $streetNameLabel,
       $streetNameInput,
       $streetNumberLabel,
       $streetNumberInput,
+      $suburbLabel,
+      $suburbInput,
     ]);
 
     const $yourInfoFieldset = getFieldset();

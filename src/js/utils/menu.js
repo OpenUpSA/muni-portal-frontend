@@ -61,8 +61,8 @@ export const setMenuState = () => {
     $loginLink,
     $logoutButton,
     $registerLink,
-    $serviceRequestsIndex,
     $settingsLink,
+    $serviceRequestsIndex,
   ]);
   Webflow.require("ix2").init();
 
@@ -77,10 +77,10 @@ export const setMenuState = () => {
     handleLogout($logoutButton);
   } else {
     $logoutButton.hide();
-    $serviceRequestsIndex.hide();
     $settingsLink.hide();
 
     $loginLink.show();
+    $serviceRequestsIndex.show();
     $registerLink.show();
   }
 };
