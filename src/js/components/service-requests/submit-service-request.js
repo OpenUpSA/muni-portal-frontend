@@ -168,7 +168,10 @@ export class SubmitServiceRequest {
         .then(() => {
           this.$element.empty().append(new ServiceRequestSubmitted().render());
         })
-        .fail((a, b) => console.error(a, b));
+        .fail((a, b) => {
+          alert("Error while submitting service request");
+          console.error(a, b);
+        });
     });
 
     this.$element = new FullWidthGrid([$form]).render();
