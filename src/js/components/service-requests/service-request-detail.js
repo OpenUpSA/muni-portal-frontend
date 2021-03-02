@@ -1,40 +1,25 @@
 import { API } from "../../api";
+import { SERVICE_REQUEST_STATUS } from "../constants";
 
 import { BasicBlock } from "../basic-block";
 import { FullWidthGrid } from "../grid";
-
-// {
-//   "id": 1,
-//   "collaborator_object_id": 556704,
-
-//   "user_name": "Mr JD",
-//   "user_surname": "Bothma",
-//   "user_mobile_number": "0792816737",
-//   "user_email_address": "jd@openup.org.za",
-//   "municipal_account_number": null,
-
-//   "suburb": "Daar",
-//   "description": "This one has the date 2020-02-01 sent from the app",
-//   "coordinates": "12.3, 45.6",
-
-//   "collaborator_status": "assigned",
-//   "status": "in_progress",
-//   "demarcation_code": "WC033",
-//   "user": 1
-// }
+import { LoadingPlaceholder } from "../atoms/loading-placeholder";
 
 export class ServiceRequestDetail {
   constructor() {
     const api = new API();
     const url = new URL(document.location.href);
+    const $loadingPlaceholder = new LoadingPlaceholder();
     const serviceRequestId = new URLSearchParams(url.search).get("id");
     const $sectionHeading = $(".components .section-heading");
 
-    this.$element = new FullWidthGrid([]).render();
+    this.$element = new FullWidthGrid([$loadingPlaceholder]).render();
 
     api
       .getServiceRequest(serviceRequestId)
       .then((response) => {
+        $loadingPlaceholder.remove();
+
         const $serviceRequestInfoHeading = $sectionHeading.clone();
         const $serviceDescriptionHeading = $sectionHeading.clone();
 
@@ -65,7 +50,7 @@ export class ServiceRequestDetail {
         this.$element.append(
           new BasicBlock({
             title: "Current status",
-            subtitle: response.status,
+            subtitle: SERVICE_REQUEST_STATUS[response.status],
           }).render()
         );
 
