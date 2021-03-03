@@ -1,15 +1,8 @@
 import { SimpleLinkBlock } from "../molecules/simple-link-block";
+import { StatusMessage } from "../molecules/status-message";
 
 export class ServiceRequestSubmitted {
   constructor() {
-    const $successMessage = $(".components .basic-block--status");
-    $successMessage
-      .find(".fa-icon")
-      .removeClass("fa-spinner")
-      .addClass("fa-check");
-    $successMessage.find(".status-text").text("Service request submitted");
-    $successMessage.addClass("basic-block--status--success");
-
     const $allServiceRequests = new SimpleLinkBlock({
       href: "/service-requests/",
       title: "View all my service requests",
@@ -30,7 +23,10 @@ export class ServiceRequestSubmitted {
     });
 
     this.$element.append([
-      $successMessage,
+      new StatusMessage({
+        text: "Service request submitted",
+        status: "success",
+      }).render(),
       $allServiceRequests,
       $contactMunicipality,
       $submitAnotherRequest,

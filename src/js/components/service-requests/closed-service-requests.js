@@ -1,5 +1,7 @@
 import { SERVICE_REQUEST_STATUS } from "../constants";
 
+import { getLocaleDateString } from "../../utils/date";
+
 import { StatusLinkblock } from "../molecules/status-link-block";
 export class ClosedServiceRequests {
   constructor(serviceRequests) {
@@ -23,8 +25,11 @@ export class ClosedServiceRequests {
         new StatusLinkblock({
           href: `detail/?id=${request.id}`,
           title: request.description,
-          subtitle: request.request_date,
+          subtitle: request.request_date
+            ? getLocaleDateString(request.request_date)
+            : "",
           status: SERVICE_REQUEST_STATUS[request.status],
+          statusClass: "link-block__status--green",
         }).render()
       );
     }

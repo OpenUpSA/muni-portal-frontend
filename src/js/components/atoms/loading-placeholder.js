@@ -1,8 +1,8 @@
 export class LoadingPlaceholder {
-  constructor() {
+  constructor(placeholderText) {
     this.$element = $("<p/>", {
       class: "loading-placeholder",
-      text: "Loading...",
+      text: placeholderText || "Loading...",
     });
   }
 

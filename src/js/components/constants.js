@@ -4,8 +4,8 @@ export const OPEN_SERVICE_REQUEST_STATUSES = [
   "in_progress",
 ];
 export const SERVICE_REQUEST_STATUS = {
-  queued: "Queued",
-  created: "Created",
+  queued: "Submitted",
+  created: "Submitted",
   in_progress: "In Progress",
   completed: "Completed",
 };

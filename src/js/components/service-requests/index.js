@@ -4,12 +4,15 @@ import { OPEN_SERVICE_REQUEST_STATUSES } from "../constants";
 import { LoadingPlaceholder } from "../atoms/loading-placeholder";
 import { CurrentServiceRequests } from "./current-service-requests";
 import { ClosedServiceRequests } from "./closed-service-requests";
+import { StatusMessage } from "../molecules/status-message";
 
 export class ServiceRequestsIndex {
   constructor() {
     const api = new API();
     const $gridThirds = $(".components .grid--thirds").clone();
-    const $loadingPlaceholder = new LoadingPlaceholder();
+    const $loadingPlaceholder = new LoadingPlaceholder(
+      "Loading service requests..."
+    );
     const $submitServiceRequestLink = $(".components .action-block").clone();
     const $icon = $submitServiceRequestLink.find(".fas");
     const $label = $submitServiceRequestLink.find(".label");
@@ -43,7 +46,15 @@ export class ServiceRequestsIndex {
           new ClosedServiceRequests(closedRequests).render()
         );
       })
-      .fail((a, b) => console.error(a, b));
+      .fail((a, b) => {
+        this.$element.empty().append(
+          new StatusMessage({
+            text: "Error while loading service requests.",
+            status: "failure",
+          }).render()
+        );
+        console.error(a, b);
+      });
   }
 
   render() {

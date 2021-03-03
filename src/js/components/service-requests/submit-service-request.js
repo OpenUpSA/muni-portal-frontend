@@ -3,6 +3,7 @@ import { TASK_TYPES } from "../constants";
 
 import { FullWidthGrid } from "../grid";
 import { ServiceRequestSubmitted } from "./service-request-submitted";
+import { StatusMessage } from "../molecules/status-message";
 import { getFieldset, getLabel, getLegend } from "../../utils/element-factory";
 
 export class SubmitServiceRequest {
@@ -30,7 +31,7 @@ export class SubmitServiceRequest {
     });
 
     const $serviceAreaFieldset = getFieldset();
-    const $serviceAreaLegend = getLegend("Service area of request");
+    const $serviceAreaLegend = getLegend("Service area of request *");
 
     $dropdownOption.remove();
     $dropdownCurrentSelection.text("Select service area");
@@ -169,7 +170,12 @@ export class SubmitServiceRequest {
           this.$element.empty().append(new ServiceRequestSubmitted().render());
         })
         .fail((a, b) => {
-          alert("Error while submitting service request");
+          this.$element.empty().append(
+            new StatusMessage({
+              text: "Error while submitting service request.",
+              status: "failure",
+            }).render()
+          );
           console.error(a, b);
         });
     });
