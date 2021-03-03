@@ -50,7 +50,7 @@ export class ServiceRequestDetail {
         this.$element.append(
           new BasicBlock({
             title: "Reference number",
-            subtitle: response.on_premis_reference || "No reference number",
+            subtitle: response.on_premis_reference || "No reference number yet",
           }).render()
         );
 
