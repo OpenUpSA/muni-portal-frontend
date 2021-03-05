@@ -1,6 +1,6 @@
 import { SERVICE_REQUEST_STATUS } from "../constants";
 
-import { getLocaleDateString } from "../../utils/date";
+import { getDateString } from "../../utils/date";
 
 import { StatusLinkblock } from "../molecules/status-link-block";
 
@@ -26,7 +26,7 @@ export class CurrentServiceRequests {
           href: `detail/?id=${request.id}`,
           title: request.description,
           subtitle: request.request_date
-            ? getLocaleDateString(request.request_date)
+            ? getDateString(request.request_date, false)
             : "",
           status: SERVICE_REQUEST_STATUS[request.status],
           statusClass:

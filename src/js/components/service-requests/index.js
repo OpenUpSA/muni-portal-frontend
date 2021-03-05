@@ -1,5 +1,6 @@
 import { API } from "../../api";
 import { OPEN_SERVICE_REQUEST_STATUSES } from "../constants";
+import { reverseChronologicalSortByDate } from "../../utils/sort";
 
 import { LoadingPlaceholder } from "../atoms/loading-placeholder";
 import { CurrentServiceRequests } from "./current-service-requests";
@@ -33,11 +34,13 @@ export class ServiceRequestsIndex {
       .then((serviceRequests) => {
         $loadingPlaceholder.remove();
 
-        const openRequests = serviceRequests.filter((request) =>
+        serviceRequests = reverseChronologicalSortByDate(serviceRequests);
+
+        let openRequests = serviceRequests.filter((request) =>
           OPEN_SERVICE_REQUEST_STATUSES.includes(request.status)
         );
 
-        const closedRequests = serviceRequests.filter(
+        let closedRequests = serviceRequests.filter(
           (request) => !OPEN_SERVICE_REQUEST_STATUSES.includes(request.status)
         );
 
