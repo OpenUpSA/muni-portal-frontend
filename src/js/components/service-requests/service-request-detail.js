@@ -1,7 +1,7 @@
 import { API } from "../../api";
 import { SERVICE_REQUEST_STATUS } from "../constants";
 
-import { getLocaleDateString } from "../../utils/date";
+import { getDateString } from "../../utils/date";
 
 import { BasicBlock } from "../basic-block";
 import { FullWidthGrid } from "../grid";
@@ -45,7 +45,7 @@ export class ServiceRequestDetail {
           new BasicBlock({
             title: "Date submitted",
             subtitle: response.request_date
-              ? getLocaleDateString(response.request_date)
+              ? getDateString(response.request_date, false)
               : "No date provided",
           }).render()
         );
