@@ -25,6 +25,9 @@ export class ServiceRequestDetail {
       .then((response) => {
         $loadingPlaceholder.remove();
 
+        const $serviceRequestDetail = $(
+          ".components .rich-text.rich-text--basic-block.w-richtext"
+        ).clone();
         const $serviceRequestInfoHeading = $sectionHeading.clone();
         const $serviceDescriptionHeading = $sectionHeading.clone();
 
@@ -77,7 +80,7 @@ export class ServiceRequestDetail {
 
         this.$element.append([
           $serviceDescriptionHeading,
-          $("<p>", { text: response.description }),
+          $serviceRequestDetail.text(response.description),
         ]);
       })
       .fail((a, b) => {
