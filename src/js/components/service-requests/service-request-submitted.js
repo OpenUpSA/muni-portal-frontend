@@ -1,3 +1,5 @@
+import { FullWidthGrid } from "../grid";
+
 import { SimpleLinkBlock } from "../molecules/simple-link-block";
 import { StatusMessage } from "../molecules/status-message";
 
@@ -18,11 +20,7 @@ export class ServiceRequestSubmitted {
       title: "Submit another service request",
     }).render();
 
-    this.$element = $("<div />", {
-      class: "service-request-submitted",
-    });
-
-    this.$element.append([
+    this.$element = new FullWidthGrid([
       new StatusMessage({
         text: "Service request submitted",
         status: "success",
@@ -30,7 +28,7 @@ export class ServiceRequestSubmitted {
       $allServiceRequests,
       $contactMunicipality,
       $submitAnotherRequest,
-    ]);
+    ]).render();
   }
 
   render() {
