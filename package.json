@@ -35,7 +35,8 @@
     "workbox:inject": "workbox injectManifest ./workbox-config.js",
     "mkcert-loopback": "mkcert -cert-file server-cert.pem -key-file server-cert-key.pem 127.0.0.1",
     "lint": "eslint --ext .js src",
-    "lint-fix": "eslint --fix --ext .js src"
+    "lint-fix": "eslint --fix --ext .js src",
+    "test-webapp": "lhci autorun"
   },
   "browserslist": "> 0.25%, not dead",
   "dependencies": {
