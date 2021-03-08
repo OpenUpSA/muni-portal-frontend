@@ -33,6 +33,13 @@ yarn start
 
 > NOTE: The downside of the above is that hot module reloading is not supported in this mode. This means that when you make a change to your code, you will have to stop the above process (by pressing ctrl + c), and then run the above command again.
 
+Please use the [airbnb styleguide](https://github.com/airbnb/javascript) and lint with
+
+```
+yarn lint`
+```
+
+
 ## HTTPS in Dev
 
 You need a CA and server certificate to serve the site over https in your
