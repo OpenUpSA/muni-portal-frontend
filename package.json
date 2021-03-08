@@ -34,12 +34,15 @@
     "start": "yarn clean && yarn build && yarn serve-http",
     "workbox:inject": "workbox injectManifest ./workbox-config.js",
     "mkcert-loopback": "mkcert -cert-file server-cert.pem -key-file server-cert-key.pem 127.0.0.1",
+    "lint": "eslint --ext .js src",
+    "lint-fix": "eslint --fix --ext .js src",
     "test-webapp": "lhci autorun"
   },
   "browserslist": "> 0.25%, not dead",
   "dependencies": {
     "@sentry/browser": "^5.27.1",
     "@sentry/tracing": "^5.27.1",
+    "eslint-config-airbnb-base": "^14.2.1",
     "workbox-build": "^5.1.4",
     "workbox-routing": "^5.1.4",
     "workbox-window": "5.1.2"

@@ -14,29 +14,6 @@ ES6 and Webflow.
     yarn run import-webflow zipfile.zip
 
 
-## Deployment 
-
-### Master
-
-All updates to `master` will automatically deploy to the production instance on Netlify.
-
-> NOTE: Do not merge into master if you are not ready for it to be deployed to production! 
-If you want to merge a breaking change on the backend and co-ordinate with the frontend deployment, 
-merge and deploy the backend changes _before_ merging the frontend changes.
-
-### Staging and Sandbox
-
-There is also a `staging` and `sandbox` branch. Whenever new commits are merged into `master`, `master` must then be
-merged into `sandbox` so that the two branches are in identical states.
-
-All new commits pushed to `sandbox` and `staging` will automatically update their respective branch deploys on Netlify.
-
-`sandbox` is a production-like environment where users can experiment, train and interact without affecting production 
-data.
-
-`staging` allows us to test new features and other changes 'in the wild' before deploying to production.
-
-
 ## Development environment
 
 1. Install dependencies by running `yarn`
@@ -55,6 +32,13 @@ yarn start
 ```
 
 > NOTE: The downside of the above is that hot module reloading is not supported in this mode. This means that when you make a change to your code, you will have to stop the above process (by pressing ctrl + c), and then run the above command again.
+
+Please use the [airbnb styleguide](https://github.com/airbnb/javascript) and lint with
+
+```
+yarn lint`
+```
+
 
 ## HTTPS in Dev
 
@@ -98,3 +82,26 @@ To do so, run the following in your terminal:
 ```
 npx lhci autorun
 ```
+
+## Deployment
+
+### Master
+
+All updates to `master` will automatically deploy to the production instance on Netlify.
+
+> NOTE: Do not merge into master if you are not ready for it to be deployed to production!
+If you want to merge a breaking change on the backend and co-ordinate with the frontend deployment,
+merge and deploy the backend changes _before_ merging the frontend changes.
+
+
+### Staging and Sandbox
+
+There is also a `staging` and `sandbox` branch. Whenever new commits are merged into `master`, `master` must then be
+merged into `sandbox` so that the two branches are in identical states.
+
+All new commits pushed to `sandbox` and `staging` will automatically update their respective branch deploys on Netlify.
+
+`sandbox` is a production-like environment where users can experiment, train and interact without affecting production
+data.
+
+`staging` allows us to test new features and other changes 'in the wild' before deploying to production.
