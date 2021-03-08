@@ -33,7 +33,8 @@
     "serve-https": "http-server -S -C server-cert.pem -K server-cert-key.pem -d false -c-1 --proxy http://localhost:8080? dist",
     "start": "yarn clean && yarn build && yarn serve-http",
     "workbox:inject": "workbox injectManifest ./workbox-config.js",
-    "mkcert-loopback": "mkcert -cert-file server-cert.pem -key-file server-cert-key.pem 127.0.0.1"
+    "mkcert-loopback": "mkcert -cert-file server-cert.pem -key-file server-cert-key.pem 127.0.0.1",
+    "test-webapp": "lhci autorun"
   },
   "browserslist": "> 0.25%, not dead",
   "dependencies": {
