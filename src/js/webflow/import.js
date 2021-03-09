@@ -14,8 +14,9 @@ exports.transform = function (window, $) {
   $("head").append("<script>dataLayer = [];</script>");
   $("head").append(`
     <script>
-      const pushpadProjectId = \`${process.env.PUSHPAD_PROJECT_ID}\`;
-      if (pushpadProjectId !== '') {
+      const pushpadProjectId = \`\${process.env.PUSHPAD_PROJECT_ID}\`;
+      // Note that we're initialising inside a template literal, so if the env var isn't set, it is a string 'undefined'
+      if (pushpadProjectId !== '' && pushpadProjectId !== 'undefined') {
         (function (p, u, s, h, x) { p.pushpad = p.pushpad || function () { (p.pushpad.q = p.pushpad.q || []).push(arguments) }; h = u.getElementsByTagName('head')[0]; x = u.createElement('script'); x.async = 1; x.src = s; h.appendChild(x); })(window, document, 'https://pushpad.xyz/pushpad.js');
         pushpad('init', pushpadProjectId, {serviceWorkerPath: null});
         pushpad('widget', {
@@ -24,7 +25,7 @@ exports.transform = function (window, $) {
           promptButtonColor: "#0094ff",
         });
       } else {
-        console.warning('Pushpad project ID not set; not initialising');
+        console.warn('Pushpad project ID not set; not initialising');
       }
     </script>
   `);

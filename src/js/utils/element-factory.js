@@ -70,9 +70,19 @@ export const getInput = (type, label, value = "", describedBy, name) => {
   return $input;
 };
 
+export const getFieldset = () => {
+  return $("<fieldset />");
+};
+
+export const getLegend = (label) => {
+  return $("<legend />", {
+    text: label,
+  });
+};
+
 export const getLabel = (label) => {
   return $("<label />", {
-    for: label,
+    for: label.split(" ").join("-").toLocaleLowerCase(),
     text: label,
   });
 };
