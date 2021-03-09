@@ -1,8 +1,7 @@
 export class FullWidthGrid {
-  template = $(".components .grid--fullwidth");
-
   constructor(children) {
-    this.element = this.template.clone();
+    this.$template = $(".components .grid--default");
+    this.element = this.$template.clone();
     console.assert(this.element.length === 1);
     this.element.empty();
     this.element.append(

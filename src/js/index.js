@@ -21,7 +21,11 @@ import {
 import * as pages from "./components/pages.js";
 import { API } from "./api.js";
 
-import { setMenuState, updateMenuLinks } from "./utils/menu";
+import { setMenuState } from "./utils/menu";
+
+import { ServiceRequestDetail } from "./components/service-requests/service-request-detail";
+import { ServiceRequestsIndex } from "./components/service-requests/index";
+import { SubmitServiceRequest } from "./components/service-requests/submit-service-request";
 
 import { Login } from "./components/account/login";
 import { ForgotPassword } from "./components/account/forgot-password";
@@ -131,6 +135,21 @@ class App {
         path: new RegExp("^/my-municipality/administration/$"),
         view: this.viewAdministrationIndex.bind(this),
         viewType: "Administration landing",
+      },
+      {
+        path: new RegExp("^/service-requests/$"),
+        view: this.viewServiceRequestsIndex.bind(this),
+        viewType: "Service Requests landing",
+      },
+      {
+        path: new RegExp("^/service-requests/submit$"),
+        view: this.submitServiceRequestsIndex.bind(this),
+        viewType: "Submit a service request",
+      },
+      {
+        path: new RegExp("^/service-requests/detail/.*$"),
+        view: this.serviceRequestsDetail.bind(this),
+        viewType: "Service request detail",
       },
       {
         path: new RegExp("^/accounts/login/$"),
@@ -291,6 +310,30 @@ class App {
       .fail(function (a, b) {
         console.error(a, b);
       });
+  }
+
+  viewServiceRequestsIndex() {
+    this.modalPage.show();
+    const serviceRequestsIndex = new ServiceRequestsIndex();
+    const title = "My service requests";
+    this.setTitle(title);
+    this.modalPage.setContent(serviceRequestsIndex.render(), title);
+  }
+
+  submitServiceRequestsIndex() {
+    this.modalPage.show();
+    const submitServiceRequests = new SubmitServiceRequest();
+    const title = "Submit a service request";
+    this.setTitle(title);
+    this.modalPage.setContent(submitServiceRequests.render(), title);
+  }
+
+  serviceRequestsDetail() {
+    this.modalPage.show();
+    const serviceRequestsDetail = new ServiceRequestDetail();
+    const title = "Service request details";
+    this.setTitle(title);
+    this.modalPage.setContent(serviceRequestsDetail.render(), title);
   }
 
   viewLogin() {
