@@ -10,11 +10,6 @@ export class ServiceRequestSubmitted {
       title: "View all my service requests",
     }).render();
 
-    const $contactMunicipality = new SimpleLinkBlock({
-      href: "/",
-      title: "Contact my municipality",
-    }).render();
-
     const $submitAnotherRequest = new SimpleLinkBlock({
       href: "submit/",
       title: "Submit another service request",
@@ -26,7 +21,6 @@ export class ServiceRequestSubmitted {
         status: "success",
       }).render(),
       $allServiceRequests,
-      $contactMunicipality,
       $submitAnotherRequest,
     ]).render();
   }
