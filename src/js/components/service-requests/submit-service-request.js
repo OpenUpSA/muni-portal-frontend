@@ -120,7 +120,7 @@ export class SubmitServiceRequest {
     const $emailLabel = getLabel("Email address");
     const $emailInput = $formInputTmpl.clone().attr({
       id: "email-address",
-      name: "email_address",
+      name: "user_email_address",
       placeholder: "",
       type: "email",
     });
