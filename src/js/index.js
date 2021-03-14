@@ -3,8 +3,6 @@ import { tryRegisterSW } from "./swRegistration.js";
 import * as Sentry from "@sentry/browser";
 import { Integrations } from "@sentry/tracing";
 
-import nock from "nock";
-
 import {
   MyMuniTab,
   ServicesTab,
@@ -54,14 +52,6 @@ if (
     `Not trying to register Service Worker because
     ENVIRONMENT = ${ENVIRONMENT} and NODE_ENV = ${NODE_ENV}`
   );
-}
-
-if(NODE_ENV === 'test'){
-  const {loadAPI} = require('./mocks/mockapi');
-  const mockjax = require('jquery-mockjax');
-
-  mockjax($, window);
-  loadAPI();
 }
 
 if (SENTRY_DSN !== "undefined" && SENTRY_DSN !== "") {

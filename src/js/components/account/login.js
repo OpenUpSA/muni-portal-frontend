@@ -70,7 +70,6 @@ export class Login {
    */
   login(endPoint, $form, $success, $fail) {
     const api = new API();
-    // const api = new API();
     const response = api.login(endPoint, $form.serialize());
     response
       .done((response, textStatus) => {
@@ -92,10 +91,9 @@ export class Login {
         let errorMessage = "Error while communicating with the server";
         if (jqXHR.status === 400) {
           errorMessage = jqXHR.responseJSON.detail;
-          console.log(errorMessage, jqXHR.responseJSON)
         }
         $fail.empty().append(errorMessage).show();
-        console.error(jqXHR, textStatus);
+        console.error(jqXHR, textStatus)
       });
   }
 

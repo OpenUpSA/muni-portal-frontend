@@ -48,5 +48,6 @@ jobs:
     - run: NODE_ENV=test npm run build --if-present
     - run: |
         npm run serve-test &
-        sleep 10
+        npm run mock-server &
+        curl http://localhost:3000 --connect-timeout 20 --retry 10 --retry-connrefused
         npm test

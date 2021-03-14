@@ -1,6 +1,6 @@
 const webdriver = require('selenium-webdriver');
 const { until, By } = require('selenium-webdriver');
-const { Options } = require('selenium-webdriver/firefox');
+const { Options } = require('selenium-webdriver/chrome');
 
 const assert = require('assert');
 
@@ -24,15 +24,14 @@ describe('Authentication Testing', function() {
 
 	before(async () => {
 		let options = new Options()
-		driver = new webdriver.Builder().forBrowser('firefox')
-		.setFirefoxOptions(options.headless())
+		driver = new webdriver.Builder().forBrowser('chrome')
+		.setChromeOptions(options.headless())
 		.build();
-
-	}, 30000);
+	}, 50000);
 
 	after(async () => {
 	  await driver.quit();
-	}, 30000);
+	}, 50000);
 
 
 	describe('test for login functionality', function(){
@@ -164,14 +163,14 @@ describe('Authentication Testing', function() {
 			const button = driver.findElement(By.className('button form-submit w-button'));
 			button.click();
 
-			await driver.sleep(2000);
+			await driver.sleep(2500);
 		});
 
 		it('verify logout worked correctly', async function() {
 			const button = driver.findElement(By.className('icon nav-menu__icon'));
 			button.click();
 
-			await driver.sleep(300);
+			await driver.sleep(1000);
 
 			const logoutBtn = driver.findElement(By.id('my-muni-logout'));
 			logoutBtn.click();
@@ -237,18 +236,9 @@ describe('Authentication Testing', function() {
 
 			const condition = successMessage.includes("Your password has been changed successfully.");
 
+			await driver.sleep(10000)
+
 			assert.ok(condition);
 		});
-
-		// it('incorrect old password', async function() {
-		// 	await sendData('lospa', 'default', 'default')
-
-		// 	const errorDiv = driver.findElement(By.xpath('/div[@class="w-form-fail change-password-field-error"][1]'));
-		// 	const errorMessage = await errorDiv.getText();
-
-		// 	const condition = errorMessage.includes("Old password is not correct");
-
-		// 	assert.ok(condition)
-		// });
 	});
 });
