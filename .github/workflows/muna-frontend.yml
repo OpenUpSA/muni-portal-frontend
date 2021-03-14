@@ -50,4 +50,5 @@ jobs:
         npm run serve-test &
         npm run mock-server &
         curl http://localhost:3000 --connect-timeout 20 --retry 10 --retry-connrefused
+        curl http://localhost:3004 --connect-timeout 20 --retry 10 --retry-connrefused
         npm test
