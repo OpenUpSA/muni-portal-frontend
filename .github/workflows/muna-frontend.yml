@@ -45,9 +45,10 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: NODE_ENV=test npm run build --if-present
+    - run: npm run build:test --if-present
     - run: |
         npm run serve-test &
         npm run mock-server &
+        curl http://localhost:3004 --connect-timeout 20 --retry 10 --retry-connrefused
         curl http://localhost:3000 --connect-timeout 20 --retry 10 --retry-connrefused
         npm test
