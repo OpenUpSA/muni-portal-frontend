@@ -1,5 +1,5 @@
 module.exports = {
-  "extends": "airbnb-base",
-  "env": {"browser": true},
-  "ignorePatterns": [ "src/js/webflow.js"],
+  extends: ["airbnb-base", "prettier"],
+  env: { browser: true },
+  ignorePatterns: ["src/js/webflow.js"],
 };
