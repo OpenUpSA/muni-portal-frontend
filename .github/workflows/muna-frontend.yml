@@ -44,11 +44,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm run build:test --if-present
+    - run: yarn --frozen-lockfile
+    - run: yarn build:test --if-present
     - run: |
-        npm run serve-test &
-        npm run mock-server &
+        yarn serve-test &
+        yarn mock-server &
         curl http://localhost:3004 -o /dev/null --connect-timeout 20 --retry 10 --retry-connrefused
         curl http://localhost:3000 -o /dev/null --connect-timeout 20 --retry 10 --retry-connrefused
-        npm test
+        yarn test
