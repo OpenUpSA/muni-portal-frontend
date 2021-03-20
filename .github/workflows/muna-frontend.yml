@@ -1,0 +1,54 @@
+name: CI build
+
+on:
+  push:
+    branches:
+      - automation-test
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        python-version: [3.7]
+        node-version: [12.x]
+
+    steps:
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install seleniumbase
+    - name: Install Chrome and Firefox
+      run: |
+        sudo apt install google-chrome-stable
+        sudo apt-get install firefox
+    - name: Check the console scripts interface
+      run: |
+        seleniumbase
+        sbase
+    - name: Install chromedriver and geckodriver (Firefox Webdriver)
+      run: |
+        seleniumbase install chromedriver
+        seleniumbase install geckodriver
+
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm run build:test --if-present
+    - run: |
+        npm run serve-test &
+        npm run mock-server &
+        curl http://localhost:3004 -o /dev/null --connect-timeout 20 --retry 10 --retry-connrefused
+        curl http://localhost:3000 -o /dev/null --connect-timeout 20 --retry 10 --retry-connrefused
+        npm test

@@ -6,6 +6,7 @@ function getBaseApiUrl() {
   return sessionStorage.getItem("apiBaseUrl") || defaultBaseUrl;
 }
 
+
 export class API {
   constructor() {
     if (window.location.search.includes("promptapi"))
