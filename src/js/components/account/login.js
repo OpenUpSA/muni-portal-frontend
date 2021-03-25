@@ -9,6 +9,8 @@ import {
   getSubmitButton,
 } from "../../utils/element-factory";
 
+import QuickLinksBlock from "./molecules/quick-links-block";
+
 export class Login {
   constructor() {
     const $successTemplate = $(".components .form-styles .w-form-done").clone();
@@ -30,11 +32,6 @@ export class Login {
     const $loginFormContainer = getDiv("form w-form");
     const $form = getForm(`${defaultBaseUrl}${endPoint}`, "post");
     const $submitButton = getSubmitButton("Login");
-    const $forgotPasswordLink = getAnchorElement(
-      "/accounts/forgot-password/",
-      "link-text form-submit",
-      "I forgot my password"
-    );
 
     fields.forEach((field) => {
       const $formElementsContainer = $("<div />");
@@ -49,8 +46,9 @@ export class Login {
 
     $loginFormContainer.append($successTemplate);
     $loginFormContainer.append($failTemplate);
+
+    $form.append(new QuickLinksBlock().render());
     $loginFormContainer.append($form);
-    $loginFormContainer.append($forgotPasswordLink);
 
     $form.submit((event) => {
       event.preventDefault();
