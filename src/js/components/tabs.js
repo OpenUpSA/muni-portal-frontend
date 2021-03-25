@@ -20,7 +20,7 @@ export class MyMuniTab {
             ((item) => {
               return new LinkBlock({
                 title: item.title,
-                url: item.html_url,
+                url: item.url,
                 subjectIconClasses: item.icon_classes,
               });
             }).bind(this)
