@@ -11,23 +11,22 @@ export class MyMuniTab {
 
   show() {
     this.api
-      .getMyMuniID()
+      .getMyMuniPage()
       .done(
         ((response) => {
-          this.api.getMyMuni(response.items[0].id).done((response) => {
-            const linkList = response.items.map(
-              ((item) => {
-                const url = `/my-municipality/${item.meta.slug}/`;
-                return new LinkBlock({
-                  title: item.title,
-                  url,
-                  subjectIconClasses: "fas fa-user-friends",
-                });
-              }).bind(this)
-            );
-            this.grid = new FullWidthGrid(linkList);
-            this.tabContentContainer.element.html(this.grid.render());
-          });
+          console.assert(response.meta.total_count === 1);
+          const content = response.items[0];
+          const linkList = content.child_pages.map(
+            ((item) => {
+              return new LinkBlock({
+                title: item.title,
+                url: item.html_url,
+                subjectIconClasses: item.icon_classes,
+              });
+            }).bind(this)
+          );
+          this.grid = new FullWidthGrid(linkList);
+          this.tabContentContainer.element.html(this.grid.render());
         }).bind(this)
       )
       .fail(function (a, b) {
