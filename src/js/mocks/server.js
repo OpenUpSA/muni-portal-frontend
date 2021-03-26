@@ -101,6 +101,5 @@ server.post('/api/accounts/change-password/', (req, res) => {
 })
 
 server.use(router)
-server.listen(3004, () => {
-  console.log('Mock Server is running')
-})
+
+module.exports = {server}

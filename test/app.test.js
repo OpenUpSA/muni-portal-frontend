@@ -4,6 +4,8 @@ const { Options } = require('selenium-webdriver/chrome');
 
 const assert = require('assert');
 
+const { server } = require('../src/js/mocks/server');
+
 /*
 
 Test Auth functionalities (Login, Signup, Logout) with selenium and mocha
@@ -13,6 +15,7 @@ Test Auth functionalities (Login, Signup, Logout) with selenium and mocha
 
 describe('Authentication Testing', function() {
 	let driver;
+	let app;
 
 	const BASE_URL = `http://localhost:3000`;
 	const LOGIN_URL = `${BASE_URL}/accounts/login/`;
@@ -27,10 +30,17 @@ describe('Authentication Testing', function() {
 		driver = new webdriver.Builder().forBrowser('chrome')
 		.setChromeOptions(options.headless())
 		.build();
+
+		app = server.listen(3004, () => {
+		  console.log('Mock Server is running')
+		})
 	}, 50000);
 
 	after(async () => {
 	  await driver.quit();
+	  app.close(function () {
+	  	console.log('Mock Server shutdown')
+	  })
 	}, 50000);
 
 

@@ -27,7 +27,5 @@ jobs:
     - run: yarn build:test
     - run: |
         yarn serve-test &
-        yarn mock-server &
-        curl http://localhost:3004 -o /dev/null --connect-timeout 20 --retry 10 --retry-connrefused
         curl http://localhost:3000 -o /dev/null --connect-timeout 20 --retry 10 --retry-connrefused
         yarn test
