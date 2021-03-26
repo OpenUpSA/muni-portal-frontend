@@ -40,7 +40,7 @@ export class API {
     return $.get(serviceUrl);
   }
 
-  getMyMuniID() {
+  getMyMuniPage() {
     const searchParams = new URLSearchParams([
       ["type", "core.MyMuniPage"],
       ["fields", "*"],
@@ -50,11 +50,6 @@ export class API {
     }/api/wagtail/v2/pages/?${searchParams.toString()}`;
 
     return $.get(myMuniPagesUrl);
-  }
-
-  getMyMuni(id) {
-    const myMuniLinksURL = `${this.baseUrl}/api/wagtail/v2/pages/?child_of=${id}`;
-    return $.get(myMuniLinksURL);
   }
 
   getServices() {

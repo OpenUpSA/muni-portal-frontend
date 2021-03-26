@@ -8,7 +8,11 @@ export class LinkBlock {
     this.labelContainer.text(props.title);
 
     if (props.subjectIconClasses) {
-      this.subjectIconContainer = this.element.find(".link-block__icon div");
+      if (props.subjectCardIcon)
+        this.subjectIconContainer = this.element.find(".link-block__card-icon div");
+      else
+        this.subjectIconContainer = this.element.find(".link-block__icon div");
+
       console.assert(this.subjectIconContainer.length == 1);
       this.subjectIconContainer.attr("class", "");
       this.subjectIconContainer.addClass(props.subjectIconClasses);
@@ -40,6 +44,10 @@ export class LinkBlock {
   }
 
   getTemplate(props) {
+    if (props.targetIconClasses && props.subjectIconClasses && props.subtitle) {
+      return $(".components .link-block:eq(6)");
+    }
+
     // for some items the `targetIconClasses` property might be an ampty string.
     // Explicitly check for this condition as an empty string will evaluate to `false`
     if (
@@ -48,10 +56,6 @@ export class LinkBlock {
       props.subtitle
     ) {
       return $(".components .link-block:eq(5)");
-    }
-
-    if (props.targetIconClasses && props.subjectIconClasses && props.subtitle) {
-      return $(".components .link-block:eq(6)");
     }
 
     if (props.subjectIconClasses && (props.subtitle || props.subtitle === "")) {
