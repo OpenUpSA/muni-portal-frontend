@@ -17,13 +17,18 @@ export class Contact {
     }
 
     if (linkBlockTypes.includes(contactType)) {
-      this.element = new LinkBlock({
+      const props = {
         title: title,
         subtitle: contact.value,
         url: Contact.getLink(contact),
         targetIconClasses: contact.type.icon_classes,
         shadedTarget: true,
-      }).render();
+      };
+      if (contact.icon_classes) {
+        props.subjectCardIcon = true;
+        props.subjectIconClasses = contact.icon_classes;
+      }
+      this.element = new LinkBlock(props).render();
     } else if (basicBlockTypes.includes(contactType)) {
       this.element = new BasicBlock({
         title: title,
