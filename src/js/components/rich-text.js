@@ -11,6 +11,7 @@ export class ExpandableRichText {
     this.$openButton.on(
       "click",
       (() => {
+        Webflow.require("ix2").init();
         this.$contentContainer.addClass("expanded");
         this.$gradientContainer.addClass("expanded");
         this.$openButton.addClass("expanded");
