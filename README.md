@@ -13,6 +13,7 @@ ES6 and Webflow.
 
     yarn run import-webflow zipfile.zip
 
+[Webflow interactions on cloned components](https://openup.gitbook.io/handbook/tech/webflow-best-practice/custom-dom-manipulation-in-webflow-sites#webflow-interactions-on-cloned-components)
 
 ## Development environment
 
@@ -39,7 +40,6 @@ Please use the [airbnb styleguide](https://github.com/airbnb/javascript) and lin
 yarn lint`
 ```
 
-
 ## HTTPS in Dev
 
 You need a CA and server certificate to serve the site over https in your
@@ -62,16 +62,16 @@ can, they are much closer to performing a man-in-the-middle attack on you.
 
 The build is configured using environment variables.
 
-| Variable                | Default                              | Description                                                                                                                                                      |
-| ----------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CONTEXT                 | unset                                | Configured by Netlify: Name of the build’s deploy context. It can be production, deploy-preview or branch-deploy.                                                |
-| NODE_ENV                | `production` if using `parcel build` |                                                                                                                                                                  |
-| SENTRY_DSN              | unset                                | Required in production, staging and sandbox environment                                                                                                          |
-| SENTRY_PERF_SAMPLE_RATE | unset                                | Sentry performance sampling rate. Only required in production                                                                                                    |
-| GOOGLE_TAG_MANAGER_ID   | unset                                | ID for Google Tag Manager. Only required in production environment                                                                                               |
-| DEFAULT_API_URL         | unset                                | The default backend API URL. Can be overridden by adding `?promptapi` in the address bar                                                                         |
-| ENVIRONMENT             | unset                                | E.g. `production`, `staging`, `sandbox`                                                                                                                          |
-| PUSHPAD_PROJECT_ID      | unset                                | The project ID for Pushpad. For development, use `7571`. If not set, pushpad will not initialise.                                                                |
+| Variable                | Default                              | Description                                                                                                       |
+| ----------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| CONTEXT                 | unset                                | Configured by Netlify: Name of the build’s deploy context. It can be production, deploy-preview or branch-deploy. |
+| NODE_ENV                | `production` if using `parcel build` |                                                                                                                   |
+| SENTRY_DSN              | unset                                | Required in production, staging and sandbox environment                                                           |
+| SENTRY_PERF_SAMPLE_RATE | unset                                | Sentry performance sampling rate. Only required in production                                                     |
+| GOOGLE_TAG_MANAGER_ID   | unset                                | ID for Google Tag Manager. Only required in production environment                                                |
+| DEFAULT_API_URL         | unset                                | The default backend API URL. Can be overridden by adding `?promptapi` in the address bar                          |
+| ENVIRONMENT             | unset                                | E.g. `production`, `staging`, `sandbox`                                                                           |
+| PUSHPAD_PROJECT_ID      | unset                                | The project ID for Pushpad. For development, use `7571`. If not set, pushpad will not initialise.                 |
 
 ## Running Lighthouse Tests Locally
 
@@ -90,9 +90,8 @@ npx lhci autorun
 All updates to `master` will automatically deploy to the production instance on Netlify.
 
 > NOTE: Do not merge into master if you are not ready for it to be deployed to production!
-If you want to merge a breaking change on the backend and co-ordinate with the frontend deployment,
-merge and deploy the backend changes _before_ merging the frontend changes.
-
+> If you want to merge a breaking change on the backend and co-ordinate with the frontend deployment,
+> merge and deploy the backend changes _before_ merging the frontend changes.
 
 ### Staging and Sandbox
 
