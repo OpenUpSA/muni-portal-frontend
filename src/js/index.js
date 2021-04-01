@@ -68,6 +68,16 @@ if (SENTRY_DSN !== "undefined" && SENTRY_DSN !== "") {
   window.console.warn("Not initialising Sentry because SENTRY_DSN is not set");
 }
 
+function shareToWhatsapp() {
+  const currentPath = window.location.href;
+  const encodedShareMessage = encodeURI(
+    `I'd like to share this Citizen Engagement page with you: ${currentPath}`
+  );
+
+  const shareUrl = `https://wa.me/?text=${encodedShareMessage}`;
+  window.open(shareUrl);
+}
+
 class App {
   constructor() {
     this.api = new API();
@@ -111,6 +121,23 @@ class App {
 
     // sets the menu state based on the users login state
     setMenuState();
+
+    // find the menu item links
+    const $shareCopyLink = $(".copy-link");
+    const $shareEmail = $(".email");
+    const $shareLinkedin = $(".linkedin");
+    const $shareWhatsapp = $(".whatsapp");
+    const $shareFacebook = $(".facebook");
+    const $shareTwitter = $(".twitter");
+
+    // hook up the menu item links to their event handlers
+    $shareWhatsapp.click(function () {
+      shareToWhatsapp()
+    });
+
+    // show the sharing button
+    const $shareButton = $(".share-button");
+    $shareButton.show();
 
     this.modalPage = new ModalPage($(".main .page__wrap"));
 
