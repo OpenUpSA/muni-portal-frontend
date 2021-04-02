@@ -10,6 +10,16 @@ export function shareToWhatsapp() {
 
 export function shareToFacebook() {
   const currentPath = window.location.href;
-  const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${currentPath}`;
+  const encodedPath = encodeURI(currentPath)
+  const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedPath}`;
   window.open(shareUrl, "pop", "width=600, height=400, scrollbars=no");
+}
+
+export function shareToTwitter() {
+  const currentPath = window.location.href;
+  const encodedShareMessage = encodeURI(
+    `Have you seen this? ${currentPath}`
+  );
+  const shareUrl = `https://twitter.com/intent/tweet?text=${encodedShareMessage}`
+  window.open(shareUrl)
 }

@@ -34,7 +34,7 @@ import { UserRegistration } from "./components/account/user-registration";
 import { UserSettings } from "./components/account/user-settings";
 import { VerifyUserRegistration } from "./components/account/user-registration-verify";
 import { ChangePassword } from "./components/account/change-password";
-import { shareToFacebook, shareToWhatsapp } from "./utils/share";
+import { shareToFacebook, shareToTwitter, shareToWhatsapp } from "./utils/share";
 
 const ENVIRONMENT = `${process.env.ENVIRONMENT}`;
 const NODE_ENV = `${process.env.NODE_ENV}`;
@@ -128,6 +128,10 @@ class App {
 
     $shareFacebook.click(function () {
       shareToFacebook()
+    });
+
+    $shareTwitter.click(function () {
+      shareToTwitter()
     });
 
     // show the sharing button
