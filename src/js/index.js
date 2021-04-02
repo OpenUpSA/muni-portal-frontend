@@ -34,6 +34,7 @@ import { UserRegistration } from "./components/account/user-registration";
 import { UserSettings } from "./components/account/user-settings";
 import { VerifyUserRegistration } from "./components/account/user-registration-verify";
 import { ChangePassword } from "./components/account/change-password";
+import { shareToFacebook, shareToWhatsapp } from "./utils/share";
 
 const ENVIRONMENT = `${process.env.ENVIRONMENT}`;
 const NODE_ENV = `${process.env.NODE_ENV}`;
@@ -66,16 +67,6 @@ if (SENTRY_DSN !== "undefined" && SENTRY_DSN !== "") {
   });
 } else {
   window.console.warn("Not initialising Sentry because SENTRY_DSN is not set");
-}
-
-function shareToWhatsapp() {
-  const currentPath = window.location.href;
-  const encodedShareMessage = encodeURI(
-    `I'd like to share this Citizen Engagement page with you: ${currentPath}`
-  );
-
-  const shareUrl = `https://wa.me/?text=${encodedShareMessage}`;
-  window.open(shareUrl);
 }
 
 class App {
@@ -135,8 +126,12 @@ class App {
       shareToWhatsapp()
     });
 
+    $shareFacebook.click(function () {
+      shareToFacebook()
+    });
+
     // show the sharing button
-    const $shareButton = $(".share-button");
+    const $shareButton = $(".share");
     $shareButton.show();
 
     this.modalPage = new ModalPage($(".main .page__wrap"));
