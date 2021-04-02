@@ -11,7 +11,7 @@ export function shareToWhatsapp() {
 export function shareToFacebook() {
   const currentPath = window.location.href;
   const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${currentPath}`;
-  window.open(shareUrl, "pop", "width=600, height=400, scrollbars=no");
+  window.open(shareUrl );
 }
 
 export function shareToTwitter() {
