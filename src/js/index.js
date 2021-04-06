@@ -40,7 +40,7 @@ import {
   getFacebookShareURL,
   getLinkedinShareURL,
   getTwitterShareURL,
-  getWhatsappShareURL,
+  getWhatsappShareURL, setShareMenuLinks, showShareMenu
 } from "./utils/share";
 
 const ENVIRONMENT = `${process.env.ENVIRONMENT}`;
@@ -120,35 +120,8 @@ class App {
     // sets the menu state based on the users login state
     setMenuState();
 
-    // find the menu item links
-    const $shareCopyLink = $(".share__link.copy-link");
-    const $shareEmail = $(".share__link.email")[0];
-    const $shareLinkedin = $(".share__link.linkedin")[0];
-    const $shareWhatsapp = $(".share__link.whatsapp")[0];
-    const $shareFacebook = $(".share__link.facebook")[0];
-    const $shareTwitter = $(".share__link.twitter")[0];
-
-    // hook up the menu item links to their event handlers
-    $shareCopyLink.click(copyTextToClipboard);
-
-    $shareWhatsapp.setAttribute("href", getWhatsappShareURL());
-    $shareWhatsapp.setAttribute("target", "_blank");
-
-    $shareFacebook.setAttribute("href", getFacebookShareURL());
-    $shareFacebook.setAttribute("target", "_blank");
-
-    $shareTwitter.setAttribute("href", getTwitterShareURL());
-    $shareTwitter.setAttribute("target", "_blank");
-
-    $shareLinkedin.setAttribute("href", getLinkedinShareURL());
-    $shareLinkedin.setAttribute("target", "_blank");
-
-    $shareEmail.setAttribute("href", getEmailShareURL());
-    $shareEmail.setAttribute("target", "_blank");
-
-    // show the sharing button
-    const $shareButton = $(".share");
-    $shareButton.show();
+    setShareMenuLinks();
+    showShareMenu();
 
     this.modalPage = new ModalPage($(".main .page__wrap"));
 
