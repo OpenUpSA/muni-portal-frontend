@@ -11,14 +11,14 @@ import {
 
 import { TabItem } from "./components/tab-item.js";
 
+import * as pages from "./components/pages.js";
 import {
   AdministrationIndex,
-  ModalPage,
-  Service,
   Administrator,
   ErrorPage,
+  ModalPage,
+  Service,
 } from "./components/pages.js";
-import * as pages from "./components/pages.js";
 import { API } from "./api.js";
 
 import { setMenuState } from "./utils/menu";
@@ -34,14 +34,7 @@ import { UserRegistration } from "./components/account/user-registration";
 import { UserSettings } from "./components/account/user-settings";
 import { VerifyUserRegistration } from "./components/account/user-registration-verify";
 import { ChangePassword } from "./components/account/change-password";
-import {
-  copyTextToClipboard,
-  getEmailShareURL,
-  getFacebookShareURL,
-  getLinkedinShareURL,
-  getTwitterShareURL,
-  getWhatsappShareURL, setShareMenuLinks, showShareMenu
-} from "./utils/share";
+import { hideShareMenu, setShareMenuLinks, showShareMenu } from "./utils/share";
 
 const ENVIRONMENT = `${process.env.ENVIRONMENT}`;
 const NODE_ENV = `${process.env.NODE_ENV}`;
@@ -80,7 +73,7 @@ class App {
   constructor() {
     this.api = new API();
 
-    const tabContentContainer = new TabContentContainer($(".tab-content"));
+    const tabContentContainer = new TabContentContainer($(".tab-contents__wrap"));
 
     const $mainContainer = $(".main");
     this.$tabsContainer = $mainContainer.find(".tab-links__wrap");
@@ -120,7 +113,7 @@ class App {
     // sets the menu state based on the users login state
     setMenuState();
 
-    setShareMenuLinks();
+    // show the share menu on this page
     showShareMenu();
 
     this.modalPage = new ModalPage($(".main .page__wrap"));
@@ -217,6 +210,7 @@ class App {
 
   viewMyMuni() {
     TabItem.setActiveTab(this.$tabsContainer, this.$myMuniTab);
+    showShareMenu();
     this.modalPage.hide();
     this.myMuniTabContent.show();
     this.setTitle("My Muni");
@@ -224,6 +218,7 @@ class App {
 
   viewServices() {
     TabItem.setActiveTab(this.$tabsContainer, this.$servicesTab);
+    showShareMenu();
     this.modalPage.hide();
     this.servicesTab.show();
     this.setTitle("Services");
@@ -250,6 +245,7 @@ class App {
 
   viewPage(params, path) {
     this.modalPage.show();
+    showShareMenu();
 
     this.api
       .getPageByPath(path)
@@ -286,6 +282,7 @@ class App {
 
   viewAdministrationIndex() {
     this.modalPage.show();
+    showShareMenu();
 
     this.api
       .getAdministrationIndex()
@@ -306,6 +303,7 @@ class App {
 
   viewAdministrator(params) {
     this.modalPage.show();
+    showShareMenu();
 
     this.api
       .getAdministrator(params.administratorSlug)
@@ -325,6 +323,7 @@ class App {
 
   viewServiceRequestsIndex() {
     this.modalPage.show();
+    hideShareMenu();
     const serviceRequestsIndex = new ServiceRequestsIndex();
     const title = "My service requests";
     this.setTitle(title);
@@ -333,6 +332,7 @@ class App {
 
   submitServiceRequestsIndex() {
     this.modalPage.show();
+    hideShareMenu();
     const submitServiceRequests = new SubmitServiceRequest();
     const title = "Submit a service request";
     this.setTitle(title);
@@ -341,6 +341,7 @@ class App {
 
   serviceRequestsDetail() {
     this.modalPage.show();
+    hideShareMenu();
     const serviceRequestsDetail = new ServiceRequestDetail();
     const title = "Service request details";
     this.setTitle(title);
@@ -349,6 +350,7 @@ class App {
 
   viewLogin() {
     this.modalPage.show();
+    hideShareMenu();
     const login = new Login();
     const title = "Login to MyMuni";
     this.setTitle(title);
@@ -357,6 +359,7 @@ class App {
 
   viewUserRegistration() {
     this.modalPage.show();
+    hideShareMenu();
     const userRegistration = new UserRegistration();
     const title = "Create an account in MyMuni";
     this.setTitle(title);
@@ -365,6 +368,7 @@ class App {
 
   viewForgotPassword() {
     this.modalPage.show();
+    hideShareMenu();
     const forgotPassword = new ForgotPassword();
     const title = "Forgot Password";
     this.setTitle(title);
@@ -373,6 +377,7 @@ class App {
 
   viewResetPassword() {
     this.modalPage.show();
+    hideShareMenu();
     const resetPassword = new ResetPassword();
     const title = "Reset Password";
     this.setTitle(title);
@@ -381,6 +386,7 @@ class App {
 
   viewChangePassword() {
     this.modalPage.show();
+    hideShareMenu();
     const changePassword = new ChangePassword();
     const title = "Change Password";
     this.setTitle(title);
@@ -389,6 +395,7 @@ class App {
 
   viewVerifyUserRegistration() {
     this.modalPage.show();
+    hideShareMenu();
     const verifyUserRegsistration = new VerifyUserRegistration();
     const title = "Verify User Registration";
     this.setTitle(title);
@@ -397,6 +404,7 @@ class App {
 
   viewAccountSettings() {
     this.modalPage.show();
+    hideShareMenu();
     const userSettings = new UserSettings();
     const title = "User settings";
     this.setTitle(title);

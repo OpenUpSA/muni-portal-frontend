@@ -64,6 +64,7 @@ export function setShareMenuLinks() {
 }
 
 export function showShareMenu() {
+  setShareMenuLinks()
   const $shareButton = $(".share");
   $shareButton.show();
 }
