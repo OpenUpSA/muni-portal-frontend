@@ -1,28 +1,38 @@
-export function shareToWhatsapp() {
-  const currentPath = window.location.href;
+function getPath() {
+  return window.location.href;
+}
+
+export function getWhatsappShareURL() {
   const encodedShareMessage = encodeURI(
-    `I'd like to share this Citizen Engagement page with you: ${currentPath}`
+    `I'd like to share this Citizen Engagement page with you: ${getPath()}`
   );
-
-  const shareUrl = `https://wa.me/?text=${encodedShareMessage}`;
-  window.open(shareUrl);
+  return `https://wa.me/?text=${encodedShareMessage}`;
 }
 
-export function shareToFacebook() {
-  const currentPath = window.location.href;
-  const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${currentPath}`;
-  window.open(shareUrl );
+export function getFacebookShareURL() {
+  return `https://www.facebook.com/sharer/sharer.php?u=${getPath()}`;
 }
 
-export function shareToTwitter() {
-  const currentPath = window.location.href;
-  const encodedShareMessage = encodeURI(`Have you seen this? ${currentPath}`);
-  const shareUrl = `https://twitter.com/intent/tweet?text=${encodedShareMessage}`;
-  window.open(shareUrl);
+export function getTwitterShareURL() {
+  const encodedShareMessage = encodeURI(`Have you seen this? ${getPath()}`);
+  return `https://twitter.com/intent/tweet?text=${encodedShareMessage}`;
 }
 
-export function shareToLinkedin() {
-  const currentPath = window.location.href;
-  const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${currentPath}`;
-  window.open(shareUrl);
+export function getLinkedinShareURL() {
+  return `https://www.linkedin.com/shareArticle?mini=true&url=${getPath()}`;
+}
+
+export function getEmailShareURL() {
+  const encodedSubject = encodeURI("Have you seen this page?");
+  const encodedBody = encodeURI(`Have a look here: ${getPath()}`);
+  return `mailto:?subject=${encodedSubject}&body=${encodedBody}`;
+}
+
+export function copyTextToClipboard() {
+  navigator.clipboard.writeText(getPath()).then(
+    function () {},
+    function (err) {
+      console.error("Could not copy text: ", err);
+    }
+  );
 }

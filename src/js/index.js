@@ -34,7 +34,14 @@ import { UserRegistration } from "./components/account/user-registration";
 import { UserSettings } from "./components/account/user-settings";
 import { VerifyUserRegistration } from "./components/account/user-registration-verify";
 import { ChangePassword } from "./components/account/change-password";
-import { shareToFacebook, shareToLinkedin, shareToTwitter, shareToWhatsapp } from "./utils/share";
+import {
+  copyTextToClipboard,
+  getEmailShareURL,
+  getFacebookShareURL,
+  getLinkedinShareURL,
+  getTwitterShareURL,
+  getWhatsappShareURL,
+} from "./utils/share";
 
 const ENVIRONMENT = `${process.env.ENVIRONMENT}`;
 const NODE_ENV = `${process.env.NODE_ENV}`;
@@ -114,29 +121,30 @@ class App {
     setMenuState();
 
     // find the menu item links
-    const $shareCopyLink = $(".copy-link");
-    const $shareEmail = $(".email");
-    const $shareLinkedin = $(".linkedin");
-    const $shareWhatsapp = $(".whatsapp");
-    const $shareFacebook = $(".facebook");
-    const $shareTwitter = $(".twitter");
+    const $shareCopyLink = $(".share__link.copy-link");
+    const $shareEmail = $(".share__link.email")[0];
+    const $shareLinkedin = $(".share__link.linkedin")[0];
+    const $shareWhatsapp = $(".share__link.whatsapp")[0];
+    const $shareFacebook = $(".share__link.facebook")[0];
+    const $shareTwitter = $(".share__link.twitter")[0];
 
     // hook up the menu item links to their event handlers
-    $shareWhatsapp.click(function () {
-      shareToWhatsapp()
-    });
+    $shareCopyLink.click(copyTextToClipboard);
 
-    $shareFacebook.click(function () {
-      shareToFacebook()
-    });
+    $shareWhatsapp.setAttribute("href", getWhatsappShareURL());
+    $shareWhatsapp.setAttribute("target", "_blank");
 
-    $shareTwitter.click(function () {
-      shareToTwitter()
-    });
+    $shareFacebook.setAttribute("href", getFacebookShareURL());
+    $shareFacebook.setAttribute("target", "_blank");
 
-    $shareLinkedin.click(function () {
-      shareToLinkedin()
-    })
+    $shareTwitter.setAttribute("href", getTwitterShareURL());
+    $shareTwitter.setAttribute("target", "_blank");
+
+    $shareLinkedin.setAttribute("href", getLinkedinShareURL());
+    $shareLinkedin.setAttribute("target", "_blank");
+
+    $shareEmail.setAttribute("href", getEmailShareURL());
+    $shareEmail.setAttribute("target", "_blank");
 
     // show the sharing button
     const $shareButton = $(".share");
