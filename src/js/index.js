@@ -73,7 +73,7 @@ class App {
   constructor() {
     this.api = new API();
 
-    const tabContentContainer = new TabContentContainer($(".tab-contents__wrap"));
+    const tabContentContainer = new TabContentContainer($(".tab-content"));
 
     const $mainContainer = $(".main");
     this.$tabsContainer = $mainContainer.find(".tab-links__wrap");
