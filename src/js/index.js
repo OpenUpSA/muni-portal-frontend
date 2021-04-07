@@ -14,7 +14,6 @@ import { TabItem } from "./components/tab-item.js";
 import * as pages from "./components/pages.js";
 import {
   AdministrationIndex,
-  Administrator,
   ErrorPage,
   ModalPage,
   Service,
@@ -236,6 +235,7 @@ class App {
           const title = response.items[0].title;
           this.setTitle(title);
           this.modalPage.setContent(service.render(), title);
+          Webflow.require("ix2").init();
         }).bind(this)
       )
       .fail(function (a, b) {
@@ -259,6 +259,7 @@ class App {
               const title = response.title;
               this.setTitle(title);
               this.modalPage.setContent(page.render(), title);
+              Webflow.require("ix2").init();
             } else {
               this.modalPage.setContent(
                 new ErrorPage(
@@ -294,26 +295,6 @@ class App {
           const title = "Administration";
           this.setTitle(title);
           this.modalPage.setContent(administrationIndex.render(), title);
-        }).bind(this)
-      )
-      .fail(function (a, b) {
-        console.error(a, b);
-      });
-  }
-
-  viewAdministrator(params) {
-    this.modalPage.show();
-    showShareMenu();
-
-    this.api
-      .getAdministrator(params.administratorSlug)
-      .done(
-        ((response) => {
-          console.assert(response.meta.total_count == 1);
-          const administrator = new Administrator(response.items[0]);
-          const title = response.items[0].title;
-          this.setTitle(title);
-          this.modalPage.setContent(administrator.render(), title);
         }).bind(this)
       )
       .fail(function (a, b) {

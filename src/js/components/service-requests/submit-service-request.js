@@ -72,9 +72,9 @@ export class SubmitServiceRequest {
       placeholder: "",
     });
 
-    const $suburbLabel = getLabel("Suburb");
-    const $suburbInput = $formInputTmpl.clone().attr({
-      id: "suburb",
+    const $townLabel = getLabel("Town");
+    const $townInput = $formInputTmpl.clone().attr({
+      id: "town",
       name: "suburb",
       type: "text",
       placeholder: "",
@@ -86,8 +86,8 @@ export class SubmitServiceRequest {
       $streetNameInput,
       $streetNumberLabel,
       $streetNumberInput,
-      $suburbLabel,
-      $suburbInput,
+      $townLabel,
+      $townInput,
     ]);
 
     const $yourInfoFieldset = getFieldset();
