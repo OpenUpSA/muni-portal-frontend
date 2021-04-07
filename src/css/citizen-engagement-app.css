@@ -2992,17 +2992,17 @@ strong {
 
 .location-picker {
   position: relative;
-  height: 350px;
-  max-height: 70vh;
 }
 
 .map-container {
+  position: relative;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 350px;
+  max-height: 75vh;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
@@ -3012,9 +3012,10 @@ strong {
   -ms-flex-align: center;
   align-items: center;
   border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.04);
   background-image: url('../images/Screenshot-2021-04-01-103033.png');
-  background-position: 50% 50%;
-  background-size: cover;
+  background-position: 0px 0px;
+  background-size: auto;
 }
 
 .map-contols {
@@ -3023,12 +3024,30 @@ strong {
   top: auto;
   right: 16px;
   bottom: 16px;
+  z-index: 1;
 }
 
 .map-pin {
   position: relative;
   bottom: 10px;
   z-index: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .map-button {
@@ -3092,6 +3111,19 @@ strong {
 .map-credit {
   margin-top: 10px;
   font-size: 12px;
+}
+
+.map-pin__icon {
+  position: relative;
+  z-index: 1;
+}
+
+.map-pin__shadow {
+  width: 100%;
+  height: 4px;
+  background-color: rgba(0, 0, 0, 0.3);
+  -webkit-filter: blur(3px);
+  filter: blur(3px);
 }
 
 @media screen and (max-width: 991px) {
@@ -3505,6 +3537,17 @@ strong {
 }
 
 #w-node-_9dcffc31-5e43-bc30-291d-5a1c29b6ce66-a23917bb {
+  -ms-grid-row: span 1;
+  grid-row-start: span 1;
+  -ms-grid-row-span: 1;
+  grid-row-end: span 1;
+  -ms-grid-column: span 2;
+  grid-column-start: span 2;
+  -ms-grid-column-span: 2;
+  grid-column-end: span 2;
+}
+
+#w-node-b18ab06e-1b42-be9a-45c9-9a6ba28d0f66-a23917bb {
   -ms-grid-row: span 1;
   grid-row-start: span 1;
   -ms-grid-row-span: 1;
