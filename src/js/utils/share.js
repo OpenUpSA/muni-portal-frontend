@@ -4,7 +4,7 @@ function getPath() {
 
 function getWhatsappShareURL() {
   const encodedShareMessage = encodeURI(
-    `I'd like to share this Citizen Engagement page with you: ${getPath()}`
+    `Take a look at this page in the Cape Agulhas App: ${getPath()}`
   );
   return `https://wa.me/?text=${encodedShareMessage}`;
 }
