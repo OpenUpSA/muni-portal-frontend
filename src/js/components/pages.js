@@ -416,15 +416,17 @@ export class ContactsPage {
     this.emergency_contacts = content.emergency_contacts.map((details) => {
       return new Contact(details, "annotation");
     });
-    this.provincial_government_contacts = content.provincial_government_contacts.map((details) => {
-      return new Contact(details, "annotation");
-    });
-    this.national_government_contacts = content.national_government_contacts.map((details) => {
-      return new Contact(details, "annotation");
-    });
+    this.provincial_government_contacts = content.provincial_government_contacts.map(
+      (details) => {
+        return new Contact(details, "annotation");
+      }
+    );
+    this.national_government_contacts = content.national_government_contacts.map(
+      (details) => {
+        return new Contact(details, "annotation");
+      }
+    );
   }
-
-
 
   render() {
     return [
@@ -432,14 +434,16 @@ export class ContactsPage {
         new Breadcrumbs(this.breadcrumbItems).render(),
 
         new SectionHeading("Emergency Contacts").render(),
-        ...this.emergency_contacts.map(contact => contact.render()),
+        ...this.emergency_contacts.map((contact) => contact.render()),
 
         new SectionHeading("Provincial Government Contacts").render(),
-        ...this.provincial_government_contacts.map(contact => contact.render()),
+        ...this.provincial_government_contacts.map((contact) =>
+          contact.render()
+        ),
 
         new SectionHeading("National Government Contacts").render(),
-        ...this.national_government_contacts.map(contact => contact.render()),
-      ]).render()
+        ...this.national_government_contacts.map((contact) => contact.render()),
+      ]).render(),
     ];
   }
 }
