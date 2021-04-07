@@ -23,7 +23,7 @@ function getLinkedinShareURL() {
 }
 
 function getEmailShareURL() {
-  const encodedSubject = encodeURI("Have you seen this page?");
+  const encodedSubject = encodeURI("Take a look at the Cape Agulhas App");
   const encodedBody = encodeURI(`Have a look here: ${getPath()}`);
   return `mailto:?subject=${encodedSubject}&body=${encodedBody}`;
 }
