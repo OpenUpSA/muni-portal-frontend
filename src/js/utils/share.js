@@ -14,7 +14,7 @@ function getFacebookShareURL() {
 }
 
 function getTwitterShareURL() {
-  const encodedShareMessage = encodeURI(`Have you seen this? ${getPath()}`);
+  const encodedShareMessage = encodeURI(`Take a look at this page in the Cape Agulhas App ${getPath()}`);
   return `https://twitter.com/intent/tweet?text=${encodedShareMessage}`;
 }
 
