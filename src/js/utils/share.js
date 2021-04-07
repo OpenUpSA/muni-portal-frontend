@@ -4,7 +4,7 @@ function getPath() {
 
 function getWhatsappShareURL() {
   const encodedShareMessage = encodeURI(
-    `I'd like to share this Citizen Engagement page with you: ${getPath()}`
+    `Take a look at this page in the Cape Agulhas App: ${getPath()}`
   );
   return `https://wa.me/?text=${encodedShareMessage}`;
 }
@@ -14,7 +14,7 @@ function getFacebookShareURL() {
 }
 
 function getTwitterShareURL() {
-  const encodedShareMessage = encodeURI(`Have you seen this? ${getPath()}`);
+  const encodedShareMessage = encodeURI(`Take a look at this page in the Cape Agulhas App ${getPath()}`);
   return `https://twitter.com/intent/tweet?text=${encodedShareMessage}`;
 }
 
@@ -23,8 +23,8 @@ function getLinkedinShareURL() {
 }
 
 function getEmailShareURL() {
-  const encodedSubject = encodeURI("Have you seen this page?");
-  const encodedBody = encodeURI(`Have a look here: ${getPath()}`);
+  const encodedSubject = encodeURI("Take a look at the Cape Agulhas App");
+  const encodedBody = encodeURI(`Take a look at this page in the Cape Agulhas App: ${getPath()}`);
   return `mailto:?subject=${encodedSubject}&body=${encodedBody}`;
 }
 
