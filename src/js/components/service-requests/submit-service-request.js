@@ -21,7 +21,7 @@ export class SubmitServiceRequest {
       method: "post",
       action: "",
     });
-    const $formInputTmpl = $(".components .input-field:eq(0)");
+    const $formInputTmpl = $(".components .form__input-field:eq(0)");
     const $requiredFieldsNote = $(".components .form-item .form-label").clone();
     const $textAreaTmpl = $(".components .form__input-field--large");
     const $typeHiddenField = $("<input/>", {
