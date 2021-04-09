@@ -27,7 +27,6 @@
 <meta name="robots" content="noindex"><meta name="theme-color" content="#0094ff"><link rel="manifest" href="manifest.webmanifest"><script>dataLayer = [];</script>
     <script>
       const pushpadProjectId = `${process.env.PUSHPAD_PROJECT_ID}`;
-      // Note that we're initialising inside a template literal, so if the env var isn't set, it is a string 'undefined'
       if (pushpadProjectId !== '' && pushpadProjectId !== 'undefined') {
         (function (p, u, s, h, x) { p.pushpad = p.pushpad || function () { (p.pushpad.q = p.pushpad.q || []).push(arguments) }; h = u.getElementsByTagName('head')[0]; x = u.createElement('script'); x.async = 1; x.src = s; h.appendChild(x); })(window, document, 'https://pushpad.xyz/pushpad.js');
         pushpad('init', pushpadProjectId, {serviceWorkerPath: null});
@@ -686,8 +685,8 @@
 document.addEventListener('DOMContentLoaded', ()=>{
  // on .link-block--expand-toggle click
  document.querySelectorAll('.link-block--expand-toggle').forEach(trigger => {
-  trigger.addEventListener('click', function(){ 
-    this.x = ((this.x || 0) + 1)%2; 
+  trigger.addEventListener('click', function(){
+    this.x = ((this.x || 0) + 1)%2;
     if(this.x){ // 1st click
       document.querySelectorAll('.rich-text__gradient').forEach(target => target.classList.add('expanded'));
       document.querySelectorAll('.expand-toggle__content-first').forEach(target => target.classList.add('expanded'));
@@ -697,7 +696,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
       document.querySelectorAll('.rich-text__gradient').forEach(target => target.classList.remove('expanded'));
       document.querySelectorAll('.expand-toggle__content-first').forEach(target => target.classList.remove('expanded'));
       document.querySelectorAll('.rich-text').forEach(target => target.classList.remove('expanded'));
-    } 
+    }
   });
  });
 });*/

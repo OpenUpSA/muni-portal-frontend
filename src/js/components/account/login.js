@@ -1,4 +1,4 @@
-import { API } from "../../api";
+import { API } from '../../api';
 import { setMenuState } from "../../utils/menu";
 import {
   getAnchorElement,
@@ -91,7 +91,7 @@ export class Login {
           errorMessage = jqXHR.responseJSON.detail;
         }
         $fail.empty().append(errorMessage).show();
-        console.error(jqXHR, textStatus);
+        console.error(jqXHR, textStatus)
       });
   }
 
