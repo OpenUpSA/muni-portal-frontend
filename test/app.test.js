@@ -6,6 +6,10 @@ const assert = require('assert');
 
 const { server } = require('../src/js/mocks/server');
 
+const handler = require('serve-handler');
+const http = require('http');
+
+
 /*
 
 Test Auth functionalities (Login, Signup, Logout) with selenium and mocha
@@ -15,7 +19,8 @@ Test Auth functionalities (Login, Signup, Logout) with selenium and mocha
 
 describe('Authentication Testing', function() {
 	let driver;
-	let app;
+	let api_server;
+	let static_server;
 
 	const BASE_URL = `http://localhost:3000`;
 	const LOGIN_URL = `${BASE_URL}/accounts/login/`;
@@ -31,16 +36,33 @@ describe('Authentication Testing', function() {
 		.setChromeOptions(options.headless())
 		.build();
 
-		app = server.listen(3004, () => {
+		api_server = server.listen(3004, () => {
 		  console.log('Mock Server is running')
 		})
+
+		static_server = http.createServer((request, response) => {
+			return handler(request, response, {
+				public: 'dist',
+				rewrites: [
+					{ "source": "accounts/login", "destination": "index.html" },
+					{ "source": "accounts/register", "destination": "index.html" },
+					{ "source": "account/change-password", "destination": "index.html" }
+				]
+			});
+		})
+
+		static_server.listen(3000, () => {
+		  console.log('Running at http://localhost:3000');
+		});
 	}, 50000);
 
 	after(async () => {
 	  await driver.quit();
-	  app.close(function () {
+	  api_server.close(function () {
 	  	console.log('Mock Server shutdown')
 	  })
+
+	  static_server.close(function(){console.log('Shutting down static server')})
 	}, 50000);
 
 
@@ -165,6 +187,7 @@ describe('Authentication Testing', function() {
 	describe('logout test', function() {
 		before(async function(){
 			await driver.get(LOGIN_URL);
+			await driver.sleep(1000)
 			const usernameBox = driver.findElement(By.id('my-muni-Username'));
 			const passwordBox = driver.findElement(By.id('my-muni-Password'));
 
@@ -180,7 +203,7 @@ describe('Authentication Testing', function() {
 			const button = driver.findElement(By.className('icon nav-menu__icon'));
 			button.click();
 
-			await driver.sleep(1000);
+			await driver.sleep(1500);
 
 			const logoutBtn = driver.findElement(By.id('my-muni-logout'));
 			logoutBtn.click();
@@ -188,7 +211,9 @@ describe('Authentication Testing', function() {
 			await driver.sleep(1500);
 
 			const storage = await driver.executeScript('return window.localStorage');
-		    const condition = !storage.accessToken && !storage.refreshToken
+			const accessToken = storage.accessToken;
+			const refreshToken = storage.refreshToken;
+		    const condition = accessToken && accessToken.length > 0 && refreshToken && refreshToken.length > 0
 
 		    assert.ok(condition);
 

@@ -26,6 +26,4 @@ jobs:
     - run: yarn --frozen-lockfile
     - run: yarn build:test
     - run: |
-        yarn serve-test &
-        curl http://localhost:3000 -o /dev/null --connect-timeout 20 --retry 10 --retry-connrefused
         yarn test
