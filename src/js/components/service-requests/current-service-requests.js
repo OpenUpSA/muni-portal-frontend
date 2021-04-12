@@ -30,9 +30,7 @@ export class CurrentServiceRequests {
             : "",
           status: SERVICE_REQUEST_STATUS[request.status],
           statusClass:
-            request.status === "in_progress"
-              ? "link-block__status--yellow"
-              : null,
+            request.status === "assigned" ? "link-block__status--yellow" : null,
         }).render()
       );
     }
