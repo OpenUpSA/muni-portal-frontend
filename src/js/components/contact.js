@@ -2,22 +2,36 @@ import { BasicBlock } from "./basic-block.js";
 import { LinkBlock } from "./link-block.js";
 
 export class Contact {
-  constructor(contact) {
+  constructor(contact, titleField) {
     const basicBlockTypes = ["postal_address", "fax"];
     const contactType = contact.type.slug;
     const linkBlockTypes = ["phone", "email", "physical_address"];
 
+    let title;
+    switch (titleField) {
+    case "annotation":
+      title = contact.annotation;
+      break;
+    default:
+      title = contact.type.label;
+    }
+
     if (linkBlockTypes.includes(contactType)) {
-      this.element = new LinkBlock({
-        title: contact.type.label,
+      const props = {
+        title: title,
         subtitle: contact.value,
         url: Contact.getLink(contact),
         targetIconClasses: contact.type.icon_classes,
         shadedTarget: true,
-      }).render();
+      };
+      if (contact.icon_classes) {
+        props.subjectCardIcon = true;
+        props.subjectIconClasses = contact.icon_classes;
+      }
+      this.element = new LinkBlock(props).render();
     } else if (basicBlockTypes.includes(contactType)) {
       this.element = new BasicBlock({
-        title: contact.type.label,
+        title: title,
         subtitle: contact.value,
       }).render();
     }
