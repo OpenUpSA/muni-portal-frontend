@@ -1,0 +1,29 @@
+name: CI build
+
+on:
+  push:
+    branches:
+      - automation-test
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        python-version: [3.7]
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: yarn --frozen-lockfile
+    - run: yarn build:test
+    - run: |
+        yarn test

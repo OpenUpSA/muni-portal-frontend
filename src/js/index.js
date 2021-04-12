@@ -42,6 +42,7 @@ const CONTEXT = `${process.env.CONTEXT}`;
 const SENTRY_DSN = `${process.env.SENTRY_DSN}`;
 const SENTRY_PERF_SAMPLE_RATE = `${process.env.SENTRY_PERF_SAMPLE_RATE}`;
 
+
 if (
   NODE_ENV === "production" ||
   ENVIRONMENT === "production" ||
@@ -52,7 +53,7 @@ if (
   tryRegisterSW();
 } else {
   window.console.warn(
-    `Not trying to register Service Worker because 
+    `Not trying to register Service Worker because
     ENVIRONMENT = ${ENVIRONMENT} and NODE_ENV = ${NODE_ENV}`
   );
 }
