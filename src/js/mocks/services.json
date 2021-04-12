@@ -18,70 +18,7 @@
             "title": "Building Control, Air Quality and Noise Control",
             "icon_classes": "fas fa-store-alt",
             "overview": "<p>The Department of Planning and Building Control is responsible for ensuring that all development is done in accordance with the applicable legislation, as well as the approved Planning By-law and Zoning Scheme. The mandate of the department is to ensure implementation of the National Building Regulations and Standards Act, Air Quality Control and Noise Management, which in turn ensures a safe and healthy environment.</p>",
-            "office_hours": "<p>Mon-Thurs 08:00 - 16:30</p><p>Friday 08:00 -16:00</p>",
-            "head_of_service": {
-                "id": 51,
-                "title": "Mr Francois Du Toit",
-                "slug": "mr-francois-du-toit",
-                "url": "/my-municipality/administration/mr-francois-du-toit/",
-                "icon_classes": null,
-                "profile_image": null,
-                "profile_image_thumbnail": null,
-                "job_title": "Building Control, Noise Pollution and Air Quality Control"
-            },
-            "service_contacts": [
-                {
-                    "value": "(028) 4255756",
-                    "type": {
-                        "label": "Phone",
-                        "slug": "phone",
-                        "icon_classes": "fas fa-phone-alt"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "francoisd@capeagulhas.gov.za",
-                    "type": {
-                        "label": "Email",
-                        "slug": "email",
-                        "icon_classes": "fas fa-envelope"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "2 van Riebeeck street, Bredasdorp 7280",
-                    "type": {
-                        "label": "Physical address",
-                        "slug": "physical_address",
-                        "icon_classes": "fas fa-map-marked-alt"
-                    },
-                    "annotation": null
-                }
-            ],
-            "ancestor_pages": [
-                {
-                    "id": 1,
-                    "title": "Root",
-                    "slug": "root",
-                    "url": null,
-                    "icon_classes": null
-                },
-                {
-                    "id": 3,
-                    "title": "Home",
-                    "slug": "home1",
-                    "url": "/",
-                    "icon_classes": null
-                },
-                {
-                    "id": 4,
-                    "title": "Services",
-                    "slug": "services",
-                    "url": "/services/",
-                    "icon_classes": null
-                }
-            ],
-            "child_pages": []
+            "office_hours": "<p>Mon-Thurs 08:00 - 16:30</p><p>Friday 08:00 -16:00</p>"
         },
         {
             "id": 8,
@@ -98,78 +35,7 @@
             "title": "Protection services",
             "icon_classes": "fas fa-shield-alt",
             "overview": "<p>The safety and security of our community and environment is important to us.</p><p></p><p>The function of Protection Services is to assist and protect citizens within the Cape Agulhas Municipal area by providing services to maintain law and order by rendering traffic policing services, enforcing municipal by-laws and regulations, and providing vehicle licensing and disaster management services.</p>",
-            "office_hours": "",
-            "head_of_service": {
-                "id": 42,
-                "title": "Ms Myllison Saptou",
-                "slug": "ms-myllison-saptou",
-                "url": "/my-municipality/administration/ms-myllison-saptou/",
-                "icon_classes": null,
-                "profile_image": null,
-                "profile_image_thumbnail": null,
-                "job_title": "Protection Services (Traffic, law enforcement and animal control)"
-            },
-            "service_contacts": [
-                {
-                    "value": "(028) 4255601",
-                    "type": {
-                        "label": "Phone",
-                        "slug": "phone",
-                        "icon_classes": "fas fa-phone-alt"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "myllisons@capeagulhas.gov.za",
-                    "type": {
-                        "label": "Email",
-                        "slug": "email",
-                        "icon_classes": "fas fa-envelope"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "C/o and, Fabrieks Rd & Ou Meule St, Bredasdorp, 7280",
-                    "type": {
-                        "label": "Physical address",
-                        "slug": "physical_address",
-                        "icon_classes": "fas fa-map-marked-alt"
-                    },
-                    "annotation": null
-                }
-            ],
-            "ancestor_pages": [
-                {
-                    "id": 1,
-                    "title": "Root",
-                    "slug": "root",
-                    "url": null,
-                    "icon_classes": null
-                },
-                {
-                    "id": 3,
-                    "title": "Home",
-                    "slug": "home1",
-                    "url": "/",
-                    "icon_classes": null
-                },
-                {
-                    "id": 4,
-                    "title": "Services",
-                    "slug": "services",
-                    "url": "/services/",
-                    "icon_classes": null
-                }
-            ],
-            "child_pages": [
-                {
-                    "id": 91,
-                    "title": "Bredasdorp Traffic Department",
-                    "slug": "traffic-department",
-                    "url": "/services/protection-services/traffic-department/",
-                    "icon_classes": null
-                }
-            ]
+            "office_hours": ""
         },
         {
             "id": 10,
@@ -186,70 +52,7 @@
             "title": "Streets and Stormwater",
             "icon_classes": "fas fa-road",
             "overview": "<p>The Municipality is continually improving its road network, as good road infrastructure is key to attracting investment and development into the Municipal Area, and is fundamental to improving people’s lives. Storm water upgrading and maintenance are essential for any municipality to minimize the risk of flooding causing damage to infrastructure and private property.</p>",
-            "office_hours": "<p>Mon-Thurs 08:00 - 16:30 Friday 08:00 -16:00</p>",
-            "head_of_service": {
-                "id": 48,
-                "title": "Mr Deon Wasserman",
-                "slug": "mr-deon-wasserman",
-                "url": "/my-municipality/administration/mr-deon-wasserman/",
-                "icon_classes": null,
-                "profile_image": null,
-                "profile_image_thumbnail": null,
-                "job_title": "Roads and Storm Water"
-            },
-            "service_contacts": [
-                {
-                    "value": "(028) 4255783",
-                    "type": {
-                        "label": "Phone",
-                        "slug": "phone",
-                        "icon_classes": "fas fa-phone-alt"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "deonw@capeagulhas.gov.za",
-                    "type": {
-                        "label": "Email",
-                        "slug": "email",
-                        "icon_classes": "fas fa-envelope"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "2 van Riebeeck street, Bredasdorp 7280",
-                    "type": {
-                        "label": "Physical address",
-                        "slug": "physical_address",
-                        "icon_classes": "fas fa-map-marked-alt"
-                    },
-                    "annotation": null
-                }
-            ],
-            "ancestor_pages": [
-                {
-                    "id": 1,
-                    "title": "Root",
-                    "slug": "root",
-                    "url": null,
-                    "icon_classes": null
-                },
-                {
-                    "id": 3,
-                    "title": "Home",
-                    "slug": "home1",
-                    "url": "/",
-                    "icon_classes": null
-                },
-                {
-                    "id": 4,
-                    "title": "Services",
-                    "slug": "services",
-                    "url": "/services/",
-                    "icon_classes": null
-                }
-            ],
-            "child_pages": []
+            "office_hours": "<p>Mon-Thurs 08:00 - 16:30 Friday 08:00 -16:00</p>"
         },
         {
             "id": 22,
@@ -266,134 +69,7 @@
             "title": "Library Services",
             "icon_classes": "fas fa-book-reader",
             "overview": "<p>The Municipal Library Service consists of nine libraries. Internet is available in seven of the libraries. The usage of internet facilities is free, and costs are covered by the Provincial Library Services.</p>",
-            "office_hours": "<p>Mon-Thurs 08:00 - 16:30<br/>Friday 08:00 -16:00<br/><br/></p>",
-            "head_of_service": {
-                "id": 21,
-                "title": "Ms Cari Conradie-Lötter",
-                "slug": "ms-cari-conradie",
-                "url": "/my-municipality/administration/ms-cari-conradie/",
-                "icon_classes": null,
-                "profile_image": null,
-                "profile_image_thumbnail": null,
-                "job_title": "Library Services"
-            },
-            "service_contacts": [
-                {
-                    "value": "028 425 5615",
-                    "type": {
-                        "label": "Phone",
-                        "slug": "phone",
-                        "icon_classes": "fas fa-phone-alt"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "CariC@capeagulhas.gov.za",
-                    "type": {
-                        "label": "Email",
-                        "slug": "email",
-                        "icon_classes": "fas fa-envelope"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "Bredasdorp Library, 5 Church Street, Bredasdorp",
-                    "type": {
-                        "label": "Physical address",
-                        "slug": "physical_address",
-                        "icon_classes": "fas fa-map-marked-alt"
-                    },
-                    "annotation": null
-                }
-            ],
-            "ancestor_pages": [
-                {
-                    "id": 1,
-                    "title": "Root",
-                    "slug": "root",
-                    "url": null,
-                    "icon_classes": null
-                },
-                {
-                    "id": 3,
-                    "title": "Home",
-                    "slug": "home1",
-                    "url": "/",
-                    "icon_classes": null
-                },
-                {
-                    "id": 4,
-                    "title": "Services",
-                    "slug": "services",
-                    "url": "/services/",
-                    "icon_classes": null
-                }
-            ],
-            "child_pages": [
-                {
-                    "id": 23,
-                    "title": "Bredasdorp Library",
-                    "slug": "bredasdorp-library",
-                    "url": "/services/libraries/bredasdorp-library/",
-                    "icon_classes": null
-                },
-                {
-                    "id": 24,
-                    "title": "Struisbaai Library",
-                    "slug": "struisbaai-library",
-                    "url": "/services/libraries/struisbaai-library/",
-                    "icon_classes": null
-                },
-                {
-                    "id": 83,
-                    "title": "Elim Library",
-                    "slug": "elim-library",
-                    "url": "/services/libraries/elim-library/",
-                    "icon_classes": null
-                },
-                {
-                    "id": 84,
-                    "title": "Klipdale Library",
-                    "slug": "klipdale-library",
-                    "url": "/services/libraries/klipdale-library/",
-                    "icon_classes": null
-                },
-                {
-                    "id": 85,
-                    "title": "Napier Town Library",
-                    "slug": "napier-town-library",
-                    "url": "/services/libraries/napier-town-library/",
-                    "icon_classes": null
-                },
-                {
-                    "id": 86,
-                    "title": "Napier Nuwerus Library",
-                    "slug": "napier-nuwerus-library",
-                    "url": "/services/libraries/napier-nuwerus-library/",
-                    "icon_classes": null
-                },
-                {
-                    "id": 87,
-                    "title": "Arniston Library",
-                    "slug": "arniston-library",
-                    "url": "/services/libraries/arniston-library/",
-                    "icon_classes": null
-                },
-                {
-                    "id": 88,
-                    "title": "Welverdiend Library",
-                    "slug": "welverdiend-library",
-                    "url": "/services/libraries/welverdiend-library/",
-                    "icon_classes": null
-                },
-                {
-                    "id": 89,
-                    "title": "Protem Library",
-                    "slug": "protem-library",
-                    "url": "/services/libraries/protem-library/",
-                    "icon_classes": null
-                }
-            ]
+            "office_hours": "<p>Mon-Thurs 08:00 - 16:30<br/>Friday 08:00 -16:00<br/><br/></p>"
         },
         {
             "id": 62,
@@ -410,70 +86,7 @@
             "title": "Internal Audit",
             "icon_classes": "fas fa-calculator",
             "overview": "<p>The purpose of auditing internally is to provide insight into an organization&#x27;s culture, policies, procedures, and aids board and management oversight by verifying internal controls such as operating effectiveness, risk mitigation controls, and compliance with any relevant laws or regulations.</p>",
-            "office_hours": "<p>Mon-Thurs 08:00 - 16:30<br/> Friday 08:00 -16:00</p>",
-            "head_of_service": {
-                "id": 14,
-                "title": "Mr Blackie Swart",
-                "slug": "mr-blackie-swart",
-                "url": "/my-municipality/administration/mr-blackie-swart/",
-                "icon_classes": null,
-                "profile_image": null,
-                "profile_image_thumbnail": null,
-                "job_title": "Internal Auditor"
-            },
-            "service_contacts": [
-                {
-                    "value": "0284255558",
-                    "type": {
-                        "label": "Phone",
-                        "slug": "phone",
-                        "icon_classes": "fas fa-phone-alt"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "BlackieS@capeagulhas.gov.za",
-                    "type": {
-                        "label": "Email",
-                        "slug": "email",
-                        "icon_classes": "fas fa-envelope"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "1 Dirkie Uys street, Bredasdorp 7280",
-                    "type": {
-                        "label": "Physical address",
-                        "slug": "physical_address",
-                        "icon_classes": "fas fa-map-marked-alt"
-                    },
-                    "annotation": null
-                }
-            ],
-            "ancestor_pages": [
-                {
-                    "id": 1,
-                    "title": "Root",
-                    "slug": "root",
-                    "url": null,
-                    "icon_classes": null
-                },
-                {
-                    "id": 3,
-                    "title": "Home",
-                    "slug": "home1",
-                    "url": "/",
-                    "icon_classes": null
-                },
-                {
-                    "id": 4,
-                    "title": "Services",
-                    "slug": "services",
-                    "url": "/services/",
-                    "icon_classes": null
-                }
-            ],
-            "child_pages": []
+            "office_hours": "<p>Mon-Thurs 08:00 - 16:30<br/> Friday 08:00 -16:00</p>"
         },
         {
             "id": 63,
@@ -490,70 +103,7 @@
             "title": "Strategic Planning and Administration (Division)",
             "icon_classes": "fas fa-chart-line",
             "overview": "<p>The Strategic Planning and Administration Division is responsible for the Town Planning, Administrative Support Services, Integrated Development Planning, Performance Management, Risk Management, Communication, Public participation, Ward Committees and Client Services.</p>",
-            "office_hours": "<p>Mon-Thurs 08:00 - 16:30<br/> Friday 08:00 -16:00</p>",
-            "head_of_service": {
-                "id": 58,
-                "title": "Ms Tracey Stone",
-                "slug": "tracey-stone",
-                "url": "/my-municipality/administration/tracey-stone/",
-                "icon_classes": null,
-                "profile_image": null,
-                "profile_image_thumbnail": null,
-                "job_title": "Strategic Planning, Public Participation, Communication and Risk"
-            },
-            "service_contacts": [
-                {
-                    "value": "(028) 4255549",
-                    "type": {
-                        "label": "Phone",
-                        "slug": "phone",
-                        "icon_classes": "fas fa-phone-alt"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "Traceys@capeagulhas.gov.za",
-                    "type": {
-                        "label": "Email",
-                        "slug": "email",
-                        "icon_classes": "fas fa-envelope"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "1 Dirkie Uys street, Bredasdorp 7280",
-                    "type": {
-                        "label": "Physical address",
-                        "slug": "physical_address",
-                        "icon_classes": "fas fa-map-marked-alt"
-                    },
-                    "annotation": null
-                }
-            ],
-            "ancestor_pages": [
-                {
-                    "id": 1,
-                    "title": "Root",
-                    "slug": "root",
-                    "url": null,
-                    "icon_classes": null
-                },
-                {
-                    "id": 3,
-                    "title": "Home",
-                    "slug": "home1",
-                    "url": "/",
-                    "icon_classes": null
-                },
-                {
-                    "id": 4,
-                    "title": "Services",
-                    "slug": "services",
-                    "url": "/services/",
-                    "icon_classes": null
-                }
-            ],
-            "child_pages": []
+            "office_hours": "<p>Mon-Thurs 08:00 - 16:30<br/> Friday 08:00 -16:00</p>"
         },
         {
             "id": 64,
@@ -570,70 +120,7 @@
             "title": "Human Resource and Organization Development",
             "icon_classes": "fas fa-smile",
             "overview": "<p>The Human Resource and Organisational Development Division is responsible for recruitment and selection, human resource development and administration, as well as skills development, occupational health and safety and the Expanded Public Works Programme (EPWP).</p>",
-            "office_hours": "<p>Mon-Thurs 08:00 - 16:30</p><p>Friday 08:00 -16:00</p>",
-            "head_of_service": {
-                "id": 39,
-                "title": "Ms Nombasa Mhlati-Musewe",
-                "slug": "ms-nombasa-mhlati-musewe",
-                "url": "/my-municipality/administration/ms-nombasa-mhlati-musewe/",
-                "icon_classes": null,
-                "profile_image": null,
-                "profile_image_thumbnail": null,
-                "job_title": "Human Resource and Organisational Development"
-            },
-            "service_contacts": [
-                {
-                    "value": "(028) 4255703",
-                    "type": {
-                        "label": "Phone",
-                        "slug": "phone",
-                        "icon_classes": "fas fa-phone-alt"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "NombasaM@capeagulhas.gov.za",
-                    "type": {
-                        "label": "Email",
-                        "slug": "email",
-                        "icon_classes": "fas fa-envelope"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "2 van Riebeeck street, Bredasdorp 7280",
-                    "type": {
-                        "label": "Physical address",
-                        "slug": "physical_address",
-                        "icon_classes": "fas fa-map-marked-alt"
-                    },
-                    "annotation": null
-                }
-            ],
-            "ancestor_pages": [
-                {
-                    "id": 1,
-                    "title": "Root",
-                    "slug": "root",
-                    "url": null,
-                    "icon_classes": null
-                },
-                {
-                    "id": 3,
-                    "title": "Home",
-                    "slug": "home1",
-                    "url": "/",
-                    "icon_classes": null
-                },
-                {
-                    "id": 4,
-                    "title": "Services",
-                    "slug": "services",
-                    "url": "/services/",
-                    "icon_classes": null
-                }
-            ],
-            "child_pages": []
+            "office_hours": "<p>Mon-Thurs 08:00 - 16:30</p><p>Friday 08:00 -16:00</p>"
         },
         {
             "id": 65,
@@ -650,70 +137,7 @@
             "title": "Town Planning",
             "icon_classes": "fas fa-draw-polygon",
             "overview": "<p>The Municipality regulates spatial planning and land use through the Spatial Development Framework, Municipal Land Use Planning By-law and Cape Agulhas Integrated Zoning Scheme. The section has three main sub-sections namely: Town Planning, GIS and Environmental Management and is responsible for development planning, planning control, planning enforcement and environment.</p>",
-            "office_hours": "<p>Mon-Thurs 08:00 - 16:30</p><p>Friday 08:00 -16:00</p>",
-            "head_of_service": {
-                "id": 100,
-                "title": "Ms Sunel Nel",
-                "slug": "sunel-nel",
-                "url": "/my-municipality/administration/sunel-nel/",
-                "icon_classes": null,
-                "profile_image": null,
-                "profile_image_thumbnail": null,
-                "job_title": "Town Planning"
-            },
-            "service_contacts": [
-                {
-                    "value": "(028) 4255757",
-                    "type": {
-                        "label": "Phone",
-                        "slug": "phone",
-                        "icon_classes": "fas fa-phone-alt"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "suneln@capeagulhas.gov.za",
-                    "type": {
-                        "label": "Email",
-                        "slug": "email",
-                        "icon_classes": "fas fa-envelope"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "2 van Riebeeck street, Bredasdorp 7280",
-                    "type": {
-                        "label": "Physical address",
-                        "slug": "physical_address",
-                        "icon_classes": "fas fa-map-marked-alt"
-                    },
-                    "annotation": null
-                }
-            ],
-            "ancestor_pages": [
-                {
-                    "id": 1,
-                    "title": "Root",
-                    "slug": "root",
-                    "url": null,
-                    "icon_classes": null
-                },
-                {
-                    "id": 3,
-                    "title": "Home",
-                    "slug": "home1",
-                    "url": "/",
-                    "icon_classes": null
-                },
-                {
-                    "id": 4,
-                    "title": "Services",
-                    "slug": "services",
-                    "url": "/services/",
-                    "icon_classes": null
-                }
-            ],
-            "child_pages": []
+            "office_hours": "<p>Mon-Thurs 08:00 - 16:30</p><p>Friday 08:00 -16:00</p>"
         },
         {
             "id": 81,
@@ -730,70 +154,7 @@
             "title": "Water and Sewerage",
             "icon_classes": "fas fa-tint",
             "overview": "<p>The Municipality provides water and sanitation services to all towns in its area of jurisdiction. Potable water of high quality is provided through an extensive water infrastructure network and storage systems. Water sources include the Uitvlucht Spring, Sanddrif Dam and Vleikloof Dam as well as multiple boreholes. Cape Agulhas is a water-scarce area and level 3 water restrictions are in place. Households are restricted to a consumption volume of 20 kl per month and businesses 50 kl per month.</p><p>Sanitation systems include waterborne sewerage systems and septic tanks, which are serviced at a fee when required. Various Wastewater Treatment Works (WWTW) are operational throughout the Municipal Area.</p>",
-            "office_hours": "<p>Mon-Thurs 08:00 - 16:30</p><p>Friday 08:00 -16:00</p>",
-            "head_of_service": {
-                "id": 49,
-                "title": "Mr Shane Roach",
-                "slug": "mr-shane-roach",
-                "url": "/my-municipality/administration/mr-shane-roach/",
-                "icon_classes": null,
-                "profile_image": null,
-                "profile_image_thumbnail": null,
-                "job_title": "Water and Sanitation"
-            },
-            "service_contacts": [
-                {
-                    "value": "(028) 4255782",
-                    "type": {
-                        "label": "Phone",
-                        "slug": "phone",
-                        "icon_classes": "fas fa-phone-alt"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "ShaneR@capeagulhas.gov.za",
-                    "type": {
-                        "label": "Email",
-                        "slug": "email",
-                        "icon_classes": "fas fa-envelope"
-                    },
-                    "annotation": null
-                },
-                {
-                    "value": "2 van Riebeeck street, Bredasdorp 7280",
-                    "type": {
-                        "label": "Physical address",
-                        "slug": "physical_address",
-                        "icon_classes": "fas fa-map-marked-alt"
-                    },
-                    "annotation": null
-                }
-            ],
-            "ancestor_pages": [
-                {
-                    "id": 1,
-                    "title": "Root",
-                    "slug": "root",
-                    "url": null,
-                    "icon_classes": null
-                },
-                {
-                    "id": 3,
-                    "title": "Home",
-                    "slug": "home1",
-                    "url": "/",
-                    "icon_classes": null
-                },
-                {
-                    "id": 4,
-                    "title": "Services",
-                    "slug": "services",
-                    "url": "/services/",
-                    "icon_classes": null
-                }
-            ],
-            "child_pages": []
+            "office_hours": "<p>Mon-Thurs 08:00 - 16:30</p><p>Friday 08:00 -16:00</p>"
         }
     ]
 }

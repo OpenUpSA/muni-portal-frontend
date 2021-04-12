@@ -4,7 +4,7 @@ const { Options } = require('selenium-webdriver/chrome');
 
 const assert = require('assert');
 
-const { server } = require('../src/js/mocks/server');
+const { server: mockServer } = require('../src/js/mocks/server');
 
 const handler = require('serve-handler');
 const http = require('http');
@@ -17,263 +17,283 @@ Test Auth functionalities (Login, Signup, Logout) with selenium and mocha
 */
 
 
-describe('Authentication Testing', function() {
-	let driver;
-	let api_server;
-	let static_server;
+describe('Authentication Testing', function () {
+    let driver;
+    let api_server;
+    let static_server;
 
-	const BASE_URL = `http://localhost:3000`;
-	const LOGIN_URL = `${BASE_URL}/accounts/login/`;
-	const SIGNUP_URL = `${BASE_URL}/accounts/register/`;
-	const CHANGE_PASSWORD_URL = `${BASE_URL}/account/change-password/`;
+    const BASE_URL = `http://localhost:3000`;
+    const LOGIN_URL = `${BASE_URL}/accounts/login/`;
+    const SIGNUP_URL = `${BASE_URL}/accounts/register/`;
+    const CHANGE_PASSWORD_URL = `${BASE_URL}/account/change-password/`;
 
-	const VALID_USER = 'user';
-	const VALID_PASSWORD = 'pass';
+    const VALID_USER = 'user';
+    const VALID_PASSWORD = 'pass';
 
-	before(async () => {
-		let options = new Options()
-		driver = new webdriver.Builder().forBrowser('chrome')
-		.setChromeOptions(options.headless())
-		.build();
+    before(async () => {
+        let options = new Options()
+        driver = new webdriver.Builder().forBrowser('chrome')
+            .setChromeOptions(options.headless())
+            .build();
 
-		api_server = server.listen(3004, () => {
-		  console.log('Mock Server is running')
-		})
+        api_server = mockServer.listen(3004, () => {
+            console.log('Mock Server is running')
+        })
 
-		static_server = http.createServer((request, response) => {
-			return handler(request, response, {
-				public: 'dist',
-				rewrites: [
-					{ "source": "accounts/login", "destination": "index.html" },
-					{ "source": "accounts/register", "destination": "index.html" },
-					{ "source": "account/change-password", "destination": "index.html" }
-				]
-			});
-		})
-
-		static_server.listen(3000, () => {
-		  console.log('Running at http://localhost:3000');
-		});
-	}, 50000);
+        static_server = http.createServer((request, response) => {
+            return handler(request, response, {
+                public: 'dist',
+                rewrites: [
+                    { "source": "services", "destination": "index.html" },
+                    { "source": "accounts/login", "destination": "index.html" },
+                    { "source": "accounts/register", "destination": "index.html" },
+                    { "source": "account/change-password", "destination": "index.html" }
+                ]
+            });
+        })
 
-	after(async () => {
-	  await driver.quit();
-	  api_server.close(function () {
-	  	console.log('Mock Server shutdown')
-	  })
+        static_server.listen(3000, () => {
+            console.log('Running at http://localhost:3000');
+        });
+    }, 50000);
 
-	  static_server.close(function(){console.log('Shutting down static server')})
-	}, 50000);
+    after(async () => {
+        await driver.quit();
+        api_server.close(function () {
+            console.log('Mock Server shutdown')
+        })
 
+        static_server.close(function () { console.log('Shutting down static server') })
+    }, 50000);
 
-	describe('test for login functionality', function(){
 
-		let usernameBox;
-		let passwordBox;
+    describe('test for login functionality', function () {
 
-		before(async function(){
-			await driver.get(LOGIN_URL);
-			await driver.sleep(500);
-		});
+        before(async function () {
+            await driver.get(LOGIN_URL);
+            let el = await driver.findElement(By.id('my-muni-Username'));
+            await driver.wait(until.elementIsVisible(el), 3000);
+        });
 
-		beforeEach(async function() {
-			usernameBox = driver.findElement(By.id('my-muni-Username'));
-			passwordBox = driver.findElement(By.id('my-muni-Password'));
+        beforeEach(async function () {
+            const [username, password] = getElements()
+            username.clear();
+            password.clear();
+        });
 
-			usernameBox.clear();
-			passwordBox.clear();
-		});
+        function getElements(){
+            const usernameBox = driver.findElement(By.id('my-muni-Username'));
+            const passwordBox = driver.findElement(By.id('my-muni-Password'));
+            return [usernameBox, passwordBox]
+        }
 
-		async function sendData(nm, p1){
-			usernameBox.sendKeys(nm);
-			passwordBox.sendKeys(p1);
+        async function sendData(user, pass) {
+            const [username, password] = getElements()
 
-			const button = driver.findElement(By.className('button form-submit w-button'));
-			button.click();
+            username.sendKeys(user);
+            password.sendKeys(pass);
 
-			await driver.sleep(1000);
-		}
+            const button = driver.findElement(By.css('form.form__inner button.form-submit.w-button'));
+            button.click();
 
-		it('test for login error response', async function(){
-			const message = 'Login or password invalid.'
+            await driver.sleep(1000);
+        }
 
-			await sendData('errorUser', 'errorPass')
+        it('test for login error response', async function () {
+            const message = 'Login or password invalid.'
 
-			const errorDiv = driver.findElement(By.className('w-form-fail'));
-			const errorMessage = await errorDiv.getText();
+            await sendData('errorUser', 'errorPass')
 
-			assert.equal(message, errorMessage);
+            const errorDiv = driver.findElement(By.className('w-form-fail'));
+            const errorMessage = await errorDiv.getText();
 
-			await driver.sleep(500);
-		})
+            assert.equal(message, errorMessage);
+        })
 
-		it('test for successful login', async function(){
+        it('test for successful login', async function () {
 
-			await sendData(VALID_USER, VALID_PASSWORD);
+            await sendData(VALID_USER, VALID_PASSWORD);
 
-			const url = await driver.getCurrentUrl();
-			const condition = url.endsWith('/services/');
+            let button;
+            button = driver.findElement(By.className('icon nav-menu__icon'));
 
-			assert.ok(condition);
-		})
+            await driver.wait(until.elementIsVisible(button), 3000)
+            button.click();
 
-	})
+            const logoutBtn = driver.findElement(By.id('my-muni-logout'));
+            await driver.wait(until.elementIsVisible(logoutBtn), 3000);
 
-	describe('test for signup functionality', function() {
-		let email;
-		let username;
-		let password;
-		let confirmPassword;
-		let button;
+            const logoutText = await logoutBtn.getText();
 
-		before(async function(){
-			await driver.get(SIGNUP_URL);
-			await driver.sleep(500);
-		})
+            assert.ok(logoutText === 'Logout');
+        })
 
-		function sendData(nm, em, p1, p2){
-			username.sendKeys(nm);
-			email.sendKeys(em);
-			password.sendKeys(p1);
-			confirmPassword.sendKeys(p2);
+    })
 
-			button.click();
-		}
+    describe('test for signup functionality', function () {
 
-		beforeEach(async function() {
-			email = driver.findElement(By.id('my-muni-Email address'));
-			username = driver.findElement(By.id('my-muni-Username'));
-			password = driver.findElement(By.id('my-muni-Password'));
-			confirmPassword = driver.findElement(By.id('my-muni-Confirm password'));
-			button = driver.findElement(By.className('button form-submit w-button'));
+        before(async function () {
+            await driver.get(SIGNUP_URL);
+            let el = await driver.findElement(By.id('my-muni-Email address'));
+            await driver.wait(until.elementIsVisible(el), 500);
 
-			username.clear();
-			password.clear();
-			email.clear();
-			confirmPassword.clear();
-		});
+        })
 
-		it('check for non-matching password error', async function(){
+        function sendData(user, user_email, password1, password2) {
+            const [email, username, password, confirmPassword] = getInputs();
+            const button = driver.findElement(By.className('button form-submit w-button'));
 
-			sendData('username', 'test@email.com', 'test-pass', 'incorrect')
+            username.sendKeys(user);
+            email.sendKeys(user_email);
+            password.sendKeys(password1);
+            confirmPassword.sendKeys(password2);
 
-			await driver.sleep(2000)
+            button.click();
+        }
 
-			const errorDiv = driver.findElement(By.className('w-form-fail'));
-			const innerDiv = await errorDiv.findElement(By.tagName('div'));
-			const errorMessage = await innerDiv.getText();
+        function getInputs(){
+            const email = driver.findElement(By.id('my-muni-Email address'));
+            const username = driver.findElement(By.id('my-muni-Username'));
+            const password = driver.findElement(By.id('my-muni-Password'));
+            const confirmPassword = driver.findElement(By.id('my-muni-Confirm password'));
 
-			const condition = errorMessage.includes("Passwords don't match");
+            return [email, username, password, confirmPassword]
+        }
 
-			assert.ok(condition)
-		})
+        beforeEach(async function () {
+            const [email, username, password, confirmPassword] = getInputs();
 
-		it('test for signup success message', async function() {
+            username.clear();
+            password.clear();
+            email.clear();
+            confirmPassword.clear();
+        });
 
-			sendData('username', 'test@email.com', 'test-pass', 'test-pass')
+        it('check for non-matching password error', async function () {
 
-			await driver.sleep(1500)
+            sendData('username', 'test@email.com', 'test-pass', 'incorrect')
 
-			const successDiv = driver.findElement(By.className('w-form-done'));
-			const innerDiv = await successDiv.findElement(By.tagName('div'));
-			const successMessage = await innerDiv.getText();
+            const errorDiv = driver.findElement(By.className('w-form-fail'));
 
-			const condition = successMessage.includes("Thank you! Your submission has been received!");
+            await driver.wait(until.elementIsVisible(errorDiv), 3000)
 
-			assert.ok(condition)
-		});
-	});
+            const innerDiv = await errorDiv.findElement(By.tagName('div'));
+            const errorMessage = await innerDiv.getText();
 
-	describe('logout test', function() {
-		before(async function(){
-			await driver.get(LOGIN_URL);
-			await driver.sleep(1000)
-			const usernameBox = driver.findElement(By.id('my-muni-Username'));
-			const passwordBox = driver.findElement(By.id('my-muni-Password'));
+            const condition = errorMessage.includes("Passwords don't match");
 
-			usernameBox.sendKeys(VALID_USER);
-			passwordBox.sendKeys(VALID_PASSWORD);
-			const button = driver.findElement(By.className('button form-submit w-button'));
-			button.click();
+            assert.ok(condition)
+        })
 
-			await driver.sleep(2500);
-		});
+        it('test for signup success message', async function () {
 
-		it('verify logout worked correctly', async function() {
-			const button = driver.findElement(By.className('icon nav-menu__icon'));
-			button.click();
+            sendData('username', 'test@email.com', 'test-pass', 'test-pass')
 
-			await driver.sleep(1500);
+            const successDiv = driver.findElement(By.className('w-form-done'));
 
-			const logoutBtn = driver.findElement(By.id('my-muni-logout'));
-			logoutBtn.click();
+            await driver.wait(until.elementIsVisible(successDiv), 3000)
 
-			await driver.sleep(1500);
+            const innerDiv = await successDiv.findElement(By.tagName('div'));
+            const successMessage = await innerDiv.getText();
 
-			const storage = await driver.executeScript('return window.localStorage');
-			const accessToken = storage.accessToken;
-			const refreshToken = storage.refreshToken;
-		    const condition = accessToken && accessToken.length > 0 && refreshToken && refreshToken.length > 0
+            const condition = successMessage.includes("Thank you! Your submission has been received!");
 
-		    assert.ok(condition);
+            assert.ok(condition)
+        });
+    });
 
+    describe('logout test', function () {
+        before(async function () {
+            await driver.get(LOGIN_URL);
+            let el = await driver.findElement(By.id('my-muni-Username'));
+            await driver.wait(until.elementIsVisible(el), 1000);
 
-		});
-	});
+            const usernameBox = driver.findElement(By.id('my-muni-Username'));
+            const passwordBox = driver.findElement(By.id('my-muni-Password'));
 
-	describe('change password while logged in', function() {
-		let password;
-		let oldPassword;
-		let confirmPassword;
-		let button;
+            usernameBox.sendKeys(VALID_USER);
+            passwordBox.sendKeys(VALID_PASSWORD);
+            const button = driver.findElement(By.className('button form-submit w-button'));
+            button.click();
+        });
 
-		before(async function(){
-			await driver.get(LOGIN_URL);
-			const usernameBox = driver.findElement(By.id('my-muni-Username'));
-			const passwordBox = driver.findElement(By.id('my-muni-Password'));
+        it('verify logout worked correctly', async function () {
 
-			usernameBox.sendKeys(VALID_USER);
-			passwordBox.sendKeys(VALID_PASSWORD);
-			const button = driver.findElement(By.className('button form-submit w-button'));
-			button.click();
+            const button = driver.findElement(By.className('icon nav-menu__icon'));
+            button.click();
 
-			await driver.sleep(2000);
+            const logoutBtn = driver.findElement(By.id('my-muni-logout'));
+            logoutBtn.click();
 
-			await driver.get(CHANGE_PASSWORD_URL);
-		});
+            await driver.sleep(1500);
 
-		beforeEach(async function() {
-			oldPassword = driver.findElement(By.id('my-muni-old_password'));
-			password = driver.findElement(By.id('my-muni-password'));
-			confirmPassword = driver.findElement(By.id('my-muni-password_confirm'));
-			button = driver.findElement(By.className('button form-submit w-button'))
+            const storage = await driver.executeScript('return window.localStorage');
+            const accessToken = storage.accessToken;
+            const refreshToken = storage.refreshToken;
+            const condition = accessToken && accessToken.length > 0 && refreshToken && refreshToken.length > 0
 
-			oldPassword.clear();
-			password.clear();
-			confirmPassword.clear();
-		});
+            assert.ok(condition);
 
-		async function sendData(ol, pa, cf){
-			oldPassword.sendKeys(ol);
-			password.sendKeys(pa);
-			confirmPassword.sendKeys(cf);
 
-			button.click();
+        });
+    });
 
-			await driver.sleep(1000);
-		}
+    describe('change password while logged in', function () {
 
-		it('change password successful', async function(){
-			await sendData(VALID_PASSWORD, 'default', 'default')
+        before(async function () {
+            await driver.get(LOGIN_URL);
+            const usernameBox = driver.findElement(By.id('my-muni-Username'));
+            const passwordBox = driver.findElement(By.id('my-muni-Password'));
 
-			const successDiv = driver.findElement(By.className('w-form-done'));
-			const successMessage = await successDiv.getText();
+            usernameBox.sendKeys(VALID_USER);
+            passwordBox.sendKeys(VALID_PASSWORD);
+            const button = driver.findElement(By.className('button form-submit w-button'));
+            button.click();
 
-			const condition = successMessage.includes("Your password has been changed successfully.");
+            await driver.sleep(2000);
 
-			await driver.sleep(10000)
+            await driver.get(CHANGE_PASSWORD_URL);
+        });
 
-			assert.ok(condition);
-		});
-	});
+        beforeEach(async function () {
+            const [oldPassword, password, confirmPassword] = getInputs();
+
+            oldPassword.clear();
+            password.clear();
+            confirmPassword.clear();
+        });
+
+        function getInputs(){
+            const oldPassword = driver.findElement(By.id('my-muni-old_password'));
+            const password = driver.findElement(By.id('my-muni-password'));
+            const confirmPassword = driver.findElement(By.id('my-muni-password_confirm'));
+            return [oldPassword, password, confirmPassword]
+        }
+
+        async function sendData(old_password, new_password, confirm_password) {
+            const [oldPassword, password, confirmPassword] = getInputs();
+
+            oldPassword.sendKeys(old_password);
+            password.sendKeys(new_password);
+            confirmPassword.sendKeys(confirm_password);
+
+            const button = driver.findElement(By.className('button form-submit w-button'))
+            button.click();
+
+            await driver.sleep(1000);
+        }
+
+        it('change password successful', async function () {
+            await sendData(VALID_PASSWORD, 'default', 'default')
+
+            const successDiv = driver.findElement(By.className('w-form-done'));
+            const successMessage = await successDiv.getText();
+
+            const condition = successMessage.includes("Your password has been changed successfully.");
+
+            await driver.sleep(10000)
+
+            assert.ok(condition);
+        });
+    });
 });

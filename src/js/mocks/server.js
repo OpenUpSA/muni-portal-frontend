@@ -1,7 +1,5 @@
 const jsonServer = require('json-server')
-const fs = require('fs');
 const server = jsonServer.create()
-const router = jsonServer.router('db.json')
 const middlewares = jsonServer.defaults()
 
 const VALID_USER = 'user';
@@ -14,13 +12,13 @@ server.use(middlewares)
 server.use(jsonServer.bodyParser)
 
 server.post('/api/accounts/login', (req, res) => {
-	const response = {detail: "Login or password invalid."}
+	const errorResponse = { detail: "Login or password invalid." }
 
 	const login = req.body.login;
 	const password = req.body.password;
 
-	if (login !== VALID_USER || password !== VALID_PASSWORD){
-		res.status(400).json(response)
+	if (login !== VALID_USER || password !== VALID_PASSWORD) {
+		res.status(400).json(errorResponse)
 		return
 	}
 	res.status(200).json(
@@ -33,25 +31,25 @@ server.post('/api/accounts/login', (req, res) => {
 	)
 })
 
-server.get('/api/wagtail/v2/pages/', (req, res)=>{
-	try{
+server.get('/api/wagtail/v2/pages/', (req, res) => {
+	try {
 		const content = require('./services.json');
 		res.status(200).json(content)
-	} catch{
-		res.status(500).json({error: 'Error reading content.'})
+	} catch {
+		res.status(500).json({ error: 'Error reading content.' })
 	}
 })
 
 server.post('/api/accounts/register', (req, res) => {
 	const response = {
-		password_confirm:["Passwords don't match"],
-		non_field_errors:[]
+		password_confirm: ["Passwords don't match"],
+		non_field_errors: []
 	}
 
 	const password = req.body.password;
 	const password_confirm = req.body.password_confirm;
 
-	if (password !== password_confirm){
+	if (password !== password_confirm) {
 		res.status(400).json(response)
 		return
 	}
@@ -68,8 +66,8 @@ server.get('/api/accounts/profile/', (req, res) => {
 
 server.post('/api/accounts/change-password/', (req, res) => {
 	const response = {
-		password_confirm:["Passwords don't match"],
-		non_field_errors:[]
+		password_confirm: ["Passwords don't match"],
+		non_field_errors: []
 	}
 
 	const old_password = req.body.old_password;
@@ -84,22 +82,24 @@ server.post('/api/accounts/change-password/', (req, res) => {
 		error = true;
 	}
 
-	if (password < 8){
+	if (password < 8) {
 		data.password = ["This password is too short. It must contain at least 8 characters."]
 		error = true;
-	} else if(password !== password_confirm){
+	} else if (password !== password_confirm) {
 		data.password_confirm = ["Passwords don't match"]
 		error = true
 	}
 
-	if (error){
+	if (error) {
 		res.status(400).json(data)
 		return
 	}
 
-	res.status(200).json({detail:"Password changed successfully"})
+	res.status(200).json({ detail: "Password changed successfully" })
 })
 
-server.use(router)
+// server.listen(3004, () => {
+// 	console.log('Mock Server is running')
+// })
 
-module.exports = {server}
+module.exports = { server }
