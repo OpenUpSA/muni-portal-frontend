@@ -420,6 +420,9 @@ class Router {
           pageType: route.viewType,
         });
         route.view(match.groups, path);
+        // because we client side navigate, we need
+        // to update the links on each navigation
+        setShareMenuLinks();
         return;
       }
     }
