@@ -52,7 +52,7 @@ if (
   tryRegisterSW();
 } else {
   window.console.warn(
-    `Not trying to register Service Worker because 
+    `Not trying to register Service Worker because
     ENVIRONMENT = ${ENVIRONMENT} and NODE_ENV = ${NODE_ENV}`
   );
 }
@@ -243,6 +243,10 @@ class App {
       });
   }
 
+  /**
+     Generic CMS page controller.
+     Matches CMS page type to page component and renders it on the modal-style view.
+   */
   viewPage(params, path) {
     this.modalPage.show();
     showShareMenu();
@@ -260,6 +264,8 @@ class App {
               this.setTitle(title);
               this.modalPage.setContent(page.render(), title);
               Webflow.require("ix2").init();
+            } else if (type === "RedirectorPage") {
+              window.location = response.redirect_to;
             } else {
               this.modalPage.setContent(
                 new ErrorPage(
