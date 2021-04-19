@@ -11,6 +11,12 @@
       "purpose": "maskable"
     },
     {
+      "src": "icon/lighthouse-icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
       "src": "icon/lighthouse-icon-36x36.png",
       "sizes": "36x36",
       "type": "image/png"
