@@ -22,6 +22,8 @@
   "globals": {
     "dataLayer": true,
     "clients": true,
-    "Webflow": true
+    "importScripts": true,
+    "Webflow": true,
+    "workbox": true
   }
 }
