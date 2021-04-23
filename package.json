@@ -32,8 +32,9 @@
     "serve-http": "http-server -d false -c-1 --proxy http://localhost:8080? dist",
     "serve-https": "http-server -S -C server-cert.pem -K server-cert-key.pem -d false -c-1 --proxy http://localhost:8080? dist",
     "start": "yarn clean && yarn build && yarn serve-http",
+    "start:ssl": "yarn clean && yarn build && yarn serve-https",
     "workbox:inject": "workbox injectManifest ./workbox-config.js",
-    "mkcert-loopback": "mkcert -cert-file server-cert.pem -key-file server-cert-key.pem 127.0.0.1",
+    "mkcert-loopback": "mkcert -install -cert-file server-cert.pem -key-file server-cert-key.pem 127.0.0.1",
     "lint": "eslint --ext .js src",
     "lint-fix": "eslint --fix --ext .js src",
     "test-webapp": "lhci autorun"

@@ -17,6 +17,12 @@
       "purpose": "any maskable"
     },
     {
+      "src": "icon/lighthouse-icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
       "src": "icon/lighthouse-icon-48x48.png",
       "sizes": "48x48",
       "type": "image/png",
