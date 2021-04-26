@@ -110,6 +110,21 @@ export class API {
     return $.post({ url, data: serviceRequestDetails });
   }
 
+  getServiceRequestFile(serviceRequestId, fileId) {
+    const url = `${this.baseUrl}/api/service-requests/${serviceRequestId}/attachments/${fileId}/`;
+    return $.get({ url });
+  }
+
+  getServiceRequestFiles(serviceRequestId) {
+    const url = `${this.baseUrl}/api/service-requests/${serviceRequestId}/attachments/`;
+    return $.get({ url });
+  }
+
+  submitServiceRequestFiles(serviceRequestId, data) {
+    const url = `${this.baseUrl}/api/service-requests/${serviceRequestId}/attachments/`;
+    return $.post({ url, data: data, processData: false, contentType: false });
+  }
+
   getUserProfile() {
     const url = `${this.baseUrl}/api/accounts/profile/`;
 

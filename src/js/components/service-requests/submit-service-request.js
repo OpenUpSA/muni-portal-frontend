@@ -135,7 +135,7 @@ export class SubmitServiceRequest {
     const $uploadImagesLabel = getLabel("Upload images of your issue");
     const $uploadImagesInput = $formInputTmpl.clone().attr({
       id: "upload-images-input",
-      name: "images",
+      name: "files",
       type: "file",
       accept: "image/*",
       multiple: true,
@@ -152,8 +152,6 @@ export class SubmitServiceRequest {
     let selectedImages = {};
 
     function handleFileUpload() {
-      window.console.log(selectedImages);
-
       for (let i = 0; i < this.files.length; i++) {
         let uuid = uuidv4();
         const $preview = $uploadImagePreview
@@ -220,9 +218,13 @@ export class SubmitServiceRequest {
 
     $submitButton.on("click", (event) => {
       event.preventDefault();
+
       api
         .submitServiceRequest($form.serialize())
-        .then(() => {
+        .then((response) => {
+          const serviceRequestId = response.id;
+          api.submitServiceRequestFiles(serviceRequestId, selectedImages)
+        }).then(() => {
           this.$element.empty().append(new ServiceRequestSubmitted().render());
         })
         .fail((a, b) => {
