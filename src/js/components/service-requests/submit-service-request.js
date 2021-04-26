@@ -1,6 +1,6 @@
 import { API } from "../../api";
 import { TASK_TYPES } from "../constants";
-
+import { v4 as uuidv4 } from "uuid";
 import { FullWidthGrid } from "../grid";
 import { ServiceRequestSubmitted } from "./service-request-submitted";
 import { StatusMessage } from "../molecules/status-message";
@@ -132,6 +132,59 @@ export class SubmitServiceRequest {
       placeholder: "Please describe your issue",
     });
 
+    const $uploadImagesLabel = getLabel("Upload images of your issue");
+    const $uploadImagesInput = $formInputTmpl.clone().attr({
+      id: "upload-images-input",
+      name: "images",
+      type: "file",
+      accept: "image/*",
+      multiple: true,
+      style: "display: none",
+    });
+    const $uploadImagesClass = $(".upload-images");
+    const $uploadImagePreview = $(".image-preview");
+    const $uploadImageAdd = $(".button.button--add-image");
+
+    $uploadImageAdd.click(function () {
+      $uploadImagesInput.click();
+    });
+
+    let selectedImages = {};
+
+    function handleFileUpload() {
+      window.console.log(selectedImages);
+
+      for (let i = 0; i < this.files.length; i++) {
+        let uuid = uuidv4();
+        const $preview = $uploadImagePreview
+          .clone()
+          .attr({
+            id: "upload-image-preview-" + uuid,
+          })
+          .removeClass("hidden");
+
+        const $previewRemove = $preview.find(".image-preview__remove");
+        $previewRemove.click(function () {
+          delete selectedImages[uuid];
+          $("#upload-image-preview-" + uuid).remove();
+        });
+
+        let reader = new FileReader();
+        reader.onload = function (e) {
+          // Replace newlines in base64 encoding so it doesn't break CSS
+          $preview.css(
+            "background-image",
+            "url('" + e.target.result.replace(/(\r\n|\n|\r)/gm, "") + "')"
+          );
+        };
+        reader.readAsDataURL(this.files[i]);
+        selectedImages[uuid] = this.files[i];
+        $uploadImagesClass.append($preview);
+      }
+    }
+
+    $uploadImagesInput.change(handleFileUpload);
+
     const $submitButton = $(".components .button.button--form-submit")
       .clone()
       .attr({
@@ -150,6 +203,9 @@ export class SubmitServiceRequest {
       $emailInput,
       $describeIssueLabel,
       $describeIssueTextarea,
+      $uploadImagesLabel,
+      $uploadImagesInput,
+      $uploadImagesClass,
       $submitButton,
     ]);
 
