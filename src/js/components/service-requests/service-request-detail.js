@@ -178,36 +178,26 @@ export class ServiceRequestDetail {
       ]);
     });
 
+    function onFileReceived(imgResponse, fileId) {
+      let url = URL.createObjectURL(imgResponse);
+      const $preview = $uploadImagePreview
+        .clone()
+        .attr({
+          id: "upload-image-preview-" + fileId,
+        })
+        .removeClass("hidden");
+
+      const $cross = $preview.find(".image-preview__remove")
+      $cross.remove()
+
+      $preview.css("background-image", "url('" + url + "')");
+      $uploadImagesClass.append($preview);
+    }
+
     api.getServiceRequestFiles(serviceRequestId).then((response) => {
       for (let index in response) {
-        api
-          // TOOD: instead, set the src of the background-image to this URL
-          .getServiceRequestFile(serviceRequestId, response[index]["id"])
-          .then((response2) => {
-            console.log("got a file!");
-
-            const $preview = $uploadImagePreview
-              .clone()
-              .attr({
-                id: "upload-image-preview-" + response[index]["id"],
-              })
-              .removeClass("hidden");
-
-            let base64EncodedStr = btoa(
-              unescape(encodeURIComponent(response2))
-            );
-            console.log(base64EncodedStr)
-            $preview.css("background-image", "url('" + base64EncodedStr + "')");
-            $uploadImagesClass.append($preview);
-          });
+        api.getServiceRequestFile(serviceRequestId, response[index]["id"], onFileReceived);
       }
-
-      // this.$element.append([
-      //   $uploadImagesLabel,
-      //   $uploadImagesInput,
-      //   $uploadImagesClass,
-      //   $submitButton,
-      // ]);
     });
   }
 

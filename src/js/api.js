@@ -110,9 +110,22 @@ export class API {
     return $.post({ url, data: serviceRequestDetails });
   }
 
-  getServiceRequestFile(serviceRequestId, fileId) {
+  getServiceRequestFile(serviceRequestId, fileId, onReceivedCallback) {
+    // We use XMLHttpRequest to be able to receive a blob from the binary response
+    // see: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data
+    const userToken = localStorage.getItem('accessToken')
     const url = `${this.baseUrl}/api/service-requests/${serviceRequestId}/attachments/${fileId}/`;
-    return $.get({ url });
+
+    let oReq = new XMLHttpRequest();
+    oReq.open("GET", url, true);
+    oReq.responseType = "blob";
+    oReq.setRequestHeader("authorization", `Bearer ${userToken}`)
+
+    oReq.onload = function () {
+      onReceivedCallback(oReq.response, fileId)
+    };
+
+    oReq.send();
   }
 
   getServiceRequestFiles(serviceRequestId) {
@@ -262,3 +275,11 @@ function handleAccessTokenRefreshed(response, deferred, originalOptions) {
   // pass this one on to our deferred pass or fail.
   $.ajax(newOptions).then(deferred.resolve, deferred.reject);
 }
+
+$.ajaxSetup({
+  beforeSend: function (jqXHR, settings) {
+    if (settings.dataType === "binary") {
+      settings.xhr().responseType = "arraybuffer";
+    }
+  },
+});
