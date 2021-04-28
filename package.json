@@ -49,6 +49,11 @@
     "workbox-window": "5.1.2"
   },
   "importWebflowExport": {
+    "copyTrees": {
+      "css": "src/css",
+      "js": "src/js",
+      "images": "src/images"
+    },
     "importHtml": [
       {
         "glob": "index.html",
