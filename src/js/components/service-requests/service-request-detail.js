@@ -27,17 +27,6 @@ export class ServiceRequestDetail {
       $uploadImagePreview,
     } = createImageFormFields();
 
-    /* We keep a mapping of uploaded images separate from the FileList stored on
-    the input object because we want previously selected images to persist after
-    the user clicks the plus action a second time to upload more images.
-
-    The user can remove images by clicking the cross on a preview which we
-    facilitate by removing the image from the uploadedFiles object and deleting
-    the preview element.
-
-    We later transform this uploadedFiles object into a FormData object
-    instead of submitting the data from the form containing the file input.
-     */
     let uploadedFiles = {};
 
     function handleInputFilesChanged() {
@@ -53,7 +42,7 @@ export class ServiceRequestDetail {
     const $submitButton = $(".components .button.button--form-submit")
       .clone()
       .attr({
-        value: "Submit",
+        value: "Upload Images",
         id: "submit-images",
       });
 
@@ -73,8 +62,8 @@ export class ServiceRequestDetail {
 
       api
         .submitServiceRequestFiles(serviceRequestId, formData)
-        .then((response) => {
-          window.console.log(response);
+        .then(() => {
+          window.location.reload();
         })
         .fail((a, b) => {
           this.$element.empty().append(

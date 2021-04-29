@@ -1,6 +1,18 @@
 import { v4 as uuidv4 } from "uuid";
 import { getLabel } from "../../utils/element-factory";
 
+/* We keep a mapping of uploaded images separate from the FileList stored on
+    the input object because we want previously selected images to persist after
+    the user clicks the plus action a second time to upload more images.
+
+    The user can remove images by clicking the cross on a preview which we
+    facilitate by removing the image from the uploadedFiles object and deleting
+    the preview element.
+
+    We later transform this uploadedFiles object into a FormData object
+    instead of submitting the data from the form containing the file input.
+    */
+
 export function createImageFormFields() {
   const $uploadImagesLabel = getLabel("Images of your issue");
   const $formInputTmpl = $(".components .form__input-field:eq(0)");

@@ -5,6 +5,7 @@ import { FullWidthGrid } from "../grid";
 import { ServiceRequestSubmitted } from "./service-request-submitted";
 import { StatusMessage } from "../molecules/status-message";
 import { getFieldset, getLabel, getLegend } from "../../utils/element-factory";
+import { createImageFormFields, updateUploadedFiles } from "./images";
 
 export class SubmitServiceRequest {
   constructor() {
@@ -132,56 +133,24 @@ export class SubmitServiceRequest {
       placeholder: "Please describe your issue",
     });
 
-    const $uploadImagesLabel = getLabel("Upload images of your issue");
-    const $uploadImagesInput = $formInputTmpl.clone().attr({
-      id: "upload-images-input",
-      name: "files",
-      type: "file",
-      accept: "image/*",
-      multiple: true,
-      style: "display: none",
-    });
-    const $uploadImagesClass = $(".upload-images");
-    const $uploadImagePreview = $(".image-preview");
-    const $uploadImageAdd = $(".button.button--add-image");
+    const {
+      $uploadImagesInput,
+      $uploadImagesLabel,
+      $uploadImagesClass,
+      $uploadImagePreview,
+    } = createImageFormFields();
 
-    $uploadImageAdd.click(function () {
-      $uploadImagesInput.click();
-    });
+    let uploadedFiles = {};
 
-    let selectedImages = {};
-
-    function handleFileUpload() {
-      for (let i = 0; i < this.files.length; i++) {
-        let uuid = uuidv4();
-        const $preview = $uploadImagePreview
-          .clone()
-          .attr({
-            id: "upload-image-preview-" + uuid,
-          })
-          .removeClass("hidden");
-
-        const $previewRemove = $preview.find(".image-preview__remove");
-        $previewRemove.click(function () {
-          delete selectedImages[uuid];
-          $("#upload-image-preview-" + uuid).remove();
-        });
-
-        let reader = new FileReader();
-        reader.onload = function (e) {
-          // Replace newlines in base64 encoding so it doesn't break CSS
-          $preview.css(
-            "background-image",
-            "url('" + e.target.result.replace(/(\r\n|\n|\r)/gm, "") + "')"
-          );
-        };
-        reader.readAsDataURL(this.files[i]);
-        selectedImages[uuid] = this.files[i];
-        $uploadImagesClass.append($preview);
-      }
+    function handleInputFilesChanged() {
+      updateUploadedFiles(
+        this.files,
+        uploadedFiles,
+        $uploadImagePreview,
+        $uploadImagesClass
+      );
     }
-
-    $uploadImagesInput.change(handleFileUpload);
+    $uploadImagesInput.change(handleInputFilesChanged);
 
     const $submitButton = $(".components .button.button--form-submit")
       .clone()
@@ -223,8 +192,15 @@ export class SubmitServiceRequest {
         .submitServiceRequest($form.serialize())
         .then((response) => {
           const serviceRequestId = response.id;
-          api.submitServiceRequestFiles(serviceRequestId, selectedImages)
-        }).then(() => {
+
+          let formData = new FormData();
+          for (const uuid in uploadedFiles) {
+            formData.append("files", uploadedFiles[uuid]);
+          }
+
+          api.submitServiceRequestFiles(serviceRequestId, formData);
+        })
+        .done(() => {
           this.$element.empty().append(new ServiceRequestSubmitted().render());
         })
         .fail((a, b) => {
