@@ -69,6 +69,12 @@ export class ServiceRequestDetail {
         $previewRemove.click(function () {
           delete uploadedFiles[uuid];
           $("#upload-image-preview-" + uuid).remove();
+
+          if (Object.keys(uploadedFiles).length > 0) {
+            $("#submit-images").show();
+          } else {
+            $("#submit-images").hide();
+          }
         });
 
         let reader = new FileReader();
@@ -82,6 +88,12 @@ export class ServiceRequestDetail {
         reader.readAsDataURL(this.files[i]);
         uploadedFiles[uuid] = this.files[i];
         $uploadImagesClass.append($preview);
+
+        if (Object.keys(uploadedFiles).length > 0) {
+          $("#submit-images").show();
+        } else {
+          $("#submit-images").hide();
+        }
       }
     }
 
@@ -91,10 +103,16 @@ export class ServiceRequestDetail {
       .clone()
       .attr({
         value: "Submit",
+        id: "submit-images",
       });
+
+    $submitButton.hide();
 
     $submitButton.on("click", (event) => {
       event.preventDefault();
+      if (Object.keys(uploadedFiles).length === 0) {
+        alert("Please select one or more images to upload.");
+      }
 
       let formData = new FormData();
       for (const uuid in uploadedFiles) {
@@ -197,14 +215,18 @@ export class ServiceRequestDetail {
         })
         .removeClass("hidden");
 
-      $preview.find(".image-preview__remove").remove()
+      $preview.find(".image-preview__remove").remove();
       $preview.css("background-image", "url('" + url + "')");
       $uploadImagesClass.append($preview);
     }
 
     api.getServiceRequestFiles(serviceRequestId).then((response) => {
       for (let index in response) {
-        api.getServiceRequestFile(serviceRequestId, response[index]["id"], renderFilePreview);
+        api.getServiceRequestFile(
+          serviceRequestId,
+          response[index]["id"],
+          renderFilePreview
+        );
       }
     });
   }
