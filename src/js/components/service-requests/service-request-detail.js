@@ -23,6 +23,7 @@ export class ServiceRequestDetail {
     const $sectionHeading = $(".components .section-heading");
 
     const $formInputTmpl = $(".components .form__input-field:eq(0)");
+
     const $uploadImagesLabel = getLabel("Images of your issue");
     const $uploadImagesInput = $formInputTmpl.clone().attr({
       id: "upload-images-input",
@@ -36,14 +37,25 @@ export class ServiceRequestDetail {
     const $uploadImagePreview = $(".image-preview");
     const $uploadImageAdd = $(".button.button--add-image");
 
+    // Reroute the click event from the Add element to the html input element
     $uploadImageAdd.click(function () {
       $uploadImagesInput.click();
     });
 
-    let selectedImages = {};
+    /* We keep a mapping of uploaded images separate from the FileList stored on
+    the input object because we want previously selected images to persist after
+    the user clicks the plus action a second time to upload more images.
+
+    The user can remove images by clicking the cross on a preview which we
+    facilitate by removing the image from the uploadedFiles object and deleting
+    the preview element.
+
+    We later transform this uploadedFiles object into a FormData object
+    instead of submitting the data from the form containing the file input.
+     */
+    let uploadedFiles = {};
 
     function handleFileUpload() {
-      window.console.log(this.files);
       for (let i = 0; i < this.files.length; i++) {
         let uuid = uuidv4();
         const $preview = $uploadImagePreview
@@ -55,7 +67,7 @@ export class ServiceRequestDetail {
 
         const $previewRemove = $preview.find(".image-preview__remove");
         $previewRemove.click(function () {
-          delete selectedImages[uuid];
+          delete uploadedFiles[uuid];
           $("#upload-image-preview-" + uuid).remove();
         });
 
@@ -68,9 +80,8 @@ export class ServiceRequestDetail {
           );
         };
         reader.readAsDataURL(this.files[i]);
-        selectedImages[uuid] = this.files[i];
+        uploadedFiles[uuid] = this.files[i];
         $uploadImagesClass.append($preview);
-        window.console.log(selectedImages);
       }
     }
 
@@ -86,10 +97,9 @@ export class ServiceRequestDetail {
       event.preventDefault();
 
       let formData = new FormData();
-      for (const key in selectedImages) {
-        formData.append("files", selectedImages[key]);
+      for (const uuid in uploadedFiles) {
+        formData.append("files", uploadedFiles[uuid]);
       }
-      window.console.log("values: ", formData.getAll("files"));
 
       api
         .submitServiceRequestFiles(serviceRequestId, formData)
@@ -178,8 +188,8 @@ export class ServiceRequestDetail {
       ]);
     });
 
-    function onFileReceived(imgResponse, fileId) {
-      let url = URL.createObjectURL(imgResponse);
+    function renderFilePreview(blob, fileId) {
+      let url = URL.createObjectURL(blob);
       const $preview = $uploadImagePreview
         .clone()
         .attr({
@@ -187,16 +197,14 @@ export class ServiceRequestDetail {
         })
         .removeClass("hidden");
 
-      const $cross = $preview.find(".image-preview__remove")
-      $cross.remove()
-
+      $preview.find(".image-preview__remove").remove()
       $preview.css("background-image", "url('" + url + "')");
       $uploadImagesClass.append($preview);
     }
 
     api.getServiceRequestFiles(serviceRequestId).then((response) => {
       for (let index in response) {
-        api.getServiceRequestFile(serviceRequestId, response[index]["id"], onFileReceived);
+        api.getServiceRequestFile(serviceRequestId, response[index]["id"], renderFilePreview);
       }
     });
   }
