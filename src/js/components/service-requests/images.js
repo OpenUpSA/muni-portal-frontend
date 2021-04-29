@@ -1,17 +1,20 @@
 import { v4 as uuidv4 } from "uuid";
 import { getLabel } from "../../utils/element-factory";
 
-/* We keep a mapping of uploaded images separate from the FileList stored on
-    the input object because we want previously selected images to persist after
-    the user clicks the plus action a second time to upload more images.
+/*
+  We keep a mapping of uploaded images separate from the FileList stored on
+  the input object because we want previously selected images to persist after
+  the user clicks the plus action a second time to upload more images and we want
+  the user to be able to remove images by clicking the cross on a preview.
 
-    The user can remove images by clicking the cross on a preview which we
-    facilitate by removing the image from the uploadedFiles object and deleting
-    the preview element.
+  Each time the user selects more files to upload, we append these individual
+  File objects to our own uploadedFiles object.
 
-    We later transform this uploadedFiles object into a FormData object
-    instead of submitting the data from the form containing the file input.
-    */
+  We later transform this uploadedFiles object into a FormData object
+  instead of submitting the data from the form containing the file input.
+
+  More reading: https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications
+*/
 
 export function createImageFormFields() {
   const $uploadImagesLabel = getLabel("Images of your issue");
@@ -75,7 +78,7 @@ export function updateUploadedFiles(
       toggleSubmitImagesButton($("#submit-images"), uploadedFiles);
     });
 
-    // Read the file contents and render it as the background iamge
+    // Read the file contents and render it as the background image
     // of the preview element
     let reader = new FileReader();
     reader.onload = function (e) {
@@ -90,6 +93,8 @@ export function updateUploadedFiles(
     // Add the new image to our custom mapping and render it
     uploadedFiles[uuid] = inputFiles[i];
     $uploadImagesClass.append($preview);
+
+    // This only applies to the Service Request Detail view.
     toggleSubmitImagesButton($("#submit-images"), uploadedFiles);
   }
 }
