@@ -96,46 +96,80 @@ export class API {
   }
 
   getServiceRequests() {
+    const userToken = localStorage.getItem("accessToken");
     const url = `${this.baseUrl}/api/service-requests/`;
-    return $.get(url);
+    return $.get({
+      url,
+      headers: {
+        authorization: `Bearer ${userToken}`,
+      },
+    });
   }
 
   getServiceRequest(serviceRequestId) {
+    const userToken = localStorage.getItem("accessToken");
     const url = `${this.baseUrl}/api/service-requests/${serviceRequestId}`;
-    return $.get(url);
+    return $.get({
+      url,
+      headers: {
+        authorization: `Bearer ${userToken}`,
+      },
+    });
   }
 
   submitServiceRequest(serviceRequestDetails) {
+    const userToken = localStorage.getItem("accessToken");
     const url = `${this.baseUrl}/api/service-requests/`;
-    return $.post({ url, data: serviceRequestDetails });
+    return $.post({
+      url,
+      data: serviceRequestDetails,
+      headers: {
+        authorization: `Bearer ${userToken}`,
+      },
+    });
   }
 
   getServiceRequestFile(serviceRequestId, fileId, onReceivedCallback) {
     // We use XMLHttpRequest to be able to receive a blob from the binary response
     // see: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Sending_and_Receiving_Binary_Data
-    const userToken = localStorage.getItem('accessToken')
+    const userToken = localStorage.getItem("accessToken");
     const url = `${this.baseUrl}/api/service-requests/${serviceRequestId}/attachments/${fileId}/`;
 
     let oReq = new XMLHttpRequest();
     oReq.open("GET", url, true);
     oReq.responseType = "blob";
-    oReq.setRequestHeader("authorization", `Bearer ${userToken}`)
+    oReq.setRequestHeader("authorization", `Bearer ${userToken}`);
 
     oReq.onload = function () {
-      onReceivedCallback(oReq.response, fileId)
+      onReceivedCallback(oReq.response, fileId);
     };
 
     oReq.send();
   }
 
   getServiceRequestFiles(serviceRequestId) {
+    const userToken = localStorage.getItem("accessToken");
     const url = `${this.baseUrl}/api/service-requests/${serviceRequestId}/attachments/`;
-    return $.get({ url });
+    return $.get({
+      url,
+      headers: {
+        authorization: `Bearer ${userToken}`,
+      },
+    });
   }
 
   submitServiceRequestFiles(serviceRequestId, data) {
+    const userToken = localStorage.getItem("accessToken");
     const url = `${this.baseUrl}/api/service-requests/${serviceRequestId}/attachments/`;
-    return $.post({ url, data: data, processData: false, contentType: false });
+    return $.post({
+      url,
+      data: data,
+      processData: false,
+      contentType: false,
+      headers: {
+        authorization: `Bearer ${userToken}`,
+      },
+    });
   }
 
   getUserProfile() {
@@ -275,11 +309,3 @@ function handleAccessTokenRefreshed(response, deferred, originalOptions) {
   // pass this one on to our deferred pass or fail.
   $.ajax(newOptions).then(deferred.resolve, deferred.reject);
 }
-
-$.ajaxSetup({
-  beforeSend: function (jqXHR, settings) {
-    if (settings.dataType === "binary") {
-      settings.xhr().responseType = "arraybuffer";
-    }
-  },
-});
