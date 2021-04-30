@@ -59,10 +59,8 @@ export class ServiceRequestDetail {
         return;
       }
 
-      let formData = getFormDataFromArray(uploadedFiles);
-
       api
-        .submitServiceRequestFiles(serviceRequestId, formData)
+        .submitServiceRequestFiles(serviceRequestId, getFormDataFromArray(uploadedFiles))
         .then(() => {
           window.location.reload();
         })

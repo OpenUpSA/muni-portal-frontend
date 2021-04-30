@@ -195,10 +195,7 @@ export class SubmitServiceRequest {
         .submitServiceRequest($form.serialize())
         .then((response) => {
           const serviceRequestId = response.id;
-
-          let formData = getFormDataFromArray(uploadedFiles);
-
-          api.submitServiceRequestFiles(serviceRequestId, formData);
+          api.submitServiceRequestFiles(serviceRequestId, getFormDataFromArray(uploadedFiles));
         })
         .done(() => {
           this.$element.empty().append(new ServiceRequestSubmitted().render());
