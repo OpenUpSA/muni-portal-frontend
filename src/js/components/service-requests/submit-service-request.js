@@ -4,7 +4,11 @@ import { FullWidthGrid } from "../grid";
 import { ServiceRequestSubmitted } from "./service-request-submitted";
 import { StatusMessage } from "../molecules/status-message";
 import { getFieldset, getLabel, getLegend } from "../../utils/element-factory";
-import { createImageFormFields, updateUploadedFiles } from "./images";
+import {
+  createImageFormFields,
+  getFormDataFromArray,
+  updateUploadedFiles,
+} from "./images";
 
 export class SubmitServiceRequest {
   constructor() {
@@ -192,10 +196,7 @@ export class SubmitServiceRequest {
         .then((response) => {
           const serviceRequestId = response.id;
 
-          let formData = new FormData();
-          for (const uuid in uploadedFiles) {
-            formData.append("files", uploadedFiles[uuid]);
-          }
+          let formData = getFormDataFromArray(uploadedFiles);
 
           api.submitServiceRequestFiles(serviceRequestId, formData);
         })

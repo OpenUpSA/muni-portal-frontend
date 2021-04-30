@@ -8,7 +8,11 @@ import { BlockPreWrap } from "../atoms/block-pre-wrap";
 import { FullWidthGrid } from "../grid";
 import { LoadingPlaceholder } from "../atoms/loading-placeholder";
 import { StatusMessage } from "../molecules/status-message";
-import { createImageFormFields, updateUploadedFiles } from "./images";
+import {
+  createImageFormFields,
+  getFormDataFromArray,
+  updateUploadedFiles,
+} from "./images";
 
 export class ServiceRequestDetail {
   constructor() {
@@ -55,10 +59,7 @@ export class ServiceRequestDetail {
         return;
       }
 
-      let formData = new FormData();
-      for (const uuid in uploadedFiles) {
-        formData.append("files", uploadedFiles[uuid]);
-      }
+      let formData = getFormDataFromArray(uploadedFiles);
 
       api
         .submitServiceRequestFiles(serviceRequestId, formData)

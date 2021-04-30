@@ -128,3 +128,11 @@ function fileIsImageType(newFile) {
   }
   return true;
 }
+
+export function getFormDataFromArray(uploadedFiles) {
+  let formData = new FormData();
+  for (const uuid in uploadedFiles) {
+    formData.append("files", uploadedFiles[uuid]);
+  }
+  return formData;
+}
