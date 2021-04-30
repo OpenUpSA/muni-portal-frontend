@@ -59,6 +59,15 @@ export function updateUploadedFiles(
   $uploadImagesClass
 ) {
   for (let i = 0; i < inputFiles.length; i++) {
+    const newFile = inputFiles[i];
+    const valid_image_type_regex = /^image\/\w*$/;
+    if (!newFile.type.match(valid_image_type_regex)) {
+      alert(
+        "Your file selection contained files that are not images and have not been included for uploading."
+      );
+      continue;
+    }
+
     let uuid = uuidv4();
 
     // Create a preview to show the image
@@ -88,10 +97,10 @@ export function updateUploadedFiles(
         "url('" + e.target.result.replace(/(\r\n|\n|\r)/gm, "") + "')"
       );
     };
-    reader.readAsDataURL(inputFiles[i]);
+    reader.readAsDataURL(newFile);
 
     // Add the new image to our custom mapping and render it
-    uploadedFiles[uuid] = inputFiles[i];
+    uploadedFiles[uuid] = newFile;
     $uploadImagesClass.append($preview);
 
     // This only applies to the Service Request Detail view.
