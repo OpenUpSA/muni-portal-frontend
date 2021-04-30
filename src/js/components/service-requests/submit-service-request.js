@@ -137,7 +137,7 @@ export class SubmitServiceRequest {
       $uploadImagesInput,
       $uploadImagesLabel,
       $uploadImagesClass,
-      $uploadImagePreview,
+      $uploadImagePreviewTemplate,
     } = createImageFormFields();
 
     let uploadedFiles = {};
@@ -146,7 +146,7 @@ export class SubmitServiceRequest {
       updateUploadedFiles(
         this.files,
         uploadedFiles,
-        $uploadImagePreview,
+        $uploadImagePreviewTemplate,
         $uploadImagesClass
       );
     }

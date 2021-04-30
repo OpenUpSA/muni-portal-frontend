@@ -24,7 +24,7 @@ export class ServiceRequestDetail {
       $uploadImagesInput,
       $uploadImagesLabel,
       $uploadImagesClass,
-      $uploadImagePreview,
+      $uploadImagePreviewTemplate,
     } = createImageFormFields();
 
     let uploadedFiles = {};
@@ -33,7 +33,7 @@ export class ServiceRequestDetail {
       updateUploadedFiles(
         this.files,
         uploadedFiles,
-        $uploadImagePreview,
+        $uploadImagePreviewTemplate,
         $uploadImagesClass
       );
     }
@@ -149,7 +149,7 @@ export class ServiceRequestDetail {
 
     function renderFilePreview(blob, fileId) {
       let url = URL.createObjectURL(blob);
-      const $preview = $uploadImagePreview
+      const $preview = $uploadImagePreviewTemplate
         .clone()
         .attr({
           id: "upload-image-preview-" + fileId,

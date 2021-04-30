@@ -23,12 +23,12 @@ export function createImageFormFields() {
     id: "upload-images-input",
     name: "files",
     type: "file",
-    accept: "image/*",
+    accept: "image/*", // Beware that the user can override this in a dropdown
     multiple: true,
-    style: "display: none",
+    style: "display: none", // We're using our own element
   });
   const $uploadImagesClass = $(".upload-images");
-  const $uploadImagePreview = $(".image-preview");
+  const $uploadImagePreviewTemplate = $(".image-preview");
   const $uploadImageAdd = $(".button.button--add-image");
 
   // Reroute the click event from the Add element to the hidden input element
@@ -40,7 +40,7 @@ export function createImageFormFields() {
     $uploadImagesInput,
     $uploadImagesLabel,
     $uploadImagesClass,
-    $uploadImagePreview,
+    $uploadImagePreviewTemplate,
   };
 }
 
@@ -55,55 +55,76 @@ export function toggleSubmitImagesButton($btn, uploadedFiles) {
 export function updateUploadedFiles(
   inputFiles,
   uploadedFiles,
-  $previewTemplate,
+  $uploadImagePreviewTemplate,
   $uploadImagesClass
 ) {
   for (let i = 0; i < inputFiles.length; i++) {
     const newFile = inputFiles[i];
-    const valid_image_type_regex = /^image\/\w*$/;
-    if (!newFile.type.match(valid_image_type_regex)) {
-      alert(
-        "Your file selection contained files that are not images and have not been included for uploading."
-      );
-      continue;
-    }
-
+    if (!fileIsImageType(newFile)) continue; // Do not upload a non-image file
     let uuid = uuidv4();
-
-    // Create a preview to show the image
-    const $preview = $previewTemplate
-      .clone()
-      .attr({
-        id: "upload-image-preview-" + uuid,
-      })
-      .removeClass("hidden");
-
-    // If the cross is clicked we want the image to go away and the file to be
-    // removed from our custom file mapping
-    const $previewRemove = $preview.find(".image-preview__remove");
-    $previewRemove.click(function () {
-      delete uploadedFiles[uuid];
-      $("#upload-image-preview-" + uuid).remove();
-      toggleSubmitImagesButton($("#submit-images"), uploadedFiles);
-    });
-
-    // Read the file contents and render it as the background image
-    // of the preview element
-    let reader = new FileReader();
-    reader.onload = function (e) {
-      // Replace newlines in base64 encoding so it doesn't break CSS
-      $preview.css(
-        "background-image",
-        "url('" + e.target.result.replace(/(\r\n|\n|\r)/gm, "") + "')"
-      );
-    };
-    reader.readAsDataURL(newFile);
-
-    // Add the new image to our custom mapping and render it
-    uploadedFiles[uuid] = newFile;
-    $uploadImagesClass.append($preview);
-
-    // This only applies to the Service Request Detail view.
-    toggleSubmitImagesButton($("#submit-images"), uploadedFiles);
+    const $preview = clonePreview(uuid, $uploadImagePreviewTemplate);
+    addRemoveImageEventHandler($preview, uploadedFiles, uuid);
+    renderImagePreview($preview, newFile);
+    appendNewFile($uploadImagesClass, $preview, uploadedFiles, uuid, newFile);
   }
+}
+
+function clonePreview(uuid, $uploadImagePreviewTemplate) {
+  // Create a preview to show the image
+  return $uploadImagePreviewTemplate
+    .clone()
+    .attr({
+      id: "upload-image-preview-" + uuid,
+    })
+    .removeClass("hidden");
+}
+
+function renderImagePreview($preview, newFile) {
+  // Read the file contents and render it as the background image
+  // of the preview element
+  let reader = new FileReader();
+  reader.onload = function (e) {
+    // Replace newlines in base64 encoding so it doesn't break CSS
+    $preview.css(
+      "background-image",
+      "url('" + e.target.result.replace(/(\r\n|\n|\r)/gm, "") + "')"
+    );
+  };
+  reader.readAsDataURL(newFile);
+}
+
+function addRemoveImageEventHandler($preview, uploadedFiles, uuid) {
+  // If the cross is clicked we want the image to go away and the file to be
+  // removed from our custom file mapping
+  const $previewRemove = $preview.find(".image-preview__remove");
+  $previewRemove.click(function () {
+    delete uploadedFiles[uuid];
+    $("#upload-image-preview-" + uuid).remove();
+    toggleSubmitImagesButton($("#submit-images"), uploadedFiles);
+  });
+}
+
+function appendNewFile(
+  $uploadImagesClass,
+  $preview,
+  uploadedFiles,
+  uuid,
+  newFile
+) {
+  // Add the new image to our custom mapping and render it
+  uploadedFiles[uuid] = newFile;
+  $uploadImagesClass.append($preview);
+  // This only applies to the Service Request Detail view.
+  toggleSubmitImagesButton($("#submit-images"), uploadedFiles);
+}
+
+function fileIsImageType(newFile) {
+  const valid_image_type_regex = /^image\/\w*$/;
+  if (!newFile.type.match(valid_image_type_regex)) {
+    alert(
+      "Your file selection contained files that are not images and have not been included for uploading."
+    );
+    return false;
+  }
+  return true;
 }
