@@ -147,7 +147,7 @@ export class ServiceRequestDetail {
       ]);
     });
 
-    function renderFilePreview(blob, fileId) {
+    function renderFileAlreadyUploaded(blob, fileId) {
       let url = URL.createObjectURL(blob);
       const $preview = $uploadImagePreviewTemplate
         .clone()
@@ -166,7 +166,7 @@ export class ServiceRequestDetail {
         api.getServiceRequestFile(
           serviceRequestId,
           response[index]["id"],
-          renderFilePreview
+          renderFileAlreadyUploaded
         );
       }
     });

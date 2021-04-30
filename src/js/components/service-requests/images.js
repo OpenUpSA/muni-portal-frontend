@@ -64,7 +64,7 @@ export function updateUploadedFiles(
     let uuid = uuidv4();
     const $preview = clonePreview(uuid, $uploadImagePreviewTemplate);
     addRemoveImageEventHandler($preview, uploadedFiles, uuid);
-    renderImagePreview($preview, newFile);
+    renderImageSelectedForUpload($preview, newFile);
     appendNewFile($uploadImagesClass, $preview, uploadedFiles, uuid, newFile);
   }
 }
@@ -79,7 +79,7 @@ function clonePreview(uuid, $uploadImagePreviewTemplate) {
     .removeClass("hidden");
 }
 
-function renderImagePreview($preview, newFile) {
+function renderImageSelectedForUpload($preview, newFile) {
   // Read the file contents and render it as the background image
   // of the preview element
   let reader = new FileReader();
