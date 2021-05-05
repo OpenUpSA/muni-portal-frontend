@@ -1,3 +1,11 @@
+// Headings
+export const getSectionHeading = (text) => {
+  const $sectionHeadingContainer = $(".components .section-heading").clone();
+  $sectionHeadingContainer.find("h2").text(text);
+
+  return $sectionHeadingContainer;
+};
+
 export const getCustomCheckbox = (props) => {
   const { identifier, name, text } = props;
 
@@ -30,11 +38,12 @@ export const getAnchorElement = (href, className, text) => {
   });
 };
 
-export const getForm = (action, method) => {
+export const getForm = (action, method, name = "") => {
   return $("<form />", {
-    action: action,
+    action,
+    name,
+    method,
     class: "form__inner",
-    method: method,
   });
 };
 
@@ -74,17 +83,15 @@ export const getFieldset = () => {
   return $("<fieldset />");
 };
 
-export const getLegend = (label) => {
-  return $("<legend />", {
-    text: label,
-  });
+export const getLegend = ($webflowForm, props) => {
+  const $legend = $webflowForm.find(".form__legend-block legend").clone();
+  return $legend.text(props.text);
 };
 
-export const getLabel = (label) => {
-  return $("<label />", {
-    for: label.split(" ").join("-").toLocaleLowerCase(),
-    text: label,
-  });
+export const getLabel = ($webflowForm, props) => {
+  const $label = $webflowForm.find("> .form__field-label").clone();
+  $label.empty();
+  return $label.attr("for", props.htmlFor).text(props.text);
 };
 
 export const getSubmitButton = (text) => {
@@ -92,5 +99,13 @@ export const getSubmitButton = (text) => {
     class: "button form-submit w-button",
     type: "submit",
     text: text,
+  });
+};
+
+export const getHiddenField = ({ id, name }) => {
+  return $("<input/>", {
+    id,
+    name,
+    type: "hidden",
   });
 };

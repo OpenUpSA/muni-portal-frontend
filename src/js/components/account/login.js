@@ -1,7 +1,6 @@
 import { API } from "../../api";
 import { setMenuState } from "../../utils/menu";
 import {
-  getAnchorElement,
   getDiv,
   getForm,
   getInput,
@@ -15,6 +14,11 @@ export class Login {
   constructor() {
     const $successTemplate = $(".components .form-styles .w-form-done").clone();
     const $failTemplate = $(".components .form-styles .w-form-fail").clone();
+
+    // we cannot just clone the entire Webflow form but, everything
+    // else hangs off it so, we get it here to use as the context
+    // for other querySelectors
+    const $webflowForm = $(".components .form__inner");
 
     const defaultBaseUrl = "https://muni-portal-backend.openup.org.za";
     const endPoint = "/api/accounts/login/";
@@ -35,7 +39,15 @@ export class Login {
 
     fields.forEach((field) => {
       const $formElementsContainer = $("<div />");
-      $formElementsContainer.append(getLabel(field.label));
+      $formElementsContainer.append(
+        getLabel($webflowForm, {
+          htmlFor: `my-muni-${field.label
+            .split(" ")
+            .join("_")
+            .toLocaleLowerCase()}`,
+          text: field.label,
+        })
+      );
       $formElementsContainer.append(
         getInput(field.type, field.label, "", null, field.name)
       );

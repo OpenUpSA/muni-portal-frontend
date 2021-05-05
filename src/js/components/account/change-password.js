@@ -12,6 +12,11 @@ export class ChangePassword {
     const $successTemplate = $(".components .form-styles .w-form-done").clone();
     const $failTemplate = $(".components .form-styles .w-form-fail").clone();
 
+    // we cannot just clone the entire Webflow form but, everything
+    // else hangs off it so, we get it here to use as the context
+    // for other querySelectors
+    const $webflowForm = $(".components .form__inner");
+
     const defaultBaseUrl = "https://muni-portal-backend.openup.org.za";
     const endPoint = "/api/accounts/change-password/";
 
@@ -20,13 +25,28 @@ export class ChangePassword {
     const $submitButton = getSubmitButton("Change Password");
 
     const $formElementsContainer = $("<div />");
-    $formElementsContainer.append(getLabel("Current password"));
+    $formElementsContainer.append(
+      getLabel($webflowForm, {
+        htmlFor: "my-muni-old_password",
+        text: "Current password",
+      })
+    );
     $formElementsContainer.append(getInput("password", "old_password"));
 
-    $formElementsContainer.append(getLabel("New password"));
+    $formElementsContainer.append(
+      getLabel($webflowForm, {
+        htmlFor: "my-muni-password",
+        text: "New password",
+      })
+    );
     $formElementsContainer.append(getInput("password", "password"));
 
-    $formElementsContainer.append(getLabel("Confirm new password"));
+    $formElementsContainer.append(
+      getLabel($webflowForm, {
+        htmlFor: "my-muni-password_confirm",
+        text: "Confirm new password",
+      })
+    );
     $formElementsContainer.append(getInput("password", "password_confirm"));
 
     $form.append($formElementsContainer);
@@ -61,7 +81,7 @@ export class ChangePassword {
           $success
             .empty()
             .append("Your password has been changed successfully.")
-            .attr('tabindex', -1)
+            .attr("tabindex", -1)
             .show()
             .focus();
         }
@@ -76,11 +96,21 @@ export class ChangePassword {
               .clone()
               .addClass("change-password-field-error")
               .insertBefore($input[0]);
-            $failClone.empty().append(`${error}`).attr('tabindex', -1).show().focus();
+            $failClone
+              .empty()
+              .append(`${error}`)
+              .attr("tabindex", -1)
+              .show()
+              .focus();
           }
         } else {
           const errorMessage = "Error while communicating with the server";
-          $fail.empty().append(errorMessage).attr('tabindex', -1).show().focus();
+          $fail
+            .empty()
+            .append(errorMessage)
+            .attr("tabindex", -1)
+            .show()
+            .focus();
         }
         console.error(jqXHR, textStatus);
       });

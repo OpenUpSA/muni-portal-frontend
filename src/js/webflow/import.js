@@ -5,7 +5,7 @@ exports.transformHTML = function (html) {
 
 exports.transform = function (window, $) {
   // Prevent search engine indexing if not production site
-  if (process.env.ENVIRONMENT !== 'production') {
+  if (process.env.ENVIRONMENT !== "production") {
     $("head").append('<meta name="robots" content="noindex">');
   }
 
@@ -29,10 +29,14 @@ exports.transform = function (window, $) {
       }
     </script>
   `);
+  $("head").append(`
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+
+      <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+  `);
 
   // Adding a script tag to body via jQuery seems to add it to head as well
   const tag = window.document.createElement("script");
   tag.setAttribute("src", "js/index.js");
   window.document.body.appendChild(tag);
-
 };

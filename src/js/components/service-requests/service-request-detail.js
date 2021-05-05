@@ -26,9 +26,6 @@ export class ServiceRequestDetail {
       .then((response) => {
         $loadingPlaceholder.remove();
 
-        const $serviceRequestDetail = $(
-          ".components .rich-text.rich-text--basic-block.w-richtext"
-        ).clone();
         const $serviceRequestInfoHeading = $sectionHeading.clone();
         const $serviceDescriptionHeading = $sectionHeading.clone();
 
@@ -72,12 +69,27 @@ export class ServiceRequestDetail {
           }).render()
         );
 
-        this.$element.append(
-          new BasicBlock({
-            title: "Address",
-            subtitle: `${response.street_name} ${response.street_number}, ${response.suburb}`,
-          }).render()
-        );
+        if (response.street_name || response.street_number || response.suburb) {
+          this.$element.append(
+            new BasicBlock({
+              title: "Address",
+              subtitle: `${response.street_name} ${response.street_number}, ${response.suburb}`,
+            }).render()
+          );
+        }
+
+        if (response.coordinates) {
+          const staticMapEvent = new CustomEvent("add-static-map", {
+            detail: response.coordinates,
+          });
+          this.$element.append(
+            $("<div />", {
+              id: "static-service-request-map",
+              style: "height: 300px",
+            })
+          );
+          document.dispatchEvent(staticMapEvent);
+        }
 
         this.$element.append([
           $serviceDescriptionHeading,

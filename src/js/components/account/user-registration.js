@@ -82,9 +82,22 @@ export class UserRegistration {
     const $form = getForm(`${defaultBaseUrl}${endPoint}`, "post");
     const $submitButton = getSubmitButton("Create an account");
 
+    // we cannot just clone the entire Webflow form but, everything
+    // else hangs off it so, we get it here to use as the context
+    // for other querySelectors
+    const $webflowForm = $(".components .form__inner");
+
     fields.forEach((field) => {
       const $formElementsContainer = $("<div />");
-      $formElementsContainer.append(getLabel(field.label));
+      $formElementsContainer.append(
+        getLabel($webflowForm, {
+          htmlFor: `my-muni-${field.label
+            .split(" ")
+            .join("_")
+            .toLocaleLowerCase()}`,
+          text: field.label,
+        })
+      );
 
       if (field.label.toLowerCase() === "password") {
         $formElementsContainer.append(

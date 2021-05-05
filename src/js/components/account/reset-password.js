@@ -19,6 +19,11 @@ export class ResetPassword {
     );
     $loginAnchor.hide();
 
+    // we cannot just clone the entire Webflow form but, everything
+    // else hangs off it so, we get it here to use as the context
+    // for other querySelectors
+    const $webflowForm = $(".components .form__inner");
+
     const defaultBaseUrl = "https://muni-portal-backend.openup.org.za";
     const endPoint = "/api/accounts/reset-password/";
 
@@ -27,7 +32,12 @@ export class ResetPassword {
     const $submitButton = getSubmitButton("Update password");
 
     const $formElementsContainer = $("<div />");
-    $formElementsContainer.append(getLabel("New password"));
+    $formElementsContainer.append(
+      getLabel($webflowForm, {
+        htmlFor: "my-muni-password",
+        text: "New password",
+      })
+    );
     $formElementsContainer.append(getInput("password", "password"));
 
     // Add security values as hidden inputs and populate from query params
