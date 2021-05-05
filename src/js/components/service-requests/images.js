@@ -45,11 +45,7 @@ export function createImageFormFields() {
 }
 
 export function toggleSubmitImagesButton($btn, uploadedFiles) {
-  if (Object.keys(uploadedFiles).length > 0) {
-    $btn.show();
-  } else {
-    $btn.hide();
-  }
+  Object.keys(uploadedFiles).length ? $btn.show() : $btn.hide();
 }
 
 export function updateUploadedFiles(
