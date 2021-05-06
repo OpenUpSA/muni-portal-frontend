@@ -11,8 +11,7 @@ export function addStaticMapListener() {
         zoomControl: false,
       };
 
-      const token =
-        "pk.eyJ1IjoiamJvdGhtYSIsImEiOiJja21xdHc4c2UwMWhvMnJzMDBrb3BvamQzIn0.oKcrud8x9JjIXsNHgIbJZQ";
+      const token = `${process.env.MAPBOX_TOKEN}`;
       const tileLayerOptions = {
         id: "mapbox/streets-v11",
         draggable: false,

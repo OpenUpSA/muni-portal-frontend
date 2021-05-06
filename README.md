@@ -72,6 +72,7 @@ The build is configured using environment variables.
 | DEFAULT_API_URL         | unset                                | The default backend API URL. Can be overridden by adding `?promptapi` in the address bar                          |
 | ENVIRONMENT             | unset                                | E.g. `production`, `staging`, `sandbox`                                                                           |
 | PUSHPAD_PROJECT_ID      | unset                                | The project ID for Pushpad. For development, use `7571`. If not set, pushpad will not initialise.                 |
+| MAPBOX_TOKEN      | unset                                | The token used by the map on service requests. If not set, the map will not load.                 |
 
 ## Running Lighthouse Tests Locally
 
