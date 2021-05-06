@@ -23,7 +23,7 @@
     "dataLayer": true,
     "clients": true,
     "importScripts": true,
-    "L": true, // leafletjs
+    "L": true,
     "Webflow": true,
     "workbox": true
   }
