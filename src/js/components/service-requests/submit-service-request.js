@@ -245,6 +245,11 @@ export class SubmitServiceRequest {
       .find(".map-container .map-contols")
       .css("z-index", 9999);
 
+    // temporary until updated in Webflow
+    $locationPickerContainer
+      .find(".map-container .map-pin")
+      .css("z-index", 9999);
+
     return [$locationPickerLabel, $coordinatesField, $locationPickerContainer];
   }
 

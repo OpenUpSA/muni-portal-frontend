@@ -3,14 +3,19 @@ export function addStaticMapListener() {
     if ($("#static-service-request-map") && L) {
       const staticMapOptions = {
         center: event.detail.split(","),
+        dragging: false,
         maxZoom: 18,
+        scrollWheelZoom: false,
+        touchZoom: false,
         zoom: 15,
+        zoomControl: false,
       };
 
       const token =
         "pk.eyJ1IjoiamJvdGhtYSIsImEiOiJja21xdHc4c2UwMWhvMnJzMDBrb3BvamQzIn0.oKcrud8x9JjIXsNHgIbJZQ";
       const tileLayerOptions = {
         id: "mapbox/streets-v11",
+        draggable: false,
         tileSize: 512,
         zoomOffset: -1,
         accessToken: token,

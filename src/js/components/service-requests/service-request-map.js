@@ -34,39 +34,19 @@ function setSelectedLocation(coordinates) {
 }
 
 /**
- * Called when the user dragged and then drops the map marker. It
- * gets the marker’s location and updates the location of your service
- * request output field. Also sets the associated hidden form field.
- * @param {object} map - the current map instance
- * @param {object} marker - the current marker instance
- */
-function getMarkerLocation(map, marker) {
-  const coordinates = marker.getLatLng();
-
-  marker.setLatLng(coordinates);
-  map.setView(coordinates, 15);
-
-  setSelectedLocation([coordinates.lat, coordinates.lng]);
-}
-
-/**
  * Called when the user clicks the "Use my location" button. Get's the
  * users current location and updates the location of your service
  * request output field. Also sets the associated hidden form field.
  * @param {object} map - the current map instance
- * @param {object} marker - the current marker instance
  */
-function getLocation(map, marker) {
+function getLocation(map) {
   map.locate({ setView: true });
 
   map.on("locationerror", (error) => console.error(error));
 
   map.on("locationfound", (location) => {
     const coordinates = [location.latitude, location.longitude];
-
-    marker.setLatLng(coordinates);
     map.setView(coordinates, 13);
-
     setSelectedLocation(coordinates);
   });
 }
@@ -102,15 +82,14 @@ export const initMap = () => {
       tileLayerOptions
     ).addTo(map);
 
-    const marker = L.marker(defaultCoordinates).addTo(map);
-
     map.on("moveend", () => {
-      getMarkerLocation(map, marker);
+      const coordinates = map.getCenter();
+      setSelectedLocation([coordinates.lat, coordinates.lng]);
     });
 
     if ($mapButton) {
       $mapButton.on("click", () => {
-        getLocation(map, marker);
+        getLocation(map);
       });
     }
   }
