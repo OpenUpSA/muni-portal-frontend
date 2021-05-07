@@ -9,33 +9,109 @@ import {
   getFormDataFromArray,
   updateUploadedFiles,
 } from "./images";
+import {
+  getForm,
+  getHiddenField,
+  getLabel,
+  getSectionHeading,
+} from "../../utils/element-factory";
 
 export class SubmitServiceRequest {
   constructor() {
     const api = new API();
 
+    const $form = getForm("", "post", "submit-service-request");
+    // we cannot just clone the entire Webflow form but, everything
+    // else hangs off it so, we get it here to use as the context
+    // for other querySelectors
+    const $webflowForm = $(".components .form__inner");
+
+    const $requiredFieldsNote = $(".components .form-item .form-label").clone();
+
+    const $submitButton = $(".components .button.button--form-submit")
+      .clone()
+      .attr({
+        value: "Submit",
+      });
+
+    $requiredFieldsNote.text("* Required fields");
+
+    $form.append([
+      $requiredFieldsNote,
+      getSectionHeading("Issue details"),
+      ...this.getServiceAreaField($webflowForm),
+      ...this.getDescribeIssueField($webflowForm),
+      getSectionHeading("Issue location"),
+      ...this.getIssueLocation($webflowForm),
+      ...this.getLocationPicker($webflowForm),
+      getSectionHeading("Your information"),
+      ...this.getUserDetails($webflowForm),
+      $submitButton,
+    ]);
+
+    $submitButton.on("click", (event) => {
+      event.preventDefault();
+      api
+        .submitServiceRequest($form.serialize())
+        .then((response) => {
+          const serviceRequestId = response.id;
+          api.submitServiceRequestFiles(serviceRequestId, getFormDataFromArray(uploadedFiles));
+        })
+        .done(() => {
+          this.$element.empty().append(new ServiceRequestSubmitted().render());
+        })
+        .fail((a, b) => {
+          this.$element.empty().append(
+            new StatusMessage({
+              text: "Error while submitting service request.",
+              status: "failure",
+            }).render()
+          );
+          console.error(a, b);
+        });
+    });
+
+    this.$element = new FullWidthGrid([$form]).render();
+  }
+
+  getDescribeIssueField($webflowForm) {
+    const $textAreaTmpl = $webflowForm.find(".form__input-field--large");
+
+    const $describeIssueLabel = getLabel($webflowForm, {
+      htmlFor: "describe-your-issue",
+      text: "Describe your issue *",
+    });
+    const $describeIssueTextarea = $textAreaTmpl.clone().attr({
+      id: "describe-your-issue",
+      name: "description",
+      required: true,
+      placeholder: "Please describe your issue",
+    });
+
+    return [$describeIssueLabel, $describeIssueTextarea];
+  }
+
+  /**
+   * Returns the service area form field
+   * @param {jqObject} $webflowForm - The base webflow form jQuery object
+   * @returns The service ara field component as a jQuery object
+   */
+  getServiceAreaField($webflowForm) {
     const $dropdownContainer = $(".components .dropdown:eq(0)").clone();
     const $dropdownCurrentSelection = $dropdownContainer.find(
       ".dropdown__current-selection"
     );
     const $dropdownList = $dropdownContainer.find(".w-dropdown-list");
     const $dropdownOption = $dropdownContainer.find(".w-dropdown-link");
-    const $form = $("<form />", {
-      name: "submit-service-request",
-      method: "post",
-      action: "",
-    });
-    const $formInputTmpl = $(".components .form__input-field:eq(0)");
-    const $requiredFieldsNote = $(".components .form-item .form-label").clone();
-    const $textAreaTmpl = $(".components .form__input-field--large");
-    const $typeHiddenField = $("<input/>", {
+    const $typeHiddenField = getHiddenField({
       id: "service-area",
-      type: "hidden",
       name: "type",
     });
 
-    const $serviceAreaFieldset = getFieldset();
-    const $serviceAreaLegend = getLegend("Service area of request *");
+    const $serviceAreaLegend = getLabel($webflowForm, {
+      htmlFor: "",
+      text: "Service area of request *",
+    });
 
     $dropdownOption.remove();
     $dropdownCurrentSelection.text("Select service area");
@@ -52,77 +128,96 @@ export class SubmitServiceRequest {
       $dropdownContainer.triggerHandler("w-close.w-dropdown");
     });
 
-    $serviceAreaFieldset.append([
-      $serviceAreaLegend,
-      $typeHiddenField,
-      $dropdownContainer,
-    ]);
+    return [$serviceAreaLegend, $typeHiddenField, $dropdownContainer];
+  }
 
-    const $addressFieldset = getFieldset();
-    const $addressLegend = getLegend("Address");
+  getIssueLocation($webflowForm) {
+    const $webflowInputBlock = $webflowForm.find("> .form__input-block");
 
-    const $streetNameLabel = getLabel("Street name");
-    const $streetNameInput = $formInputTmpl.clone().attr({
+    const $streetNameLabel = getLabel($webflowForm, {
+      htmlFor: "street-name",
+      text: "Street name",
+    });
+
+    const $streetNameInput = $webflowInputBlock.find("input").clone().attr({
       id: "street-name",
       name: "street_name",
       placeholder: "",
     });
 
-    const $streetNumberLabel = getLabel("Street Number");
-    const $streetNumberInput = $formInputTmpl.clone().attr({
+    const $streetNumberLabel = getLabel($webflowForm, {
+      htmlFor: "street-number",
+      text: "Street Number",
+    });
+    const $streetNumberInput = $webflowInputBlock.find("input").clone().attr({
       id: "street-number",
       name: "street_number",
       type: "number",
       placeholder: "",
     });
 
-    const $townLabel = getLabel("Town");
-    const $townInput = $formInputTmpl.clone().attr({
+    const $townLabel = getLabel($webflowForm, {
+      htmlFor: "town",
+      text: "Town",
+    });
+    const $townInput = $webflowInputBlock.find("input").clone().attr({
       id: "town",
       name: "suburb",
-      type: "text",
       placeholder: "",
     });
 
-    $addressFieldset.append([
-      $addressLegend,
+    return [
       $streetNameLabel,
       $streetNameInput,
       $streetNumberLabel,
       $streetNumberInput,
       $townLabel,
       $townInput,
-    ]);
+    ];
+  }
 
-    const $yourInfoFieldset = getFieldset();
-    const $yourInfoLegend = getLegend("Your information");
+  getUserDetails($webflowForm) {
+    const $webflowInputBlock = $webflowForm.find("> .form__input-block");
 
-    const $firstNameLabel = getLabel("First name *");
-    const $firstNameInput = $formInputTmpl.clone().attr({
+    const $firstNameLabel = getLabel($webflowForm, {
+      htmlFor: "first-name",
+      text: "First name *",
+    });
+    const $firstNameInput = $webflowInputBlock.find("input").clone().attr({
       id: "first-name",
       name: "user_name",
       placeholder: "",
       required: true,
     });
 
-    const $lastNameLabel = getLabel("Last name *");
-    const $lastNameInput = $formInputTmpl.clone().attr({
+    const $lastNameLabel = getLabel($webflowForm, {
+      htmlFor: "last-name",
+      text: "Last name *",
+    });
+    const $lastNameInput = $webflowInputBlock.find("input").clone().attr({
       id: "last-name",
       name: "user_surname",
       placeholder: "",
       required: true,
     });
 
-    const $cellNumberLabel = getLabel("Cellphone number");
-    const $cellNumberInput = $formInputTmpl.clone().attr({
+    const $cellNumberLabel = getLabel($webflowForm, {
+      htmlFor: "cell-number",
+      text: "Cell Number *",
+    });
+    const $cellNumberInput = $webflowInputBlock.find("input").clone().attr({
       id: "cellphone-number",
       name: "user_mobile_number",
       placeholder: "",
+      required: true,
       type: "tel",
     });
 
-    const $emailLabel = getLabel("Email address");
-    const $emailInput = $formInputTmpl.clone().attr({
+    const $emailLabel = getLabel($webflowForm, {
+      htmlFor: "email-address",
+      text: "Email address",
+    });
+    const $emailInput = $webflowInputBlock.find("input").clone().attr({
       id: "email-address",
       name: "user_email_address",
       placeholder: "",
@@ -153,6 +248,7 @@ export class SubmitServiceRequest {
         $uploadImagesClass
       );
     }
+
     $uploadImagesInput.change(handleInputFilesChanged);
 
     const $submitButton = $(".components .button.button--form-submit")
@@ -161,7 +257,7 @@ export class SubmitServiceRequest {
         value: "Submit",
       });
 
-    $yourInfoFieldset.append([
+    return [
       $yourInfoLegend,
       $firstNameLabel,
       $firstNameInput,
@@ -171,47 +267,38 @@ export class SubmitServiceRequest {
       $cellNumberInput,
       $emailLabel,
       $emailInput,
-      $describeIssueLabel,
-      $describeIssueTextarea,
       $uploadImagesLabel,
       $uploadImagesInput,
       $uploadImagesClass,
-      $submitButton,
-    ]);
+    ];
+  }
 
     $requiredFieldsNote.text("* Required fields");
 
-    $form.append([
-      $requiredFieldsNote,
-      $serviceAreaFieldset,
-      $addressFieldset,
-      $yourInfoFieldset,
-    ]);
-
-    $submitButton.on("click", (event) => {
-      event.preventDefault();
-
-      api
-        .submitServiceRequest($form.serialize())
-        .then((response) => {
-          const serviceRequestId = response.id;
-          api.submitServiceRequestFiles(serviceRequestId, getFormDataFromArray(uploadedFiles));
-        })
-        .done(() => {
-          this.$element.empty().append(new ServiceRequestSubmitted().render());
-        })
-        .fail((a, b) => {
-          this.$element.empty().append(
-            new StatusMessage({
-              text: "Error while submitting service request.",
-              status: "failure",
-            }).render()
-          );
-          console.error(a, b);
-        });
+  getLocationPicker($webflowForm) {
+    const $coordinatesField = getHiddenField({
+      id: "service-request-coordinates",
+      name: "coordinates",
     });
+    const $locationPickerLabel = getLabel($webflowForm, {
+      htmlFor: "",
+      text: "Locate your issue on a map",
+    });
+    const $locationPickerContainer = $(".components > .location-picker")
+      .clone()
+      .attr("id", "service-request-location-picker");
+    // temporary until updated in Webflow
+    // map-contols needs to change to map-controls
+    $locationPickerContainer
+      .find(".map-container .map-contols")
+      .css("z-index", 9999);
 
-    this.$element = new FullWidthGrid([$form]).render();
+    // temporary until updated in Webflow
+    $locationPickerContainer
+      .find(".map-container .map-pin")
+      .css("z-index", 9999);
+
+    return [$locationPickerLabel, $coordinatesField, $locationPickerContainer];
   }
 
   render() {

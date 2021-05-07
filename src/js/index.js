@@ -25,6 +25,8 @@ import { setMenuState } from "./utils/menu";
 import { ServiceRequestDetail } from "./components/service-requests/service-request-detail";
 import { ServiceRequestsIndex } from "./components/service-requests/index";
 import { SubmitServiceRequest } from "./components/service-requests/submit-service-request";
+import { addStaticMapListener } from "./components/service-requests/service-request-static-map";
+import { initMap } from "./components/service-requests/service-request-map";
 
 import { Login } from "./components/account/login";
 import { ForgotPassword } from "./components/account/forgot-password";
@@ -324,6 +326,9 @@ class App {
     const title = "Submit a service request";
     this.setTitle(title);
     this.modalPage.setContent(submitServiceRequests.render(), title);
+    // we cannot do this before the content(aka DOM element) have
+    // been added to the DOM so, we can only call this here
+    initMap();
   }
 
   serviceRequestsDetail() {
@@ -333,6 +338,7 @@ class App {
     const title = "Service request details";
     this.setTitle(title);
     this.modalPage.setContent(serviceRequestsDetail.render(), title);
+    addStaticMapListener();
   }
 
   viewLogin() {
