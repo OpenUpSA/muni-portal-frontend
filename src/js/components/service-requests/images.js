@@ -61,6 +61,7 @@ export function updateUploadedFiles(
   for (let i = 0; i < inputFiles.length; i++) {
     const newFile = inputFiles[i];
     if (!fileIsImageType(newFile)) continue; // Do not upload a non-image file
+    if (fileIsUploaded(newFile, uploadedFiles)) continue; // Do not upload if already uploaded
     let uuid = uuidv4();
     const $preview = clonePreview(uuid, $uploadImagePreviewTemplate);
     addRemoveImageEventHandler($preview, uploadedFiles, uuid);
@@ -135,4 +136,18 @@ export function getFormDataFromArray(uploadedFiles) {
     formData.append("files", uploadedFiles[uuid]);
   }
   return formData;
+}
+
+function fileIsUploaded(newFile, uploadedFiles) {
+  for (const [uuid, file] of Object.entries(uploadedFiles)) {
+    if (
+      newFile.name === file.name &&
+      newFile.size === file.size &&
+      newFile.lastModified === file.lastModified &&
+      newFile.type === file.type
+    ) {
+      return true;
+    }
+  }
+  return false;
 }
