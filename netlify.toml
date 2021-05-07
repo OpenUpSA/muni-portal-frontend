@@ -28,7 +28,7 @@
     DEFAULT_API_URL = "https://staging.muni-portal-backend.openup.org.za"
     ENVIRONMENT = "staging"
     PUSHPAD_PROJECT_ID = "7570"
-    MAPBOX_TOKEN = "pk.eyJ1Ijoib3BlbnVwc2EiLCJhIjoiY2tvY3RwNG94MDBmOTJwbzExa3RuZXlidCJ9.rN5JbRzKuPIIpO6RGXdB9w"
+    MAPBOX_TOKEN = "pk.eyJ1Ijoib3BlbnVwc2EiLCJhIjoiY2tvZHhjaGl1MDZzNTJ2czl6Y2d5MDkwaiJ9.NrffCKsY8pUavmdfVxA7rA"
 
 # Specific branch context: all deploys from this specific branch will inherit these settings.
 [context.sandbox.environment] # 'sandbox' is a branch
@@ -38,7 +38,7 @@
     DEFAULT_API_URL = "https://sandbox.muni-portal-backend.openup.org.za"
     ENVIRONMENT = "sandbox"
     PUSHPAD_PROJECT_ID = "7569"
-    MAPBOX_TOKEN = "pk.eyJ1Ijoib3BlbnVwc2EiLCJhIjoiY2tvY3RwNG94MDBmOTJwbzExa3RuZXlidCJ9.rN5JbRzKuPIIpO6RGXdB9w"
+    MAPBOX_TOKEN = "pk.eyJ1Ijoib3BlbnVwc2EiLCJhIjoiY2tvZHhjaGl1MDZzNTJ2czl6Y2d5MDkwaiJ9.NrffCKsY8pUavmdfVxA7rA"
 
 # Deploy preview context: all deploys generated from a pull/merge request will inherit these settings.
 [context.deploy-preview.environment]
@@ -48,7 +48,7 @@
     DEFAULT_API_URL = "https://muni-portal-backend.openup.org.za"
     ENVIRONMENT = "deploy-preview"
     PUSHPAD_PROJECT_ID = ""
-    MAPBOX_TOKEN = "pk.eyJ1Ijoib3BlbnVwc2EiLCJhIjoiY2tvY3RwNG94MDBmOTJwbzExa3RuZXlidCJ9.rN5JbRzKuPIIpO6RGXdB9w"
+    MAPBOX_TOKEN = "pk.eyJ1Ijoib3BlbnVwc2EiLCJhIjoiY2tvZHhjaGl1MDZzNTJ2czl6Y2d5MDkwaiJ9.NrffCKsY8pUavmdfVxA7rA"
 
 # Branch deploy context: all deploys that are not from a pull/merge request or from the Production branch will inherit these settings.
 [context.branch-deploy.environment]
@@ -58,4 +58,4 @@
     DEFAULT_API_BASE_URL = "https://muni-portal-backend.openup.org.za"
     ENVIRONMENT = "branch-deploy"
     PUSHPAD_PROJECT_ID = ""
-    MAPBOX_TOKEN = "pk.eyJ1Ijoib3BlbnVwc2EiLCJhIjoiY2tvY3RwNG94MDBmOTJwbzExa3RuZXlidCJ9.rN5JbRzKuPIIpO6RGXdB9w"
+    MAPBOX_TOKEN = "pk.eyJ1Ijoib3BlbnVwc2EiLCJhIjoiY2tvZHhjaGl1MDZzNTJ2czl6Y2d5MDkwaiJ9.NrffCKsY8pUavmdfVxA7rA"
