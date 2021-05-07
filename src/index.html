@@ -1,4 +1,4 @@
-<!DOCTYPE html><!--  Last Published: Thu Apr 08 2021 06:13:39 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5f586c03cfc82e5a3c067594" data-wf-site="5f586c03cfc82e2e15067593"><head>
+<!DOCTYPE html><!--  Last Published: Wed Apr 21 2021 11:23:17 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5f586c03cfc82e5a3c067594" data-wf-site="5f586c03cfc82e2e15067593"><head>
   <meta charset="utf-8">
   <title>Citizen Engagement App</title>
   <meta content="width=device-width, initial-scale=1" name="viewport">
@@ -40,7 +40,11 @@
         console.warn('Pushpad project ID not set; not initialising');
       }
     </script>
-  </head>
+  
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="">
+
+      <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script></head>
 <body>
   <div class="splash-screen hidden">
     <div class="splash-screen__content">
@@ -503,9 +507,43 @@
               <div class="form__input-block"><label class="form__field-label">Loading...</label><input type="text" maxlength="256" name="Form-Input" data-name="Form Input" placeholder="Loading..." class="form__input-field card w-input"></div>
               <div class="form__field-description">Loading...</div>
             </div>
-            <div class="form___input-block--large-field"><label class="form__field-label">Loading...</label><textarea name="field-2" maxlength="5000" data-name="Field 2" placeholder="Loading..." class="form__input-field--large card form__input-block--large-field w-input"></textarea></div><label class="w-checkbox form-checkbox card">
+            <div class="form___input-block--large-field"><textarea name="field-2" maxlength="5000" data-name="Field 2" placeholder="Loading..." class="form__input-field--large card form__input-block--large-field w-input"></textarea></div>
+            <div class="form__location-picker_expand">
+              <a data-w-id="60f725a4-c7f5-d350-e6e5-33c2fc028403" href="#" class="form-field__location-picker_button">Locate your issue on a map</a>
+              <div class="form-field__location-picker_inner"><label for="email" class="field__label">Locate your issue on a map</label>
+                <div class="location-picker">
+                  <div class="map-container">
+                    <div class="map-contols">
+                      <a href="#" class="map-button map-buton--location w-inline-block">
+                        <div class="map-button__icon w-embed"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0z" fill="none"></path>
+                            <path fill="currentcolor" d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"></path>
+                          </svg></div>
+                        <div class="map-button__text">Use my location</div>
+                      </a>
+                    </div>
+                    <div class="map-pin hidden"><img src="images/map-marker-alt-solid-1.svg" loading="lazy" width="28" alt="" class="map-pin__icon">
+                      <div class="map-pin__shadow"></div>
+                    </div>
+                    <div class="map-loading"><img src="images/loading.gif" width="10" alt="" class="loading-spinner"></div>
+                  </div>
+                  <div class="map-credit">
+                    <a href="https://leafletjs.com/">Leaflet</a> | Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>
+                  </div>
+                  <div class="map-remove-location">
+                    <div class="map-remove-location__content">
+                      <div>Location of your issue:</div>
+                      <div class="map-coordinates">No location selected</div>
+                    </div>
+                    <div id="w-node-_60f725a4-c7f5-d350-e6e5-33c2fc028423-fc028402" class="map-remove-location__button-wrapper">
+                      <a href="#" class="button button--remove-location button--disabled w-button">Remove location</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><label class="w-checkbox form-checkbox card">
               <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"></div><input type="checkbox" id="" data-name="" style="opacity:0;position:absolute;z-index:-1"><span for="" class="checkbox-label w-form-label">Loading...</span>
-            </label>
+            </label><label class="form__field-label">Form Label</label>
           </form>
           <div class="w-form-done">
             <div>Thank you! Your submission has been received!</div>
@@ -615,6 +653,16 @@
             </legend>
           </div>
         </div>
+      </div>
+      <div class="upload-images">
+        <div class="image-preview hidden">
+          <div class="image-preview__remove">
+            <div class="fa-icon fas fa-times"></div>
+          </div>
+        </div>
+        <a href="#" class="button button--add-image w-inline-block">
+          <div class="fa-icon fas fa-plus"></div>
+        </a>
       </div>
     </div>
   </div>

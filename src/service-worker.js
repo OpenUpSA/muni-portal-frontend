@@ -21,7 +21,6 @@ workbox.routing.registerRoute(
 // external domains using a cache first strategy
 workbox.routing.registerRoute(
   ({ url }) =>
-    url.origin === "https://ka-f.fontawesome.com" ||
     url.origin === "https://kit.fontawesome.com" ||
     url.origin === "https://d3e54v103j8qbb.cloudfront.net" ||
     url.origin === "https://fonts.googleapis.com" ||

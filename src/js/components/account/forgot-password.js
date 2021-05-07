@@ -12,6 +12,11 @@ export class ForgotPassword {
     const $successTemplate = $(".components .form-styles .w-form-done").clone();
     const $failTemplate = $(".components .form-styles .w-form-fail").clone();
 
+    // we cannot just clone the entire Webflow form but, everything
+    // else hangs off it so, we get it here to use as the context
+    // for other querySelectors
+    const $webflowForm = $(".components .form__inner");
+
     const defaultBaseUrl = "https://muni-portal-backend.openup.org.za";
     const endPoint = "/api/accounts/send-reset-password-link/";
 
@@ -20,7 +25,12 @@ export class ForgotPassword {
     const $submitButton = getSubmitButton("Send Reset Link");
 
     const $formElementsContainer = $("<div />");
-    $formElementsContainer.append(getLabel("Email"));
+    $formElementsContainer.append(
+      getLabel($webflowForm, {
+        htmlFor: "my-muni-email",
+        text: "Email",
+      })
+    );
     $formElementsContainer.append(getInput("email", "email"));
 
     $form.append($formElementsContainer);
