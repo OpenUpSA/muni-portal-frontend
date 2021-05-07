@@ -228,14 +228,16 @@ export class SubmitServiceRequest {
   }
 
   getLocationPicker($webflowForm) {
+    // hide map on iOS
+    if (!("Notification" in window)) {
+      return [];
+    }
+
     const $coordinatesField = getHiddenField({
       id: "service-request-coordinates",
       name: "coordinates",
     });
-    const $locationPickerLabel = getLabel($webflowForm, {
-      htmlFor: "",
-      text: "Locate your issue on a map",
-    });
+
     const $locationPickerContainer = $webflowForm
       .find(".form__location-picker_expand")
       .clone()
@@ -251,7 +253,7 @@ export class SubmitServiceRequest {
       .find(".map-container .map-pin")
       .css("z-index", 9999);
 
-    return [$locationPickerLabel, $coordinatesField, $locationPickerContainer];
+    return [$coordinatesField, $locationPickerContainer];
   }
 
   render() {
