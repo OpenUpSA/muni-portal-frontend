@@ -236,7 +236,8 @@ export class SubmitServiceRequest {
       htmlFor: "",
       text: "Locate your issue on a map",
     });
-    const $locationPickerContainer = $(".components > .location-picker")
+    const $locationPickerContainer = $webflowForm
+      .find(".form__location-picker_expand")
       .clone()
       .attr("id", "service-request-location-picker");
     // temporary until updated in Webflow

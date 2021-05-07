@@ -329,6 +329,7 @@ class App {
     // we cannot do this before the content(aka DOM element) have
     // been added to the DOM so, we can only call this here
     initMap();
+    Webflow.require("ix2").init();
   }
 
   serviceRequestsDetail() {
