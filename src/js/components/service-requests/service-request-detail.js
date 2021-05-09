@@ -58,6 +58,8 @@ export class ServiceRequestDetail {
         return;
       }
 
+      $submitButton.attr({ value: "Uploading...", disabled: true});
+
       api
         .submitServiceRequestFiles(
           serviceRequestId,
@@ -74,6 +76,7 @@ export class ServiceRequestDetail {
             }).render()
           );
           console.error(a, b);
+          $submitButton.attr({ value: "Upload Images", disabled: false});
         });
     });
 
@@ -159,7 +162,6 @@ export class ServiceRequestDetail {
         $serviceDescriptionHeading,
         new BlockPreWrap(response.description).render(),
       ]);
-
 
       this.$element.append([
         $serviceRequestImagesHeading,

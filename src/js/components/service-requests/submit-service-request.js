@@ -54,6 +54,7 @@ export class SubmitServiceRequest {
 
     $submitButton.on("click", (event) => {
       event.preventDefault();
+      $submitButton.attr({ value: "Submitting...", disabled: true});
       api
         .submitServiceRequest($form.serialize())
         .then((response) => {
@@ -61,10 +62,9 @@ export class SubmitServiceRequest {
           api.submitServiceRequestFiles(
             serviceRequestId,
             getFormDataFromArray(uploadedFiles)
-          );
-        })
-        .done(() => {
-          this.$element.empty().append(new ServiceRequestSubmitted().render());
+          ).done(() => {
+            this.$element.empty().append(new ServiceRequestSubmitted().render());
+          })
         })
         .fail((a, b) => {
           this.$element.empty().append(
@@ -73,6 +73,7 @@ export class SubmitServiceRequest {
               status: "failure",
             }).render()
           );
+          $submitButton.attr({ value: "Submit", disabled: false});
           console.error(a, b);
         });
     });
