@@ -26,7 +26,6 @@ export class ServiceRequestDetail {
 
     const {
       $uploadImagesInput,
-      $uploadImagesLabel,
       $uploadImagesClass,
       $uploadImagePreviewTemplate,
     } = createImageFormFields();
@@ -60,7 +59,10 @@ export class ServiceRequestDetail {
       }
 
       api
-        .submitServiceRequestFiles(serviceRequestId, getFormDataFromArray(uploadedFiles))
+        .submitServiceRequestFiles(
+          serviceRequestId,
+          getFormDataFromArray(uploadedFiles)
+        )
         .then(() => {
           window.location.reload();
         })
@@ -85,6 +87,11 @@ export class ServiceRequestDetail {
       ).clone();
       const $serviceRequestInfoHeading = $sectionHeading.clone();
       const $serviceDescriptionHeading = $sectionHeading.clone();
+      const $serviceRequestImagesHeading = $sectionHeading.clone();
+
+      $serviceRequestImagesHeading
+        .find(".section-title")
+        .text("Service request images");
 
       $serviceRequestInfoHeading
         .find(".section-title")
@@ -126,35 +133,36 @@ export class ServiceRequestDetail {
         }).render()
       );
 
-        if (response.street_name || response.street_number || response.suburb) {
-          this.$element.append(
-            new BasicBlock({
-              title: "Address",
-              subtitle: `${response.street_name} ${response.street_number}, ${response.suburb}`,
-            }).render()
-          );
-        }
+      if (response.street_name || response.street_number || response.suburb) {
+        this.$element.append(
+          new BasicBlock({
+            title: "Address",
+            subtitle: `${response.street_name} ${response.street_number}, ${response.suburb}`,
+          }).render()
+        );
+      }
 
-        if (response.coordinates) {
-          const staticMapEvent = new CustomEvent("add-static-map", {
-            detail: response.coordinates,
-          });
-          this.$element.append(
-            $("<div />", {
-              id: "static-service-request-map",
-              style: "height: 300px",
-            })
-          );
-          document.dispatchEvent(staticMapEvent);
-        }
+      if (response.coordinates) {
+        const staticMapEvent = new CustomEvent("add-static-map", {
+          detail: response.coordinates,
+        });
+        this.$element.append(
+          $("<div />", {
+            id: "static-service-request-map",
+            style: "height: 300px",
+          })
+        );
+        document.dispatchEvent(staticMapEvent);
+      }
 
       this.$element.append([
         $serviceDescriptionHeading,
         new BlockPreWrap(response.description).render(),
       ]);
 
+
       this.$element.append([
-        $uploadImagesLabel,
+        $serviceRequestImagesHeading,
         $uploadImagesInput,
         $uploadImagesClass,
         $submitButton,

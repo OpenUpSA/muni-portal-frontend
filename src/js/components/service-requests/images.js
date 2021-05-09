@@ -17,7 +17,6 @@ import { getLabel } from "../../utils/element-factory";
 */
 
 export function createImageFormFields() {
-  const $uploadImagesLabel = getLabel("Images of your issue");
   const $formInputTmpl = $(".components .form__input-field:eq(0)");
   const $uploadImagesInput = $formInputTmpl.clone().attr({
     id: "upload-images-input",
@@ -38,7 +37,6 @@ export function createImageFormFields() {
 
   return {
     $uploadImagesInput,
-    $uploadImagesLabel,
     $uploadImagesClass,
     $uploadImagePreviewTemplate,
   };

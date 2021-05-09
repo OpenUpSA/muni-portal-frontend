@@ -3,7 +3,6 @@ import { TASK_TYPES } from "../constants";
 import { FullWidthGrid } from "../grid";
 import { ServiceRequestSubmitted } from "./service-request-submitted";
 import { StatusMessage } from "../molecules/status-message";
-import { getFieldset, getLabel, getLegend } from "../../utils/element-factory";
 import {
   createImageFormFields,
   getFormDataFromArray,
@@ -19,6 +18,8 @@ import {
 export class SubmitServiceRequest {
   constructor() {
     const api = new API();
+
+    let uploadedFiles = {};
 
     const $form = getForm("", "post", "submit-service-request");
     // we cannot just clone the entire Webflow form but, everything
@@ -46,6 +47,8 @@ export class SubmitServiceRequest {
       ...this.getLocationPicker($webflowForm),
       getSectionHeading("Your information"),
       ...this.getUserDetails($webflowForm),
+      getSectionHeading("Attach photos"),
+      ...this.getImages($webflowForm, uploadedFiles),
       $submitButton,
     ]);
 
@@ -55,7 +58,10 @@ export class SubmitServiceRequest {
         .submitServiceRequest($form.serialize())
         .then((response) => {
           const serviceRequestId = response.id;
-          api.submitServiceRequestFiles(serviceRequestId, getFormDataFromArray(uploadedFiles));
+          api.submitServiceRequestFiles(
+            serviceRequestId,
+            getFormDataFromArray(uploadedFiles)
+          );
         })
         .done(() => {
           this.$element.empty().append(new ServiceRequestSubmitted().render());
@@ -224,21 +230,25 @@ export class SubmitServiceRequest {
       type: "email",
     });
 
-    const $describeIssueLabel = getLabel("Describe your issue");
-    const $describeIssueTextarea = $textAreaTmpl.clone().attr({
-      id: "describe-your-issue",
-      name: "description",
-      placeholder: "Please describe your issue",
-    });
+    return [
+      $firstNameLabel,
+      $firstNameInput,
+      $lastNameLabel,
+      $lastNameInput,
+      $cellNumberLabel,
+      $cellNumberInput,
+      $emailLabel,
+      $emailInput,
+    ];
+  }
 
+  getImages($webflowForm, uploadedFiles) {
     const {
       $uploadImagesInput,
-      $uploadImagesLabel,
       $uploadImagesClass,
       $uploadImagePreviewTemplate,
     } = createImageFormFields();
 
-    let uploadedFiles = {};
 
     function handleInputFilesChanged() {
       updateUploadedFiles(
@@ -251,29 +261,11 @@ export class SubmitServiceRequest {
 
     $uploadImagesInput.change(handleInputFilesChanged);
 
-    const $submitButton = $(".components .button.button--form-submit")
-      .clone()
-      .attr({
-        value: "Submit",
-      });
-
     return [
-      $yourInfoLegend,
-      $firstNameLabel,
-      $firstNameInput,
-      $lastNameLabel,
-      $lastNameInput,
-      $cellNumberLabel,
-      $cellNumberInput,
-      $emailLabel,
-      $emailInput,
-      $uploadImagesLabel,
       $uploadImagesInput,
       $uploadImagesClass,
-    ];
+    ]
   }
-
-    $requiredFieldsNote.text("* Required fields");
 
   getLocationPicker($webflowForm) {
     const $coordinatesField = getHiddenField({
