@@ -168,6 +168,9 @@ export class ServiceRequestDetail {
 
         this.$element.append([
           $serviceRequestImagesHeading,
+          new BlockPreWrap(
+            "To remove an image you have previously uploaded, please contact the municipality"
+          ).render(),
           $uploadImagesInput,
           $uploadImagesClass,
           $submitButton,
