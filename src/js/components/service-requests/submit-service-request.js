@@ -54,17 +54,23 @@ export class SubmitServiceRequest {
 
     $submitButton.on("click", (event) => {
       event.preventDefault();
-      $submitButton.attr({ value: "Submitting...", disabled: true});
+      $submitButton
+        .attr({ value: "Submitting...", disabled: true })
+        .addClass("button--disabled");
       api
         .submitServiceRequest($form.serialize())
         .then((response) => {
           const serviceRequestId = response.id;
-          api.submitServiceRequestFiles(
-            serviceRequestId,
-            getFormDataFromArray(uploadedFiles)
-          ).done(() => {
-            this.$element.empty().append(new ServiceRequestSubmitted().render());
-          })
+          api
+            .submitServiceRequestFiles(
+              serviceRequestId,
+              getFormDataFromArray(uploadedFiles)
+            )
+            .done(() => {
+              this.$element
+                .empty()
+                .append(new ServiceRequestSubmitted().render());
+            });
         })
         .fail((a, b) => {
           this.$element.empty().append(
@@ -73,7 +79,9 @@ export class SubmitServiceRequest {
               status: "failure",
             }).render()
           );
-          $submitButton.attr({ value: "Submit", disabled: false});
+          $submitButton
+            .attr({ value: "Submit", disabled: false })
+            .removeClass("button--disabled");
           console.error(a, b);
         });
     });
@@ -250,7 +258,6 @@ export class SubmitServiceRequest {
       $uploadImagePreviewTemplate,
     } = createImageFormFields();
 
-
     function handleInputFilesChanged() {
       updateUploadedFiles(
         this.files,
@@ -262,10 +269,7 @@ export class SubmitServiceRequest {
 
     $uploadImagesInput.change(handleInputFilesChanged);
 
-    return [
-      $uploadImagesInput,
-      $uploadImagesClass,
-    ]
+    return [$uploadImagesInput, $uploadImagesClass];
   }
 
   getLocationPicker($webflowForm) {
