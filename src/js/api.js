@@ -2,7 +2,7 @@ const defaultBaseUrl = process.env.DEFAULT_API_URL
   ? `${process.env.DEFAULT_API_URL}`
   : "https://muni-portal-backend.openup.org.za";
 
-function getBaseApiUrl() {
+export function getBaseApiUrl() {
   return sessionStorage.getItem("apiBaseUrl") || defaultBaseUrl;
 }
 
