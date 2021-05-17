@@ -28,11 +28,8 @@ export class UserSettings {
         $container.append($changePasswordAnchor);
 
         if (pushpad) {
-          pushpad("status", (isSubscribed) => {
-            if (isSubscribed) {
-              $container.append(...this.manageNotificationPreferences());
-            }
-          });
+          this.userSubscribed = false;
+          $container.append(...this.manageNotificationPreferences());
         }
       })
       .fail((error) => {
@@ -45,6 +42,62 @@ export class UserSettings {
     this.$element = $container;
   }
 
+  pushpadError($sectionHeading) {
+    const $docsLink = getAnchorElement(
+      "https://app.gitbook.com/@openup/s/cape-agulhas-app/user-guide/reset-notification-preferences",
+      "",
+      "How do I reset notification preferences?"
+    );
+    const $failedNotification = new StatusMessage({
+      text:
+        "Failed to update in-app notifications status. Please ensure that in-app notifications are allowed and try again.",
+      status: "failure",
+    }).render();
+
+    // NOTE: @TODO: Update in Webflow
+    const styles = {
+      color: "#94001D",
+      marginBottom: "12px",
+    };
+    $failedNotification.css(styles);
+
+    $failedNotification.insertAfter($sectionHeading);
+    // a user tried to subscribe and it failed, perhaps
+    // they previously blocked notifications, provide
+    // a link to the docs.
+    $docsLink.insertAfter($failedNotification);
+  }
+
+  subscribeUser($notificationsToggle, $sectionHeading) {
+    pushpad("subscribe", (isSubscribed) => {
+      if (isSubscribed) {
+        $notificationsToggle
+          .find(".w-checkbox-input")
+          .addClass("w--redirected-checked");
+        this.userSubscribed = true;
+      } else {
+        this.pushpadError($sectionHeading);
+      }
+    });
+  }
+
+  unsubscribeUser($notificationsToggle) {
+    pushpad("unsubscribe", () => {
+      $notificationsToggle
+        .find(".w-checkbox-input")
+        .removeClass("w--redirected-checked");
+      this.userSubscribed = false;
+    });
+  }
+
+  updateSubscriptionStatus($notificationsToggle, $sectionHeading) {
+    if (!this.userSubscribed) {
+      this.subscribeUser($notificationsToggle, $sectionHeading);
+    } else {
+      this.unsubscribeUser($notificationsToggle);
+    }
+  }
+
   manageNotificationPreferences() {
     const $sectionHeading = new SectionHeading(
       "Notification settings"
@@ -53,38 +106,21 @@ export class UserSettings {
       label: "Receive in-app notifications",
     }).render();
 
-    // we only show this entire section if we already know the user
-    // is not subscribed so, no need to test again
+    pushpad("status", (isSubscribed) => {
+      // the default state for the variable and the UI is
+      // false so, we only update the UI and variable
+      // if the user is already subscribed
+      if (isSubscribed) {
+        $notificationsToggle
+          .find(".w-checkbox-input")
+          .addClass("w--redirected-checked");
+        this.userSubscribed = true;
+      }
+    });
+
     $notificationsToggle.on("click", (event) => {
       event.preventDefault();
-      pushpad("subscribe", (isSubscribed) => {
-        if (isSubscribed) {
-          $notificationsToggle
-            .find(".w-checkbox-input")
-            .toggleClass("w--redirected-checked");
-        } else {
-          const $docsLink = getAnchorElement(
-            "https://app.gitbook.com/@openup/s/cape-agulhas-app/user-guide/reset-notification-preferences",
-            "",
-            "How do I reset notification preferences?"
-          );
-          const $failedNotification = new StatusMessage({
-            text:
-              "Failed to subscribe to in-app notifications. Please ensure that in-app notifications are allowed and try again.",
-            status: "failure",
-          }).render();
-
-          // NOTE: @TODO: Update in Webflow
-          const styles = {
-            color: "#94001D",
-            marginBottom: "12px",
-          };
-          $failedNotification.css(styles);
-
-          $failedNotification.insertAfter($sectionHeading);
-          $docsLink.insertAfter($failedNotification);
-        }
-      });
+      this.updateSubscriptionStatus($notificationsToggle, $sectionHeading);
     });
 
     return [$sectionHeading, $notificationsToggle];
