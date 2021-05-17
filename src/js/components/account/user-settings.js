@@ -63,6 +63,11 @@ export class UserSettings {
             .find(".w-checkbox-input")
             .toggleClass("w--redirected-checked");
         } else {
+          const $docsLink = getAnchorElement(
+            "https://app.gitbook.com/@openup/s/cape-agulhas-app/user-guide/reset-notification-preferences",
+            "",
+            "How do I reset notification preferences?"
+          );
           const $failedNotification = new StatusMessage({
             text:
               "Failed to subscribe to in-app notifications. Please ensure that in-app notifications are allowed and try again.",
@@ -77,6 +82,7 @@ export class UserSettings {
           $failedNotification.css(styles);
 
           $failedNotification.insertAfter($sectionHeading);
+          $docsLink.insertAfter($failedNotification);
         }
       });
     });
