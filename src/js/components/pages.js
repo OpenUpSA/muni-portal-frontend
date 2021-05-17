@@ -11,7 +11,6 @@ import { ServicePoint } from "./service-point.js";
 import { timeElem } from "./atoms/date-time";
 
 import { getModalHeader } from "./molecules/modal-header";
-import { parseImgTags } from "../utils/html";
 
 /**
  * Returns an formatted array of breadcrumb labels
@@ -412,22 +411,7 @@ export class NoticePage {
 
 export class NewsIndexPage extends NoticeIndexPage {}
 
-export class NewsPage {
-  constructor(content) {
-    this.$element = $(".components .grid--default").clone();
-    this.breadcrumbItems = getBreadcrumbsWithLabel(content.ancestor_pages);
-    this.noticeMainContent = parseImgTags(content.body_html);
-    this.publicationDate = content.publication_date;
-    this.$element.append(
-      timeElem(this.publicationDate),
-      this.noticeMainContent
-    );
-  }
-
-  render() {
-    return [new Breadcrumbs(this.breadcrumbItems).render(), this.$element];
-  }
-}
+export class NewsPage extends NoticePage {}
 
 export class ContactsPage {
   constructor(content) {
