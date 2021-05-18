@@ -55,6 +55,11 @@ export const setMenuState = () => {
     "nav-link w-inline-block",
     "Settings"
   );
+  const $supportLink = getAnchorElement(
+    "mailto:cape-agulhas-app@openup.org.za?subject=Cape%20Agulhas%20App%20Support%20Request&body=Support%20request%20URL:",
+    "nav-link w-inline-block",
+    "App support and feedback"
+  );
 
   $navMenu.find(".nav-link").remove();
   $navMenu.append([
@@ -63,6 +68,7 @@ export const setMenuState = () => {
     $registerLink,
     $settingsLink,
     $serviceRequestsIndex,
+    $supportLink,
   ]);
   Webflow.require("ix2").init();
 
@@ -83,4 +89,9 @@ export const setMenuState = () => {
     $serviceRequestsIndex.show();
     $registerLink.show();
   }
+
+  $supportLink.on("click", () => {
+    const currentHref = $supportLink.attr("href");
+    $supportLink.attr("href", currentHref + document.location.href);
+  });
 };
