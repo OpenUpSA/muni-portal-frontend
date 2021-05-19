@@ -56,7 +56,7 @@ export const setMenuState = () => {
     "Settings"
   );
   const $supportLink = getAnchorElement(
-    "mailto:cape-agulhas-app@openup.org.za?subject=Cape%20Agulhas%20App%20Support%20Request&body=Support%20request%20URL:",
+    "mailto:cape-agulhas-app@openup.org.za?subject=Cape%20Agulhas%20App%20Support%20Request&body=Page: ",
     "nav-link w-inline-block",
     "App support and feedback"
   );
