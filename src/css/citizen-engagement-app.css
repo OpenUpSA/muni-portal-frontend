@@ -397,6 +397,10 @@ strong {
   border-radius: 10px;
 }
 
+.image.richtext-image {
+  height: auto;
+}
+
 .tab-content {
   position: relative;
   z-index: 80;
@@ -454,7 +458,6 @@ strong {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  max-height: 106px;
   padding: 4px 8px 12px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -3444,6 +3447,11 @@ strong {
 .image-preview__remove-2:hover {
   background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.08)), to(rgba(0, 0, 0, 0.08)));
   background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.08));
+}
+
+.richtext-image {
+  position: relative;
+  height: auto;
 }
 
 @media screen and (max-width: 991px) {
