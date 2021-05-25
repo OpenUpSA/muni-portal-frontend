@@ -44,6 +44,7 @@
     "@sentry/browser": "^5.27.1",
     "@sentry/tracing": "^5.27.1",
     "eslint-config-airbnb-base": "^14.2.1",
+    "uuid": "^8.3.2",
     "workbox-build": "^5.1.4",
     "workbox-routing": "^5.1.4",
     "workbox-window": "5.1.2"
@@ -60,6 +61,11 @@
         "destDir": "src",
         "transforms": "./src/js/webflow/import.js"
       }
-    ]
+    ],
+    "copyTrees": {
+      "css": "src/css",
+      "js": "src/js",
+      "images": "src/images"
+    }
   }
 }
