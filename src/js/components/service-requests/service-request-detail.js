@@ -8,6 +8,11 @@ import { BlockPreWrap } from "../atoms/block-pre-wrap";
 import { FullWidthGrid } from "../grid";
 import { LoadingPlaceholder } from "../atoms/loading-placeholder";
 import { StatusMessage } from "../molecules/status-message";
+import {
+  createImageFormFields,
+  getFormDataFromArray,
+  updateUploadedFiles,
+} from "./images";
 
 export class ServiceRequestDetail {
   constructor() {
@@ -19,6 +24,66 @@ export class ServiceRequestDetail {
     const serviceRequestId = new URLSearchParams(url.search).get("id");
     const $sectionHeading = $(".components .section-heading");
 
+    const {
+      $uploadImagesInput,
+      $uploadImagesClass,
+      $uploadImagePreviewTemplate,
+    } = createImageFormFields();
+
+    let uploadedFiles = {};
+
+    function handleInputFilesChanged() {
+      updateUploadedFiles(
+        this.files,
+        uploadedFiles,
+        $uploadImagePreviewTemplate,
+        $uploadImagesClass
+      );
+    }
+    $uploadImagesInput.change(handleInputFilesChanged);
+
+    const $submitButton = $(".components .button.button--form-submit")
+      .clone()
+      .attr({
+        value: "Upload Images",
+        id: "submit-images",
+      });
+
+    $submitButton.hide();
+
+    $submitButton.on("click", (event) => {
+      event.preventDefault();
+      if (Object.keys(uploadedFiles).length === 0) {
+        alert("Please select one or more images to upload.");
+        return;
+      }
+
+      $submitButton
+        .attr({ value: "Uploading...", disabled: true })
+        .addClass("button--disabled");
+
+      api
+        .submitServiceRequestFiles(
+          serviceRequestId,
+          getFormDataFromArray(uploadedFiles)
+        )
+        .then(() => {
+          window.location.reload();
+        })
+        .fail((a, b) => {
+          this.$element.empty().append(
+            new StatusMessage({
+              text: "Error while adding files to the service request.",
+              status: "failure",
+            }).render()
+          );
+          console.error(a, b);
+          $submitButton
+            .attr({ value: "Upload Images", disabled: false })
+            .removeClass("button--disabled");
+        });
+    });
+
     this.$element = new FullWidthGrid([$loadingPlaceholder]).render();
 
     api
@@ -28,6 +93,11 @@ export class ServiceRequestDetail {
 
         const $serviceRequestInfoHeading = $sectionHeading.clone();
         const $serviceDescriptionHeading = $sectionHeading.clone();
+        const $serviceRequestImagesHeading = $sectionHeading.clone();
+
+        $serviceRequestImagesHeading
+          .find(".section-title")
+          .text("Service request images");
 
         $serviceRequestInfoHeading
           .find(".section-title")
@@ -95,16 +165,54 @@ export class ServiceRequestDetail {
           $serviceDescriptionHeading,
           new BlockPreWrap(response.description).render(),
         ]);
+
+        this.$element.append([
+          $serviceRequestImagesHeading,
+          new BlockPreWrap(
+            "To remove an image you have previously uploaded, please contact the municipality"
+          ).render(),
+          $uploadImagesInput,
+          $uploadImagesClass,
+          $submitButton,
+        ]);
       })
       .fail((a, b) => {
         this.$element.empty().append(
           new StatusMessage({
-            text: "Error while loading service request details.",
+            text: "Error while loading service request.",
             status: "failure",
           }).render()
         );
         console.error(a, b);
       });
+
+    function renderFileAlreadyUploaded(blob, fileId) {
+      let url = URL.createObjectURL(blob);
+      const $preview = $uploadImagePreviewTemplate
+        .clone()
+        .attr({
+          id: "upload-image-preview-" + fileId,
+        })
+        .removeClass("hidden");
+
+      $preview.find(".image-preview__remove").remove();
+      $preview.css("background-image", "url('" + url + "')");
+      $uploadImagesClass.append($preview);
+    }
+
+    api.getServiceRequestFiles(serviceRequestId).then((response) => {
+      for (let index in response) {
+        try {
+          api.getServiceRequestFile(
+            serviceRequestId,
+            response[index]["id"],
+            renderFileAlreadyUploaded // Callback for each image load
+          );
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    });
   }
 
   render() {

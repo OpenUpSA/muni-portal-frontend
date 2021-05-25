@@ -1,9 +1,13 @@
 import { API } from "../../api";
 import { TASK_TYPES } from "../constants";
-
 import { FullWidthGrid } from "../grid";
 import { ServiceRequestSubmitted } from "./service-request-submitted";
 import { StatusMessage } from "../molecules/status-message";
+import {
+  createImageFormFields,
+  getFormDataFromArray,
+  updateUploadedFiles,
+} from "./images";
 import {
   getForm,
   getHiddenField,
@@ -14,6 +18,8 @@ import {
 export class SubmitServiceRequest {
   constructor() {
     const api = new API();
+
+    let uploadedFiles = {};
 
     const $form = getForm("", "post", "submit-service-request");
     // we cannot just clone the entire Webflow form but, everything
@@ -41,15 +47,30 @@ export class SubmitServiceRequest {
       ...this.getLocationPicker($webflowForm),
       getSectionHeading("Your information"),
       ...this.getUserDetails($webflowForm),
+      getSectionHeading("Attach photos"),
+      ...this.getImages($webflowForm, uploadedFiles),
       $submitButton,
     ]);
 
     $submitButton.on("click", (event) => {
       event.preventDefault();
+      $submitButton
+        .attr({ value: "Submitting...", disabled: true })
+        .addClass("button--disabled");
       api
         .submitServiceRequest($form.serialize())
-        .then(() => {
-          this.$element.empty().append(new ServiceRequestSubmitted().render());
+        .then((response) => {
+          const serviceRequestId = response.id;
+          api
+            .submitServiceRequestFiles(
+              serviceRequestId,
+              getFormDataFromArray(uploadedFiles)
+            )
+            .done(() => {
+              this.$element
+                .empty()
+                .append(new ServiceRequestSubmitted().render());
+            });
         })
         .fail((a, b) => {
           this.$element.empty().append(
@@ -58,6 +79,9 @@ export class SubmitServiceRequest {
               status: "failure",
             }).render()
           );
+          $submitButton
+            .attr({ value: "Submit", disabled: false })
+            .removeClass("button--disabled");
           console.error(a, b);
         });
     });
@@ -225,6 +249,27 @@ export class SubmitServiceRequest {
       $emailLabel,
       $emailInput,
     ];
+  }
+
+  getImages($webflowForm, uploadedFiles) {
+    const {
+      $uploadImagesInput,
+      $uploadImagesClass,
+      $uploadImagePreviewTemplate,
+    } = createImageFormFields();
+
+    function handleInputFilesChanged() {
+      updateUploadedFiles(
+        this.files,
+        uploadedFiles,
+        $uploadImagePreviewTemplate,
+        $uploadImagesClass
+      );
+    }
+
+    $uploadImagesInput.change(handleInputFilesChanged);
+
+    return [$uploadImagesInput, $uploadImagesClass];
   }
 
   getLocationPicker($webflowForm) {
