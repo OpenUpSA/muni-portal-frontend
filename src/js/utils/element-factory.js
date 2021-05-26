@@ -30,12 +30,18 @@ export const getDiv = (className) => {
   });
 };
 
-export const getAnchorElement = (href, className, text) => {
-  return $("<a />", {
+export const getAnchorElement = (href, className, text, id) => {
+  const $anchor = $("<a />", {
     href,
     class: className,
     text,
   });
+
+  if (id) {
+    $anchor.attr("id", id);
+  }
+
+  return $anchor;
 };
 
 export const getForm = (action, method, name = "") => {

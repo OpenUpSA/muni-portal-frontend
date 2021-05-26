@@ -14,6 +14,7 @@ import {
   getLabel,
   getSectionHeading,
 } from "../../utils/element-factory";
+import { sendEvent } from "../../utils/analytics";
 
 export class SubmitServiceRequest {
   constructor() {
@@ -265,6 +266,11 @@ export class SubmitServiceRequest {
         $uploadImagePreviewTemplate,
         $uploadImagesClass
       );
+      sendEvent({
+        event: "submit-service-request",
+        page: document.location.href,
+        type: "Upload new image",
+      });
     }
 
     $uploadImagesInput.change(handleInputFilesChanged);
