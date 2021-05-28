@@ -53,37 +53,39 @@ export class SubmitServiceRequest {
     ]);
 
     $submitButton.on("click", (event) => {
-      event.preventDefault();
-      $submitButton
-        .attr({ value: "Submitting...", disabled: true })
-        .addClass("button--disabled");
-      api
-        .submitServiceRequest($form.serialize())
-        .then((response) => {
-          const serviceRequestId = response.id;
-          api
-            .submitServiceRequestFiles(
-              serviceRequestId,
-              getFormDataFromArray(uploadedFiles)
-            )
-            .done(() => {
-              this.$element
-                .empty()
-                .append(new ServiceRequestSubmitted().render());
-            });
-        })
-        .fail((a, b) => {
-          this.$element.empty().append(
-            new StatusMessage({
-              text: "Error while submitting service request.",
-              status: "failure",
-            }).render()
-          );
-          $submitButton
-            .attr({ value: "Submit", disabled: false })
-            .removeClass("button--disabled");
-          console.error(a, b);
-        });
+      if ($form[0].reportValidity()) {
+        event.preventDefault();
+        $submitButton
+          .attr({ value: "Submitting...", disabled: true })
+          .addClass("button--disabled");
+        api
+          .submitServiceRequest($form.serialize())
+          .then((response) => {
+            const serviceRequestId = response.id;
+            api
+              .submitServiceRequestFiles(
+                serviceRequestId,
+                getFormDataFromArray(uploadedFiles)
+              )
+              .done(() => {
+                this.$element
+                  .empty()
+                  .append(new ServiceRequestSubmitted().render());
+              });
+          })
+          .fail((a, b) => {
+            this.$element.empty().append(
+              new StatusMessage({
+                text: "Error while submitting service request.",
+                status: "failure",
+              }).render()
+            );
+            $submitButton
+              .attr({ value: "Submit", disabled: false })
+              .removeClass("button--disabled");
+            console.error(a, b);
+          });
+      }
     });
 
     this.$element = new FullWidthGrid([$form]).render();
@@ -94,10 +96,11 @@ export class SubmitServiceRequest {
 
     const $describeIssueLabel = getLabel($webflowForm, {
       htmlFor: "describe-your-issue",
-      text: "Describe your issue *",
+      text: "Describe your issue * (maximum of 1024 characters)",
     });
     const $describeIssueTextarea = $textAreaTmpl.clone().attr({
       id: "describe-your-issue",
+      maxLength: 1024,
       name: "description",
       required: true,
       placeholder: "Please describe your issue",
@@ -151,21 +154,23 @@ export class SubmitServiceRequest {
 
     const $streetNameLabel = getLabel($webflowForm, {
       htmlFor: "street-name",
-      text: "Street name",
+      text: "Street name (maximum of 254 characters)",
     });
 
     const $streetNameInput = $webflowInputBlock.find("input").clone().attr({
       id: "street-name",
+      maxLength: 254,
       name: "street_name",
       placeholder: "",
     });
 
     const $streetNumberLabel = getLabel($webflowForm, {
       htmlFor: "street-number",
-      text: "Street Number",
+      text: "Street Number (maximum of 254 characters)",
     });
     const $streetNumberInput = $webflowInputBlock.find("input").clone().attr({
       id: "street-number",
+      maxLength: 254,
       name: "street_number",
       type: "number",
       placeholder: "",
@@ -173,10 +178,11 @@ export class SubmitServiceRequest {
 
     const $townLabel = getLabel($webflowForm, {
       htmlFor: "town",
-      text: "Town",
+      text: "Town (maximum of 254 characters)",
     });
     const $townInput = $webflowInputBlock.find("input").clone().attr({
       id: "town",
+      maxLength: 254,
       name: "suburb",
       placeholder: "",
     });
@@ -196,10 +202,11 @@ export class SubmitServiceRequest {
 
     const $firstNameLabel = getLabel($webflowForm, {
       htmlFor: "first-name",
-      text: "First name *",
+      text: "First name * (maximum of 254 characters)",
     });
     const $firstNameInput = $webflowInputBlock.find("input").clone().attr({
       id: "first-name",
+      maxLength: 254,
       name: "user_name",
       placeholder: "",
       required: true,
@@ -207,10 +214,11 @@ export class SubmitServiceRequest {
 
     const $lastNameLabel = getLabel($webflowForm, {
       htmlFor: "last-name",
-      text: "Last name *",
+      text: "Last name * (maximum of 254 characters)",
     });
     const $lastNameInput = $webflowInputBlock.find("input").clone().attr({
       id: "last-name",
+      maxLength: 254,
       name: "user_surname",
       placeholder: "",
       required: true,
@@ -218,22 +226,25 @@ export class SubmitServiceRequest {
 
     const $cellNumberLabel = getLabel($webflowForm, {
       htmlFor: "cell-number",
-      text: "Cell Number *",
+      text: "Cell Number * (maximum of 30 numbers)",
     });
     const $cellNumberInput = $webflowInputBlock.find("input").clone().attr({
       id: "cellphone-number",
+      maxLength: 30,
       name: "user_mobile_number",
       placeholder: "",
       required: true,
+      pattern: "[0-9]{1,30}",
       type: "tel",
     });
 
     const $emailLabel = getLabel($webflowForm, {
       htmlFor: "email-address",
-      text: "Email address",
+      text: "Email address (maximum of 254 characters)",
     });
     const $emailInput = $webflowInputBlock.find("input").clone().attr({
       id: "email-address",
+      maxLength: 254,
       name: "user_email_address",
       placeholder: "",
       type: "email",

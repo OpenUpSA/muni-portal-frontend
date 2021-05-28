@@ -61,11 +61,6 @@
         "destDir": "src",
         "transforms": "./src/js/webflow/import.js"
       }
-    ],
-    "copyTrees": {
-      "css": "src/css",
-      "js": "src/js",
-      "images": "src/images"
-    }
+    ]
   }
 }
