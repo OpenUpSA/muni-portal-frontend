@@ -60,17 +60,20 @@ export class SubmitServiceRequest {
       api
         .submitServiceRequest($form.serialize())
         .then((response) => {
-          const serviceRequestId = response.id;
-          api
-            .submitServiceRequestFiles(
-              serviceRequestId,
-              getFormDataFromArray(uploadedFiles)
-            )
-            .done(() => {
-              this.$element
-                .empty()
-                .append(new ServiceRequestSubmitted().render());
-            });
+          if (Object.keys(uploadedFiles).length === 0) {
+            // no images to upload
+            this.renderSubmitted();
+          } else {
+            const serviceRequestId = response.id;
+            api
+              .submitServiceRequestFiles(
+                serviceRequestId,
+                getFormDataFromArray(uploadedFiles)
+              )
+              .done(() => {
+                this.renderSubmitted();
+              });
+          }
         })
         .fail((a, b) => {
           this.$element.empty().append(
@@ -87,6 +90,10 @@ export class SubmitServiceRequest {
     });
 
     this.$element = new FullWidthGrid([$form]).render();
+  }
+
+  renderSubmitted() {
+    this.$element.empty().append(new ServiceRequestSubmitted().render());
   }
 
   getDescribeIssueField($webflowForm) {
