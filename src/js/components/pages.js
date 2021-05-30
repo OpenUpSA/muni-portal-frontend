@@ -366,8 +366,16 @@ export class NoticeIndexPage {
     this.childPages = content.child_pages;
   }
 
-  renderChildPageLinks() {
-    const childPageLinks = this.childPages.map((page) => {
+  renderChildPageLinks(is_featured = null) {
+    let filteredLinks = this.childPages;
+
+    if (is_featured !== null) {
+      filteredLinks = this.childPages.filter(
+        (page) => page.featured === is_featured
+      );
+    }
+
+    const childPageLinks = filteredLinks.map((page) => {
       const props = {
         title: page.title,
         url: page.url,
@@ -384,10 +392,31 @@ export class NoticeIndexPage {
     }
   }
 
+  renderFeaturedNotices() {
+    const featuredNotices = this.renderChildPageLinks(true);
+
+    if (featuredNotices.length > 0) {
+      return [
+        new SectionHeading("Featured Notices").render(),
+        ...featuredNotices,
+      ];
+    } else {
+      return [];
+    }
+  }
+
+  renderAllNotices() {
+    return [
+      new SectionHeading("All Notices").render(),
+      ...this.renderChildPageLinks(),
+    ];
+  }
+
   render() {
     return [
       new Breadcrumbs(this.breadcrumbItems).render(),
-      ...this.renderChildPageLinks(),
+      ...this.renderFeaturedNotices(),
+      ...this.renderAllNotices(),
     ];
   }
 }
