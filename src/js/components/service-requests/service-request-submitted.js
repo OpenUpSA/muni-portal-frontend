@@ -11,7 +11,7 @@ export class ServiceRequestSubmitted {
     }).render();
 
     const $submitAnotherRequest = new SimpleLinkBlock({
-      href: "submit/",
+      href: "submit",
       title: "Submit another service request",
     }).render();
 

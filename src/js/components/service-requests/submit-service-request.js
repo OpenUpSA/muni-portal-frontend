@@ -54,41 +54,47 @@ export class SubmitServiceRequest {
 
     $submitButton.on("click", (event) => {
       if ($form[0].reportValidity()) {
-        event.preventDefault();
-        $submitButton
-          .attr({ value: "Submitting...", disabled: true })
-          .addClass("button--disabled");
-        api
-          .submitServiceRequest($form.serialize())
-          .then((response) => {
-            const serviceRequestId = response.id;
-            api
-              .submitServiceRequestFiles(
-                serviceRequestId,
-                getFormDataFromArray(uploadedFiles)
-              )
-              .done(() => {
-                this.$element
-                  .empty()
-                  .append(new ServiceRequestSubmitted().render());
-              });
-          })
-          .fail((a, b) => {
-            this.$element.empty().append(
-              new StatusMessage({
-                text: "Error while submitting service request.",
-                status: "failure",
-              }).render()
-            );
-            $submitButton
-              .attr({ value: "Submit", disabled: false })
-              .removeClass("button--disabled");
-            console.error(a, b);
-          });
+      event.preventDefault();
+      $submitButton
+        .attr({ value: "Submitting...", disabled: true })
+        .addClass("button--disabled");
+      api
+        .submitServiceRequest($form.serialize())
+        .then((response) => {
+          if (Object.keys(uploadedFiles).length === 0) {
+            // no images to upload
+            this.renderSubmitted();
+          } else {
+          const serviceRequestId = response.id;
+          api
+            .submitServiceRequestFiles(
+              serviceRequestId,
+              getFormDataFromArray(uploadedFiles)
+            )
+            .done(() => {
+              this.renderSubmitted();
+            });
+        })
+        .fail((a, b) => {
+          this.$element.empty().append(
+            new StatusMessage({
+              text: "Error while submitting service request.",
+              status: "failure",
+            }).render()
+          );
+          $submitButton
+            .attr({ value: "Submit", disabled: false })
+            .removeClass("button--disabled");
+          console.error(a, b);
+        });
       }
     });
 
     this.$element = new FullWidthGrid([$form]).render();
+  }
+
+  renderSubmitted() {
+    this.$element.empty().append(new ServiceRequestSubmitted().render());
   }
 
   getDescribeIssueField($webflowForm) {
