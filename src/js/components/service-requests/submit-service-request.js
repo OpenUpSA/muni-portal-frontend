@@ -53,8 +53,15 @@ export class SubmitServiceRequest {
     ]);
 
     $submitButton.on("click", (event) => {
+      event.preventDefault();
+
+      const serviceArea = $("#service-area").val();
+      if (serviceArea === "") {
+        alert("Please select a Service Area from the dropdown");
+        return;
+      }
+
       if ($form[0].reportValidity()) {
-        event.preventDefault();
         $submitButton
           .attr({ value: "Submitting...", disabled: true })
           .addClass("button--disabled");
