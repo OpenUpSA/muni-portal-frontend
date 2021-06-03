@@ -145,7 +145,12 @@ export class UserRegistration {
       .done((response, textStatus) => {
         if (textStatus === "success") {
           $form.hide();
-          $success.show();
+          $success
+            .text(
+              "Your details have been submitted successfully. " +
+              "You should receive an email containing a link to click to verify your email address in the next few minutes."
+            )
+            .show();
         }
       })
       .fail((jqXHR, textStatus) => {
