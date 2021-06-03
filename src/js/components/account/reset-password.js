@@ -95,7 +95,7 @@ export class ResetPassword {
         $fail
           .empty()
           .append(
-            "Something went wrong while communicating with the server. Please try again or contact support."
+            "Something went wrong while communicating with the server. Please try again or <a href='mailto:cape-agulhas-app@openup.org.za'>contact support</a>"
           )
           .show();
         console.error(jqXHR, textStatus);
