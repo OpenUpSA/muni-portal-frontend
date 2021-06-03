@@ -34,7 +34,9 @@ export class UserSettings {
       })
       .fail((error) => {
         $container.append(
-          `We encountered an error while retrieving your profile information. Please contact support. ${error.responseText}`
+          `We encountered an error while retrieving your profile information. Please try again or <a href='mailto:cape-agulhas-app@openup.org.za'>contact support</a> ${
+            error.responseText ? error.responseText : ''
+          }`
         );
         console.error(error);
       });
