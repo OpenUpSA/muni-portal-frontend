@@ -86,7 +86,7 @@ export class SubmitServiceRequest {
           .fail((a, b) => {
             this.$element.empty().append(
               new StatusMessage({
-                text: "Error while submitting service request.",
+                text: "Error while submitting request.",
                 status: "failure",
               }).render()
             );

@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from "uuid";
-import { getLabel } from "../../utils/element-factory";
 
 /*
   We keep a mapping of uploaded images separate from the FileList stored on
