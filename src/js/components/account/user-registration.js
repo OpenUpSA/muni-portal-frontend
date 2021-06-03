@@ -15,7 +15,7 @@ function formatError(jqXHR) {
         "\n"
       )}\n\n`;
     });
-    message += "Please try again or contact support with this message.";
+    message += "Please try again or <a href='mailto:cape-agulhas-app@openup.org.za'>contact support</a> with this message.";
   } else {
     message = "An error occurred. Please try again.";
     console.error(jqXHR.responseText);
@@ -150,12 +150,12 @@ export class UserRegistration {
       })
       .fail((jqXHR, textStatus) => {
         try {
-          $fail.find("div").text(formatError(jqXHR));
-          $fail.show();
+          $fail.find("div").html(formatError(jqXHR));
+          $fail.showeew();
           $fail[0].scrollIntoView({ behavior: "smooth" });
         } catch (e) {
           console.error(e);
-          alert("An error occurred. Please try again or contact support.");
+          alert("An error occurred. Please try again or contact support at cape-agulhas-app@openup.org.za");
         }
       });
   }
