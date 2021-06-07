@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { getLabel } from "../../utils/element-factory";
+import { sendEvent } from "../../utils/analytics";
 
 /*
   We keep a mapping of uploaded images separate from the FileList stored on
@@ -96,6 +96,11 @@ function addRemoveImageEventHandler($preview, uploadedFiles, uuid) {
     delete uploadedFiles[uuid];
     $("#upload-image-preview-" + uuid).remove();
     toggleSubmitImagesButton($("#submit-images"), uploadedFiles);
+    sendEvent({
+      event: "submit-service-request",
+      page: document.location.href,
+      type: "Remove existing image",
+    });
   });
 }
 
