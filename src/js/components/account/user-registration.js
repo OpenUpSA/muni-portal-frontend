@@ -148,7 +148,7 @@ export class UserRegistration {
           $success
             .text(
               "Your details have been submitted successfully. " +
-              "You should receive an email containing a link to click to verify your email address in the next few minutes."
+              "You should receive an email in the next few minutes containing a link to verify your email address."
             )
             .show();
         }
