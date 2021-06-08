@@ -12,7 +12,7 @@ export class VerifyUserRegistration {
     $failTemplate
       .empty()
       .append(
-        "Registration verification was unsuccessful. Please try again or <a href='mailto:cape-agulhas-app@openup.org.za'>contact support</a>"
+        `Registration verification was unsuccessful. Please try again or <a href='mailto:${SUPPORT_EMAIL}'>contact support</a>`
       );
 
     this.$element = $("<div />").append([$successTemplate, $failTemplate]);

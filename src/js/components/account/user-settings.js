@@ -6,6 +6,7 @@ import { ProfileInfo } from "./profile";
 import { Checkbox } from "../molecules/checkbox";
 import { StatusMessage } from "../molecules/status-message";
 import { getAnchorElement } from "../../utils/element-factory";
+import { SUPPORT_EMAIL } from "../constants";
 
 export class UserSettings {
   constructor() {
@@ -34,7 +35,7 @@ export class UserSettings {
       })
       .fail((error) => {
         $container.append(
-          `We encountered an error while retrieving your profile information. Please try again or <a href='mailto:cape-agulhas-app@openup.org.za'>contact support</a> ${
+          `We encountered an error while retrieving your profile information. Please try again or <a href='mailto:${SUPPORT_EMAIL}'>contact support</a> ${
             error.responseText ? error.responseText : ''
           }`
         );

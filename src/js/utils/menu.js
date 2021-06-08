@@ -1,4 +1,5 @@
 import { getAnchorElement } from "./element-factory";
+import { SUPPORT_EMAIL } from "../components/constants";
 
 /**
  * Adds an event listener to the logout button and logs out the
@@ -56,7 +57,7 @@ export const setMenuState = () => {
     "Settings"
   );
   const $supportLink = getAnchorElement(
-    "mailto:cape-agulhas-app@openup.org.za?subject=Cape%20Agulhas%20App%20Support%20Request&body=Page: ",
+    `mailto:${SUPPORT_EMAIL}?subject=Cape%20Agulhas%20App%20Support%20Request&body=Page: `,
     "nav-link w-inline-block",
     "App support and feedback"
   );

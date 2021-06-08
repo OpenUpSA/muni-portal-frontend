@@ -7,6 +7,7 @@ import {
   getLabel,
   getSubmitButton,
 } from "../../utils/element-factory";
+import { SUPPORT_EMAIL } from "../constants";
 
 export class ResetPassword {
   constructor() {
@@ -95,7 +96,7 @@ export class ResetPassword {
         $fail
           .empty()
           .append(
-            "Something went wrong while communicating with the server. Please try again or <a href='mailto:cape-agulhas-app@openup.org.za'>contact support</a>"
+            `Something went wrong while communicating with the server. Please try again or <a href='mailto:${SUPPORT_EMAIL}'>contact support</a>`
           )
           .show();
         console.error(jqXHR, textStatus);
