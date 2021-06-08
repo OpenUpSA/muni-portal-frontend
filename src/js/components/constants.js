@@ -1,4 +1,5 @@
 export const OPEN_SERVICE_REQUEST_STATUSES = ["queued", "created", "assigned"];
+
 export const SERVICE_REQUEST_STATUS = {
   assigned: "Assigned to responsible person",
   queued: "Submitted",
@@ -45,3 +46,5 @@ export const TASK_TYPES = [
   "Building Complaint",
   "Air Quality and Noise Complaint",
 ];
+
+export const SUPPORT_EMAIL="cape-agulhas-app@openup.org.za"

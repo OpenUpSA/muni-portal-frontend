@@ -6,6 +6,7 @@ import {
   getLabel,
   getSubmitButton,
 } from "../../utils/element-factory";
+import { SUPPORT_EMAIL } from "../constants";
 
 function formatError(jqXHR) {
   let message = "";
@@ -15,7 +16,7 @@ function formatError(jqXHR) {
         "\n"
       )}\n\n`;
     });
-    message += "Please try again or contact support with this message.";
+    message += "Please try again or <a href='mailto:${SUPPORT_EMAIL}'>contact support</a> with this message.";
   } else {
     message = "An error occurred. Please try again.";
     console.error(jqXHR.responseText);
@@ -157,12 +158,12 @@ export class UserRegistration {
       })
       .fail((jqXHR, textStatus) => {
         try {
-          $fail.find("div").text(formatError(jqXHR));
+          $fail.find("div").html(formatError(jqXHR));
           $fail.show();
           $fail[0].scrollIntoView({ behavior: "smooth" });
         } catch (e) {
           console.error(e);
-          alert("An error occurred. Please try again or contact support.");
+          alert(`An error occurred. Please try again or contact support at ${SUPPORT_EMAIL}`);
         }
       });
   }
