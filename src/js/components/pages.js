@@ -61,7 +61,7 @@ class Page {
     this.role = content.job_title;
     this.politicalParty = content.political_party;
     this.profileImage = content.profile_image;
-    this.contacts = this.initContacts(content);
+    this.contacts = this.initContacts();
   }
 
   initContacts() {
