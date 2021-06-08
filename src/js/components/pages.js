@@ -13,7 +13,7 @@ import { timeElem } from "./atoms/date-time";
 import { getModalHeader } from "./molecules/modal-header";
 
 /**
- * Returns an formatted array of breadcrumb labels
+ * Returns a formatted array of breadcrumb labels
  * @param {Array} ancestorPages - array of ancestorPages from response
  */
 function getBreadcrumbsWithLabel(ancestorPages) {

@@ -52,7 +52,7 @@ export const setMenuState = () => {
   const $serviceRequestsIndex = getAnchorElement(
     "/service-requests/",
     "nav-link w-inline-block",
-    "My service requests",
+    "My complaints and requests",
     "main-menu-service-requests"
   );
   const $settingsLink = getAnchorElement(

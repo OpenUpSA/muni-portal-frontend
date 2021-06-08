@@ -7,17 +7,17 @@ export class ServiceRequestSubmitted {
   constructor() {
     const $allServiceRequests = new SimpleLinkBlock({
       href: "/service-requests/",
-      title: "View all my service requests",
+      title: "View all my complaints and requests",
     }).render();
 
     const $submitAnotherRequest = new SimpleLinkBlock({
       href: "submit",
-      title: "Submit another service request",
+      title: "Submit another complaint or request",
     }).render();
 
     this.$element = new FullWidthGrid([
       new StatusMessage({
-        text: "Service request submitted",
+        text: "Complaint or request submitted",
         status: "success",
       }).render(),
       $allServiceRequests,
