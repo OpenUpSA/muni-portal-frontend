@@ -19,7 +19,7 @@ export class ServiceRequestDetail {
     const api = new API();
     const url = new URL(document.location.href);
     const $loadingPlaceholder = new LoadingPlaceholder(
-      "Loading service request details..."
+      "Loading complaint or request details..."
     );
     const serviceRequestId = new URLSearchParams(url.search).get("id");
     const $sectionHeading = $(".components .section-heading");
@@ -73,7 +73,7 @@ export class ServiceRequestDetail {
         .fail((a, b) => {
           this.$element.empty().append(
             new StatusMessage({
-              text: "Error while adding files to the service request.",
+              text: "Error while adding files to the complaint or request.",
               status: "failure",
             }).render()
           );
@@ -97,15 +97,15 @@ export class ServiceRequestDetail {
 
         $serviceRequestImagesHeading
           .find(".section-title")
-          .text("Service request images");
+          .text("Complaint or request images");
 
         $serviceRequestInfoHeading
           .find(".section-title")
-          .text("Service request information");
+          .text("Complaint or request information");
 
         $serviceDescriptionHeading
           .find(".section-title")
-          .text("Service request description");
+          .text("Complaint or request description");
 
         this.$element.append($serviceRequestInfoHeading);
 
@@ -179,7 +179,7 @@ export class ServiceRequestDetail {
       .fail((a, b) => {
         this.$element.empty().append(
           new StatusMessage({
-            text: "Error while loading service request.",
+            text: "Error while loading complaint or request.",
             status: "failure",
           }).render()
         );
