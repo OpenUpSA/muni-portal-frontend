@@ -151,7 +151,7 @@ export class UserRegistration {
       .fail((jqXHR, textStatus) => {
         try {
           $fail.find("div").html(formatError(jqXHR));
-          $fail.showeew();
+          $fail.show();
           $fail[0].scrollIntoView({ behavior: "smooth" });
         } catch (e) {
           console.error(e);
