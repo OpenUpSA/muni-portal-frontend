@@ -146,7 +146,14 @@ export class UserRegistration {
       .done((response, textStatus) => {
         if (textStatus === "success") {
           $form.hide();
-          $success.show();
+          $success
+            .html(
+              "Your details have been submitted successfully. " +
+              "You should receive an email in the next few minutes to verify your email address. " +
+              "If you don't see it, please check your spam folder. If you haven't received one after 10 minutes, " +
+              "please <a href='mailto:cape-agulhas-app@openup.org.za'>contact support.</a>"
+            )
+            .show();
         }
       })
       .fail((jqXHR, textStatus) => {

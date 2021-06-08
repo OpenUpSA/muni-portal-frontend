@@ -1,3 +1,5 @@
+import { sendEvent } from "../../utils/analytics";
+
 /**
  * Set or update the location of service request output and hidden field.
  * @param {array} coordinates - the lat and lng as an array
@@ -89,6 +91,11 @@ export const initMap = () => {
     if ($mapButton) {
       $mapButton.on("click", () => {
         getLocation(map);
+        sendEvent({
+          event: "service-request-location-picker",
+          page: document.location.href,
+          type: "map-location",
+        });
       });
     }
   }
