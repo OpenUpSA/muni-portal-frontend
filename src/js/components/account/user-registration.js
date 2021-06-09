@@ -1,9 +1,11 @@
 import { API } from "../../api";
 import {
+  getCustomCheckbox,
   getDiv,
   getForm,
   getInput,
   getLabel,
+  getLabelHTML,
   getSubmitButton,
 } from "../../utils/element-factory";
 import { SUPPORT_EMAIL } from "../constants";
@@ -16,7 +18,7 @@ function formatError(jqXHR) {
         "\n"
       )}\n\n`;
     });
-    message += "Please try again or <a href='mailto:${SUPPORT_EMAIL}'>contact support</a> with this message.";
+    message += `Please try again or <a href='mailto:${SUPPORT_EMAIL}'>contact support</a> with this message.`;
   } else {
     message = "An error occurred. Please try again.";
     console.error(jqXHR.responseText);
@@ -116,6 +118,21 @@ export class UserRegistration {
       $form.append($formElementsContainer);
     });
 
+    const $privacyContainer = $("<div />");
+    const $privacyPolicyLabel = getLabel($webflowForm, {
+      htmlFor: "privacy-policy-checkbox",
+      text: "Privacy policy label",
+    });
+
+    const $privacyPolicyInput = getCustomCheckbox({
+      identifier: "privacy-policy-checkbox",
+      name: "Privacy policy checkbox",
+      text: "I have read the <a href='/privacy-policy'>privacy policy</a>",
+    });
+
+    $privacyContainer.append($privacyPolicyLabel);
+    $privacyContainer.append($privacyPolicyInput);
+    $form.append($privacyContainer);
     $form.append($submitButton);
 
     $registrationFormContainer.append($form);
@@ -124,6 +141,13 @@ export class UserRegistration {
 
     $form.submit((event) => {
       event.preventDefault();
+
+      // Check if the user has read the privacy policy
+      const $isRead = $privacyPolicyInput.hasClass("w--redirected-checked");
+      console.log($isRead);
+
+      return;
+
       this.registerUser(endPoint, $form, $successTemplate, $failTemplate);
     });
 
@@ -149,9 +173,9 @@ export class UserRegistration {
           $success
             .html(
               "Your details have been submitted successfully. " +
-              "You should receive an email in the next few minutes to verify your email address. " +
-              "If you don't see it, please check your spam folder. If you haven't received one after 10 minutes, " +
-              "please <a href='mailto:cape-agulhas-app@openup.org.za'>contact support.</a>"
+                "You should receive an email in the next few minutes to verify your email address. " +
+                "If you don't see it, please check your spam folder. If you haven't received one after 10 minutes, " +
+                "please <a href='mailto:cape-agulhas-app@openup.org.za'>contact support.</a>"
             )
             .show();
         }
@@ -163,7 +187,9 @@ export class UserRegistration {
           $fail[0].scrollIntoView({ behavior: "smooth" });
         } catch (e) {
           console.error(e);
-          alert(`An error occurred. Please try again or contact support at ${SUPPORT_EMAIL}`);
+          alert(
+            `An error occurred. Please try again or contact support at ${SUPPORT_EMAIL}`
+          );
         }
       });
   }
