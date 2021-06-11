@@ -5,7 +5,6 @@ import {
   getForm,
   getInput,
   getLabel,
-  getLabelHTML,
   getSubmitButton,
 } from "../../utils/element-factory";
 import { SUPPORT_EMAIL } from "../constants";
