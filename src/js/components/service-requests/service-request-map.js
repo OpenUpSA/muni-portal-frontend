@@ -93,7 +93,6 @@ export const initMap = () => {
         getLocation(map);
         sendEvent({
           event: "service-request-location-picker",
-          page: document.location.href,
           type: "map-location",
         });
       });

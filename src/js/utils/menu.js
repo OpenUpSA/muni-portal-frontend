@@ -122,7 +122,6 @@ export const setMenuState = () => {
 
     sendEvent({
       event: "main-menu-interaction",
-      page: document.location.href,
       type: type,
     });
   });

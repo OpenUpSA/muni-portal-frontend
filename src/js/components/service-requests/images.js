@@ -98,7 +98,6 @@ function addRemoveImageEventHandler($preview, uploadedFiles, uuid) {
     toggleSubmitImagesButton($("#submit-images"), uploadedFiles);
     sendEvent({
       event: "submit-service-request",
-      page: document.location.href,
       type: "Remove existing image",
     });
   });
