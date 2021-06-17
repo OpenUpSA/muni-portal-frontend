@@ -23,8 +23,6 @@ export function tryRegisterSW() {
       };
 
       console.debug("registering service worker");
-      // Listening for externalwaiting is no longer needed.
-      // https://developers.google.com/web/tools/workbox/guides/migrations/migrate-from-v5#cleaner_offer_a_page_reload_for_users_recipe
       wb.addEventListener("waiting", showSkipWaitingPrompt);
       wb.register()
         .then((status) => {
