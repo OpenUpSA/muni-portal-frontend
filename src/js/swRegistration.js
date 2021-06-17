@@ -1,11 +1,10 @@
-import { Workbox, messageSW } from "workbox-window";
+import { Workbox } from "workbox-window";
 
 export function tryRegisterSW() {
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-      console.debug("registering service worker");
-      const wb = new Workbox("/service-worker.js", {updateViaCache: 'none'});
-      let registration;
+      const wb = new Workbox("/service-worker.js", { updateViaCache: "none" });
+
       const showSkipWaitingPrompt = (event) => {
         console.debug("showskip", event);
         if (
@@ -13,17 +12,12 @@ export function tryRegisterSW() {
             "An update is available. Would you like to update the app now?"
           )
         ) {
-          wb.addEventListener("controlling", (event) => {
+          wb.addEventListener("controlling", () => {
             window.location.reload();
           });
 
-          console.debug("skip waiting", registration);
-
-          if (registration && registration.waiting) {
-            messageSW(registration.waiting, { type: "SKIP_WAITING" });
-          } else {
-            console.debug("How'd we get here?!");
-          }
+          console.debug("skip waiting");
+          wb.messageSkipWaiting();
         } else {
           console.debug("Update rejected. Continue as is.");
         }
@@ -34,10 +28,8 @@ export function tryRegisterSW() {
       wb.addEventListener("waiting", showSkipWaitingPrompt);
       wb.addEventListener("externalwaiting", showSkipWaitingPrompt);
 
-      wb.register().then((r) => {
-        console.debug("then assign", r);
-        registration = r;
-      });
+      console.debug("registering service worker");
+      wb.register();
     });
   } else {
     console.debug("serviceWorker not supported");

@@ -1,5 +1,5 @@
 importScripts(
-  "https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js"
+  "https://storage.googleapis.com/workbox-cdn/releases/6.1.5/workbox-sw.js"
 );
 importScripts("https://pushpad.xyz/service-worker.js");
 
@@ -29,9 +29,10 @@ workbox.routing.registerRoute(
 );
 
 addEventListener("message", (event) => {
+  console.log(event.data);
   if (event.data && event.data.type === "SKIP_WAITING") {
     console.log("Got 'SKIP_WAITING'");
-    skipWaiting();
+    self.skipWaiting();
   }
 });
 
