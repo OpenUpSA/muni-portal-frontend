@@ -2,8 +2,10 @@ import { Workbox } from "workbox-window";
 
 export function tryRegisterSW() {
   if ("serviceWorker" in navigator) {
+    console.debug("service worker in navigator");
     window.addEventListener("load", () => {
       const wb = new Workbox("/service-worker.js", { updateViaCache: "none" });
+      console.debug("load event fired");
 
       const showSkipWaitingPrompt = (event) => {
         console.debug("showskip", event);

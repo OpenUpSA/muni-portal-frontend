@@ -29,11 +29,10 @@ workbox.routing.registerRoute(
 );
 
 addEventListener("message", (event) => {
-  console.log(event.data);
   if (event.data && event.data.type === "SKIP_WAITING") {
-    console.log("Got 'SKIP_WAITING'");
+    console.debug("Got 'SKIP_WAITING'");
     self.skipWaiting();
   }
 });
 
-self.__WB_DISABLE_DEV_LOGS = true;
+self.__WB_DISABLE_DEV_LOGS = false;
