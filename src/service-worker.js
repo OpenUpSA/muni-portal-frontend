@@ -35,4 +35,4 @@ addEventListener("message", (event) => {
   }
 });
 
-self.__WB_DISABLE_DEV_LOGS = false;
+self.__WB_DISABLE_DEV_LOGS = true;

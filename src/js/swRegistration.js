@@ -5,10 +5,8 @@ export function tryRegisterSW() {
     console.debug("service worker in navigator");
     window.addEventListener("load", () => {
       const wb = new Workbox("/service-worker.js", { updateViaCache: "none" });
-      console.debug("load event fired");
 
-      const showSkipWaitingPrompt = (event) => {
-        console.debug("showskip", event);
+      const showSkipWaitingPrompt = () => {
         if (
           confirm(
             "An update is available. Would you like to update the app now?"
