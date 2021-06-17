@@ -1,6 +1,6 @@
 <!DOCTYPE html><!--  Last Published: Mon May 24 2021 06:33:49 GMT+0000 (Coordinated Universal Time)  --><html data-wf-page="5f586c03cfc82e5a3c067594" data-wf-site="5f586c03cfc82e2e15067593"><head>
   <meta charset="utf-8">
-  <title>Citizen Engagement App 1</title>
+  <title>Citizen Engagement App</title>
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <link href="css/normalize.css" rel="stylesheet" type="text/css">
   <link href="css/components.css" rel="stylesheet" type="text/css">
@@ -40,7 +40,7 @@
         console.warn('Pushpad project ID not set; not initialising');
       }
     </script>
-
+  
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="">
 
       <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
@@ -734,8 +734,8 @@
 document.addEventListener('DOMContentLoaded', ()=>{
  // on .link-block--expand-toggle click
  document.querySelectorAll('.link-block--expand-toggle').forEach(trigger => {
-  trigger.addEventListener('click', function(){
-    this.x = ((this.x || 0) + 1)%2;
+  trigger.addEventListener('click', function(){ 
+    this.x = ((this.x || 0) + 1)%2; 
     if(this.x){ // 1st click
       document.querySelectorAll('.rich-text__gradient').forEach(target => target.classList.add('expanded'));
       document.querySelectorAll('.expand-toggle__content-first').forEach(target => target.classList.add('expanded'));
@@ -745,7 +745,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
       document.querySelectorAll('.rich-text__gradient').forEach(target => target.classList.remove('expanded'));
       document.querySelectorAll('.expand-toggle__content-first').forEach(target => target.classList.remove('expanded'));
       document.querySelectorAll('.rich-text').forEach(target => target.classList.remove('expanded'));
-    }
+    } 
   });
  });
 });*/
