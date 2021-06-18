@@ -81,25 +81,33 @@ export class SubmitServiceRequest {
                 )
                 .done(() => {
                   this.renderSubmitted();
+                })
+                .fail((a, b) => {
+                  this.renderFailure($submitButton);
+                  console.error(a, b);
                 });
             }
           })
           .fail((a, b) => {
-            this.$element.empty().append(
-              new StatusMessage({
-                text: "Error while submitting request.",
-                status: "failure",
-              }).render()
-            );
-            $submitButton
-              .attr({ value: "Submit", disabled: false })
-              .removeClass("button--disabled");
+            this.renderFailure($submitButton);
             console.error(a, b);
           });
       }
     });
 
     this.$element = new FullWidthGrid([$form]).render();
+  }
+
+  renderFailure($submitButton) {
+    this.$element.empty().append(
+      new StatusMessage({
+        text: "Error while submitting request.",
+        status: "failure",
+      }).render()
+    );
+    $submitButton
+      .attr({ value: "Submit", disabled: false })
+      .removeClass("button--disabled");
   }
 
   renderSubmitted() {
