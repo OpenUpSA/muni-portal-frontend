@@ -120,7 +120,7 @@ export class UserRegistration {
     const $privacyContainer = $("<div />");
     const $privacyPolicyLabel = getLabel($webflowForm, {
       htmlFor: "privacy-policy-checkbox",
-      text: "Privacy policy label",
+      text: "Privacy policy",
     });
 
     const $privacyPolicyInput = getCustomCheckbox({
