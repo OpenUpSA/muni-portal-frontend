@@ -144,7 +144,7 @@ export class UserRegistration {
       // Check if the user has read the privacy policy
       const $childDiv = $privacyContainer.find(".w-checkbox-input")
       // (our custom component has this class when it is checked)
-      const $isRead = $childDiv.hasClass("w--redirected-checked");
+      const isRead = $childDiv.hasClass("w--redirected-checked");
 
       if (!$isRead) {
         alert("Please read the privacy policy before registering.")
