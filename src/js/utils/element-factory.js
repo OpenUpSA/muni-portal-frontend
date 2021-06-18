@@ -101,8 +101,6 @@ export const getLabel = ($webflowForm, props) => {
   return $label.text(props.text);
 };
 
-
-
 export const getSubmitButton = (text) => {
   return $("<button />", {
     class: "button form-submit w-button",
