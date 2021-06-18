@@ -125,7 +125,7 @@ export class UserRegistration {
 
     const $privacyPolicyInput = getCustomCheckbox({
       identifier: "privacy-policy-checkbox",
-      name: "Privacy policy checkbox",
+      name: "privacy-policy-checkbox",
       text: "I have read the <a href='/privacy-policy'>privacy policy</a>",
     });
 
