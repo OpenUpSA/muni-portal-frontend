@@ -33,9 +33,8 @@ export class Contact {
       this.$element = new LinkBlock(props).render();
       this.$element.on("click", () => {
         sendEvent({
-          event: "contact-event",
-          page: document.location.href,
-          type: contact.annotation || contact.type.label,
+          event: `Contact event for: ${contact.type.label}`,
+          type: contact.annotation || "contact",
         });
       });
     } else if (basicBlockTypes.includes(contactType)) {

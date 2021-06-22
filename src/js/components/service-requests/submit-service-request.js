@@ -293,7 +293,6 @@ export class SubmitServiceRequest {
       );
       sendEvent({
         event: "submit-service-request",
-        page: document.location.href,
         type: "Upload new image",
       });
     }

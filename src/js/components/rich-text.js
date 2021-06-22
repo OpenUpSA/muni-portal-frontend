@@ -18,7 +18,6 @@ export class ExpandableRichText {
         this.$openButton.addClass("expanded");
         sendEvent({
           event: "rich-text-expand",
-          page: document.location.href,
           type: "rich-text",
         });
       }).bind(this)
@@ -31,7 +30,6 @@ export class ExpandableRichText {
         this.$openButton.removeClass("expanded");
         sendEvent({
           event: "rich-text-collapse",
-          page: document.location.href,
           type: "rich-text",
         });
       }).bind(this)
