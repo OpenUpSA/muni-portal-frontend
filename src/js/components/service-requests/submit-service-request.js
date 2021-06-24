@@ -101,16 +101,13 @@ export class SubmitServiceRequest {
     this.$element = new FullWidthGrid([$form]).render();
   }
 
-  renderFailure($submitButton) {
+  renderFailure() {
     this.$element.empty().append(
       new StatusMessage({
         text: "Error while submitting request.",
         status: "failure",
       }).render()
     );
-    $submitButton
-      .attr({ value: "Submit", disabled: false })
-      .removeClass("button--disabled");
   }
 
   renderSubmitted() {
