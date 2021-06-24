@@ -89,7 +89,10 @@ export class SubmitServiceRequest {
             }
           })
           .fail((a, b) => {
-            this.renderFailure($submitButton);
+            this.renderFailure();
+            $submitButton
+               .attr({ value: "Submit", disabled: false })
+              .removeClass("button--disabled");
             console.error(a, b);
           });
       }
