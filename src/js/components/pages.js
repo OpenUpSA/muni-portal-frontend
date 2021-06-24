@@ -448,8 +448,6 @@ export class NewsIndexPage extends NoticeIndexPage {
 
 export class NewsPage extends NoticePage {}
 
-export class PrivacyPolicyPage extends NoticePage {}
-
 export class ContactsPage {
   constructor(content) {
     this.name = content.title;
