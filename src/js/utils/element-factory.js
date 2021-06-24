@@ -19,7 +19,7 @@ export const getCustomCheckbox = (props) => {
   $checkboxInput.attr("data-name", identifier);
   $checkboxInput.attr("name", name);
 
-  $checkboxLabel.html(text);
+  $checkboxLabel.text(text);
 
   return $checkbox;
 };
@@ -97,8 +97,7 @@ export const getLegend = ($webflowForm, props) => {
 export const getLabel = ($webflowForm, props) => {
   const $label = $webflowForm.find("> .form__field-label").clone();
   $label.empty();
-  $label.attr("for", props.htmlFor);
-  return $label.text(props.text);
+  return $label.attr("for", props.htmlFor).text(props.text);
 };
 
 export const getSubmitButton = (text) => {
