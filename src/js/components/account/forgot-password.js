@@ -77,8 +77,7 @@ export class ForgotPassword {
         $fail
           .empty()
           .append(
-            `Something went wrong while communicating with the server. " +
-              "Please try again or <a href='mailto:${SUPPORT_EMAIL}'>contact support</a>.`
+            `Something went wrong while communicating with the server. Please try again or <a href='mailto:${SUPPORT_EMAIL}'>contact support</a>.`
           )
           .show();
         console.error(jqXHR, textStatus);
