@@ -83,17 +83,20 @@ export class SubmitServiceRequest {
                   this.renderSubmitted();
                 })
                 .fail((jqXHR, textStatus) => {
-                  this.renderFailure($submitButton);
+                  this.renderFailure();
+                  $submitButton
+                    .attr({ value: "Submit", disabled: false })
+                    .removeClass("button--disabled");
                   console.error(jqXHR, textStatus);
                 });
             }
           })
-          .fail((a, b) => {
+          .fail((jqXHR, textStatus) => {
             this.renderFailure();
             $submitButton
-               .attr({ value: "Submit", disabled: false })
+              .attr({ value: "Submit", disabled: false })
               .removeClass("button--disabled");
-            console.error(a, b);
+            console.error(jqXHR, textStatus);
           });
       }
     });
