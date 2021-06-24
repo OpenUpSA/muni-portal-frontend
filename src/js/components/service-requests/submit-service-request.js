@@ -82,9 +82,9 @@ export class SubmitServiceRequest {
                 .done(() => {
                   this.renderSubmitted();
                 })
-                .fail((a, b) => {
+                .fail((jqXHR, textStatus) => {
                   this.renderFailure($submitButton);
-                  console.error(a, b);
+                  console.error(jqXHR, textStatus);
                 });
             }
           })
