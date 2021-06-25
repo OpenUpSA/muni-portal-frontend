@@ -15,11 +15,11 @@ function setSelectedLocation(coordinates) {
   );
 
   if ($coordinatesOutput) {
-    $coordinatesOutput.text(coordinates.join(", "));
+    $coordinatesOutput.text(coordinates.join(","));
   }
 
   if ($coordinatesHiddenField) {
-    $coordinatesHiddenField.val(coordinates.join(", "));
+    $coordinatesHiddenField.val(coordinates.join(","));
   }
 
   if ($removeCoordinatesButton) {
