@@ -148,7 +148,13 @@ export class ServiceRequestDetail {
           );
         }
 
-        if (response.coordinates) {
+        // only show the map if we have coordinates and
+        // we can accurately split the value into an
+        // array with a length of 2
+        if (
+          response.coordinates &&
+          response.coordinates.split(",").length === 2
+        ) {
           const staticMapEvent = new CustomEvent("add-static-map", {
             detail: response.coordinates,
           });
