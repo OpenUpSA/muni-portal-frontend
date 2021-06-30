@@ -34,7 +34,7 @@ export class Contact {
       this.$element.on("click", () => {
         sendEvent({
           event: "contact-event",
-          type: `Contact event for: ${contact.type.label}`,
+          type: `Contact event for: ${contact.type.label} : ${contact.value}`,
         });
       });
     } else if (basicBlockTypes.includes(contactType)) {
