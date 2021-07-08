@@ -34724,7 +34724,9 @@ Webflow.define('dropdown', module.exports = function ($, _) {
     data.toggle.attr('id', toggleId);
     data.toggle.attr('aria-controls', listId);
     data.toggle.attr('aria-haspopup', 'menu');
-    data.toggle.attr('aria-expanded', 'false'); // If toggle element is not a button
+    data.toggle.attr('aria-expanded', 'false'); // Hide toggle icon from ATs
+
+    data.toggle.find('.w-icon-dropdown-toggle').attr('aria-hidden', 'true'); // If toggle element is not a button
 
     if (data.toggle.prop('tagName') !== 'BUTTON') {
       // Give it an appropriate role

@@ -2308,6 +2308,7 @@ strong {
 }
 
 .nav-subtitle {
+  display: none;
   opacity: 0.6;
 }
 
