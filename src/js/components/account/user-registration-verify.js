@@ -1,4 +1,5 @@
 import { API } from "../../api";
+import { SUPPORT_EMAIL } from "../constants";
 
 export class VerifyUserRegistration {
   constructor() {
