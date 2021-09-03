@@ -126,7 +126,7 @@ export class UserRegistration {
     const $privacyNoticeInput = getCustomCheckbox({
       identifier: "privacy-notice-checkbox",
       name: "privacy-notice-checkbox",
-      text: "I have read the <a href='/privacy-notice'>privacy notice</a>",
+      text: "I have read the <a href='/privacy-notice' target='_blank'>privacy notice</a>",
     });
 
     $privacyContainer.append($privacyNoticeLabel);
