@@ -118,19 +118,19 @@ export class UserRegistration {
     });
 
     const $privacyContainer = $("<div />");
-    const $privacyPolicyLabel = getLabel($webflowForm, {
-      htmlFor: "privacy-policy-checkbox",
-      text: "Privacy policy",
+    const $privacyNoticeLabel = getLabel($webflowForm, {
+      htmlFor: "privacy-notice-checkbox",
+      text: "Privacy notice",
     });
 
-    const $privacyPolicyInput = getCustomCheckbox({
-      identifier: "privacy-policy-checkbox",
-      name: "privacy-policy-checkbox",
-      text: "I have read the <a href='/privacy-policy'>privacy policy</a>",
+    const $privacyNoticeInput = getCustomCheckbox({
+      identifier: "privacy-notice-checkbox",
+      name: "privacy-notice-checkbox",
+      text: "I have read the <a href='/privacy-notice'>privacy notice</a>",
     });
 
-    $privacyContainer.append($privacyPolicyLabel);
-    $privacyContainer.append($privacyPolicyInput);
+    $privacyContainer.append($privacyNoticeLabel);
+    $privacyContainer.append($privacyNoticeInput);
     $form.append($privacyContainer);
     $form.append($submitButton);
 
@@ -141,13 +141,13 @@ export class UserRegistration {
     $form.submit((event) => {
       event.preventDefault();
 
-      // Check if the user has read the privacy policy
+      // Check if the user has read the privacy notice
       const $childDiv = $privacyContainer.find(".w-checkbox-input");
       // (our custom component has this class when it is checked)
       const isRead = $childDiv.hasClass("w--redirected-checked");
 
       if (!isRead) {
-        alert("Please read the privacy policy before registering.");
+        alert("Please read the privacy notice before registering.");
         return;
       }
 
