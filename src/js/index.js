@@ -37,6 +37,8 @@ import { VerifyUserRegistration } from "./components/account/user-registration-v
 import { ChangePassword } from "./components/account/change-password";
 import { hideShareMenu, setShareMenuLinks, showShareMenu } from "./utils/share";
 
+import { sendEvent } from "./utils/analytics";
+
 const ENVIRONMENT = `${process.env.ENVIRONMENT}`;
 const NODE_ENV = `${process.env.NODE_ENV}`;
 const GOOGLE_TAG_MANAGER_ID = `${process.env.GOOGLE_TAG_MANAGER_ID}`;
@@ -458,6 +460,20 @@ if (CONTEXT === "production" && GOOGLE_TAG_MANAGER_ID !== "undefined") {
   window.console.warn("Not initialising Google Tag Manager");
 }
 
-const app = new App();
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.userChoice.then((choiceResult) => {
+    if (choiceResult.outcome === 'accepted') {
+      console.log('User accepted the A2HS prompt');
+    } else {
+      console.log('User dismissed the A2HS prompt');
+    }
+    sendEvent({
+      "event": "event",
+      "category": "Add to homescreen",
+      "action": "prompt",
+      "label": choiceResult.outcome,
+    });
+  });
+});
 
-window.testSentry = () => nonExistentFunction();
+const app = new App();
