@@ -1,0 +1,175 @@
+export default {
+  "meta": {
+    "total_count": 2
+  },
+  "items": [
+    {
+      "id": 9,
+      "meta": {
+        "type": "core.ServicePage",
+        "detail_url": "https://muni-portal-backend.openup.org.za/api/wagtail/v2/pages/9/",
+        "html_url": "https://app.capeagulhas.gov.za/services/service-a/",
+        "slug": "service-a",
+        "show_in_menus": false,
+        "seo_title": "",
+        "search_description": "",
+        "first_published_at": "2020-09-11T06:55:55.991382Z"
+      },
+      "title": "Service A",
+      "icon_classes": "fas fa-store-alt",
+      "overview": "<p>This is a service</p>",
+      "office_hours": "<p>Mon-Thurs 08:00 - 16:30</p><p>Friday 08:00 -16:00</p>",
+      "head_of_service": {
+        "id": 51,
+        "title": "Mr Francois Du Toit",
+        "slug": "mr-francois-du-toit",
+        "url": "/my-municipality/administration/mr-francois-du-toit/",
+        "icon_classes": null,
+        "profile_image": null,
+        "profile_image_thumbnail": null,
+        "job_title": "Building Control, Noise Pollution and Air Quality Control"
+      },
+      "service_contacts": [
+        {
+          "value": "(028) 4255756",
+          "type": {
+            "label": "Phone",
+            "slug": "phone",
+            "icon_classes": "fas fa-phone-alt"
+          },
+          "annotation": null
+        },
+        {
+          "value": "francoisd@capeagulhas.gov.za",
+          "type": {
+            "label": "Email",
+            "slug": "email",
+            "icon_classes": "fas fa-envelope"
+          },
+          "annotation": null
+        },
+        {
+          "value": "2 van Riebeeck street, Bredasdorp 7280",
+          "type": {
+            "label": "Physical address",
+            "slug": "physical_address",
+            "icon_classes": "fas fa-map-marked-alt"
+          },
+          "annotation": null
+        }
+      ],
+      "ancestor_pages": [
+        {
+          "id": 1,
+          "title": "Root",
+          "slug": "root",
+          "url": null,
+          "icon_classes": null
+        },
+        {
+          "id": 3,
+          "title": "Home",
+          "slug": "home1",
+          "url": "/",
+          "icon_classes": null
+        },
+        {
+          "id": 4,
+          "title": "Services",
+          "slug": "services",
+          "url": "/services/",
+          "icon_classes": null
+        }
+      ],
+      "child_pages": []
+    },
+    {
+      "id": 8,
+      "meta": {
+        "type": "core.ServicePage",
+        "detail_url": "https://muni-portal-backend.openup.org.za/api/wagtail/v2/pages/8/",
+        "html_url": "https://app.capeagulhas.gov.za/services/service-b/",
+        "slug": "service-b",
+        "show_in_menus": false,
+        "seo_title": "",
+        "search_description": "",
+        "first_published_at": "2020-09-11T06:53:50.531453Z"
+      },
+      "title": "Service B",
+      "icon_classes": "fas fa-shield-alt",
+      "overview": "<p>The safety and security of our community and environment is important to us.</p><p></p><p>The function of Protection Services is to assist and protect citizens within the Cape Agulhas Municipal area by providing services to maintain law and order by rendering traffic policing services, enforcing municipal by-laws and regulations, and providing vehicle licensing and disaster management services.</p>",
+      "office_hours": "",
+      "head_of_service": {
+        "id": 42,
+        "title": "Ms Myllison Saptou",
+        "slug": "ms-myllison-saptou",
+        "url": "/my-municipality/administration/ms-myllison-saptou/",
+        "icon_classes": null,
+        "profile_image": null,
+        "profile_image_thumbnail": null,
+        "job_title": "Protection Services (Traffic, law enforcement and animal control)"
+      },
+      "service_contacts": [
+        {
+          "value": "(028) 4255601",
+          "type": {
+            "label": "Phone",
+            "slug": "phone",
+            "icon_classes": "fas fa-phone-alt"
+          },
+          "annotation": null
+        },
+        {
+          "value": "myllisons@capeagulhas.gov.za",
+          "type": {
+            "label": "Email",
+            "slug": "email",
+            "icon_classes": "fas fa-envelope"
+          },
+          "annotation": null
+        },
+        {
+          "value": "C/o Fabrieks Rd & Ou Meule St, Bredasdorp, 7280",
+          "type": {
+            "label": "Physical address",
+            "slug": "physical_address",
+            "icon_classes": "fas fa-map-marked-alt"
+          },
+          "annotation": null
+        }
+      ],
+      "ancestor_pages": [
+        {
+          "id": 1,
+          "title": "Root",
+          "slug": "root",
+          "url": null,
+          "icon_classes": null
+        },
+        {
+          "id": 3,
+          "title": "Home",
+          "slug": "home1",
+          "url": "/",
+          "icon_classes": null
+        },
+        {
+          "id": 4,
+          "title": "Services",
+          "slug": "services",
+          "url": "/services/",
+          "icon_classes": null
+        }
+      ],
+      "child_pages": [
+        {
+          "id": 91,
+          "title": "Bredasdorp Traffic Department",
+          "slug": "traffic-department",
+          "url": "/services/protection-services/traffic-department/",
+          "icon_classes": null
+        }
+      ]
+    },
+  ]
+}
