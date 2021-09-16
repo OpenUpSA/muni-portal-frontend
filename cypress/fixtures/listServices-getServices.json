@@ -97,7 +97,7 @@
       },
       "title": "Service B",
       "icon_classes": "fas fa-shield-alt",
-      "overview": "<p>The safety and security of our community and environment is important to us.</p><p></p><p>The function of Protection Services is to assist and protect citizens within the Cape Agulhas Municipal area by providing services to maintain law and order by rendering traffic policing services, enforcing municipal by-laws and regulations, and providing vehicle licensing and disaster management services.</p>",
+      "overview": "<p>Overview B</p>",
       "office_hours": "",
       "head_of_service": {
         "id": 42,
