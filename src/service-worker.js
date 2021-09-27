@@ -36,3 +36,47 @@ addEventListener("message", (event) => {
 });
 
 self.__WB_DISABLE_DEV_LOGS = true;
+
+// ran everytime the service worker is started
+// even if it has already been installed.
+init().catch(console.error);
+
+async function init() {
+  await cacheServicesPages();
+}
+
+async function getServices() {
+  const baseURL = "https://muni-portal-backend.openup.org.za";
+  const searchParams = new URLSearchParams([
+    ["type", "core.ServicePage"],
+    ["fields", "*"],
+    ["limit", "100"],
+  ]);
+  const response = await fetch(
+    `${baseURL}/api/wagtail/v2/pages/?${searchParams.toString()}`
+  );
+
+  const data = await response.json();
+  return data;
+}
+
+async function cacheServicesPages() {
+  const fetchOptions = {
+    method: "GET",
+    cahce: "no-cache",
+    credentials: "omit",
+  };
+  const services = await getServices();
+  const urls = services.items.map((service) => service.meta.slug);
+
+  urls.forEach(async (url) => {
+    try {
+      const response = await fetch(`/services/${url}/`, fetchOptions);
+      if (response && response.ok) {
+        console.log(`successfully fetched: ${`/services/${url}`}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
+}
