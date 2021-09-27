@@ -20,8 +20,8 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-  new RegExp(".+/api/wagtail/v2/pages/.*"),
-  new workbox.strategies.NetworkFirst()
+  new RegExp(".+/api/wagtail/v2/pages/.+"),
+  new workbox.strategies.StaleWhileRevalidate()
 );
 
 // enable the ability to cache assets from third party
@@ -74,17 +74,36 @@ async function cacheServicesPages() {
     credentials: "omit",
   };
   const services = await getServices();
-  const urls = services.items.map((service) => service.meta.slug);
+  const urls = services.items.map((service) => {
+    return {
+      detail: service.meta.detail_url,
+      slug: service.meta.slug,
+    };
+  });
 
   const runtimeCache = await caches.open(workbox.core.cacheNames.runtime);
 
   urls.forEach(async (url) => {
     try {
-      const response = await fetch(`/services/${url}/`, fetchOptions);
-      if (response && response.ok) {
-        await runtimeCache.put(`/services/${url}/`, response.clone());
-        console.log(`successfully fetched and cached: ${`/services/${url}`}`);
+      const searchParams = new URLSearchParams([
+        ["type", "core.ServicePage"],
+        ["fields", "*"],
+        ["slug", url.slug],
+      ]);
+      const serviceUrl = `https://muni-portal-backend.openup.org.za/api/wagtail/v2/pages/?${searchParams.toString()}`;
+      const htmlResponse = await fetch(`/services/${url.slug}/`, fetchOptions);
+      if (htmlResponse && htmlResponse.ok) {
+        await runtimeCache.put(`/services/${url.slug}/`, htmlResponse.clone());
       }
+
+      const apiResponse = await fetch(serviceUrl, fetchOptions);
+      if (apiResponse && apiResponse.ok) {
+        await runtimeCache.put(serviceUrl, apiResponse.clone());
+      }
+
+      console.info(
+        `successfully fetched and cached: ${`/services/${url.slug}`}`
+      );
     } catch (error) {
       console.error(error);
     }
