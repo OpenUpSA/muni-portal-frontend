@@ -6,6 +6,13 @@ importScripts("https://pushpad.xyz/service-worker.js");
 // https://developers.google.com/web/tools/workbox/modules/workbox-cli#injectmanifest
 workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 
+workbox.core.setCacheNameDetails({
+  prefix: "mymuni",
+  suffix: "v1",
+  precache: "install-time",
+  runtime: "run-time",
+});
+
 // workbox
 workbox.routing.registerRoute(
   ({ url }) => url.origin === "https://storage.googleapis.com",
@@ -69,11 +76,14 @@ async function cacheServicesPages() {
   const services = await getServices();
   const urls = services.items.map((service) => service.meta.slug);
 
+  const runtimeCache = await caches.open(workbox.core.cacheNames.runtime);
+
   urls.forEach(async (url) => {
     try {
       const response = await fetch(`/services/${url}/`, fetchOptions);
       if (response && response.ok) {
-        console.log(`successfully fetched: ${`/services/${url}`}`);
+        await runtimeCache.put(`/services/${url}/`, response.clone());
+        console.log(`successfully fetched and cached: ${`/services/${url}`}`);
       }
     } catch (error) {
       console.error(error);
