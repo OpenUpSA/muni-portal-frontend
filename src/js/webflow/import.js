@@ -4,10 +4,6 @@ exports.transformHTML = function (html) {
 };
 
 exports.transform = function (window, $) {
-  // Prevent search engine indexing if not production site
-  if (process.env.ENVIRONMENT !== "production") {
-    $("head").append('<meta name="robots" content="noindex">');
-  }
 
   $("head").append('<meta name="theme-color" content="#0094ff">');
   $("head").append('<link rel="manifest" href="manifest.webmanifest">');
