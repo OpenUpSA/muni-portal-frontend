@@ -3,7 +3,9 @@ importScripts(
 );
 importScripts("https://pushpad.xyz/service-worker.js");
 
-const VERSION = 1;
+const VERSION = "1";
+
+let isOnline = true;
 
 // https://developers.google.com/web/tools/workbox/modules/workbox-cli#injectmanifest
 workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
@@ -37,10 +39,21 @@ workbox.routing.registerRoute(
   new workbox.strategies.StaleWhileRevalidate()
 );
 
-addEventListener("message", (event) => {
+addEventListener("message", async (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
     console.debug("Got 'SKIP_WAITING'");
     self.skipWaiting();
+  }
+
+  if (event.data && event.data.type === "ONLINE_STATUS_UPDATE") {
+    isOnline = event.data.payload.isOnline;
+  }
+
+  if (event.data && event.data.type === "START_BACKGROUND_CACHE") {
+    console.debug("Got 'START_BACKGROUND_CACHE'");
+    event.ports[0].postMessage("Starting background cache...");
+    await cacheServicesPages();
+    return;
   }
 });
 
@@ -56,19 +69,9 @@ const delay = (delayDuration) => {
 
 let backgroundCachingInProgress = false;
 
-// ran everytime the service worker is started
-// even if it has already been installed. For
-// example, if the service worker was put to
-// sleep and then woken up by the browser.
-init().catch(console.error);
-
-async function init() {
-  await cacheServicesPages();
-}
-
 async function cacheServicesPages() {
   // if this process is already running,
-  // just return.
+  // or we are offline, just return.
   if (backgroundCachingInProgress) {
     return;
   }
@@ -76,48 +79,86 @@ async function cacheServicesPages() {
   // we wait 3 seconds for initial page load
   // before we start background caching
   await delay(3000);
-  backgroundCachingInProgress = true;
 
+  if (isOnline) {
+    backgroundCachingInProgress = true;
+
+    const services = await getServices();
+    const urls = services.items.map((service) => {
+      return {
+        detail: service.meta.detail_url,
+        slug: service.meta.slug,
+      };
+    });
+
+    const runtimeCache = await caches.open(workbox.core.cacheNames.runtime);
+
+    urls.forEach(async (url) => {
+      try {
+        const searchParams = new URLSearchParams([
+          ["type", "core.ServicePage"],
+          ["fields", "*"],
+          ["slug", url.slug],
+        ]);
+        const apiEndpoint = `https://muni-portal-backend.openup.org.za/api/wagtail/v2/pages/?${searchParams.toString()}`;
+
+        await cacheAPIResponse(runtimeCache, apiEndpoint);
+        await cachePage(runtimeCache, `/services/${url.slug}/`);
+        backgroundCachingInProgress = false;
+      } catch (error) {
+        backgroundCachingInProgress = false;
+        console.error(error);
+      }
+    });
+  }
+}
+
+async function cacheAPIResponse(runtimeCache, apiEndpoint) {
   const fetchOptions = {
     method: "GET",
     cahce: "no-cache",
     credentials: "omit",
   };
-  const services = await getServices();
-  const urls = services.items.map((service) => {
-    return {
-      detail: service.meta.detail_url,
-      slug: service.meta.slug,
-    };
-  });
+  let cacheResponse;
 
-  const runtimeCache = await caches.open(workbox.core.cacheNames.runtime);
+  // we first test whether this is already in cache
+  cacheResponse = await runtimeCache.match(apiEndpoint);
+  if (cacheResponse) {
+    console.debug(`API endpoint ${apiEndpoint} already cached.`);
+    return;
+  }
 
-  urls.forEach(async (url) => {
-    try {
-      const searchParams = new URLSearchParams([
-        ["type", "core.ServicePage"],
-        ["fields", "*"],
-        ["slug", url.slug],
-      ]);
-      const serviceUrl = `https://muni-portal-backend.openup.org.za/api/wagtail/v2/pages/?${searchParams.toString()}`;
-      const htmlResponse = await fetch(`/services/${url.slug}/`, fetchOptions);
-      if (htmlResponse && htmlResponse.ok) {
-        await runtimeCache.put(`/services/${url.slug}/`, htmlResponse.clone());
-      }
+  console.debug(`API endpoint ${apiEndpoint} not cached. Caching...`);
+  const apiResponse = await fetch(apiEndpoint, fetchOptions);
+  if (apiResponse && apiResponse.ok) {
+    await runtimeCache.put(apiEndpoint, apiResponse.clone());
+    console.debug(`API endpoint ${apiEndpoint} stored in cache.`);
+    return;
+  }
+}
 
-      const apiResponse = await fetch(serviceUrl, fetchOptions);
-      if (apiResponse && apiResponse.ok) {
-        await runtimeCache.put(serviceUrl, apiResponse.clone());
-      }
+async function cachePage(runtimeCache, pageURL) {
+  const fetchOptions = {
+    method: "GET",
+    cahce: "no-cache",
+    credentials: "omit",
+  };
+  let cacheResponse;
 
-      console.info(
-        `successfully fetched and cached: ${`/services/${url.slug}`}`
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  });
+  // we first test whether this is already in cache
+  cacheResponse = await runtimeCache.match(pageURL);
+  if (cacheResponse) {
+    console.debug(`Page ${pageURL} already cached.`);
+    return;
+  }
+
+  console.debug(`Page ${pageURL} not cached. Caching...`);
+  const pageResponse = await fetch(pageURL, fetchOptions);
+  if (pageResponse && pageResponse.ok) {
+    await runtimeCache.put(pageURL, pageResponse.clone());
+    console.debug(`Page ${pageURL} stored in cache.`);
+    return;
+  }
 }
 
 async function getServices() {

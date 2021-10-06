@@ -1,9 +1,11 @@
 import { Workbox } from "workbox-window";
 
+let wb;
+
 export function tryRegisterSW() {
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-      const wb = new Workbox("/service-worker.js", { updateViaCache: "none" });
+      wb = new Workbox("/service-worker.js", { updateViaCache: "none" });
 
       const showSkipWaitingPrompt = () => {
         if (
@@ -27,6 +29,11 @@ export function tryRegisterSW() {
       wb.register()
         .then((status) => {
           console.debug("service worker registration successful", status);
+          wb.messageSW({
+            type: "START_BACKGROUND_CACHE",
+          }).then((response) => {
+            console.debug("background cache started", response);
+          });
         })
         .catch((error) => {
           console.error("Error while registering service worker", error);
@@ -35,4 +42,8 @@ export function tryRegisterSW() {
   } else {
     console.debug("serviceWorker not supported");
   }
+}
+
+export function sendServiceWorkerMessage(message) {
+  wb.messageSW(message);
 }
