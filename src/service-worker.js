@@ -3,12 +3,14 @@ importScripts(
 );
 importScripts("https://pushpad.xyz/service-worker.js");
 
+const VERSION = 1;
+
 // https://developers.google.com/web/tools/workbox/modules/workbox-cli#injectmanifest
 workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 
 workbox.core.setCacheNameDetails({
   prefix: "mymuni",
-  suffix: "v1",
+  suffix: VERSION,
   precache: "install-time",
   runtime: "run-time",
 });
@@ -16,7 +18,7 @@ workbox.core.setCacheNameDetails({
 // workbox
 workbox.routing.registerRoute(
   ({ url }) => url.origin === "https://storage.googleapis.com",
-  new workbox.strategies.StaleWhileRevalidate()
+  new workbox.strategies.CacheFirst()
 );
 
 workbox.routing.registerRoute(
@@ -32,7 +34,7 @@ workbox.routing.registerRoute(
     url.origin === "https://d3e54v103j8qbb.cloudfront.net" ||
     url.origin === "https://fonts.googleapis.com" ||
     url.origin === "https://fonts.gstatic.com",
-  new workbox.strategies.CacheFirst()
+  new workbox.strategies.StaleWhileRevalidate()
 );
 
 addEventListener("message", (event) => {
@@ -44,30 +46,38 @@ addEventListener("message", (event) => {
 
 self.__WB_DISABLE_DEV_LOGS = true;
 
+const delay = (delayDuration) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve("time elapsed");
+    }, delayDuration);
+  });
+};
+
+let backgroundCachingInProgress = false;
+
 // ran everytime the service worker is started
-// even if it has already been installed.
+// even if it has already been installed. For
+// example, if the service worker was put to
+// sleep and then woken up by the browser.
 init().catch(console.error);
 
 async function init() {
   await cacheServicesPages();
 }
 
-async function getServices() {
-  const baseURL = "https://muni-portal-backend.openup.org.za";
-  const searchParams = new URLSearchParams([
-    ["type", "core.ServicePage"],
-    ["fields", "*"],
-    ["limit", "100"],
-  ]);
-  const response = await fetch(
-    `${baseURL}/api/wagtail/v2/pages/?${searchParams.toString()}`
-  );
-
-  const data = await response.json();
-  return data;
-}
-
 async function cacheServicesPages() {
+  // if this process is already running,
+  // just return.
+  if (backgroundCachingInProgress) {
+    return;
+  }
+
+  // we wait 3 seconds for initial page load
+  // before we start background caching
+  await delay(3000);
+  backgroundCachingInProgress = true;
+
   const fetchOptions = {
     method: "GET",
     cahce: "no-cache",
@@ -108,4 +118,19 @@ async function cacheServicesPages() {
       console.error(error);
     }
   });
+}
+
+async function getServices() {
+  const baseURL = "https://muni-portal-backend.openup.org.za";
+  const searchParams = new URLSearchParams([
+    ["type", "core.ServicePage"],
+    ["fields", "*"],
+    ["limit", "100"],
+  ]);
+  const response = await fetch(
+    `${baseURL}/api/wagtail/v2/pages/?${searchParams.toString()}`
+  );
+
+  const data = await response.json();
+  return data;
 }
