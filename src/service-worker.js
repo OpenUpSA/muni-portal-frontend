@@ -52,8 +52,7 @@ addEventListener("message", async (event) => {
   if (event.data && event.data.type === "START_BACKGROUND_CACHE") {
     console.debug("Got 'START_BACKGROUND_CACHE'");
     event.ports[0].postMessage("Starting background cache...");
-    await cacheServicesPages();
-    return;
+    await backgroundCache();
   }
 });
 
@@ -69,7 +68,7 @@ const delay = (delayDuration) => {
 
 let backgroundCachingInProgress = false;
 
-async function cacheServicesPages() {
+async function backgroundCache() {
   // if this process is already running,
   // or we are offline, just return.
   if (backgroundCachingInProgress) {
@@ -81,10 +80,12 @@ async function cacheServicesPages() {
   await delay(3000);
 
   if (isOnline) {
+    const apiEndPointBase =
+      "https://muni-portal-backend.openup.org.za/api/wagtail/v2/pages/";
     backgroundCachingInProgress = true;
 
     const services = await getServices();
-    const urls = services.items.map((service) => {
+    const servicesURLs = services.items.map((service) => {
       return {
         detail: service.meta.detail_url,
         slug: service.meta.slug,
@@ -92,15 +93,30 @@ async function cacheServicesPages() {
     });
 
     const runtimeCache = await caches.open(workbox.core.cacheNames.runtime);
+    const myMuniLandingSearchParams = new URLSearchParams([
+      ["type", "core.MyMuniPage"],
+      ["fields", "*"],
+    ]);
+    const getPageByPathSearchParams = new URLSearchParams([
+      ["html_path", "/my-municipality/important-contacts/"],
+    ]);
+    const myMuniLandingAPIEndpoint = `${apiEndPointBase}?${myMuniLandingSearchParams.toString()}`;
+    const getPageByPathAPIEndpoint = `${apiEndPointBase}find?${getPageByPathSearchParams.toString()}`;
 
-    urls.forEach(async (url) => {
+    await cacheAPIResponse(runtimeCache, myMuniLandingAPIEndpoint);
+    await cacheAPIResponse(runtimeCache, getPageByPathAPIEndpoint);
+
+    await cachePage(runtimeCache, "/my-municipality/");
+    await cachePage(runtimeCache, "/my-municipality/important-contacts/");
+
+    servicesURLs.forEach(async (url) => {
       try {
-        const searchParams = new URLSearchParams([
+        const servicePageSearchParams = new URLSearchParams([
           ["type", "core.ServicePage"],
           ["fields", "*"],
           ["slug", url.slug],
         ]);
-        const apiEndpoint = `https://muni-portal-backend.openup.org.za/api/wagtail/v2/pages/?${searchParams.toString()}`;
+        const apiEndpoint = `${apiEndPointBase}?${servicePageSearchParams.toString()}`;
 
         await cacheAPIResponse(runtimeCache, apiEndpoint);
         await cachePage(runtimeCache, `/services/${url.slug}/`);
