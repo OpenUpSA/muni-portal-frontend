@@ -1,6 +1,6 @@
 import { sendServiceWorkerMessage } from "../swRegistration";
 
-function getOfflineBanner() {
+export function getStatusBanner(msg) {
   const bannerStyle = {
     backgroundColor: "rgba(255,255,255,0.5)",
     borderRadius: "6px",
@@ -11,25 +11,29 @@ function getOfflineBanner() {
     padding: "12px 24px",
   };
   return $("<div />", {
-    text: "You are currently offline. Some app functionality might not work.",
+    text: msg,
     class: "offline-status-banner",
   }).css(bannerStyle);
 }
 
 export function showConnectionStatus() {
-  let $offlineStatusBanner = null;
+  let $statusBanner = null;
   let isOnline = "onLine" in navigator ? navigator.onLine : true;
-  $(".nav").after(getOfflineBanner());
 
   if (!isOnline) {
-    $offlineStatusBanner = $(".offline-status-banner");
-    $offlineStatusBanner.show();
+    $(".nav").after(
+      getStatusBanner(
+        "You are currently offline. Some app functionality might not work."
+      )
+    );
+    $statusBanner = $(".offline-status-banner");
+    $statusBanner.show();
     isOnline = false;
   }
 
   window.addEventListener("online", () => {
-    $offlineStatusBanner = $offlineStatusBanner || $(".offline-status-banner");
-    $offlineStatusBanner.hide();
+    $statusBanner = $statusBanner || $(".offline-status-banner");
+    $statusBanner.hide();
     isOnline = true;
     sendServiceWorkerMessage({
       type: "ONLINE_STATUS_UPDATE",
@@ -38,8 +42,8 @@ export function showConnectionStatus() {
   });
 
   window.addEventListener("offline", () => {
-    $offlineStatusBanner = $offlineStatusBanner || $(".offline-status-banner");
-    $offlineStatusBanner.show();
+    $statusBanner = $statusBanner || $(".offline-status-banner");
+    $statusBanner.show();
     isOnline = false;
     sendServiceWorkerMessage({
       type: "ONLINE_STATUS_UPDATE",

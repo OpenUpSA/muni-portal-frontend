@@ -1,4 +1,5 @@
 import { Workbox } from "workbox-window";
+import { getStatusBanner } from "./utils/connection-status";
 
 let wb;
 
@@ -32,7 +33,13 @@ export function tryRegisterSW() {
           wb.messageSW({
             type: "START_BACKGROUND_CACHE",
           }).then((response) => {
-            console.debug("background cache started", response);
+            console.debug(
+              ">>>>>>>>>>>>>>>>> background cache started",
+              response
+            );
+            $(".nav").after(getStatusBanner(response));
+            let $statusBanner = $statusBanner || $(".offline-status-banner");
+            $statusBanner.show();
           });
         })
         .catch((error) => {

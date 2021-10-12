@@ -51,8 +51,7 @@ addEventListener("message", async (event) => {
 
   if (event.data && event.data.type === "START_BACKGROUND_CACHE") {
     console.debug("Got 'START_BACKGROUND_CACHE'");
-    event.ports[0].postMessage("Starting background cache...");
-    await backgroundCache();
+    await backgroundCache(event.ports[0]);
   }
 });
 
@@ -68,7 +67,7 @@ const delay = (delayDuration) => {
 
 let backgroundCachingInProgress = false;
 
-async function backgroundCache() {
+async function backgroundCache(windowWorkerPort) {
   // if this process is already running,
   // or we are offline, just return.
   if (backgroundCachingInProgress) {
@@ -121,6 +120,9 @@ async function backgroundCache() {
         await cacheAPIResponse(runtimeCache, apiEndpoint);
         await cachePage(runtimeCache, `/services/${url.slug}/`);
         backgroundCachingInProgress = false;
+        windowWorkerPort.postMessage(
+          "Cahced critical service and emergency contact details. You can now safely go offline."
+        );
       } catch (error) {
         backgroundCachingInProgress = false;
         console.error(error);
