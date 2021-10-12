@@ -49,8 +49,8 @@ addEventListener("message", async (event) => {
     isOnline = event.data.payload.isOnline;
   }
 
-  if (event.data && event.data.type === "START_BACKGROUND_CACHE") {
-    console.debug("Got 'START_BACKGROUND_CACHE'");
+  if (event.data && event.data.type === "BACKGROUND_CACHE") {
+    console.debug("Got 'BACKGROUND_CACHE'");
     await backgroundCache(event.ports[0]);
   }
 });
@@ -68,9 +68,9 @@ const delay = (delayDuration) => {
 let backgroundCachingInProgress = false;
 
 async function backgroundCache(windowWorkerPort) {
-  // if this process is already running,
-  // or we are offline, just return.
   if (backgroundCachingInProgress) {
+    // if this process is already running,
+    // or we are offline, just return.
     return;
   }
 
@@ -120,9 +120,15 @@ async function backgroundCache(windowWorkerPort) {
         await cacheAPIResponse(runtimeCache, apiEndpoint);
         await cachePage(runtimeCache, `/services/${url.slug}/`);
         backgroundCachingInProgress = false;
-        windowWorkerPort.postMessage(
-          "Cahced critical service and emergency contact details. You can now safely go offline."
-        );
+
+        // the above is async and therefore might take a while to complete.
+        // Let's wait around 5 seconds before we communicate status to the
+        // "window" worker.
+        setTimeout(() => {
+          windowWorkerPort.postMessage(
+            "Critical service and emergency contact pages cached. You can now safely go offline."
+          );
+        }, 5000);
       } catch (error) {
         backgroundCachingInProgress = false;
         console.error(error);

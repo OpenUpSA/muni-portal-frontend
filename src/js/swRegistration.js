@@ -31,16 +31,23 @@ export function tryRegisterSW() {
         .then((status) => {
           console.debug("service worker registration successful", status);
           wb.messageSW({
-            type: "START_BACKGROUND_CACHE",
-          }).then((response) => {
-            console.debug(
-              ">>>>>>>>>>>>>>>>> background cache started",
-              response
-            );
-            $(".nav").after(getStatusBanner(response));
-            let $statusBanner = $statusBanner || $(".offline-status-banner");
-            $statusBanner.show();
-          });
+            type: "BACKGROUND_CACHE",
+          })
+            .then((response) => {
+              $(".nav").after(getStatusBanner(response));
+              let $statusBanner = $statusBanner || $(".offline-status-banner");
+              $statusBanner.show();
+
+              setTimeout(() => {
+                $statusBanner.hide();
+              }, 5000);
+            })
+            .catch((error) => {
+              console.error(
+                "Error while communicating with service worker",
+                error
+              );
+            });
         })
         .catch((error) => {
           console.error("Error while registering service worker", error);
