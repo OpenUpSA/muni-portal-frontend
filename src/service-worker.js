@@ -119,21 +119,22 @@ async function backgroundCache(windowWorkerPort) {
 
         await cacheAPIResponse(runtimeCache, apiEndpoint);
         await cachePage(runtimeCache, `/services/${url.slug}/`);
-        backgroundCachingInProgress = false;
-
-        // the above is async and therefore might take a while to complete.
-        // Let's wait around 5 seconds before we communicate status to the
-        // "window" worker.
-        setTimeout(() => {
-          windowWorkerPort.postMessage(
-            "Critical service and emergency contact pages cached. You can now safely go offline."
-          );
-        }, 5000);
       } catch (error) {
         backgroundCachingInProgress = false;
         console.error(error);
       }
     });
+
+    backgroundCachingInProgress = false;
+
+    // the above is async and therefore might take a while to complete.
+    // Let's wait around 5 seconds before we communicate status to the
+    // "window" worker.
+    setTimeout(() => {
+      windowWorkerPort.postMessage(
+        "Critical service and emergency contact pages cached. You can now safely go offline."
+      );
+    }, 1000);
   }
 }
 
