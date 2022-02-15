@@ -57,6 +57,11 @@ function getLocation(map) {
  * Initialize the leafletjs map
  */
 export const initMap = () => {
+
+
+  var elem = document.querySelector('.dropdown.w-dropdown');
+  elem.style.zIndex = '10000';
+
   // ensure leafletjs loaded successfully before using it
   if (L) {
     const defaultCoordinates = [-34.8311103, 20.0043008];
