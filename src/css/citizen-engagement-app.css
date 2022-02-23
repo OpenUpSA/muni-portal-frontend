@@ -1499,6 +1499,10 @@ strong {
   width: 100%;
 }
 
+.dropdown.w-dropdown {
+  z-index: 10000;
+}
+
 .dropdown__toggle {
   display: -webkit-box;
   display: -webkit-flex;

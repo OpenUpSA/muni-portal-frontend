@@ -57,6 +57,7 @@ function getLocation(map) {
  * Initialize the leafletjs map
  */
 export const initMap = () => {
+
   // ensure leafletjs loaded successfully before using it
   if (L) {
     const defaultCoordinates = [-34.8311103, 20.0043008];
