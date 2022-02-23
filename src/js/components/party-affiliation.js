@@ -1,5 +1,8 @@
 export class PartyAffiliationBlock {
   constructor(props) {
+
+    let partyLogo = props.partyLogo != null ? `<img src="${props.partyLogo.url}" width="${props.partyLogo.width}" height="${props.partyLogo.height}" alt="${props.partyLogo.alt}" />` : '';
+
     this.element = $(`
         <style>
             .party-affiliation {
@@ -33,7 +36,7 @@ export class PartyAffiliationBlock {
                 <h4 class="subtitle">${props.partyName} (${props.partyAbbr})</h4>
             </div>
             <div class="img-container">
-                <img src="${props.partyLogo.url}" width="${props.partyLogo.width}" height="${props.partyLogo.height}" alt="${props.partyLogo.alt}" />
+                ${partyLogo}
             </div>
         </div>
     `);
