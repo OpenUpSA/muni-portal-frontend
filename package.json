@@ -24,7 +24,7 @@
     "workbox-cli": "^5.1.4"
   },
   "scripts": {
-    "build": "yarn build:parcel && yarn workbox:inject",
+    "build": "copyfiles --flat ./src/sitemap.xml ./dist && yarn build:parcel && yarn workbox:inject",
     "build:parcel": "parcel build ./src/index.html --public-url /",
     "build:dev": "parcel serve -p 3000 ./src/index.html --public-url / --no-cache --open",
     "clean": "yarn del dist",
