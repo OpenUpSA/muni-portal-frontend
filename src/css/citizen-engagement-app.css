@@ -1499,6 +1499,10 @@ strong {
   width: 100%;
 }
 
+.dropdown.w-dropdown {
+  z-index: 10000;
+}
+
 .dropdown__toggle {
   display: -webkit-box;
   display: -webkit-flex;
@@ -2378,7 +2382,7 @@ strong {
   flex: 1;
 }
 
-.styles__h2 {
+.documentation__h2 {
   margin-bottom: 20px;
   color: #a1a1a1;
   font-size: 14px;
@@ -2386,7 +2390,7 @@ strong {
   text-transform: uppercase;
 }
 
-.styles__h3 {
+.documentation__h3 {
   margin-bottom: 10px;
   color: #a1a1a1;
   font-size: 12px;
@@ -2402,7 +2406,7 @@ strong {
   flex: 1;
 }
 
-.styles__section {
+.documentation__section {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2415,18 +2419,18 @@ strong {
   border-bottom: 1px solid #e6e6e6;
 }
 
-.styles__section.styles-section--dark {
+.documentation__section.styles-section--dark {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.styles__h1 {
+.documentation__h1 {
   margin-bottom: 30px;
   font-size: 16px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
-.styles__grid-4-col {
+.documentation__grid-4-col {
   display: -ms-grid;
   display: grid;
   width: 100%;
@@ -2444,7 +2448,7 @@ strong {
   grid-template-rows: auto;
 }
 
-.styles__container {
+.documentation__container {
   display: -ms-grid;
   display: grid;
   max-width: 1140px;
@@ -2468,7 +2472,7 @@ strong {
   grid-template-rows: auto;
 }
 
-.styles__block {
+.documentation__block {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2490,7 +2494,7 @@ strong {
   border-radius: 4px;
 }
 
-.styles__label {
+.documentation__label {
   width: 100%;
   margin-bottom: 5px;
   color: #000;
@@ -2501,11 +2505,11 @@ strong {
   text-transform: uppercase;
 }
 
-.styles__label.styles__label--light {
+.documentation__label.documentation__label--light {
   font-weight: 400;
 }
 
-.styles__class-wrapper {
+.documentation__class-wrapper {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2537,7 +2541,7 @@ strong {
   background-color: #ff8486;
 }
 
-.styles__component-wrap {
+.documentation__component-wrap {
   display: -ms-grid;
   display: grid;
   width: 100%;
@@ -2563,7 +2567,7 @@ strong {
   border-bottom: 1px solid #e6e6e6;
 }
 
-.styles__component-wrap.styles__component-wrap--rel {
+.documentation__component-wrap.styles__component-wrap--rel {
   position: relative;
   height: 100px;
 }
@@ -3455,6 +3459,26 @@ strong {
   height: auto;
 }
 
+.documentation__menu_inner {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: auto;
+  height: 100%;
+  padding-right: 24px;
+  padding-left: 20%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
 @media screen and (max-width: 991px) {
   .page-size {
     width: auto;
@@ -3805,7 +3829,7 @@ strong {
   grid-area: heading-label;
 }
 
-#w-node-_2519e9c0-8868-0d9e-7496-47d60c15f4ec-a23917bb {
+#w-node-_285fc873-ddbe-ab3e-b780-2875de8605b7-a23917bb {
   -ms-grid-row: span 1;
   grid-row-start: span 1;
   -ms-grid-row-span: 1;
@@ -3816,7 +3840,7 @@ strong {
   grid-column-end: span 1;
 }
 
-#w-node-_67e53df1-ee6c-f574-d424-ea5faf9f60f0-a23917bb {
+#w-node-_285fc873-ddbe-ab3e-b780-2875de8605d3-a23917bb {
   -ms-grid-row: span 1;
   grid-row-start: span 1;
   -ms-grid-row-span: 1;
@@ -3827,7 +3851,7 @@ strong {
   grid-column-end: span 1;
 }
 
-#w-node-_7d3b13c2-713c-ba8a-89b9-90f34a9cfc36-a23917bb {
+#w-node-_285fc873-ddbe-ab3e-b780-2875de860699-a23917bb {
   -ms-grid-row: span 1;
   grid-row-start: span 1;
   -ms-grid-row-span: 1;
@@ -3838,7 +3862,7 @@ strong {
   grid-column-end: span 2;
 }
 
-#w-node-_2a0a6492-b3bb-0f3a-da3a-f7c35c34d899-a23917bb {
+#w-node-_285fc873-ddbe-ab3e-b780-2875de8606c6-a23917bb {
   -ms-grid-row: span 1;
   grid-row-start: span 1;
   -ms-grid-row-span: 1;
@@ -3849,7 +3873,7 @@ strong {
   grid-column-end: span 2;
 }
 
-#w-node-_7471b99a-165c-66d6-d959-5e1e48011821-a23917bb {
+#w-node-_285fc873-ddbe-ab3e-b780-2875de8606e0-a23917bb {
   -ms-grid-row: span 1;
   grid-row-start: span 1;
   -ms-grid-row-span: 1;
@@ -3860,7 +3884,7 @@ strong {
   grid-column-end: span 2;
 }
 
-#w-node-_07459f9b-62a3-2f79-48f3-b7bf4a3780dd-a23917bb {
+#w-node-_285fc873-ddbe-ab3e-b780-2875de8606ff-a23917bb {
   -ms-grid-row: span 1;
   grid-row-start: span 1;
   -ms-grid-row-span: 1;
@@ -3871,7 +3895,7 @@ strong {
   grid-column-end: span 1;
 }
 
-#w-node-_6daefb7c-195d-a03c-5c2f-26adf0e2b0f0-a23917bb {
+#w-node-_285fc873-ddbe-ab3e-b780-2875de8607ef-a23917bb {
   -ms-grid-row: span 1;
   grid-row-start: span 1;
   -ms-grid-row-span: 1;
@@ -3884,7 +3908,7 @@ strong {
   justify-self: stretch;
 }
 
-#w-node-_0bf02737-313b-3a59-0afe-d8684bdce53d-a23917bb {
+#w-node-_285fc873-ddbe-ab3e-b780-2875de8608a1-a23917bb {
   -ms-grid-row: span 1;
   grid-row-start: span 1;
   -ms-grid-row-span: 1;
@@ -3895,7 +3919,7 @@ strong {
   grid-column-end: span 2;
 }
 
-#w-node-_0bf02737-313b-3a59-0afe-d8684bdce557-a23917bb {
+#w-node-_285fc873-ddbe-ab3e-b780-2875de8608bb-a23917bb {
   -ms-grid-row: span 1;
   grid-row-start: span 1;
   -ms-grid-row-span: 1;
@@ -3906,7 +3930,7 @@ strong {
   grid-column-end: span 2;
 }
 
-#w-node-_9dcffc31-5e43-bc30-291d-5a1c29b6ce66-a23917bb {
+#w-node-_285fc873-ddbe-ab3e-b780-2875de8608dc-a23917bb {
   -ms-grid-row: span 1;
   grid-row-start: span 1;
   -ms-grid-row-span: 1;
@@ -3917,7 +3941,7 @@ strong {
   grid-column-end: span 2;
 }
 
-#w-node-b18ab06e-1b42-be9a-45c9-9a6ba28d0f66-a23917bb {
+#w-node-_285fc873-ddbe-ab3e-b780-2875de860922-a23917bb {
   -ms-grid-row: span 1;
   grid-row-start: span 1;
   -ms-grid-row-span: 1;
@@ -3928,7 +3952,7 @@ strong {
   grid-column-end: span 2;
 }
 
-#w-node-a3d234c1-673f-09d1-20d0-d54a1d45c90a-a23917bb {
+#w-node-_285fc873-ddbe-ab3e-b780-2875de860926-a23917bb {
   -ms-grid-row: span 1;
   grid-row-start: span 1;
   -ms-grid-row-span: 1;
@@ -3939,7 +3963,7 @@ strong {
   grid-column-end: span 1;
 }
 
-#w-node-efba80f6-6922-4df2-4921-e51d1459fb7d-a23917bb {
+#w-node-_285fc873-ddbe-ab3e-b780-2875de860941-a23917bb {
   -webkit-align-self: stretch;
   -ms-flex-item-align: stretch;
   -ms-grid-row-align: stretch;

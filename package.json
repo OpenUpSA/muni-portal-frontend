@@ -43,6 +43,7 @@
   "dependencies": {
     "@sentry/browser": "^5.27.1",
     "@sentry/tracing": "^5.27.1",
+    "cypress": "^8.4.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "uuid": "^8.3.2",
     "workbox-build": "^6.1.5",
