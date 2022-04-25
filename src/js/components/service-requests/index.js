@@ -12,7 +12,7 @@ export class ServiceRequestsIndex {
     const api = new API();
     const $gridThirds = $(".components .grid--thirds").clone();
     const $loadingPlaceholder = new LoadingPlaceholder(
-      "Loading service requests..."
+      "Loading complaints and requests..."
     );
     const $submitServiceRequestLink = $(".components .action-block").clone();
     const $icon = $submitServiceRequestLink.find(".fas");
@@ -21,7 +21,7 @@ export class ServiceRequestsIndex {
     this.$element = $(".components .grid--default").clone();
 
     $icon.removeClass("fa-spinner").addClass("fa-plus");
-    $label.text("Submit a new service request");
+    $label.text("Submit a new complaint or request");
     $submitServiceRequestLink.attr("href", "submit");
 
     $gridThirds.append($submitServiceRequestLink);
@@ -52,7 +52,7 @@ export class ServiceRequestsIndex {
       .fail((a, b) => {
         this.$element.empty().append(
           new StatusMessage({
-            text: "Error while loading service requests.",
+            text: "Error while loading complaints and requests.",
             status: "failure",
           }).render()
         );

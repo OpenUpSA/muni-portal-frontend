@@ -1,3 +1,5 @@
+import { sendEvent } from "../../utils/analytics";
+
 /**
  * Set or update the location of service request output and hidden field.
  * @param {array} coordinates - the lat and lng as an array
@@ -13,11 +15,11 @@ function setSelectedLocation(coordinates) {
   );
 
   if ($coordinatesOutput) {
-    $coordinatesOutput.text(coordinates.join(", "));
+    $coordinatesOutput.text(coordinates.join(","));
   }
 
   if ($coordinatesHiddenField) {
-    $coordinatesHiddenField.val(coordinates.join(", "));
+    $coordinatesHiddenField.val(coordinates.join(","));
   }
 
   if ($removeCoordinatesButton) {
@@ -55,6 +57,7 @@ function getLocation(map) {
  * Initialize the leafletjs map
  */
 export const initMap = () => {
+
   // ensure leafletjs loaded successfully before using it
   if (L) {
     const defaultCoordinates = [-34.8311103, 20.0043008];
@@ -89,6 +92,10 @@ export const initMap = () => {
     if ($mapButton) {
       $mapButton.on("click", () => {
         getLocation(map);
+        sendEvent({
+          event: "service-request-location-picker",
+          type: "map-location",
+        });
       });
     }
   }

@@ -10,12 +10,12 @@ export class ClosedServiceRequests {
 
     this.$element = $(".components .grid--default").clone();
 
-    $sectionHeading.find(".section-title").text("Closed service requests");
+    $sectionHeading.find(".section-title").text("Closed complaints and requests");
 
     this.$element.append([$sectionHeading]);
 
     if (!serviceRequests.length) {
-      $noItemsMessage.find(".h3-block-title").text("No closed requests");
+      $noItemsMessage.find(".h3-block-title").text("No closed complaints or requests");
       this.$element.append($noItemsMessage);
       return;
     }

@@ -6,6 +6,7 @@ import {
   getLabel,
   getSubmitButton,
 } from "../../utils/element-factory";
+import { SUPPORT_EMAIL } from "../constants";
 
 export class ForgotPassword {
   constructor() {
@@ -76,8 +77,7 @@ export class ForgotPassword {
         $fail
           .empty()
           .append(
-            "Something went wrong while communicating with the server. " +
-              "Please try again or contact support."
+            `Something went wrong while communicating with the server. Please try again or <a href='mailto:${SUPPORT_EMAIL}'>contact support</a>.`
           )
           .show();
         console.error(jqXHR, textStatus);

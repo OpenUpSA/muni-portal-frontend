@@ -1,6 +1,8 @@
 import { BasicBlock } from "./basic-block.js";
 import { LinkBlock } from "./link-block.js";
 
+import { sendEvent } from "../utils/analytics";
+
 export class Contact {
   constructor(contact, titleField) {
     const basicBlockTypes = ["postal_address", "fax"];
@@ -9,11 +11,11 @@ export class Contact {
 
     let title;
     switch (titleField) {
-    case "annotation":
-      title = contact.annotation;
-      break;
-    default:
-      title = contact.type.label;
+      case "annotation":
+        title = contact.annotation;
+        break;
+      default:
+        title = contact.type.label;
     }
 
     if (linkBlockTypes.includes(contactType)) {
@@ -28,9 +30,15 @@ export class Contact {
         props.subjectCardIcon = true;
         props.subjectIconClasses = contact.icon_classes;
       }
-      this.element = new LinkBlock(props).render();
+      this.$element = new LinkBlock(props).render();
+      this.$element.on("click", () => {
+        sendEvent({
+          event: "contact-event",
+          type: `Contact event for: ${contact.type.label} : ${contact.value}`,
+        });
+      });
     } else if (basicBlockTypes.includes(contactType)) {
-      this.element = new BasicBlock({
+      this.$element = new BasicBlock({
         title: title,
         subtitle: contact.value,
       }).render();
@@ -53,6 +61,6 @@ export class Contact {
   }
 
   render() {
-    return this.element;
+    return this.$element;
   }
 }

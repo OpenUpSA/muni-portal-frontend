@@ -1,4 +1,5 @@
 import { API } from "../../api";
+import { SUPPORT_EMAIL } from "../constants";
 
 export class VerifyUserRegistration {
   constructor() {
@@ -12,7 +13,7 @@ export class VerifyUserRegistration {
     $failTemplate
       .empty()
       .append(
-        "Registration verification was unsuccessful. Please try again or contact support"
+        `Registration verification was unsuccessful. Please try again or <a href='mailto:${SUPPORT_EMAIL}'>contact support</a>`
       );
 
     this.$element = $("<div />").append([$successTemplate, $failTemplate]);

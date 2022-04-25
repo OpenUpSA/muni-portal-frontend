@@ -1,11 +1,13 @@
 import { API } from "../../api";
 import {
+  getCustomCheckbox,
   getDiv,
   getForm,
   getInput,
   getLabel,
   getSubmitButton,
 } from "../../utils/element-factory";
+import { SUPPORT_EMAIL } from "../constants";
 
 function formatError(jqXHR) {
   let message = "";
@@ -15,7 +17,7 @@ function formatError(jqXHR) {
         "\n"
       )}\n\n`;
     });
-    message += "Please try again or contact support with this message.";
+    message += `Please try again or <a href='mailto:${SUPPORT_EMAIL}'>contact support</a> with this message.`;
   } else {
     message = "An error occurred. Please try again.";
     console.error(jqXHR.responseText);
@@ -115,6 +117,21 @@ export class UserRegistration {
       $form.append($formElementsContainer);
     });
 
+    const $privacyContainer = $("<div />");
+    const $privacyNoticeLabel = getLabel($webflowForm, {
+      htmlFor: "privacy-notice-checkbox",
+      text: "Privacy notice",
+    });
+
+    const $privacyNoticeInput = getCustomCheckbox({
+      identifier: "privacy-notice-checkbox",
+      name: "privacy-notice-checkbox",
+      text: "I have read the <a href='/privacy-notice' target='_blank'>privacy notice</a>",
+    });
+
+    $privacyContainer.append($privacyNoticeLabel);
+    $privacyContainer.append($privacyNoticeInput);
+    $form.append($privacyContainer);
     $form.append($submitButton);
 
     $registrationFormContainer.append($form);
@@ -123,6 +140,17 @@ export class UserRegistration {
 
     $form.submit((event) => {
       event.preventDefault();
+
+      // Check if the user has read the privacy notice
+      const $childDiv = $privacyContainer.find(".w-checkbox-input");
+      // (our custom component has this class when it is checked)
+      const isRead = $childDiv.hasClass("w--redirected-checked");
+
+      if (!isRead) {
+        alert("Please read the privacy notice before registering.");
+        return;
+      }
+
       this.registerUser(endPoint, $form, $successTemplate, $failTemplate);
     });
 
@@ -145,17 +173,24 @@ export class UserRegistration {
       .done((response, textStatus) => {
         if (textStatus === "success") {
           $form.hide();
-          $success.show();
+          $success
+            .html(
+              "Your details have been submitted successfully. " +
+                `You should receive an email in the next few minutes to verify your email address. If you don’t, please check your spam folder. If you haven’t received one after 10 minutes, please <a href="mailto:${SUPPORT_EMAIL}">contact support.</a>`
+            )
+            .show();
         }
       })
       .fail((jqXHR, textStatus) => {
         try {
-          $fail.find("div").text(formatError(jqXHR));
+          $fail.find("div").html(formatError(jqXHR));
           $fail.show();
           $fail[0].scrollIntoView({ behavior: "smooth" });
         } catch (e) {
           console.error(e);
-          alert("An error occurred. Please try again or contact support.");
+          alert(
+            `An error occurred. Please try again or contact support at ${SUPPORT_EMAIL}`
+          );
         }
       });
   }

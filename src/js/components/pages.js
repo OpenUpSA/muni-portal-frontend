@@ -13,7 +13,7 @@ import { timeElem } from "./atoms/date-time";
 import { getModalHeader } from "./molecules/modal-header";
 
 /**
- * Returns an formatted array of breadcrumb labels
+ * Returns a formatted array of breadcrumb labels
  * @param {Array} ancestorPages - array of ancestorPages from response
  */
 function getBreadcrumbsWithLabel(ancestorPages) {
@@ -61,7 +61,7 @@ class Page {
     this.role = content.job_title;
     this.politicalParty = content.political_party;
     this.profileImage = content.profile_image;
-    this.contacts = this.initContacts(content);
+    this.contacts = this.initContacts();
   }
 
   initContacts() {
@@ -362,16 +362,25 @@ export class ServicePointPage extends Service {}
 
 export class NoticeIndexPage {
   constructor(content) {
+    this.pageNamePlural = "Notices"
     this.breadcrumbItems = getBreadcrumbsWithLabel(content.ancestor_pages);
     this.childPages = content.child_pages;
   }
 
-  renderChildPageLinks() {
-    const childPageLinks = this.childPages.map((page) => {
+  renderChildPageLinks(is_featured = null) {
+    let filteredPages = this.childPages;
+
+    if (is_featured !== null) {
+      filteredPages = this.childPages.filter(
+        (page) => page.featured === is_featured
+      );
+    }
+
+    const childPageLinks = filteredPages.map((page) => {
       const props = {
         title: page.title,
         url: page.url,
-        subtitle: "",
+        subtitle: page.subtitle,
       };
 
       return new LinkBlock(props);
@@ -384,10 +393,31 @@ export class NoticeIndexPage {
     }
   }
 
+  renderFeatured() {
+    const featuredNotices = this.renderChildPageLinks(true);
+
+    if (featuredNotices.length > 0) {
+      return [
+        new SectionHeading(`Featured ${this.pageNamePlural}`).render(),
+        ...featuredNotices,
+      ];
+    } else {
+      return [];
+    }
+  }
+
+  renderAll() {
+    return [
+      new SectionHeading(`All ${this.pageNamePlural}`).render(),
+      ...this.renderChildPageLinks(),
+    ];
+  }
+
   render() {
     return [
       new Breadcrumbs(this.breadcrumbItems).render(),
-      ...this.renderChildPageLinks(),
+      ...this.renderFeatured(),
+      ...this.renderAll(),
     ];
   }
 }
@@ -409,9 +439,16 @@ export class NoticePage {
   }
 }
 
-export class NewsIndexPage extends NoticeIndexPage {}
+export class NewsIndexPage extends NoticeIndexPage {
+  constructor(content) {
+    super(content);
+    this.pageNamePlural = "News"
+  }
+}
 
 export class NewsPage extends NoticePage {}
+
+export class PrivacyPolicyPage extends NoticePage {}
 
 export class ContactsPage {
   constructor(content) {

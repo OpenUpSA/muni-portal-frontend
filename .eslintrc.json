@@ -24,6 +24,7 @@
     "clients": true,
     "importScripts": true,
     "L": true,
+    "pushpad": true,
     "Webflow": true,
     "workbox": true
   }

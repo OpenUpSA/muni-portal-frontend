@@ -314,7 +314,7 @@ class App {
     this.modalPage.show();
     hideShareMenu();
     const serviceRequestsIndex = new ServiceRequestsIndex();
-    const title = "My service requests";
+    const title = "My complaints and requests";
     this.setTitle(title);
     this.modalPage.setContent(serviceRequestsIndex.render(), title);
   }
@@ -323,7 +323,7 @@ class App {
     this.modalPage.show();
     hideShareMenu();
     const submitServiceRequests = new SubmitServiceRequest();
-    const title = "Submit a service request";
+    const title = "Submit a complaint or request";
     this.setTitle(title);
     this.modalPage.setContent(submitServiceRequests.render(), title);
     // we cannot do this before the content(aka DOM element) have
@@ -335,7 +335,7 @@ class App {
     this.modalPage.show();
     hideShareMenu();
     const serviceRequestsDetail = new ServiceRequestDetail();
-    const title = "Service request details";
+    const title = "Complaint or request details";
     this.setTitle(title);
     this.modalPage.setContent(serviceRequestsDetail.render(), title);
     addStaticMapListener();

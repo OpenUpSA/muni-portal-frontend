@@ -1,3 +1,5 @@
+import { sendEvent } from "../utils/analytics";
+
 export class ExpandableRichText {
   constructor(html) {
     this.$template = $(".components .expandable-rich-text");
@@ -14,6 +16,10 @@ export class ExpandableRichText {
         this.$contentContainer.addClass("expanded");
         this.$gradientContainer.addClass("expanded");
         this.$openButton.addClass("expanded");
+        sendEvent({
+          event: "rich-text-expand",
+          type: "rich-text",
+        });
       }).bind(this)
     );
     this.$closeButton.on(
@@ -22,6 +28,10 @@ export class ExpandableRichText {
         this.$contentContainer.removeClass("expanded");
         this.$gradientContainer.removeClass("expanded");
         this.$openButton.removeClass("expanded");
+        sendEvent({
+          event: "rich-text-collapse",
+          type: "rich-text",
+        });
       }).bind(this)
     );
 
