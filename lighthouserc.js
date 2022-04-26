@@ -12,7 +12,7 @@ module.exports = {
     },
     assert: {
       assertions: {
-        'categories:pwa': ['error', {minScore: 0}]
+        'categories:pwa': ['error', {minScore: 1}]
       }
     },
   },
