@@ -104,4 +104,4 @@ All new commits pushed to `sandbox` and `staging` will automatically update thei
 `sandbox` is a production-like environment where users can experiment, train and interact without affecting production
 data.
 
-`staging` allows us to test new features and other changes 'in the wild' before deploying to production.
+`staging` allows us to test new features and other changes 'in the wild' before deploying to production. 
