@@ -21,6 +21,7 @@ import {
 import { API } from "./api.js";
 
 import { setMenuState } from "./utils/menu";
+import { showConnectionStatus } from "./utils/connection-status";
 
 import { ServiceRequestDetail } from "./components/service-requests/service-request-detail";
 import { ServiceRequestsIndex } from "./components/service-requests/index";
@@ -73,6 +74,8 @@ if (SENTRY_DSN !== "undefined" && SENTRY_DSN !== "") {
 class App {
   constructor() {
     this.api = new API();
+
+    showConnectionStatus();
 
     const tabContentContainer = new TabContentContainer($(".tab-content"));
 
